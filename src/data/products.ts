@@ -17,7 +17,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/boite-cadeau-personnalisee.png",
     slug: "boite-cadeau-personnalisee",
   },
   {
@@ -26,7 +26,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/boite-de-lait-personnalisee.png",
     slug: "boite-lait-personnalisee",
   },
   {
@@ -36,7 +36,7 @@ export const products: Product[] = [
     numericPrice: 2.3,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/boite-pompotes-personnalisee.png",
     slug: "boite-pompotes-personnalisee",
   },
   {
@@ -45,7 +45,7 @@ export const products: Product[] = [
     price: "2,50€ - 5,50€",
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/boites-pop-corn-personnalisees.png",
     slug: "boites-pop-corn-personnalisees",
   },
   {
@@ -55,7 +55,7 @@ export const products: Product[] = [
     numericPrice: 2.99,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/box-pyramide.png",
     slug: "box-pyramide",
   },
   {
@@ -65,7 +65,7 @@ export const products: Product[] = [
     numericPrice: 15,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/cadre-personnalise.png",
     rating: 5,
     slug: "cadre-personnalise",
   },
@@ -76,7 +76,7 @@ export const products: Product[] = [
     numericPrice: 1,
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-personnalisee",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/etiquette-bouteille-eau.png",
     slug: "etiquette-bouteille-eau",
   },
   {
@@ -86,7 +86,7 @@ export const products: Product[] = [
     numericPrice: 1.5,
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-personnalisee",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/etiquette-capri-sun.png",
     slug: "etiquette-capri-sun",
   },
   {
@@ -96,7 +96,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-personnalisee",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/etiquette-champomy.png",
     slug: "etiquette-champomy",
   },
   {
@@ -106,7 +106,7 @@ export const products: Product[] = [
     numericPrice: 1.8,
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-personnalisee",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/placeholder.png",
     slug: "etiquette-mini-canette-coca",
   },
   {
@@ -115,7 +115,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Flyers & Cartes de visite",
     categorySlug: "flyers-cartes-visite",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/flyers-cartes-visite.png",
     rating: 5,
     slug: "flyers-cartes-visite-sur-mesure",
   },
@@ -126,7 +126,7 @@ export const products: Product[] = [
     numericPrice: 25,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/gourde-personnalisee.png",
     slug: "gourde-personnalisee",
   },
   {
@@ -136,7 +136,7 @@ export const products: Product[] = [
     numericPrice: 2.8,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/haribo-dragibus.png",
     slug: "haribo-dragibus",
   },
   {
@@ -146,7 +146,7 @@ export const products: Product[] = [
     numericPrice: 3.2,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/placeholder.png",
     slug: "kinder-bueno",
   },
   {
@@ -156,7 +156,7 @@ export const products: Product[] = [
     numericPrice: 2.7,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/placeholder.png",
     slug: "kinder-country",
   },
   {
@@ -166,7 +166,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/kinder-maxi.png",
     slug: "kinder-maxi",
   },
   {
@@ -176,7 +176,7 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/mms.png",
     slug: "mms",
   },
   {
@@ -186,7 +186,7 @@ export const products: Product[] = [
     numericPrice: 2.7,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/mini-nutella.png",
     slug: "mini-nutella",
   },
   {
@@ -196,7 +196,7 @@ export const products: Product[] = [
     numericPrice: 2.8,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/paquet-chips-personnalise.png",
     slug: "paquet-chips-personnalise",
   },
   {
@@ -205,7 +205,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Flocages",
     categorySlug: "flocages",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/planche-etiquette-thermocollante.png",
     slug: "planche-etiquette-thermocollante",
   },
   {
@@ -214,7 +214,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/plateau-confiserie-personnalise.png",
     slug: "plateau-confiserie-personnalise",
   },
   {
@@ -224,7 +224,7 @@ export const products: Product[] = [
     numericPrice: 2.9,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/sac-cadeau-personnalise.png",
     slug: "sac-cadeau-personnalise",
   },
   {
@@ -234,7 +234,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/sachet-bonbons-personnalise.png",
     slug: "sachet-bonbons-personnalise",
   },
   {
@@ -244,7 +244,7 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/smarties.png",
     slug: "smarties",
   },
   {
@@ -253,7 +253,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-personnalisee",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/stickers-personnalises.png",
     rating: 4,
     slug: "stickers-personnalises",
   },
@@ -263,7 +263,7 @@ export const products: Product[] = [
     price: "25,00€ - 30,00€",
     category: "Flocages",
     categorySlug: "flocages",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/t-shirt-personnalise.png",
     rating: 4,
     slug: "tshirt-personnalise",
   },
@@ -274,7 +274,7 @@ export const products: Product[] = [
     numericPrice: 20,
     category: "Objets & Cadeaux Personnalisés",
     categorySlug: "objets-cadeaux-personnalises",
-    image: "/images/placeholder.jpg",
+    image: "/images/products/tasse-personnalisee.png",
     slug: "tasse-personnalisee",
   },
 ];

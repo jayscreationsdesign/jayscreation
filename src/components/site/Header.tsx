@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
@@ -117,8 +118,16 @@ export default function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
-            <div className="leading-tight">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <Image
+              src="/images/logo-jays.png"
+              alt="Jay's Creations Design"
+              width={60}
+              height={60}
+              className="object-contain"
+              priority
+            />
+            <div className="leading-tight hidden sm:block">
               <div className="font-heading text-xl font-bold tracking-wide text-foreground">
                 Jay&apos;s Creations Design
               </div>
