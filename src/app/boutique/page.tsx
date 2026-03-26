@@ -15,27 +15,55 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Star } from "lucide-react";
-import CategoriesSidebar from "@/components/boutique/CategoriesSidebar";
+import { Star, ChevronDown } from "lucide-react";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
+// Types
 type SortOption = "default" | "price-asc" | "price-desc" | "rating";
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function getFilteredProducts(
-  allProducts: Product[],
-  activeSlug: string | null
-): Product[] {
-  if (!activeSlug) return allProducts;
-  return allProducts.filter((p) => p.categorySlug === activeSlug);
+interface Category {
+  id: string;
+  label: string;
+  slug: string;
+  parentId?: string;
 }
 
-function getSortedProducts(
+// Données de catégories
+const CATEGORIES: Category[] = [
+  {
+    id: "papeterie",
+    label: "Papeterie",
+    slug: "papeterie",
+  },
+  {
+    id: "flocages",
+    label: "Flocages",
+    slug: "flocages",
+  },
+];
+
+// Fonction pour obtenir les catégories parent et leurs enfants
+const getCategoryTree = (): Array<{ category: Category; children: Category[] }> => {
+  const parents = CATEGORIES.filter((c) => !c.parentId);
+  return parents.map((parent) => ({
+    category: parent,
+    children: CATEGORIES.filter((c) => c.parentId === parent.id),
+  }));
+};
+
+// Filtrer les produits par catégorie (via categorySlug)
+const getFilteredProducts = (
+  allProducts: Product[],
+  categorySlug: string | null
+): Product[] => {
+  if (!categorySlug) return allProducts;
+  return allProducts.filter((p) => p.categorySlug === categorySlug);
+};
+
+// Trier les produits
+const getSortedProducts = (
   productsToSort: Product[],
   sortBy: SortOption
-): Product[] {
+): Product[] => {
   const sorted = [...productsToSort];
 
   switch (sortBy) {
@@ -63,24 +91,81 @@ function getSortedProducts(
     default:
       return sorted;
   }
+};
+
+// Composant item de catégorie
+interface CategoryItemProps {
+  category: Category;
+  children: Category[];
+  activeSlug: string | null;
+  onSelectCategory: (slug: string | null) => void;
+  level: number;
 }
 
-// ─── Page content ─────────────────────────────────────────────────────────────
+function CategoryItemComponent({
+  category,
+  children,
+  activeSlug,
+  onSelectCategory,
+  level,
+}: CategoryItemProps) {
+  const [isOpen, setIsOpen] = useState(true);
+  const isActive = activeSlug === category.slug;
+  const hasChildren = children.length > 0;
 
+  return (
+    <div>
+      <button
+        onClick={() => {
+          onSelectCategory(category.slug);
+          if (hasChildren) setIsOpen(!isOpen);
+        }}
+        aria-current={isActive ? "page" : undefined}
+        className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all flex items-center justify-between ${
+          isActive
+            ? "bg-[#F5F0EB] border-l-4 border-accent text-accent font-semibold"
+            : "text-foreground hover:bg-gray-50"
+        }`}
+        style={{ paddingLeft: `${16 + level * 16}px` }}
+      >
+        <span>{category.label}</span>
+        {hasChildren && (
+          <ChevronDown
+            size={16}
+            className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+          />
+        )}
+      </button>
+
+      {/* Sous-catégories */}
+      {hasChildren && isOpen && (
+        <div className="space-y-1">
+          {children.map((child) => (
+            <CategoryItemComponent
+              key={child.id}
+              category={child}
+              children={[]}
+              activeSlug={activeSlug}
+              onSelectCategory={onSelectCategory}
+              level={level + 1}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Contenu principal
 function BoutiquePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const categorySlug = searchParams.get("category");
   const [sortBy, setSortBy] = useState<SortOption>("default");
 
-  // Use most-specific param: subsub > sub > category
-  const subsub = searchParams.get("subsub");
-  const sub = searchParams.get("sub");
-  const category = searchParams.get("category");
-  const activeSlug = subsub ?? sub ?? category;
-
   const filteredProducts = useMemo(
-    () => getFilteredProducts(products, activeSlug),
-    [activeSlug]
+    () => getFilteredProducts(products, categorySlug),
+    [categorySlug]
   );
 
   const sortedProducts = useMemo(
@@ -90,22 +175,81 @@ function BoutiquePageContent() {
 
   const totalResults = sortedProducts.length;
   const startIndex = totalResults > 0 ? 1 : 0;
+  const endIndex = totalResults;
+
+  const handleCategorySelect = (slug: string | null) => {
+    if (slug) {
+      router.push(`/boutique?category=${slug}`);
+    } else {
+      router.push("/boutique");
+    }
+  };
 
   const handleRemoveFilter = () => {
     router.push("/boutique");
   };
 
+  const categoryTree = getCategoryTree();
+
   return (
     <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="flex items-start gap-8">
-          {/* SIDEBAR */}
-          <CategoriesSidebar />
+        {/* Grille principale : Sidebar + Contenu */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+          {/* SIDEBAR GAUCHE - Catégories */}
+          <aside className="lg:col-span-1 order-2 lg:order-1">
+            <div className="space-y-4 sticky top-8">
+              {/* Titre */}
+              <div>
+                <h2 className="text-lg font-heading font-semibold text-foreground">
+                  Catégories
+                </h2>
+                {categorySlug && (
+                  <p className="text-xs text-muted-foreground mt-2">
+                    <button
+                      onClick={handleRemoveFilter}
+                      className="text-accent hover:underline font-medium"
+                    >
+                      ✕ Réinitialiser
+                    </button>
+                  </p>
+                )}
+              </div>
 
-          {/* CONTENU PRINCIPAL */}
-          <main className="flex-1 min-w-0">
-            {/* Header : compteur + tri */}
+              {/* Lien "Tous les produits" */}
+              <button
+                onClick={() => handleCategorySelect(null)}
+                className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all ${
+                  !categorySlug
+                    ? "bg-[#F5F0EB] border-l-4 border-accent text-accent font-semibold"
+                    : "text-foreground hover:bg-gray-50"
+                }`}
+                aria-current={!categorySlug ? "page" : undefined}
+              >
+                Tous les produits
+              </button>
+
+              {/* Hiérarchie des catégories */}
+              <nav className="space-y-1">
+                {categoryTree.map(({ category, children }) => (
+                  <CategoryItemComponent
+                    key={category.id}
+                    category={category}
+                    children={children}
+                    activeSlug={categorySlug}
+                    onSelectCategory={handleCategorySelect}
+                    level={0}
+                  />
+                ))}
+              </nav>
+            </div>
+          </aside>
+
+          {/* CONTENU PRINCIPAL - Droite */}
+          <main className="lg:col-span-4 order-1 lg:order-2">
+            {/* HEADER avec compteur et menus déroulants */}
             <div className="mb-8 space-y-4 border-b border-gray-200 pb-6">
+              {/* Ligne 1 : Compteur */}
               <div className="text-sm text-muted-foreground">
                 Affichage de{" "}
                 <span className="font-semibold text-foreground">
@@ -113,7 +257,7 @@ function BoutiquePageContent() {
                 </span>
                 –
                 <span className="font-semibold text-foreground">
-                  {totalResults}
+                  {endIndex}
                 </span>{" "}
                 sur{" "}
                 <span className="font-semibold text-foreground">
@@ -122,22 +266,11 @@ function BoutiquePageContent() {
                 résultats
               </div>
 
+              {/* Ligne 2 : Select pour le tri */}
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  {activeSlug && (
-                    <button
-                      onClick={handleRemoveFilter}
-                      className="text-xs font-medium text-accent hover:underline"
-                    >
-                      ✕ Réinitialiser les filtres
-                    </button>
-                  )}
-                </div>
+                <div className="flex-1" />
                 <div className="flex items-center gap-3">
-                  <label
-                    htmlFor="sort-select"
-                    className="text-sm font-medium shrink-0"
-                  >
+                  <label htmlFor="sort-select" className="text-sm font-medium">
                     Trier par :
                   </label>
                   <Select
@@ -150,9 +283,7 @@ function BoutiquePageContent() {
                     <SelectContent>
                       <SelectItem value="default">Tri par défaut</SelectItem>
                       <SelectItem value="price-asc">Prix croissant</SelectItem>
-                      <SelectItem value="price-desc">
-                        Prix décroissant
-                      </SelectItem>
+                      <SelectItem value="price-desc">Prix décroissant</SelectItem>
                       <SelectItem value="rating">Les mieux notés</SelectItem>
                     </SelectContent>
                   </Select>
@@ -160,7 +291,7 @@ function BoutiquePageContent() {
               </div>
             </div>
 
-            {/* Grille produits */}
+            {/* ZONE PRODUITS */}
             {totalResults === 0 ? (
               <div className="flex items-center justify-center py-16">
                 <div className="text-center max-w-md">
@@ -180,7 +311,7 @@ function BoutiquePageContent() {
                     key={product.id}
                     className="flex flex-col overflow-hidden rounded-3xl bg-[#FAF7F2] shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105"
                   >
-                    {/* Image */}
+                    {/* IMAGE */}
                     <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
                       <Image
                         src={product.image}
@@ -190,29 +321,36 @@ function BoutiquePageContent() {
                       />
                     </div>
 
-                    {/* Contenu */}
+                    {/* CONTENU */}
                     <div className="flex flex-1 flex-col items-center justify-between gap-2 p-6 text-center">
                       <div className="flex flex-col items-center gap-2">
+                        {/* Catégorie */}
                         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                           {product.category}
                         </p>
+
+                        {/* Nom du produit */}
                         <h3 className="font-heading text-lg font-semibold text-foreground">
                           {product.name}
                         </h3>
+
+                        {/* Prix */}
                         <p className="text-base font-bold text-accent">
                           {product.price}
                         </p>
+
+                        {/* Rating - Stars */}
                         {product.rating && (
                           <div className="flex items-center justify-center gap-1 mt-1">
-                            {Array.from({
-                              length: Math.round(product.rating),
-                            }).map((_, i) => (
-                              <Star
-                                key={i}
-                                size={14}
-                                className="fill-yellow-400 text-yellow-400"
-                              />
-                            ))}
+                            {Array.from({ length: Math.round(product.rating) }).map(
+                              (_, i) => (
+                                <Star
+                                  key={i}
+                                  size={14}
+                                  className="fill-yellow-400 text-yellow-400"
+                                />
+                              )
+                            )}
                             <span className="ml-1 text-xs text-muted-foreground">
                               {product.rating.toFixed(1)}/5
                             </span>
@@ -220,6 +358,7 @@ function BoutiquePageContent() {
                         )}
                       </div>
 
+                      {/* Bouton CTA */}
                       <Link href={`/produit/${product.slug}`} className="w-full">
                         <Button
                           variant="default"
@@ -241,8 +380,7 @@ function BoutiquePageContent() {
   );
 }
 
-// ─── Page wrapper avec Suspense ───────────────────────────────────────────────
-
+// Page wrapper avec Suspense
 export default function BoutiquePage() {
   return (
     <Suspense fallback={<div className="min-h-screen bg-white" />}>
