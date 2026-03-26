@@ -27,17 +27,197 @@ interface Category {
   parentId?: string;
 }
 
-// Données de catégories
+// Données de catégories - Structure hiérarchique complète
 const CATEGORIES: Category[] = [
   {
-    id: "papeterie",
-    label: "Papeterie",
-    slug: "papeterie",
+    id: "sweet-tables-decoration",
+    label: "Sweet Tables & Décoration",
+    slug: "sweet-tables-decoration",
   },
   {
-    id: "flocages",
-    label: "Flocages",
-    slug: "flocages",
+    id: "guirlandes-ballons",
+    label: "Guirlandes + Ballons",
+    slug: "guirlandes-ballons",
+    parentId: "sweet-tables-decoration",
+  },
+  {
+    id: "papeterie-sweet-tables",
+    label: "Papeterie",
+    slug: "papeterie-sweet-tables",
+    parentId: "sweet-tables-decoration",
+  },
+  {
+    id: "posters-affiches",
+    label: "Posters / Affiches",
+    slug: "posters-affiches",
+    parentId: "sweet-tables-decoration",
+  },
+  {
+    id: "toppers",
+    label: "Toppers",
+    slug: "toppers",
+    parentId: "posters-affiches",
+  },
+  {
+    id: "cadeaux-invites",
+    label: "Cadeaux Invités",
+    slug: "cadeaux-invites",
+  },
+  {
+    id: "bougies",
+    label: "Bougies",
+    slug: "bougies",
+    parentId: "cadeaux-invites",
+  },
+  {
+    id: "carte-remerciement",
+    label: "Carte de remerciement",
+    slug: "carte-remerciement",
+    parentId: "cadeaux-invites",
+  },
+  {
+    id: "coffrets",
+    label: "Coffrets",
+    slug: "coffrets",
+    parentId: "cadeaux-invites",
+  },
+  {
+    id: "contenants-dragees",
+    label: "Contenants Dragées",
+    slug: "contenants-dragees",
+    parentId: "cadeaux-invites",
+  },
+  {
+    id: "magnet",
+    label: "Magnet",
+    slug: "magnet",
+    parentId: "cadeaux-invites",
+  },
+  {
+    id: "sacs-cones-boites",
+    label: "Sacs / Cônes / Boîtes",
+    slug: "sacs-cones-boites",
+    parentId: "cadeaux-invites",
+  },
+  {
+    id: "chocolat",
+    label: "Chocolat",
+    slug: "chocolat",
+  },
+  {
+    id: "bapteme-naissance",
+    label: "Baptême / Naissance",
+    slug: "bapteme-naissance",
+    parentId: "chocolat",
+  },
+  {
+    id: "chocolats-speciaux",
+    label: "Chocolats Spéciaux",
+    slug: "chocolats-speciaux",
+    parentId: "chocolat",
+  },
+  {
+    id: "divers-evenements",
+    label: "Divers événements",
+    slug: "divers-evenements",
+    parentId: "chocolat",
+  },
+  {
+    id: "mariage-fiancaille",
+    label: "Mariage / Fiançaille",
+    slug: "mariage-fiancaille",
+    parentId: "chocolat",
+  },
+  {
+    id: "nos-boites",
+    label: "Nos Boîtes",
+    slug: "nos-boites",
+    parentId: "chocolat",
+  },
+  {
+    id: "formation",
+    label: "Formation",
+    slug: "formation",
+  },
+  {
+    id: "papeterie-telechargeable",
+    label: "Papeterie Téléchargeable",
+    slug: "papeterie-telechargeable",
+  },
+  {
+    id: "autres-univers",
+    label: "Autres Univers",
+    slug: "autres-univers",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "cadeaux-maitresses-maitres",
+    label: "Cadeaux Maîtresses & Maîtres",
+    slug: "cadeaux-maitresses-maitres",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "univers-adulte-mariage",
+    label: "Univers Adulte & Mariage",
+    slug: "univers-adulte-mariage",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "univers-baby-shower",
+    label: "Univers Baby Shower",
+    slug: "univers-baby-shower",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "univers-manga-jeux-video",
+    label: "Univers Manga / Jeux Vidéo",
+    slug: "univers-manga-jeux-video",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "univers-mickey-minnie",
+    label: "Univers Mickey & Minnie",
+    slug: "univers-mickey-minnie",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "univers-princesse",
+    label: "Univers Princesse",
+    slug: "univers-princesse",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "univers-super-heros",
+    label: "Univers Super Héros",
+    slug: "univers-super-heros",
+    parentId: "papeterie-telechargeable",
+  },
+  {
+    id: "divers-objets-cadeaux",
+    label: "Divers Objets & Cadeaux Personnalisés",
+    slug: "divers-objets-cadeaux",
+  },
+  {
+    id: "ramadan-eid-2026",
+    label: "Ramadan / Eid 2026",
+    slug: "ramadan-eid-2026",
+  },
+  {
+    id: "services",
+    label: "Services",
+    slug: "services",
+  },
+  {
+    id: "flocage",
+    label: "Flocage",
+    slug: "flocage",
+    parentId: "services",
+  },
+  {
+    id: "sublimations",
+    label: "Sublimations",
+    slug: "sublimations",
+    parentId: "services",
   },
 ];
 
