@@ -341,11 +341,12 @@ function BoutiquePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const categorySlug = searchParams.get("category");
+  const subCategorySlug = searchParams.get("sub");
   const [sortBy, setSortBy] = useState<SortOption>("default");
 
   const filteredProducts = useMemo(
-    () => getFilteredProducts(products, categorySlug),
-    [categorySlug]
+    () => getFilteredProducts(products, subCategorySlug || categorySlug),
+    [subCategorySlug, categorySlug]
   );
 
   const sortedProducts = useMemo(
@@ -369,6 +370,7 @@ function BoutiquePageContent() {
     router.push("/boutique");
   };
 
+  const activeSlug = subCategorySlug || categorySlug;
   const categoryTree = getCategoryTree();
 
   return (
@@ -416,7 +418,7 @@ function BoutiquePageContent() {
                     key={category.id}
                     category={category}
                     children={children}
-                    activeSlug={categorySlug}
+                    activeSlug={activeSlug}
                     onSelectCategory={handleCategorySelect}
                     level={0}
                   />

@@ -60,17 +60,8 @@ export default function Footer() {
           <div>
             <div className="text-sm font-medium text-foreground">Catégories</div>
             <div className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground">
-              <Link href="/boutique?category=papeterie-personnalisee" className="hover:text-foreground transition-colors">
-                Papeterie Personnalisée
-              </Link>
-              <Link href="/boutique?category=flyers-cartes-visite" className="hover:text-foreground transition-colors">
-                Flyers & Cartes de visite
-              </Link>
               <Link href="/boutique?category=flocages" className="hover:text-foreground transition-colors">
                 Flocages
-              </Link>
-              <Link href="/boutique?category=objets-cadeaux-personnalises" className="hover:text-foreground transition-colors">
-                Objets & Cadeaux Personnalisés
               </Link>
             </div>
           </div>
