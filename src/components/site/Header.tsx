@@ -46,10 +46,10 @@ function buildBottomNav(): BottomNavItem[] {
       categorySlug: cat.slug,
       children: cat.children?.map((child) => ({
         name: child.name,
-        href: `/boutique?category=${cat.slug}&sub=${child.slug}`,
+        href: `/boutique?category=${child.slug}`,
         children: child.children?.map((grand) => ({
           name: grand.name,
-          href: `/boutique?category=${cat.slug}&sub=${grand.slug}`,
+          href: `/boutique?category=${grand.slug}`,
         })),
       })),
     });
