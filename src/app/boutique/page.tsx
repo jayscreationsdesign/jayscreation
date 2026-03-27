@@ -541,7 +541,7 @@ function BoutiquePageContent() {
                       </div>
 
                       {/* Bouton CTA */}
-                      <Link href={`/produit/${product.slug}`} className="w-full">
+                      <Link href={`/produit/product-detail/${product.slug}`} className="w-full">
                         <Button
                           variant="default"
                           size="sm"

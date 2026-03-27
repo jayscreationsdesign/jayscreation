@@ -7,7 +7,14 @@ export interface Product {
   categorySlug: string;
   image: string;
   rating?: number;
+  reviewCount?: number;
   slug: string;
+  description?: string;
+  longDescription?: string;
+  images?: string[];
+  materials?: string;
+  dimensions?: string;
+  deliveryTime?: string;
 }
 
 export const products: Product[] = [
@@ -61,6 +68,11 @@ export const products: Product[] = [
     image: "/images/products/stickers-personnalises.png",
     rating: 4,
     slug: "stickers-personnalises",
+    description: "Stickers personnalisés pour tous vos événements",
+    longDescription: "Nos stickers personnalisés sont disponibles dans une grande variété de formes, tailles et designs pour s'adapter à toutes vos envies. Thèmes enfants : licorne, jungle, cirque, princesse, animaux, super-héros, etc. Thèmes modernes : bohème, pastel, minimaliste ou graphique. Ajoutez le prénom, la date, l'âge ou un message personnel pour une personnalisation 100% à votre image. Chaque création est réalisée dans notre atelier avec des matériaux résistants et une impression professionnelle, garantissant une excellente adhérence sur tout type de support.",
+    materials: "Vinyle adhésif premium, impression haute définition",
+    dimensions: "Variable selon le modèle",
+    deliveryTime: "15-25 jours ouvrés"
   },
   {
     id: "6",
@@ -80,6 +92,11 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/boite-cadeau-personnalisee.png",
     slug: "boite-cadeau-personnalisee",
+    description: "Boîte cadeau personnalisée pour anniversaires et événements enfants",
+    longDescription: "Transformez l'anniversaire, le baptême ou la fête scolaire de votre enfant avec notre boîte cadeau personnalisée, un accessoire incontournable pour créer un événement unique, mémorable et joyeux. Chaque boîte cadeau personnalisée peut être adaptée à tous les thèmes : licornes, super-héros, princesses, animaux, dinosaures, arc-en-ciel ou jeux vidéo. Ajoutez le prénom de l'enfant, son âge, la date de l'événement ou un message spécial pour offrir un souvenir unique. L'impression haute définition et les matériaux résistants garantissent un rendu coloré, élégant et durable.",
+    materials: "Carton premium, impression haute définition",
+    dimensions: "Variable selon le modèle",
+    deliveryTime: "15-25 jours ouvrés"
   },
   {
     id: "8",
@@ -89,6 +106,11 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/boite-de-lait-personnalisee.png",
     slug: "boite-lait-personnalisee",
+    description: "Boîte de lait personnalisée pour événements enfants",
+    longDescription: "Chaque boîte de lait personnalisée est conçue pour correspondre parfaitement au thème de votre événement : licornes, super-héros, animaux, arc-en-ciel, jeux vidéo, dessins animés... Le design est entièrement personnalisable avec le prénom, l'âge de l'enfant, une date spéciale ou un message affectueux, permettant de créer un souvenir que vos invités auront plaisir à garder. Grâce à une impression haute qualité, des couleurs éclatantes et des matériaux résistants, vos boîtes de lait deviennent un véritable élément de décoration premium.",
+    materials: "Carton alimentaire, impression haute qualité",
+    dimensions: "Format standard boîte de lait",
+    deliveryTime: "15-25 jours ouvrés"
   },
   {
     id: "9",
@@ -99,6 +121,11 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/boite-pompotes-personnalisee.png",
     slug: "boite-pompotes-personnalisee",
+    description: "Boîte Pom'Potes personnalisée pour goûters et anniversaires",
+    longDescription: "Transformez l'anniversaire, le goûter ou la fête scolaire de votre enfant avec notre boîte Pom'Potes personnalisée, un produit conçu pour rendre chaque événement original, joyeux et mémorable. Chaque boîte Pom'Potes personnalisée peut être décorée selon votre thème préféré : super-héros, princesses, animaux, dinosaures, licornes ou arc-en-ciel. Ajoutez le prénom de l'enfant, son âge, la date de la fête ou un message spécial pour créer un souvenir unique et personnalisé. L'impression haute qualité et les matériaux résistants assurent une boîte robuste et colorée.",
+    materials: "Carton premium, impression haute qualité",
+    dimensions: "Format adapté aux portions Pom'Potes",
+    deliveryTime: "15-25 jours ouvrés"
   },
   {
     id: "10",
@@ -118,6 +145,11 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/box-pyramide.png",
     slug: "box-pyramide",
+    description: "Box pyramide personnalisée pour événements élégants",
+    longDescription: "Faites de vos fêtes un moment inoubliable et élégant grâce à nos Box Pyramide personnalisées, idéales pour anniversaires, baptêmes, baby showers ou fêtes d'école. Originales, raffinées et entièrement personnalisables, ces petites boîtes au design pyramidal chic et moderne subliment vos tables et offrent à vos invités un souvenir unique à emporter. Chaque Box Pyramide est personnalisée selon votre thème : prénom, date, âge, message spécial ou couleurs assorties à votre décoration.",
+    materials: "Carton premium, finition mate ou brillante",
+    dimensions: "Format pyramide compact",
+    deliveryTime: "15-25 jours ouvrés"
   },
   {
     id: "12",
@@ -129,6 +161,11 @@ export const products: Product[] = [
     image: "/images/products/cadre-personnalise.png",
     rating: 5,
     slug: "cadre-personnalise",
+    description: "Cadre personnalisé pour vos plus beaux souvenirs",
+    longDescription: "Transformez vos événements en moments inoubliables grâce aux cadres personnalisés, idéaux pour anniversaires, baptêmes, fêtes d'école ou baby showers. Ces cadres ne sont pas seulement des objets décoratifs : ils deviennent un souvenir précieux, permettant à vos invités de garder un souvenir unique de votre fête. Chaque cadre peut être entièrement personnalisé avec le prénom de l'enfant, la date de l'événement, un message ou des motifs assortis à votre thème, pour un résultat 100% à votre image.",
+    materials: "Bois ou plastique premium, verre, impression HD",
+    dimensions: "Plusieurs formats disponibles",
+    deliveryTime: "15-25 jours ouvrés"
   },
   {
     id: "13",
@@ -279,5 +316,10 @@ export const products: Product[] = [
     image: "/images/products/t-shirt-personnalise.png",
     rating: 4,
     slug: "tshirt-personnalise",
+    description: "T-shirt personnalisé pour vos événements spéciaux",
+    longDescription: "Rendez votre fête inoubliable et pleine de style grâce à nos T-shirts personnalisés, parfaits pour anniversaires, baptêmes, fêtes d'école, EVJF ou baby showers. Ces T-shirts ne sont pas de simples vêtements : ils deviennent le symbole d'un moment unique, à la fois souvenir et accessoire festif. Chaque modèle est entièrement personnalisable : prénom, âge, date, message spécial, ou design assorti au thème de votre événement. C'est le petit plus qui rendra vos photos encore plus mémorables et votre fête totalement harmonieuse.",
+    materials: "Coton 100% de qualité, flocage professionnel",
+    dimensions: "XS, S, M, L, XL, XXL, 3XL, 4XL",
+    deliveryTime: "15-25 jours ouvrés"
   },
 ];
