@@ -52,6 +52,13 @@ const getFilteredProducts = (
     filtered = allProducts.filter((p) => subCategorySlugs.includes(p.categorySlug));
   }
   
+  // Si c'est la catégorie Mariage, chercher dans toutes les sous-catégories mariage
+  if (filtered.length === 0 && categorySlug === "mariage") {
+    console.log("Recherche dans toutes les sous-catégories Mariage...");
+    const mariageSubCategorySlugs = ["faire-parts", "invitations", "menus", "tableaux-accueil", "marque-places"];
+    filtered = allProducts.filter((p) => mariageSubCategorySlugs.includes(p.categorySlug));
+  }
+  
   console.log("Produits filtrés:", filtered.length);
   
   return filtered;

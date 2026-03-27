@@ -21,6 +21,17 @@ export const categories: Category[] = [
     ],
   },
   {
+    name: "Mariage",
+    slug: "mariage",
+    children: [
+      { name: "Faire-parts", slug: "faire-parts" },
+      { name: "Invitations", slug: "invitations" },
+      { name: "Menus", slug: "menus" },
+      { name: "Tableaux d'accueil", slug: "tableaux-accueil" },
+      { name: "Marque-places", slug: "marque-places" },
+    ],
+  },
+  {
     name: "Cadeaux Invités",
     slug: "cadeaux-invites",
     children: [
