@@ -9,11 +9,17 @@ import { categories } from "@/data/categories";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+interface DropdownChild {
+  name: string;
+  href: string;
+  children?: Array<{ name: string; href: string }>;
+}
+
 interface BottomNavItem {
   label: string;
   href: string;
   categorySlug: string;
-  children?: Array<{ name: string; href: string; isSubChild?: boolean }>;
+  children?: DropdownChild[];
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -38,14 +44,14 @@ function buildBottomNav(): BottomNavItem[] {
       label: SHORT_LABELS[cat.slug] ?? cat.name.toUpperCase(),
       href: `/boutique?category=${cat.slug}`,
       categorySlug: cat.slug,
-      children: cat.children?.flatMap((child) => [
-        { name: child.name, href: `/boutique?category=${cat.slug}&sub=${child.slug}` },
-        ...(child.children?.map((grand) => ({
+      children: cat.children?.map((child) => ({
+        name: child.name,
+        href: `/boutique?category=${cat.slug}&sub=${child.slug}`,
+        children: child.children?.map((grand) => ({
           name: grand.name,
           href: `/boutique?category=${cat.slug}&sub=${grand.slug}`,
-          isSubChild: true,
-        })) ?? []),
-      ]),
+        })),
+      })),
     });
   }
 
@@ -67,6 +73,7 @@ export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenItems, setMobileOpenItems] = useState<Set<string>>(new Set());
   // Active category read client-side to avoid useSearchParams in layout
@@ -253,15 +260,36 @@ export default function Header() {
 
                       <div className="relative">
                         {item.children.map((child) => (
-                          <Link
+                          <div
                             key={child.href}
-                            href={child.href}
-                            className={`block py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150 ${
-                              child.isSubChild ? "pl-9 text-xs text-[#6B6B6B]" : "px-5"
-                            }`}
+                            className="relative"
+                            onMouseEnter={() => child.children?.length ? setOpenSubMenu(child.href) : setOpenSubMenu(null)}
+                            onMouseLeave={() => setOpenSubMenu(null)}
                           >
-                            {child.isSubChild ? `↳ ${child.name}` : child.name}
-                          </Link>
+                            <Link
+                              href={child.href}
+                              className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                            >
+                              {child.name}
+                              {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-[#C8A96E]" /> : null}
+                            </Link>
+
+                            {/* Sous-menu niveau 3 */}
+                            {child.children?.length && openSubMenu === child.href && (
+                              <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-white shadow-xl py-3 z-50">
+                                <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-white border-l border-t border-[#E8E4DF]" />
+                                {child.children.map((grand) => (
+                                  <Link
+                                    key={grand.href}
+                                    href={grand.href}
+                                    className="block px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                                  >
+                                    {grand.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -321,15 +349,23 @@ export default function Header() {
                     {mobileOpenItems.has(item.href) && (
                       <div className="pl-4 pb-1 space-y-0.5">
                         {item.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className={`block py-2 text-[#6B6B6B] hover:text-[#C8A96E] transition-colors rounded-lg hover:bg-[#FAF7F2] ${
-                              child.isSubChild ? "pl-8 text-xs" : "px-4 text-sm"
-                            }`}
-                          >
-                            {child.isSubChild ? `↳ ${child.name}` : child.name}
-                          </Link>
+                          <div key={child.href}>
+                            <Link
+                              href={child.href}
+                              className="block px-4 py-2 text-sm text-[#6B6B6B] hover:text-[#C8A96E] transition-colors rounded-lg hover:bg-[#FAF7F2]"
+                            >
+                              {child.name}
+                            </Link>
+                            {child.children?.map((grand) => (
+                              <Link
+                                key={grand.href}
+                                href={grand.href}
+                                className="block pl-8 py-1.5 text-xs text-[#6B6B6B] hover:text-[#C8A96E] transition-colors rounded-lg hover:bg-[#FAF7F2]"
+                              >
+                                ↳ {grand.name}
+                              </Link>
+                            ))}
+                          </div>
                         ))}
                       </div>
                     )}
