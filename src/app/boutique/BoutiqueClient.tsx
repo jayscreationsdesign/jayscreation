@@ -45,6 +45,13 @@ const getFilteredProducts = (
     );
   }
   
+  // Si c'est une catégorie parente, chercher dans toutes les sous-catégories
+  if (filtered.length === 0 && categorySlug === "sweet-tables-decoration") {
+    console.log("Recherche dans toutes les sous-catégories de Sweet Tables & Décoration...");
+    const subCategorySlugs = ["papeterie-sweet-tables", "guirlandes-ballons", "posters-affiches", "toppers"];
+    filtered = allProducts.filter((p) => subCategorySlugs.includes(p.categorySlug));
+  }
+  
   console.log("Produits filtrés:", filtered.length);
   
   return filtered;
