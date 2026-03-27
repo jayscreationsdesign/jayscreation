@@ -19,7 +19,7 @@ export default function Footer() {
                   <h3 className="font-heading text-xl font-bold text-foreground">
                     Jay&apos;s Creations Design
                   </h3>
-                  <p className="text-xs text-accent font-medium mb-2">Pour Sublimer Vos Événements</p>
+                  <p className="text-xs text-accent font-medium">Pour Sublimer Vos Événements</p>
                 </div>
               </Link>
               
