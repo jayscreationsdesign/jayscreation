@@ -34,7 +34,7 @@ function AccordionRow({
       </button>
 
       {isOpen && (
-        <div className="pb-5 text-sm leading-relaxed text-[#6B6B6B] whitespace-pre-line text-justify">
+        <div className="pb-5 text-sm leading-relaxed text-[#6B6B6B] whitespace-pre-line" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
           {item.content}
         </div>
       )}

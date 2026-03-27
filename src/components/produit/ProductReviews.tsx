@@ -164,7 +164,7 @@ export default function ProductReviews({ product }: { product: Product }) {
             <span>✦</span>
             <span>Généré à partir des avis clients.</span>
           </p>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#6B6B6B] text-justify">
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[#6B6B6B]" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
             {product.name} est plébiscité pour la qualité de sa personnalisation, ses finitions soignées et la réactivité du service client. Les clientes témoignent d'un résultat fidèle à leurs attentes, d'une livraison soignée et d'une expérience agréable du début à la fin. La maquette sous 24h est particulièrement appréciée.
           </p>
           <button className="mt-4 rounded-full border border-[#2C2C2C] px-4 py-2 text-sm text-[#2C2C2C] transition-colors hover:bg-[#2C2C2C] hover:text-white">
@@ -262,7 +262,7 @@ export default function ProductReviews({ product }: { product: Product }) {
                   <p className="mt-2 text-sm font-bold text-[#2C2C2C]">{review.title}</p>
 
                   {/* Texte */}
-                  <p className="mt-1.5 text-sm leading-relaxed text-[#6B6B6B] text-justify">{review.text}</p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-[#6B6B6B]" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>{review.text}</p>
 
                   {/* Produit évalué */}
                   <p className="mt-2 text-xs text-[#6B6B6B]">

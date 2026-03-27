@@ -42,7 +42,7 @@ function FAQRow({ q, a }: { q: string; a: string }) {
         />
       </button>
       {open && (
-        <p className="pb-6 text-base leading-relaxed text-[#6B6B6B] text-justify">{a}</p>
+        <p className="pb-6 text-base leading-relaxed text-[#6B6B6B]" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>{a}</p>
       )}
     </div>
   );
