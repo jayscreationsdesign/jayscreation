@@ -48,8 +48,15 @@ const getFilteredProducts = (
   // Si c'est une catégorie parente, chercher dans toutes les sous-catégories
   if (filtered.length === 0 && categorySlug === "sweet-tables-decoration") {
     console.log("Recherche dans toutes les sous-catégories de Sweet Tables & Décoration...");
-    const subCategorySlugs = ["papeterie-sweet-tables", "guirlandes-ballons", "posters-affiches", "toppers"];
+    const subCategorySlugs = ["guirlandes-ballons"];
     filtered = allProducts.filter((p) => subCategorySlugs.includes(p.categorySlug));
+  }
+  
+  // Si c'est la catégorie Anniversaires, chercher dans toutes les sous-catégories anniversaires
+  if (filtered.length === 0 && categorySlug === "anniversaires") {
+    console.log("Recherche dans toutes les sous-catégories Anniversaires...");
+    const anniversairesSubCategorySlugs = ["papeterie-sweet-tables", "posters-affiches", "toppers"];
+    filtered = allProducts.filter((p) => anniversairesSubCategorySlugs.includes(p.categorySlug));
   }
   
   // Si c'est la catégorie Mariage, chercher dans toutes les sous-catégories mariage
