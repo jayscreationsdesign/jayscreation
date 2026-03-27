@@ -23,11 +23,6 @@ export default function Footer() {
                 </div>
               </Link>
               
-              <p className="mt-4 text-sm leading-6 text-muted-foreground max-w-md">
-                Créatrice passionnée de papeterie événementielle, de cadeaux personnalisés et d&apos;objets uniques. 
-                Chaque pièce est conçue avec amour et savoir-faire pour rendre vos moments inoubliables.
-              </p>
-
               {/* Contact info */}
               <div className="mt-6 space-y-3">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
