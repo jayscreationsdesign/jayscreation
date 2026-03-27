@@ -83,7 +83,7 @@ export default function HowToOrder() {
                 </div>
 
                 {/* Contenu */}
-                <h3 className="font-heading text-base font-semibold text-foreground text-left">
+                <h3 className="font-heading text-base font-semibold text-foreground text-center">
                   {step.title}
                 </h3>
                 <p className={`mt-2 text-sm leading-6 text-muted-foreground ${step.centerText ? 'text-center font-medium' : ''}`} style={step.centerText ? {} : { textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
