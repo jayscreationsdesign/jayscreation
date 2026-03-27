@@ -52,6 +52,13 @@ function CategoryNode({
       path[1] === activeSub &&
       activeSubSub === category.slug);
 
+  // Toujours déplier si cet item est actif ou est un ancêtre de l'item actif
+  const isAncestorOfActive =
+    (depth === 0 && activeCategory === category.slug) ||
+    (depth === 1 && path[0] === activeCategory && activeSub === category.slug);
+
+  const shouldExpand = isOpen || isAncestorOfActive;
+
   const handleClick = () => {
     if (depth === 0) {
       onNavigate({ category: category.slug });
@@ -75,7 +82,9 @@ function CategoryNode({
               ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] text-[#C8A96E] font-medium"
               : depth === 0
               ? "text-foreground hover:bg-gray-50 hover:text-[#C8A96E]"
-              : "text-[#6B6B6B] hover:text-[#C8A96E]"
+              : depth === 1
+              ? "text-[#6B6B6B] hover:text-[#C8A96E]"
+              : "text-[#9B9B9B] hover:text-[#C8A96E]"
           }`}
         style={{ paddingLeft: `${16 + depth * 16}px` }}
       >
@@ -84,13 +93,13 @@ function CategoryNode({
           <ChevronDown
             size={14}
             className={`shrink-0 transition-transform duration-200 ${
-              isOpen ? "rotate-180" : ""
+              shouldExpand ? "rotate-180" : ""
             }`}
           />
         )}
       </button>
 
-      {hasChildren && isOpen && (
+      {hasChildren && shouldExpand && (
         <div>
           {category.children!.map((child) => (
             <CategoryNode
