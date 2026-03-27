@@ -93,7 +93,7 @@ export default function Hero() {
                     <div className="text-sm font-heading text-foreground">
                       {card.title}
                     </div>
-                    <div className="mt-1 text-xs leading-5 text-muted-foreground" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
+                    <div className="mt-1 text-xs leading-5 text-muted-foreground text-center" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
                       {card.desc}
                     </div>
                     <div className="mt-4 h-1 w-10 rounded-full bg-accent/70" />
