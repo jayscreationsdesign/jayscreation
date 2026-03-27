@@ -39,6 +39,8 @@ function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
   for (const cat of categories) {
+    // Exclure Baptême de la navigation principale
+    if (cat.slug === "bapteme") continue;
     if (SKIP_SLUGS.has(cat.slug)) continue;
     nav.push({
       label: SHORT_LABELS[cat.slug] ?? cat.name.toUpperCase(),
@@ -58,7 +60,27 @@ function buildBottomNav(): BottomNavItem[] {
   return nav;
 }
 
+function buildBaptemeNav(): BottomNavItem[] {
+  const baptemeCat = categories.find(cat => cat.slug === "bapteme");
+  if (!baptemeCat) return [];
+  
+  return [{
+    label: "BAPTÊME",
+    href: `/boutique?category=${baptemeCat.slug}`,
+    categorySlug: baptemeCat.slug,
+    children: baptemeCat.children?.map((child) => ({
+      name: child.name,
+      href: `/boutique?category=${child.slug}`,
+      children: child.children?.map((grand) => ({
+        name: grand.name,
+        href: `/boutique?category=${grand.slug}`,
+      })),
+    })),
+  }];
+}
+
 const bottomNav = buildBottomNav();
+const baptemeNav = buildBaptemeNav();
 
 const topNavLinks = [
   { href: "/", label: "Accueil" },
@@ -300,6 +322,81 @@ export default function Header() {
           </div>
         </div>
       </nav>
+
+      {/* ════════════════════════════════════════════
+          BARRE BAPTÊME — catégorie spéciale centrée
+      ════════════════════════════════════════════ */}
+      {baptemeNav.length > 0 && (
+        <nav
+          className="hidden lg:block bg-[#FAF7F2] border-b border-[#E8E4DF]"
+          aria-label="Menu Baptême"
+        >
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-stretch justify-center">
+              {baptemeNav.map((item) => (
+                <div
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => item.children && handleMouseEnter(item.href)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <Link
+                    href={item.href}
+                    className={`
+                      inline-flex items-center gap-[3px] px-4 py-3
+                      text-xs font-medium uppercase tracking-[0.15em] whitespace-nowrap
+                      transition-colors duration-300
+                      ${
+                        pathname.startsWith("/boutique") &&
+                        activeCategory === item.categorySlug
+                          ? "text-[#C8A96E] border-b-[1.5px] border-[#C8A96E] pb-[11px]"
+                          : "text-[#6B6B6B] hover:text-[#C8A96E]"
+                      }
+                    `}
+                  >
+                    {item.label}
+                    {item.children && (
+                      <ChevronDown
+                        size={12}
+                        className={`ml-0.5 shrink-0 transition-transform duration-200 ${
+                          openDropdown === item.href ? "rotate-180" : ""
+                        }`}
+                      />
+                    )}
+                  </Link>
+
+                  {/* Dropdown */}
+                  {item.children && (
+                    <div
+                      className={`
+                        absolute top-full left-1/2 -translate-x-1/2
+                        bg-white/95 backdrop-blur-md border border-[#E8E4DF] rounded-lg
+                        shadow-xl
+                        transition-all duration-300 ease-in-out
+                        ${openDropdown === item.href ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}
+                      `}
+                      onMouseEnter={() => handleMouseEnter(item.href)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div className="py-2 min-w-[200px]">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="block px-4 py-2 text-sm text-[#2C2C2C] hover:text-[#C8A96E] hover:bg-[#FAF7F2] transition-colors"
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </nav>
+      )}
 
       {/* ════════════════════════════════════════════
           MENU MOBILE — hamburger + accordéon
