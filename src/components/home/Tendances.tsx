@@ -1,4 +1,5 @@
 import { ArrowRight, Star, Heart, Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function Tendances() {
   return (
@@ -71,10 +72,13 @@ export default function Tendances() {
 
         {/* Call-to-action */}
         <div className="text-center">
-          <div className="inline-flex items-center gap-3 bg-white text-[#C8A96E] px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all duration-300 transform hover:scale-[1.02] group">
+          <Link
+            href="/tendances"
+            className="inline-flex items-center gap-3 bg-white text-[#C8A96E] px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all duration-300 transform hover:scale-[1.02] group"
+          >
             <span className="text-lg">Explorer les tendances</span>
             <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </div>
+          </Link>
           <p className="text-white/70 text-sm mt-4">
             Découvrez toutes nos créations tendance
           </p>
