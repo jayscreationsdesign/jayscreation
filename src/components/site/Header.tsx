@@ -39,8 +39,9 @@ function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
   for (const cat of categories) {
-    // Exclure Baptême de la navigation principale
+    // Exclure Baptême et Mariage de la navigation principale
     if (cat.slug === "bapteme") continue;
+    if (cat.slug === "mariage") continue;
     if (SKIP_SLUGS.has(cat.slug)) continue;
     nav.push({
       label: SHORT_LABELS[cat.slug] ?? cat.name.toUpperCase(),
