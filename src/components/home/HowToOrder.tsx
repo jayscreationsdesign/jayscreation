@@ -20,30 +20,35 @@ const steps = [
     icon: Palette,
     title: "Je choisis un thème",
     description: "Si nécessaire, je sélectionne un thème pour ma personnalisation et je l'ajoute au panier.",
+    centerText: true,
   },
   {
     number: 3,
     icon: Type,
     title: "Je choisis la police",
     description: "Si je souhaite changer la police d'écriture, je la sélectionne parmi celles disponibles.",
+    centerText: true,
   },
   {
     number: 4,
     icon: ClipboardCheck,
     title: "Je vérifie mon panier",
     description: "Dans le panier, je vérifie et renseigne toutes mes informations de personnalisation.",
+    centerText: true,
   },
   {
     number: 5,
     icon: Clock,
     title: "Je valide ma commande",
     description: "Je confirme ma commande. Le délai de réalisation est de 15 à 25 jours ouvrés selon la date de l'événement.",
+    centerText: true,
   },
   {
     number: 6,
     icon: Mail,
     title: "Je reçois mon colis",
     description: "Dès l'expédition, je reçois un e-mail avec mon numéro de suivi pour suivre mon colis.",
+    centerText: true,
   },
 ];
 
