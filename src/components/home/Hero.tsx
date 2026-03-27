@@ -13,20 +13,20 @@ export default function Hero() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-2 text-sm text-muted-foreground">
               <Sparkles className="h-4 w-4 text-accent" />
-              Edition premium, personnalisation sur-mesure
+              Édition premium, personnalisation sur-mesure
             </div>
 
             <h1 className="mt-6 font-heading text-4xl leading-[1.05] text-foreground sm:text-5xl">
               Faire-part, invitations et menus
               <span className="block text-accent">
-                qui signent votre evenement
+                qui signent votre événement
               </span>
             </h1>
 
             <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
-              Une identite elegante et artisanale, des finitions dorees et une
-              typographie soignee pour creer des pieces uniques, du mariage aux
-              celebrations.
+              Une identité élégante et artisanale, des finitions dorées et une
+              typographie soignée pour créer des pièces uniques, du mariage aux
+              célébrations.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -34,7 +34,7 @@ export default function Hero() {
                 href="/boutique"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90"
               >
-                Decouvrir la boutique{" "}
+                Découvrir la boutique{" "}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <Link
@@ -49,13 +49,13 @@ export default function Hero() {
               <div className="rounded-2xl border border-border bg-background/60 px-4 py-4">
                 <div className="text-2xl font-heading text-accent">24h</div>
                 <div className="mt-1 text-xs text-muted-foreground">
-                  Apercu maquette
+                  Aperçu maquette
                 </div>
               </div>
               <div className="rounded-2xl border border-border bg-background/60 px-4 py-4">
                 <div className="text-2xl font-heading text-accent">100%</div>
                 <div className="mt-1 text-xs text-muted-foreground">
-                  Personnalise
+                  Personnalisé
                 </div>
               </div>
               <div className="rounded-2xl border border-border bg-background/60 px-4 py-4">
@@ -74,7 +74,7 @@ export default function Hero() {
                   Collections
                 </div>
                 <div className="text-xs text-muted-foreground">
-                  Selection du moment
+                  Sélection du moment
                 </div>
               </div>
 
@@ -82,7 +82,7 @@ export default function Hero() {
                 {[
                   { title: "Mariage", desc: "Faire-part & menus" },
                   { title: "Naissance", desc: "Cartes & souvenirs" },
-                  { title: "Evenements", desc: "Invitations premium" },
+                  { title: "Événements", desc: "Invitations premium" },
                   { title: "Marque-places", desc: "Touche finale" },
                 ].map((card) => (
                   <div
