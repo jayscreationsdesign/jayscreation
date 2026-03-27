@@ -13,6 +13,7 @@ const steps = [
     icon: ShoppingCart,
     title: "Je choisis mes produits",
     description: "Je sélectionne les produits qui me conviennent et je les ajoute au panier.",
+    centerText: true,
   },
   {
     number: 2,
@@ -80,7 +81,7 @@ export default function HowToOrder() {
                 <h3 className="font-heading text-base font-semibold text-foreground text-left">
                   {step.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground text-center" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
+                <p className={`mt-2 text-sm leading-6 text-muted-foreground ${step.centerText ? 'text-center' : ''}`} style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
                   {step.description}
                 </p>
               </div>
