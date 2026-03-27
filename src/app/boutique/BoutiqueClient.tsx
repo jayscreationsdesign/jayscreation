@@ -27,7 +27,7 @@ interface Category {
   parentId?: string;
 }
 
-// Données de catégories
+// Données de catégories - extraites des produits réels
 const CATEGORIES: Category[] = [
   {
     id: "papeterie",
