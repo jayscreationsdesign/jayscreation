@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { type Product } from "@/data/products";
 
 export default function ProductGallery({ product }: { product: Product }) {
-  const images = product.images?.length ? product.images : [product.image];
+  const images = [product.image];
   const total = images.length;
   const [activeIndex, setActiveIndex] = useState(0);
 

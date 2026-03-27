@@ -45,7 +45,7 @@ export default async function ProductPage({
   const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
 
-  const images = product.images?.length ? product.images : [product.image];
+  const images = [product.image];
 
   return (
     <div className="bg-white">
