@@ -30,7 +30,7 @@ const SKIP_SLUGS = new Set(["formation", "divers-objets-cadeaux"]);
 // Labels raccourcis pour tenir sur une ligne
 const SHORT_LABELS: Record<string, string> = {
   "divers-objets-cadeaux": "OBJETS & CADEAUX",
-  "papeterie-telechargeable": "PAPETERIE TÉLÉCH.",
+  "papeterie-telechargeable": "PAPETERIE TÉLÉCHARGEABLE",
 };
 
 // ─── Build nav from categories ────────────────────────────────────────────────
