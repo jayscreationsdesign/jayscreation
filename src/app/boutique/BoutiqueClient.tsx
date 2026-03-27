@@ -143,6 +143,9 @@ function BoutiquePageContentInner() {
   const categorySlug = searchParams.get("category");
   const [sortBy, setSortBy] = useState<SortOption>("default");
 
+  // Debug pour voir le categorySlug
+  console.log("categorySlug:", categorySlug);
+
   const filteredProducts = useMemo(
     () => getFilteredProducts(products, categorySlug),
     [categorySlug]
