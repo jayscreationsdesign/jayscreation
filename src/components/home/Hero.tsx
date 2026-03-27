@@ -18,7 +18,7 @@ export default function Hero() {
             </div>
 
             <h1 className="mt-6 font-heading text-4xl leading-[1.05] text-foreground sm:text-5xl">
-              Faire-part, invitations et menus
+              Faire-parts, invitations et menus
               <span className="block text-accent">
                 qui signent votre événement
               </span>
