@@ -165,9 +165,9 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-xs text-muted-foreground flex items-center gap-1">
               © 2026 Jay&apos;s Creations Design. Tous droits réservés.
-              <span className="text-accent">Made with</span>
+              <span className="text-accent">Made in</span>
               <Heart className="h-3 w-3 text-accent fill-accent" />
-              <span className="text-accent">en France</span>
+              <span className="text-accent">France</span>
             </div>
             <div className="flex items-center gap-6 text-xs text-muted-foreground">
               <Link href="/politique-de-confidentialite" className="hover:text-accent transition-colors">
