@@ -32,7 +32,19 @@ const getFilteredProducts = (
   console.log("Recherche du categorySlug:", categorySlug);
   console.log("CategorySlug disponibles:", allProducts.map(p => p.categorySlug));
   
-  const filtered = allProducts.filter((p) => p.categorySlug === categorySlug);
+  // Filtrage normal
+  let filtered = allProducts.filter((p) => p.categorySlug === categorySlug);
+  
+  // Si rien trouvé, essayer avec une recherche plus flexible
+  if (filtered.length === 0) {
+    console.log("Aucun produit trouvé, essai avec recherche flexible...");
+    filtered = allProducts.filter((p) => 
+      p.categorySlug?.includes(categorySlug) || 
+      categorySlug.includes(p.categorySlug) ||
+      p.category?.toLowerCase().includes(categorySlug.toLowerCase())
+    );
+  }
+  
   console.log("Produits filtrés:", filtered.length);
   
   return filtered;
