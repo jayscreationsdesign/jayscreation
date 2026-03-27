@@ -1,7 +1,16 @@
 import { ArrowRight, Star, Heart, Sparkles } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { products } from "@/data/products";
+import type { Product } from "@/data/products";
 
 export default function Tendances() {
+  // Sélectionner les 8 produits les mieux notés
+  const topRatedProducts = products
+    .filter((product: Product) => product.rating)
+    .sort((a: Product, b: Product) => (b.rating || 0) - (a.rating || 0))
+    .slice(0, 8);
+
   return (
     <section className="py-16 bg-gradient-to-r from-[#C8A96E] to-[#D4A574] relative overflow-hidden">
       {/* Pattern de fond subtil */}
@@ -26,46 +35,49 @@ export default function Tendances() {
           </p>
         </div>
 
-        {/* Grille des tendances */}
-        <div className="grid gap-6 md:grid-cols-3 mb-12">
-          {[
-            {
-              icon: Heart,
-              title: "Faire-parts Romantiques",
-              description: "Designs élégants et personnalisés pour vos unions",
-              trend: "Top des ventes"
-            },
-            {
-              icon: Star,
-              title: "Tableaux d'Accueil",
-              description: "Mise en scène artistique pour accueillir vos invités",
-              trend: "Nouveauté 2026"
-            },
-            {
-              icon: Sparkles,
-              title: "Marque-places Originaux",
-              description: "Détails uniques qui font toute la différence",
-              trend: "Tendance du moment"
-            }
-          ].map((item, index) => (
+        {/* Grille des produits tendance */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-12">
+          {topRatedProducts.map((product) => (
             <div
-              key={index}
-              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/20 transition-all duration-300 transform hover:scale-[1.02]"
+              key={product.id}
+              className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-[1.02]"
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="h-12 w-12 bg-white/20 rounded-full flex items-center justify-center">
-                  <item.icon className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-xs font-medium text-white/80 bg-white/10 px-3 py-1 rounded-full">
-                  {item.trend}
-                </span>
+              <div className="aspect-square bg-white/20 rounded-xl mb-4 relative overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <h3 className="font-heading text-lg font-bold text-white mb-2">
-                {item.title}
-              </h3>
-              <p className="text-sm text-white/80 leading-relaxed">
-                {item.description}
+              
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-heading text-sm font-semibold text-white line-clamp-2">
+                  {product.name}
+                </h3>
+                <div className="flex items-center gap-1">
+                  <Star className="h-3 w-3 text-yellow-300 fill-current" />
+                  <span className="text-xs font-medium text-white">
+                    {product.rating}/5
+                  </span>
+                </div>
+              </div>
+              
+              <p className="text-xs text-white/80 mb-3 line-clamp-2">
+                {product.description || `Produit tendance de la catégorie ${product.category}`}
               </p>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-bold text-white">
+                  {product.price}
+                </span>
+                <Link
+                  href={`/produit/${product.slug}`}
+                  className="inline-flex items-center gap-1 bg-white/20 text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-white/30 transition-colors"
+                >
+                  Voir
+                </Link>
+              </div>
             </div>
           ))}
         </div>

@@ -161,6 +161,7 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/placeholder.png",
+    rating: 4,
     slug: "kinder-bueno",
   },
   {
@@ -260,6 +261,7 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/tasse-personnalisee.png",
+    rating: 4,
     slug: "tasse-personnalisee",
   },
 
@@ -271,6 +273,7 @@ export const products: Product[] = [
     category: "Flocages",
     categorySlug: "flocage",
     image: "/images/products/planche-etiquette-thermocollante.png",
+    rating: 5,
     slug: "planche-etiquette-thermocollante",
   },
   {
