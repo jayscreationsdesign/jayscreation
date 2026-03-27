@@ -13,7 +13,7 @@ interface BottomNavItem {
   label: string;
   href: string;
   categorySlug: string;
-  children?: Array<{ name: string; href: string }>;
+  children?: Array<{ name: string; href: string; isSubChild?: boolean }>;
 }
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -38,10 +38,14 @@ function buildBottomNav(): BottomNavItem[] {
       label: SHORT_LABELS[cat.slug] ?? cat.name.toUpperCase(),
       href: `/boutique?category=${cat.slug}`,
       categorySlug: cat.slug,
-      children: cat.children?.map((child) => ({
-        name: child.name,
-        href: `/boutique?category=${cat.slug}&sub=${child.slug}`,
-      })),
+      children: cat.children?.flatMap((child) => [
+        { name: child.name, href: `/boutique?category=${cat.slug}&sub=${child.slug}` },
+        ...(child.children?.map((grand) => ({
+          name: grand.name,
+          href: `/boutique?category=${cat.slug}&sub=${grand.slug}`,
+          isSubChild: true,
+        })) ?? []),
+      ]),
     });
   }
 
@@ -252,9 +256,11 @@ export default function Header() {
                           <Link
                             key={child.href}
                             href={child.href}
-                            className="block px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                            className={`block py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150 ${
+                              child.isSubChild ? "pl-9 text-xs text-[#6B6B6B]" : "px-5"
+                            }`}
                           >
-                            {child.name}
+                            {child.isSubChild ? `↳ ${child.name}` : child.name}
                           </Link>
                         ))}
                       </div>
@@ -318,9 +324,11 @@ export default function Header() {
                           <Link
                             key={child.href}
                             href={child.href}
-                            className="block px-4 py-2 text-sm text-[#6B6B6B] hover:text-[#C8A96E] transition-colors rounded-lg hover:bg-[#FAF7F2]"
+                            className={`block py-2 text-[#6B6B6B] hover:text-[#C8A96E] transition-colors rounded-lg hover:bg-[#FAF7F2] ${
+                              child.isSubChild ? "pl-8 text-xs" : "px-4 text-sm"
+                            }`}
                           >
-                            {child.name}
+                            {child.isSubChild ? `↳ ${child.name}` : child.name}
                           </Link>
                         ))}
                       </div>
