@@ -62,21 +62,43 @@ function buildBottomNav(): BottomNavItem[] {
 
 function buildBaptemeNav(): BottomNavItem[] {
   const baptemeCat = categories.find(cat => cat.slug === "bapteme");
-  if (!baptemeCat) return [];
+  const mariageCat = categories.find(cat => cat.slug === "mariage");
   
-  return [{
-    label: "BAPTÊME",
-    href: `/boutique?category=${baptemeCat.slug}`,
-    categorySlug: baptemeCat.slug,
-    children: baptemeCat.children?.map((child) => ({
-      name: child.name,
-      href: `/boutique?category=${child.slug}`,
-      children: child.children?.map((grand) => ({
-        name: grand.name,
-        href: `/boutique?category=${grand.slug}`,
+  const nav: BottomNavItem[] = [];
+  
+  if (baptemeCat) {
+    nav.push({
+      label: "BAPTÊME",
+      href: `/boutique?category=${baptemeCat.slug}`,
+      categorySlug: baptemeCat.slug,
+      children: baptemeCat.children?.map((child) => ({
+        name: child.name,
+        href: `/boutique?category=${child.slug}`,
+        children: child.children?.map((grand) => ({
+          name: grand.name,
+          href: `/boutique?category=${grand.slug}`,
+        })),
       })),
-    })),
-  }];
+    });
+  }
+  
+  if (mariageCat) {
+    nav.push({
+      label: "MARIAGE",
+      href: `/boutique?category=${mariageCat.slug}`,
+      categorySlug: mariageCat.slug,
+      children: mariageCat.children?.map((child) => ({
+        name: child.name,
+        href: `/boutique?category=${child.slug}`,
+        children: child.children?.map((grand) => ({
+          name: grand.name,
+          href: `/boutique?category=${grand.slug}`,
+        })),
+      })),
+    });
+  }
+  
+  return nav;
 }
 
 const bottomNav = buildBottomNav();
@@ -324,12 +346,12 @@ export default function Header() {
       </nav>
 
       {/* ════════════════════════════════════════════
-          BARRE BAPTÊME — catégorie spéciale centrée
+          BARRE SPÉCIALE — Baptême & Mariage (centrés)
       ════════════════════════════════════════════ */}
       {baptemeNav.length > 0 && (
         <nav
           className="hidden lg:block bg-white border-b border-[#E8E4DF]"
-          aria-label="Menu Baptême"
+          aria-label="Menu Spécial Baptême & Mariage"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-stretch justify-center">
