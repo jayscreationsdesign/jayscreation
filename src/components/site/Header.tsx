@@ -328,7 +328,7 @@ export default function Header() {
       ════════════════════════════════════════════ */}
       {baptemeNav.length > 0 && (
         <nav
-          className="hidden lg:block bg-[#FAF7F2] border-b border-[#E8E4DF]"
+          className="hidden lg:block bg-white border-b border-[#E8E4DF]"
           aria-label="Menu Baptême"
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
