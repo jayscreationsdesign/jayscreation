@@ -137,8 +137,8 @@ function CategoryItemComponent({
       <button
         onClick={() => {
           onSelectCategory(category.slug);
-          // Ne pas ouvrir/fermer le dropdown si on clique sur la catégorie parente
-          // Seulement ouvrir/fermer si on clique explicitement pour toggle
+          // Ouvrir le dropdown quand on clique sur la catégorie
+          if (hasChildren) setIsOpen(true);
         }}
         aria-current={isActive ? "page" : undefined}
         className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all flex items-center justify-between ${
@@ -153,7 +153,7 @@ function CategoryItemComponent({
           <button
             onClick={(e) => {
               e.stopPropagation(); // Empêcher la propagation au parent
-              setIsOpen(!isOpen); // Seulement toggle le dropdown
+              setIsOpen(!isOpen); // Toggle du dropdown
             }}
             className="p-1 hover:bg-gray-100 rounded"
           >
