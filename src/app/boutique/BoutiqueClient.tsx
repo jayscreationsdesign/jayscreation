@@ -27,7 +27,15 @@ const getFilteredProducts = (
   categorySlug: string | null
 ): Product[] => {
   if (!categorySlug) return allProducts;
-  return allProducts.filter((p) => p.categorySlug === categorySlug);
+  
+  // Debug : afficher tous les categorySlug disponibles
+  console.log("Recherche du categorySlug:", categorySlug);
+  console.log("CategorySlug disponibles:", allProducts.map(p => p.categorySlug));
+  
+  const filtered = allProducts.filter((p) => p.categorySlug === categorySlug);
+  console.log("Produits filtrés:", filtered.length);
+  
+  return filtered;
 };
 
 // Trier les produits
