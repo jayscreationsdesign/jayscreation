@@ -7,7 +7,7 @@ import type { Product } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Tendances - Jay's Creations Design",
-  description: "Découvrez les créations les plus populaires du moment. Faire-parts romantiques, tableaux d'accueil tendance et marque-places originaux.",
+  description: "Decouvrez les creations les plus populaires du moment. Faire-parts romantiques, tableaux d'accueil tendance et marque-places originaux.",
 };
 
 export default function TendancesPage() {
@@ -16,7 +16,7 @@ export default function TendancesPage() {
     {
       id: "faire-parts-romantiques",
       title: "Faire-parts Romantiques",
-      description: "Designs élégants et personnalisés pour vos unions. Des créations uniques qui capturent l'essence de votre amour.",
+      description: "Designs elegants et personnalises pour vos unions. Des creations uniques qui capturent l'essence de votre amour.",
       icon: Heart,
       trend: "Top des ventes",
       color: "from-pink-500 to-rose-400",
@@ -29,7 +29,7 @@ export default function TendancesPage() {
     {
       id: "tableaux-accueil",
       title: "Tableaux d'Accueil",
-      description: "Mise en scène artistique pour accueillir vos invités. Créez une première impression mémorable.",
+      description: "Mise en scene artistique pour accueillir vos invites. Creez une premiere impression memorable.",
       icon: Star,
       trend: "Nouveauté 2026",
       color: "from-purple-500 to-indigo-400",
@@ -42,7 +42,7 @@ export default function TendancesPage() {
     {
       id: "marque-places-originaux",
       title: "Marque-places Originaux",
-      description: "Détails uniques qui font toute la différence. Des créations qui marquent les esprits.",
+      description: "Details uniques qui font toute la difference. Des creations qui marquent les esprits.",
       icon: Sparkles,
       trend: "Tendance du moment",
       color: "from-amber-500 to-orange-400",
@@ -192,7 +192,7 @@ export default function TendancesPage() {
             Prêt à créer votre moment parfait ?
           </h2>
           <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-            Contactez-nous pour des créations entièrement personnalisées qui reflètent votre histoire
+            Contactez-nous pour des creations entierement personnalisees qui refleent votre histoire
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
