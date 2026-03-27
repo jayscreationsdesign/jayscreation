@@ -24,7 +24,7 @@ export default function Footer() {
               </Link>
               
               {/* Contact info */}
-              <div className="mt-4 space-y-3">
+              <div className="mt-2 space-y-3">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
                   <div className="h-8 w-8 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
                     <MapPin className="h-4 w-4 text-accent" />
