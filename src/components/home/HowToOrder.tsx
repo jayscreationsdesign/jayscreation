@@ -60,7 +60,7 @@ export default function HowToOrder() {
           <h2 className="font-heading text-3xl text-foreground sm:text-4xl">
             Comment commander ?
           </h2>
-          <p className="mt-4 max-w-xl mx-auto text-sm leading-7 text-muted-foreground sm:text-base text-center" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
+          <p className="mt-4 max-w-xl mx-auto text-sm leading-7 text-muted-foreground sm:text-base text-center font-medium">
             Passer commande chez Jay&apos;s Creations Design est simple et rapide — suivez ces 6 étapes.
           </p>
         </div>
