@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 import { categories, type Category } from "@/data/categories";
 
@@ -188,6 +188,16 @@ export default function CategoriesSidebar() {
   const activeSubSub = searchParams.get("subsub");
 
   const [openItems, setOpenItems] = useState<Set<string>>(new Set());
+
+  // Auto-ouvrir les catégories parentes selon l'URL
+  useEffect(() => {
+    setOpenItems((prev) => {
+      const next = new Set(prev);
+      if (activeCategory) next.add(activeCategory);
+      if (activeSub) next.add(activeSub);
+      return next;
+    });
+  }, [activeCategory, activeSub]);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleOpen = (slug: string) => {
