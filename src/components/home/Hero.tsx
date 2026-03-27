@@ -24,7 +24,7 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg text-center" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
+            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg text-center">
               Une identité élégante et artisanale, des finitions dorées et une
               typographie soignée pour créer des pièces uniques, du mariage aux
               célébrations.
