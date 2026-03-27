@@ -128,7 +128,7 @@ function CategoryItemComponent({
   onSelectCategory,
   level,
 }: CategoryItemProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const isActive = activeSlug === category.slug;
   const hasChildren = children.length > 0;
 
@@ -137,7 +137,8 @@ function CategoryItemComponent({
       <button
         onClick={() => {
           onSelectCategory(category.slug);
-          if (hasChildren) setIsOpen(!isOpen);
+          // Ne pas ouvrir/fermer le dropdown si on clique sur la catégorie parente
+          // Seulement ouvrir/fermer si on clique explicitement pour toggle
         }}
         aria-current={isActive ? "page" : undefined}
         className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all flex items-center justify-between ${
@@ -149,10 +150,18 @@ function CategoryItemComponent({
       >
         <span>{category.name}</span>
         {hasChildren && (
-          <ChevronDown
-            size={16}
-            className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
-          />
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); // Empêcher la propagation au parent
+              setIsOpen(!isOpen); // Seulement toggle le dropdown
+            }}
+            className="p-1 hover:bg-gray-100 rounded"
+          >
+            <ChevronDown
+              size={16}
+              className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+            />
+          </button>
         )}
       </button>
 
