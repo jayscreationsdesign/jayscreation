@@ -59,7 +59,7 @@ export default function ProductInfo({ product }: { product: Product }) {
       {/* ── 2. Description ─────────────────────────────────────── */}
       <p className="mt-3 text-sm leading-relaxed text-[#6B6B6B]">
         {product.description ??
-          `Création artisanale 100% personnalisée pour sublimer votre événement — mariage, baptême, anniversaire et bien plus. Chaque pièce est réalisée à la main avec des matériaux premium, des finitions soignées et des dorures élégantes pour un résultat unique à votre image.`}
+          `Papeterie artisanale 100% personnalisée — thème, couleurs et texte sur-mesure. Idéal pour mariage, baptême, anniversaire et toute célébration unique.*`}
       </p>
 
       {/* ── 3. Étoiles + avis ──────────────────────────────────── */}
