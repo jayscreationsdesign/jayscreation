@@ -9,6 +9,7 @@ import ProductInfo from "@/components/produit/ProductInfo";
 import ProductBadgeMarquee from "@/components/produit/ProductBadgeMarquee";
 import ProductDarkHero from "@/components/produit/ProductDarkHero";
 import ProductEngagements from "@/components/produit/ProductEngagements";
+import ProductReviews from "@/components/produit/ProductReviews";
 import ProductFAQ from "@/components/produit/ProductFAQ";
 import SimilarProducts from "@/components/produit/SimilarProducts";
 import HowToOrder from "@/components/home/HowToOrder";
@@ -125,7 +126,12 @@ export default async function ProductPage({
       <ProductEngagements />
 
       {/* ═══════════════════════════════════════════════════════════════
-          SECTION 7 — FAQ produit
+          SECTION 7 — Avis clients
+      ═══════════════════════════════════════════════════════════════ */}
+      <ProductReviews product={product} />
+
+      {/* ═══════════════════════════════════════════════════════════════
+          SECTION 8 — FAQ produit
           Fond blanc · max-w-3xl · 4 accordéons chevron doré
       ═══════════════════════════════════════════════════════════════ */}
       <ProductFAQ />
