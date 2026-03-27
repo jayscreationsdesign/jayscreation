@@ -7,6 +7,7 @@ import { useState, useMemo, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { products, type Product } from "@/data/products";
+import { categories } from "@/data/categories";
 import {
   Select,
   SelectContent,
@@ -19,36 +20,6 @@ import { Star, ChevronDown } from "lucide-react";
 
 // Types
 type SortOption = "default" | "price-asc" | "price-desc" | "rating";
-
-interface Category {
-  id: string;
-  label: string;
-  slug: string;
-  parentId?: string;
-}
-
-// Données de catégories - extraites des produits réels
-const CATEGORIES: Category[] = [
-  {
-    id: "papeterie",
-    label: "Papeterie",
-    slug: "papeterie-sweet-tables",
-  },
-  {
-    id: "flocages",
-    label: "Flocages",
-    slug: "flocage",
-  },
-];
-
-// Fonction pour obtenir les catégories parent et leurs enfants
-const getCategoryTree = (): Array<{ category: Category; children: Category[] }> => {
-  const parents = CATEGORIES.filter((c) => !c.parentId);
-  return parents.map((parent) => ({
-    category: parent,
-    children: CATEGORIES.filter((c) => c.parentId === parent.id),
-  }));
-};
 
 // Filtrer les produits par catégorie (via categorySlug)
 const getFilteredProducts = (
@@ -95,8 +66,8 @@ const getSortedProducts = (
 
 // Composant item de catégorie
 interface CategoryItemProps {
-  category: Category;
-  children: Category[];
+  category: any;
+  children: any[];
   activeSlug: string | null;
   onSelectCategory: (slug: string | null) => void;
   level: number;
@@ -128,7 +99,7 @@ function CategoryItemComponent({
         }`}
         style={{ paddingLeft: `${16 + level * 16}px` }}
       >
-        <span>{category.label}</span>
+        <span>{category.name}</span>
         {hasChildren && (
           <ChevronDown
             size={16}
@@ -142,9 +113,9 @@ function CategoryItemComponent({
         <div className="space-y-1">
           {children.map((child) => (
             <CategoryItemComponent
-              key={child.id}
+              key={child.slug}
               category={child}
-              children={[]}
+              children={child.children || []}
               activeSlug={activeSlug}
               onSelectCategory={onSelectCategory}
               level={level + 1}
@@ -198,8 +169,6 @@ function BoutiquePageContentInner() {
     router.push("/boutique");
   };
 
-  const categoryTree = getCategoryTree();
-
   return (
     <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -240,11 +209,11 @@ function BoutiquePageContentInner() {
 
               {/* Hiérarchie des catégories */}
               <nav className="space-y-1">
-                {categoryTree.map(({ category, children }) => (
+                {categories.map((category) => (
                   <CategoryItemComponent
-                    key={category.id}
+                    key={category.slug}
                     category={category}
-                    children={children}
+                    children={category.children || []}
                     activeSlug={categorySlug}
                     onSelectCategory={handleCategorySelect}
                     level={0}
