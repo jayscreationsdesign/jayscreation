@@ -3,7 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, Suspense, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { products, type Product } from "@/data/products";
@@ -140,8 +140,13 @@ function BoutiquePageContent() {
 function BoutiquePageContentInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const categorySlug = searchParams.get("category");
+  const [categorySlug, setCategorySlug] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("default");
+
+  // Mettre à jour categorySlug quand searchParams change
+  useEffect(() => {
+    setCategorySlug(searchParams.get("category"));
+  }, [searchParams]);
 
   // Debug pour voir le categorySlug
   console.log("categorySlug:", categorySlug);
