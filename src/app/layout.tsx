@@ -35,8 +35,10 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <Header />
-        <main className="flex-1">{children}</main>
+        <div className="w-full max-w-none">
+          <Header />
+          <main className="flex-1">{children}</main>
+        </div>
         <Footer />
       </body>
     </html>
