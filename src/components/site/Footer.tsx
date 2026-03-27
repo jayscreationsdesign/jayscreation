@@ -3,7 +3,7 @@ import { Camera, Mail, Music2, MapPin, Phone, Clock, Heart } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="mt-auto w-full bg-gradient-to-br from-[#FAF7F2] to-[#F5F0EB] border-t border-[#E8E4DF]">
+    <footer className="mt-auto w-full bg-gradient-to-br from-[#FAF7F2] to-[#F5F0EB] border-t border-[#E8E4DF] relative left-0 right-0" style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)' }}>
       {/* Section principale - Pleine largeur */}
       <div className="w-full">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
