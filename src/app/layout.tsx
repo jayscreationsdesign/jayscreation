@@ -17,8 +17,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "JaysCreation",
-    template: "%s | JaysCreation",
+    default: "Jay's Créations Design",
+    template: "%s | Jay's Créations Design",
   },
   description:
     "Site e-commerce premium de papeterie événementielle : faire-part, invitations, menus et marque-places.",

@@ -2,6 +2,7 @@
 
 export const dynamic = "force-dynamic";
 
+import { Metadata } from "next";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useMemo, Suspense } from "react";
 import Link from "next/link";
@@ -16,6 +17,11 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Star, ChevronDown } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Boutique - Jay's Créations Design",
+  description: "Découvrez notre boutique de papeterie événementielle : faire-part, invitations, menus et marque-places personnalisés.",
+};
 
 // Types
 type SortOption = "default" | "price-asc" | "price-desc" | "rating";
