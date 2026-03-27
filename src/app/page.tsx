@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Hero from "@/components/home/Hero";
 import HowToOrder from "@/components/home/HowToOrder";
-import Tendances from "@/components/home/Tendances";
+import TendancesClient from "@/components/home/TendancesClient";
 
 export const metadata: Metadata = {
   title: "Jay's Créations Design - Papeterie Événementielle Premium",
@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <Hero />
       <HowToOrder />
-      <Tendances />
+      <TendancesClient />
     </>
   );
 }
