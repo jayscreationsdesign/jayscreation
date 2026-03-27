@@ -59,6 +59,13 @@ const getFilteredProducts = (
     filtered = allProducts.filter((p) => mariageSubCategorySlugs.includes(p.categorySlug));
   }
   
+  // Si c'est la catégorie Baptême, chercher dans toutes les sous-catégories baptême
+  if (filtered.length === 0 && categorySlug === "bapteme") {
+    console.log("Recherche dans toutes les sous-catégories Baptême...");
+    const baptemeSubCategorySlugs = ["faire-parts-bapteme", "invitations-bapteme", "menus-bapteme", "tableaux-accueil-bapteme", "marque-places-bapteme", "cadeaux-invites-bapteme"];
+    filtered = allProducts.filter((p) => baptemeSubCategorySlugs.includes(p.categorySlug));
+  }
+  
   console.log("Produits filtrés:", filtered.length);
   
   return filtered;

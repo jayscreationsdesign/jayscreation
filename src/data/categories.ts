@@ -44,6 +44,18 @@ export const categories: Category[] = [
     ],
   },
   {
+    name: "Baptême",
+    slug: "bapteme",
+    children: [
+      { name: "Faire-parts baptême", slug: "faire-parts-bapteme" },
+      { name: "Invitations baptême", slug: "invitations-bapteme" },
+      { name: "Menus baptême", slug: "menus-bapteme" },
+      { name: "Tableaux d'accueil baptême", slug: "tableaux-accueil-bapteme" },
+      { name: "Marque-places baptême", slug: "marque-places-bapteme" },
+      { name: "Cadeaux invités baptême", slug: "cadeaux-invites-bapteme" },
+    ],
+  },
+  {
     name: "Chocolat",
     slug: "chocolat",
     children: [
