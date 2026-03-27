@@ -54,7 +54,7 @@ export default function HowToOrder() {
           <h2 className="font-heading text-3xl text-foreground sm:text-4xl">
             Comment commander ?
           </h2>
-          <p className="mt-4 max-w-xl mx-auto text-sm leading-7 text-muted-foreground sm:text-base">
+          <p className="mt-4 max-w-xl mx-auto text-sm leading-7 text-muted-foreground sm:text-base text-justify">
             Passer commande chez Jay&apos;s Creations Design est simple et rapide — suivez ces 6 étapes.
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function HowToOrder() {
                 <h3 className="font-heading text-base font-semibold text-foreground">
                   {step.title}
                 </h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                <p className="mt-2 text-sm leading-6 text-muted-foreground text-justify">
                   {step.description}
                 </p>
               </div>

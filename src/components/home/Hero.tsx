@@ -23,7 +23,7 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
+            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg" style={{ textAlign: 'justify', textJustify: 'inter-word' }}>
               Une identité élégante et artisanale, des finitions dorées et une
               typographie soignée pour créer des pièces uniques, du mariage aux
               célébrations.
@@ -92,7 +92,7 @@ export default function Hero() {
                     <div className="text-sm font-heading text-foreground">
                       {card.title}
                     </div>
-                    <div className="mt-1 text-xs leading-5 text-muted-foreground">
+                    <div className="mt-1 text-xs leading-5 text-muted-foreground" style={{ textAlign: 'justify', textJustify: 'inter-word' }}>
                       {card.desc}
                     </div>
                     <div className="mt-4 h-1 w-10 rounded-full bg-accent/70" />

@@ -31,7 +31,7 @@ export default function ProductEngagements() {
                 {e.label}
               </p>
               <h3 className="font-heading mt-2 text-xl text-[#2C2C2C]">{e.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-[#6B6B6B]">{e.desc}</p>
+              <p className="mt-2 text-sm leading-relaxed text-[#6B6B6B] text-justify">{e.desc}</p>
             </div>
           ))}
         </div>

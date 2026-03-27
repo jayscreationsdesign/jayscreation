@@ -57,7 +57,7 @@ export default function ProductInfo({ product }: { product: Product }) {
       </h1>
 
       {/* ── 2. Description ─────────────────────────────────────── */}
-      <p className="mt-3 text-sm leading-relaxed text-[#6B6B6B]">
+      <p className="mt-3 text-sm leading-relaxed text-[#6B6B6B] text-justify">
         {product.description ??
           `Papeterie artisanale 100% personnalisée — thème, couleurs et texte sur-mesure. Idéal pour mariage, baptême, anniversaire et toute célébration unique.*`}
       </p>
