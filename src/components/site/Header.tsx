@@ -7,7 +7,7 @@ import { ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { categories } from "@/data/categories";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────
 
 interface DropdownChild {
   name: string;
@@ -22,15 +22,13 @@ interface BottomNavItem {
   children?: DropdownChild[];
 }
 
-// ─── Config ───────────────────────────────────────────────────────────────────
-
-// Catégories à exclure de la barre navigation
-const SKIP_SLUGS = new Set(["formation", "divers-objets-cadeaux"]);
+// ─── Config ───────────────────────────────────────────────────────────
 
 // Labels raccourcis pour tenir sur une ligne
 const SHORT_LABELS: Record<string, string> = {
   "divers-objets-cadeaux": "OBJETS & CADEAUX",
   "papeterie-telechargeable": "PAPETERIE TÉLÉCHARGEABLE",
+  "sweet-tables-decoration": "SWEET TABLES",
 };
 
 // ─── Build nav from categories ────────────────────────────────────────────────
@@ -94,47 +92,6 @@ function buildBottomNav(): BottomNavItem[] {
     });
   }
 
-  return nav;
-}
-
-function buildBaptemeNav(): BottomNavItem[] {
-  const baptemeCat = categories.find(cat => cat.slug === "bapteme");
-  const mariageCat = categories.find(cat => cat.slug === "mariage");
-  
-  const nav: BottomNavItem[] = [];
-  
-  if (baptemeCat) {
-    nav.push({
-      label: "BAPTÊME",
-      href: `/boutique?category=${baptemeCat.slug}`,
-      categorySlug: baptemeCat.slug,
-      children: baptemeCat.children?.map((child) => ({
-        name: child.name,
-        href: `/boutique?category=${child.slug}`,
-        children: child.children?.map((grand) => ({
-          name: grand.name,
-          href: `/boutique?category=${grand.slug}`,
-        })),
-      })),
-    });
-  }
-  
-  if (mariageCat) {
-    nav.push({
-      label: "MARIAGE",
-      href: `/boutique?category=${mariageCat.slug}`,
-      categorySlug: mariageCat.slug,
-      children: mariageCat.children?.map((child) => ({
-        name: child.name,
-        href: `/boutique?category=${child.slug}`,
-        children: child.children?.map((grand) => ({
-          name: grand.name,
-          href: `/boutique?category=${grand.slug}`,
-        })),
-      })),
-    });
-  }
-  
   return nav;
 }
 
@@ -202,9 +159,9 @@ export default function Header() {
         scrolled ? "shadow-md" : ""
       }`}
     >
-      {/* ════════════════════════════════════════════
+      {/* ══════════════════════════════════════════
           BARRE SUPÉRIEURE — logo · nav · panier
-      ════════════════════════════════════════════ */}
+      ══════════════════════════════════════════ */}
       <div className="border-b border-border bg-[#FAF7F2]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
 
@@ -273,15 +230,15 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ════════════════════════════════════════════
+      {/* ════════════════════════════════════════
           BARRE CATÉGORIES — desktop uniquement
-      ════════════════════════════════════════════ */}
+      ══════════════════════════════════════════ */}
       <nav
         className="hidden lg:block bg-white border-b border-[#E8E4DF]"
         aria-label="Menu catégories"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-stretch justify-center">
+          <div className="flex items-stretch justify-center flex-nowrap overflow-x-auto hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {bottomNav.map((item) => {
               const isActive =
                 pathname.startsWith("/boutique") &&
@@ -298,8 +255,8 @@ export default function Header() {
                   <Link
                     href={item.href}
                     className={`
-                      inline-flex items-center gap-[3px] px-4 py-3
-                      text-xs font-medium uppercase tracking-[0.15em] whitespace-nowrap
+                      inline-flex items-center gap-[3px] px-2 py-3 flex-shrink-0
+                      text-[11px] font-medium uppercase tracking-[0.1em] whitespace-nowrap
                       transition-colors duration-300
                       ${
                         isActive
@@ -392,84 +349,9 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* ════════════════════════════════════════════
-          BARRE SPÉCIALE — Baptême & Mariage (centrés)
-      ════════════════════════════════════════════ */}
-      {baptemeNav.length > 0 && (
-        <nav
-          className="hidden lg:block bg-white border-b border-[#E8E4DF]"
-          aria-label="Menu Spécial Baptême & Mariage"
-        >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-stretch justify-center">
-              {baptemeNav.map((item) => (
-                <div
-                  key={item.href}
-                  className="relative"
-                  onMouseEnter={() => item.children && handleMouseEnter(item.href)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Link
-                    href={item.href}
-                    className={`
-                      inline-flex items-center gap-[3px] px-4 py-3
-                      text-xs font-medium uppercase tracking-[0.15em] whitespace-nowrap
-                      transition-colors duration-300
-                      ${
-                        pathname.startsWith("/boutique") &&
-                        activeCategory === item.categorySlug
-                          ? "text-[#C8A96E] border-b-[1.5px] border-[#C8A96E] pb-[11px]"
-                          : "text-[#6B6B6B] hover:text-[#C8A96E]"
-                      }
-                    `}
-                  >
-                    {item.label}
-                    {item.children && (
-                      <ChevronDown
-                        size={12}
-                        className={`ml-0.5 shrink-0 transition-transform duration-200 ${
-                          openDropdown === item.href ? "rotate-180" : ""
-                        }`}
-                      />
-                    )}
-                  </Link>
-
-                  {/* Dropdown */}
-                  {item.children && (
-                    <div
-                      className={`
-                        absolute top-full left-1/2 -translate-x-1/2
-                        bg-white/95 backdrop-blur-md border border-[#E8E4DF] rounded-lg
-                        shadow-xl
-                        transition-all duration-300 ease-in-out
-                        ${openDropdown === item.href ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"}
-                      `}
-                      onMouseEnter={() => handleMouseEnter(item.href)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <div className="py-2 min-w-[200px]">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="block px-4 py-2 text-sm text-[#2C2C2C] hover:text-[#C8A96E] hover:bg-[#FAF7F2] transition-colors"
-                          >
-                            {child.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </nav>
-      )}
-
-      {/* ════════════════════════════════════════════
+      {/* ════════════════════════════════════════
           MENU MOBILE — hamburger + accordéon
-      ════════════════════════════════════════════ */}
+      ══════════════════════════════════════════ */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white border-b border-[#E8E4DF] max-h-[80vh] overflow-y-auto">
           <nav
