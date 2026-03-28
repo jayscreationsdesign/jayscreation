@@ -344,18 +344,6 @@ export default function Header() {
                   )}
                 </div>
               );
-            })}
-          </div>
-        </div>
-      </nav>
-
-      {/* ════════════════════════════════════════
-          MENU MOBILE — hamburger + accordéon
-      ══════════════════════════════════════════ */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-[#E8E4DF] max-h-[80vh] overflow-y-auto">
-          <nav
-            className="mx-auto max-w-7xl px-4 py-3"
             aria-label="Menu mobile"
           >
             {/* Liens principaux */}
