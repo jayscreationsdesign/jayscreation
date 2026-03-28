@@ -132,6 +132,23 @@ function CategoryItemComponent({
   const isActive = activeSlug === category.slug;
   const hasChildren = children.length > 0;
 
+  // Écouter l'événement du header pour synchroniser l'ouverture
+  useEffect(() => {
+    const handleHeaderCategoryClick = (event: any) => {
+      const { categorySlug } = event.detail;
+      // Si cette catégorie ou une de ses sous-catégories est concernée, l'ouvrir
+      if (categorySlug === category.slug || 
+          children.some(child => child.slug === categorySlug)) {
+        setIsOpen(true);
+      }
+    };
+
+    window.addEventListener('openSidebarCategory', handleHeaderCategoryClick);
+    return () => {
+      window.removeEventListener('openSidebarCategory', handleHeaderCategoryClick);
+    };
+  }, [category.slug, children]);
+
   return (
     <div>
       <button

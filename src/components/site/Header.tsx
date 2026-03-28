@@ -314,6 +314,15 @@ export default function Header() {
                             <Link
                               href={child.href}
                               className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                              onClick={() => {
+                                // Émettre un événement pour synchroniser la sidebar
+                                if (child.children?.length) {
+                                  const categorySlug = child.href.split('category=')[1];
+                                  window.dispatchEvent(new CustomEvent('openSidebarCategory', { 
+                                    detail: { categorySlug } 
+                                  }));
+                                }
+                              }}
                             >
                               {child.name}
                               {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-[#C8A96E]" /> : null}
