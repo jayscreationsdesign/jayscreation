@@ -136,6 +136,24 @@ function isParentOfCategory(category: any, targetSlug: string): boolean {
   return false;
 }
 
+// Fonction pour trouver le slug du parent qui contient activeCategory comme enfant
+function findParentSlug(slug: string): string | null {
+  for (const cat of categories) {
+    if (cat.slug === slug) return cat.slug;
+    if (cat.children) {
+      for (const child of cat.children) {
+        if (child.slug === slug) return cat.slug;
+        if (child.children) {
+          for (const grandchild of child.children) {
+            if (grandchild.slug === slug) return cat.slug;
+          }
+        }
+      }
+    }
+  }
+  return null;
+}
+
 // Composant item de catégorie
 interface CategoryItemProps {
   category: any;
@@ -143,6 +161,8 @@ interface CategoryItemProps {
   activeSlug: string | null;
   onSelectCategory: (slug: string | null) => void;
   level: number;
+  openCategories: string[];
+  setOpenCategories: (categories: string[]) => void;
 }
 
 function CategoryItemComponent({
@@ -151,11 +171,19 @@ function CategoryItemComponent({
   activeSlug,
   onSelectCategory,
   level,
+  openCategories,
+  setOpenCategories,
 }: CategoryItemProps) {
   const [isOpen, setIsOpen] = useState(false);
   const isActive = activeSlug === category.slug;
   const hasChildren = children.length > 0;
-  const { openCategory, setOpenCategory } = useContext(SidebarSyncContext);
+
+  // Ouvrir automatiquement si cette catégorie est dans openCategories
+  useEffect(() => {
+    if (openCategories.includes(category.slug)) {
+      setIsOpen(true);
+    }
+  }, [openCategories, category.slug]);
 
   // Écouter l'événement personnalisé du header
   useEffect(() => {
@@ -219,6 +247,8 @@ function CategoryItemComponent({
               activeSlug={activeSlug}
               onSelectCategory={onSelectCategory}
               level={level + 1}
+              openCategories={openCategories}
+              setOpenCategories={setOpenCategories}
             />
           ))}
         </div>
@@ -243,12 +273,26 @@ function BoutiquePageContentInner() {
   const [categorySlug, setCategorySlug] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("default");
   const [sidebarOpenCategory, setSidebarOpenCategory] = useState<string | null>(null);
+  const [openCategories, setOpenCategories] = useState<string[]>([]);
 
   // Fournir le contexte aux composants enfants
   const sidebarContextValue = {
     openCategory: sidebarOpenCategory,
     setOpenCategory: setSidebarOpenCategory
   };
+
+  // Dans un useEffect, quand l'URL change, ouvrir le bon accordéon
+  useEffect(() => {
+    if (categorySlug) {
+      const parentSlug = findParentSlug(categorySlug);
+      if (parentSlug) {
+        setOpenCategories(prev => {
+          if (prev.includes(parentSlug)) return prev;
+          return [...prev, parentSlug];
+        });
+      }
+    }
+  }, [categorySlug]);
 
   // Écouter le localStorage pour synchroniser l'ouverture
   useEffect(() => {
@@ -351,6 +395,8 @@ function BoutiquePageContentInner() {
                       activeSlug={categorySlug}
                       onSelectCategory={handleCategorySelect}
                       level={0}
+                      openCategories={openCategories}
+                      setOpenCategories={setOpenCategories}
                     />
                   ))}
                 </SidebarSyncContext.Provider>
