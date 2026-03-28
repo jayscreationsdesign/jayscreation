@@ -519,7 +519,10 @@ function BoutiquePageContentInner() {
                       </div>
 
                       {/* Bouton CTA */}
-                      <Link href={`/produit/${product.slug}`} className="w-full">
+                      <Link 
+                        href={`/produit/${product.slug}`} 
+                        className="w-full cursor-pointer"
+                      >
                         <Button
                           variant="default"
                           size="sm"
