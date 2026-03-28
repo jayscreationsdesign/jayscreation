@@ -5,6 +5,7 @@ export interface Product {
   numericPrice?: number;
   category: string;
   categorySlug: string;
+  parentCategorySlug?: string;
   image: string;
   rating?: number;
   slug: string;
@@ -293,10 +294,11 @@ export const products: Product[] = [
     name: "Faire-Part Mariage Élégant",
     slug: "faire-part-mariage-elegant",
     price: "Sur devis",
-    category: "Mariage",
+    category: "Faire-parts",
     categorySlug: "faire-parts",
+    parentCategorySlug: "mariage",
     image: "/images/products/faire-part-mariage-elegant.png",
-    description: "Faire-part de mariage élégant avec cadre géométrique, feuillage vert et finitions dorées. Entièrement personnalisable : prénoms, date, lieu et texte.",
+    description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable.",
     rating: 5,
   },
 ];

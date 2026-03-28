@@ -97,6 +97,10 @@ function buildBottomNav(): BottomNavItem[] {
 
 const bottomNav = buildBottomNav();
 
+const line1Slugs = new Set(["sweet-tables-decoration", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"]);
+const bottomNavRow1 = bottomNav.filter(item => line1Slugs.has(item.categorySlug));
+const bottomNavRow2 = bottomNav.filter(item => !line1Slugs.has(item.categorySlug));
+
 const topNavLinks = [
   { href: "/", label: "Accueil" },
   { href: "/boutique", label: "Boutique" },
@@ -151,6 +155,84 @@ export default function Header() {
       else next.add(href);
       return next;
     });
+  };
+
+  const renderNavItem = (item: BottomNavItem) => {
+    const isActive = pathname.startsWith("/boutique") && activeCategory === item.categorySlug;
+    const isOpen = openDropdown === item.href;
+    return (
+      <div
+        key={item.href}
+        className="relative"
+        onMouseEnter={() => item.children && handleMouseEnter(item.href)}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Link
+          href={item.href}
+          className={`inline-flex items-center gap-[3px] py-2 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
+            isActive ? "text-[#C8A96E]" : "text-[#6B6B6B] hover:text-[#C8A96E]"
+          }`}
+        >
+          {item.label}
+          {item.children && (
+            <ChevronDown
+              size={12}
+              className={`ml-0.5 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+            />
+          )}
+        </Link>
+        {item.children && (
+          <div
+            onMouseEnter={() => handleMouseEnter(item.href)}
+            onMouseLeave={handleMouseLeave}
+            className={`absolute left-1/2 -translate-x-1/2 top-full z-50 min-w-[220px] rounded-xl bg-white shadow-xl py-3 transition-all duration-200 ${
+              isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+            }`}
+          >
+            <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-white border-l border-t border-[#E8E4DF]" />
+            <div className="relative">
+              {item.children.map((child) => (
+                <div
+                  key={child.href}
+                  className="relative"
+                  onMouseEnter={() => child.children?.length ? setOpenSubMenu(child.href) : setOpenSubMenu(null)}
+                  onMouseLeave={() => setOpenSubMenu(null)}
+                >
+                  <Link
+                    href={child.href}
+                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                    onClick={() => {
+                      if (child.children?.length) {
+                        const categorySlug = child.href.split('category=')[1];
+                        const event = new CustomEvent('openSidebarCategory', { detail: { categorySlug, force: true } });
+                        window.dispatchEvent(event);
+                      }
+                    }}
+                  >
+                    {child.name}
+                    {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-[#C8A96E]" /> : null}
+                  </Link>
+                  {child.children?.length && openSubMenu === child.href && (
+                    <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-white shadow-xl py-3 z-50">
+                      <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-white border-l border-t border-[#E8E4DF]" />
+                      {child.children.map((grand) => (
+                        <Link
+                          key={grand.href}
+                          href={grand.href}
+                          className="block px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                        >
+                          {grand.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -234,116 +316,24 @@ export default function Header() {
           BARRE CATÉGORIES — desktop uniquement
       ══════════════════════════════════════════ */}
       <nav
-        className="hidden lg:block bg-white border-b border-[#E8E4DF]"
+        className="hidden lg:block bg-white border-b border-[#E8E4DF] py-2"
         aria-label="Menu catégories"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-stretch justify-center flex-nowrap overflow-x-auto hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {bottomNav.map((item) => {
-              const isActive =
-                pathname.startsWith("/boutique") &&
-                activeCategory === item.categorySlug;
-              const isOpen = openDropdown === item.href;
+          {/* Ligne 1 — Catégories produits */}
+          <div className="flex items-center justify-center gap-6">
+            {bottomNavRow1.map(renderNavItem)}
+          </div>
+          {/* Ligne 2 — Catégories événements */}
+          <div className="flex items-center justify-center gap-8 mt-1 pt-1 border-t border-[#E8E4DF]/50">
+            {bottomNavRow2.map(renderNavItem)}
+          </div>
+        </div>
+      </nav>
 
-              return (
-                <div
-                  key={item.href}
-                  className="relative"
-                  onMouseEnter={() => item.children && handleMouseEnter(item.href)}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <Link
-                    href={item.href}
-                    className={`
-                      inline-flex items-center gap-[3px] px-2 py-3 flex-shrink-0
-                      text-[11px] font-medium uppercase tracking-[0.1em] whitespace-nowrap
-                      transition-colors duration-300
-                      ${
-                        isActive
-                          ? "text-[#C8A96E] border-b-[1.5px] border-[#C8A96E] pb-[11px]"
-                          : "text-[#6B6B6B] hover:text-[#C8A96E]"
-                      }
-                    `}
-                  >
-                    {item.label}
-                    {item.children && (
-                      <ChevronDown
-                        size={12}
-                        className={`ml-0.5 shrink-0 transition-transform duration-200 ${
-                          isOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    )}
-                  </Link>
-
-                  {/* Dropdown */}
-                  {item.children && (
-                    <div
-                      onMouseEnter={() => handleMouseEnter(item.href)}
-                      onMouseLeave={handleMouseLeave}
-                      className={`
-                        absolute left-1/2 -translate-x-1/2 top-full z-50
-                        min-w-[220px] rounded-xl bg-white shadow-xl py-3
-                        transition-all duration-200
-                        ${
-                          isOpen
-                            ? "opacity-100 translate-y-0 pointer-events-auto"
-                            : "opacity-0 -translate-y-2 pointer-events-none"
-                        }
-                      `}
-                    >
-                      {/* Petit triangle décoratif */}
-                      <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-white border-l border-t border-[#E8E4DF]" />
-
-                      <div className="relative">
-                        {item.children.map((child) => (
-                          <div
-                            key={child.href}
-                            className="relative"
-                            onMouseEnter={() => child.children?.length ? setOpenSubMenu(child.href) : setOpenSubMenu(null)}
-                            onMouseLeave={() => setOpenSubMenu(null)}
-                          >
-                            <Link
-                              href={child.href}
-                              className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
-                              onClick={() => {
-                                // Forcer directement l'ouverture dans la sidebar via contexte
-                                if (child.children?.length) {
-                                  const categorySlug = child.href.split('category=')[1];
-                                  // Créer un événement personnalisé avec le bon type
-                                  const event = new CustomEvent('openSidebarCategory', { 
-                                    detail: { categorySlug, force: true } 
-                                  });
-                                  window.dispatchEvent(event);
-                                }
-                              }}
-                            >
-                              {child.name}
-                              {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-[#C8A96E]" /> : null}
-                            </Link>
-
-                            {/* Sous-menu niveau 3 */}
-                            {child.children?.length && openSubMenu === child.href && (
-                              <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-white shadow-xl py-3 z-50">
-                                <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-white border-l border-t border-[#E8E4DF]" />
-                                {child.children.map((grand) => (
-                                  <Link
-                                    key={grand.href}
-                                    href={grand.href}
-                                    className="block px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
-                                  >
-                                    {grand.name}
-                                  </Link>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
+      {mobileMenuOpen && (
+        <div className="lg:hidden border-t border-[#E8E4DF] bg-white">
+          <nav
             aria-label="Menu mobile"
           >
             {/* Liens principaux */}
