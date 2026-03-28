@@ -315,12 +315,12 @@ export default function Header() {
                               href={child.href}
                               className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
                               onClick={() => {
-                                // Émettre un événement pour synchroniser la sidebar
+                                // Stocker la catégorie à ouvrir dans localStorage
                                 if (child.children?.length) {
                                   const categorySlug = child.href.split('category=')[1];
-                                  window.dispatchEvent(new CustomEvent('openSidebarCategory', { 
-                                    detail: { categorySlug } 
-                                  }));
+                                  localStorage.setItem('openSidebarCategory', categorySlug);
+                                  // Forcer un re-rendu de la sidebar
+                                  window.dispatchEvent(new Event('storage'));
                                 }
                               }}
                             >

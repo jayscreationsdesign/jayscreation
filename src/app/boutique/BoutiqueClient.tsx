@@ -147,20 +147,28 @@ function CategoryItemComponent({
   const isActive = activeSlug === category.slug;
   const hasChildren = children.length > 0;
 
-  // Écouter l'événement du header pour synchroniser l'ouverture
+  // Écouter le localStorage pour synchroniser l'ouverture
   useEffect(() => {
-    const handleHeaderCategoryClick = (event: any) => {
-      const { categorySlug } = event.detail;
-      
-      // Si cette catégorie est concernée (directement ou via ses enfants), l'ouvrir
-      if (isParentOfCategory(category, categorySlug)) {
-        setIsOpen(true);
+    const handleStorageChange = () => {
+      const categoryToOpen = localStorage.getItem('openSidebarCategory');
+      if (categoryToOpen) {
+        // Si cette catégorie est concernée (directement ou via ses enfants), l'ouvrir
+        if (isParentOfCategory(category, categoryToOpen)) {
+          setIsOpen(true);
+          // Nettoyer le localStorage après utilisation
+          setTimeout(() => localStorage.removeItem('openSidebarCategory'), 100);
+        }
       }
     };
 
-    window.addEventListener('openSidebarCategory', handleHeaderCategoryClick);
+    // Écouter les changements de localStorage
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Vérifier au chargement aussi
+    handleStorageChange();
+    
     return () => {
-      window.removeEventListener('openSidebarCategory', handleHeaderCategoryClick);
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, [category]);
 
