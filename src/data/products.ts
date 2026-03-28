@@ -295,7 +295,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Mariage",
     categorySlug: "faire-parts",
-    image: "/images/products/faire-part-mariage-elegant.png",
+    image: "/images/products/faire-part-mariage-elegant.png?v=1714269720",
     rating: 5,
     reviewCount: 8,
     slug: "faire-part-mariage-elegant",
