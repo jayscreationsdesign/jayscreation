@@ -37,7 +37,7 @@ function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
   // Première ligne - catégories principales
-  const firstLineCategories = ["sweet-tables-decoration", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"];
+  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"];
   
   for (const cat of categories) {
     if (firstLineCategories.includes(cat.slug)) {
@@ -97,7 +97,7 @@ function buildBottomNav(): BottomNavItem[] {
 
 const bottomNav = buildBottomNav();
 
-const line1Slugs = new Set(["sweet-tables-decoration", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"]);
+const line1Slugs = new Set(["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"]);
 const bottomNavRow1 = bottomNav.filter(item => line1Slugs.has(item.categorySlug));
 const bottomNavRow2 = bottomNav.filter(item => !line1Slugs.has(item.categorySlug));
 
@@ -169,9 +169,9 @@ export default function Header() {
       >
         <Link
           href={item.href}
-          className={`inline-flex items-center gap-2 px-4 py-3 flex-shrink-0 text-[14px] font-semibold uppercase tracking-[0.06em] whitespace-nowrap transition-colors duration-300 ${
+          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
             isActive
-              ? "text-[#C8A96E] border-b-[2px] border-[#C8A96E] pb-[11px]"
+              ? "text-[#C8A96E] border-b-[1.5px] border-[#C8A96E] pb-[7px]"
               : "text-[#6B6B6B] hover:text-[#C8A96E]"
           }`}
         >
@@ -318,16 +318,16 @@ export default function Header() {
           BARRE CATÉGORIES — desktop uniquement
       ══════════════════════════════════════════ */}
       <nav
-        className="hidden lg:block bg-white border-b border-[#E8E4DF] py-3"
+        className="hidden lg:block bg-white border-b border-[#E8E4DF] py-1.5"
         aria-label="Menu catégories"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Ligne 1 — Catégories produits */}
-          <div className="flex items-center justify-center gap-8">
+          <div className="flex items-center justify-center gap-4">
             {bottomNavRow1.map(renderNavItem)}
           </div>
           {/* Ligne 2 — Catégories événements */}
-          <div className="flex items-center justify-center gap-12 mt-2 pt-2 border-t border-[#E8E4DF]/30">
+          <div className="flex items-center justify-center gap-8 mt-1 pt-1 border-t border-[#E8E4DF]/50">
             {bottomNavRow2.map(renderNavItem)}
           </div>
         </div>
