@@ -123,37 +123,27 @@ const getSortedProducts = (
 
 // Fonction pour trouver si une catégorie est parente d'une sous-catégorie
 function isParentOfCategory(category: any, targetSlug: string): boolean {
-  try {
-    if (!category || !targetSlug) return false;
-    if (category.slug === targetSlug) return true;
-    if (category.children) {
-      return category.children.some((child: any) => {
-        if (child.slug === targetSlug) return true;
-        if (child.children) {
-          return child.children.some((grandChild: any) => grandChild.slug === targetSlug);
-        }
-        return false;
-      });
-    }
-    return false;
-  } catch (error) {
-    console.error('Erreur dans isParentOfCategory:', error);
-    return false;
+  if (!category || !targetSlug) return false;
+  if (category.slug === targetSlug) return true;
+  if (category.children && Array.isArray(category.children)) {
+    return category.children.some((child: any) => {
+      if (child && child.slug === targetSlug) return true;
+      return false;
+    });
   }
+  return false;
 }
 
 // Fonction pour trouver le slug du parent qui contient activeCategory comme enfant
 function findParentSlug(slug: string): string | null {
+  if (!slug || !categories || !Array.isArray(categories)) return null;
+  
   for (const cat of categories) {
+    if (!cat) continue;
     if (cat.slug === slug) return cat.slug;
-    if (cat.children) {
+    if (cat.children && Array.isArray(cat.children)) {
       for (const child of cat.children) {
-        if (child.slug === slug) return cat.slug;
-        if (child.children) {
-          for (const grandchild of child.children) {
-            if (grandchild.slug === slug) return cat.slug;
-          }
-        }
+        if (child && child.slug === slug) return cat.slug;
       }
     }
   }
@@ -289,17 +279,18 @@ function BoutiquePageContentInner() {
 
   // Dans un useEffect, quand l'URL change, ouvrir le bon accordéon
   useEffect(() => {
-    if (categorySlug) {
+    if (categorySlug && typeof categorySlug === 'string') {
       try {
         const parentSlug = findParentSlug(categorySlug);
-        if (parentSlug) {
+        if (parentSlug && typeof parentSlug === 'string') {
           setOpenCategories(prev => {
+            if (!Array.isArray(prev)) return [parentSlug];
             if (prev.includes(parentSlug)) return prev;
             return [...prev, parentSlug];
           });
         }
       } catch (error) {
-        console.error('Erreur dans findParentSlug:', error);
+        console.error('Erreur dans useEffect categorySlug:', error);
       }
     }
   }, [categorySlug]);
