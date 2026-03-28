@@ -3,7 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useMemo, Suspense, useEffect } from "react";
+import { useState, useMemo, Suspense, useEffect, createContext, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { products, type Product } from "@/data/products";
@@ -17,6 +17,15 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Star, ChevronDown } from "lucide-react";
+
+// Contexte pour synchroniser l'ouverture des catégories entre header et sidebar
+const SidebarSyncContext = createContext<{
+  openCategory: string | null;
+  setOpenCategory: (slug: string | null) => void;
+}>({
+  openCategory: null,
+  setOpenCategory: () => {}
+});
 
 // Types
 type SortOption = "default" | "price-asc" | "price-desc" | "rating";
@@ -146,31 +155,15 @@ function CategoryItemComponent({
   const [isOpen, setIsOpen] = useState(false);
   const isActive = activeSlug === category.slug;
   const hasChildren = children.length > 0;
+  const { openCategory, setOpenCategory } = useContext(SidebarSyncContext);
 
-  // Écouter le localStorage pour synchroniser l'ouverture
+  // Forcer l'ouverture si cette catégorie est concernée par le contexte global
   useEffect(() => {
-    const handleStorageChange = () => {
-      const categoryToOpen = localStorage.getItem('openSidebarCategory');
-      if (categoryToOpen) {
-        // Si cette catégorie est concernée (directement ou via ses enfants), l'ouvrir
-        if (isParentOfCategory(category, categoryToOpen)) {
-          setIsOpen(true);
-          // Nettoyer le localStorage après utilisation
-          setTimeout(() => localStorage.removeItem('openSidebarCategory'), 100);
-        }
-      }
-    };
-
-    // Écouter les changements de localStorage
-    window.addEventListener('storage', handleStorageChange);
-    
-    // Vérifier au chargement aussi
-    handleStorageChange();
-    
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [category]);
+    if (openCategory && isParentOfCategory(category, openCategory)) {
+      console.log('Ouverture forcée pour:', category.name, 'car openCategory:', openCategory);
+      setIsOpen(true);
+    }
+  }, [openCategory, category]);
 
   return (
     <div>
@@ -239,6 +232,31 @@ function BoutiquePageContentInner() {
   const router = useRouter();
   const [categorySlug, setCategorySlug] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("default");
+  const [sidebarOpenCategory, setSidebarOpenCategory] = useState<string | null>(null);
+
+  // Fournir le contexte aux composants enfants
+  const sidebarContextValue = {
+    openCategory: sidebarOpenCategory,
+    setOpenCategory: setSidebarOpenCategory
+  };
+
+  // Écouter le localStorage pour synchroniser l'ouverture
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const categoryToOpen = localStorage.getItem('openSidebarCategory');
+      if (categoryToOpen) {
+        console.log('Détection depuis localStorage:', categoryToOpen);
+        setSidebarOpenCategory(categoryToOpen);
+        // Nettoyer le localStorage après utilisation
+        setTimeout(() => localStorage.removeItem('openSidebarCategory'), 100);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    handleStorageChange(); // Vérifier au chargement
+    
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   // Mettre à jour categorySlug quand searchParams change
   useEffect(() => {
@@ -314,16 +332,18 @@ function BoutiquePageContentInner() {
 
               {/* Hiérarchie des catégories */}
               <nav className="space-y-1">
-                {categories.map((category) => (
-                  <CategoryItemComponent
-                    key={category.slug}
-                    category={category}
-                    children={category.children || []}
-                    activeSlug={categorySlug}
-                    onSelectCategory={handleCategorySelect}
-                    level={0}
-                  />
-                ))}
+                <SidebarSyncContext.Provider value={sidebarContextValue}>
+                  {categories.map((category) => (
+                    <CategoryItemComponent
+                      key={category.slug}
+                      category={category}
+                      children={category.children || []}
+                      activeSlug={categorySlug}
+                      onSelectCategory={handleCategorySelect}
+                      level={0}
+                    />
+                  ))}
+                </SidebarSyncContext.Provider>
               </nav>
             </div>
           </aside>
