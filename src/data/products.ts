@@ -7,6 +7,7 @@ export interface Product {
   categorySlug: string;
   parentCategorySlug?: string;
   image: string;
+  images?: string[]; // Images additionnelles pour la galerie
   rating?: number;
   slug: string;
   description?: string;
@@ -298,6 +299,11 @@ export const products: Product[] = [
     categorySlug: "faire-parts",
     parentCategorySlug: "mariage",
     image: "/images/products/faire-part-mariage-elegant.png",
+    images: [
+      "/images/products/faire-part-mariage-elegant-2.png",
+      "/images/products/faire-part-mariage-elegant-3.png",
+      "/images/products/faire-part-mariage-elegant-4.png"
+    ],
     description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable.",
     rating: 5,
   },
