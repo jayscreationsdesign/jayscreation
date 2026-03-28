@@ -39,17 +39,6 @@ export const categories: Category[] = [
     ],
   },
   {
-    name: "Mariage",
-    slug: "mariage",
-    children: [
-      { name: "Faire-parts", slug: "faire-parts" },
-      { name: "Invitations", slug: "invitations" },
-      { name: "Menus", slug: "menus" },
-      { name: "Tableaux d'accueil", slug: "tableaux-accueil" },
-      { name: "Marque-places", slug: "marque-places" },
-    ],
-  },
-  {
     name: "Baptême",
     slug: "bapteme",
     children: [
@@ -59,6 +48,17 @@ export const categories: Category[] = [
       { name: "Tableaux d'accueil baptême", slug: "tableaux-accueil-bapteme" },
       { name: "Marque-places baptême", slug: "marque-places-bapteme" },
       { name: "Cadeaux invités baptême", slug: "cadeaux-invites-bapteme" },
+    ],
+  },
+  {
+    name: "Mariage",
+    slug: "mariage",
+    children: [
+      { name: "Faire-parts", slug: "faire-parts" },
+      { name: "Invitations", slug: "invitations" },
+      { name: "Menus", slug: "menus" },
+      { name: "Tableaux d'accueil", slug: "tableaux-accueil" },
+      { name: "Marque-places", slug: "marque-places" },
     ],
   },
   {
