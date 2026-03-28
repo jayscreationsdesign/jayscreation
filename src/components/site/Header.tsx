@@ -26,7 +26,6 @@ interface BottomNavItem {
 
 // Labels raccourcis pour tenir sur une ligne
 const SHORT_LABELS: Record<string, string> = {
-  "divers-objets-cadeaux": "OBJETS & CADEAUX",
   "papeterie-telechargeable": "PAPETERIE TÉLÉCHARGEABLE",
   "sweet-tables-decoration": "SWEET TABLES & DÉCORATION",
 };

@@ -91,10 +91,6 @@ export const categories: Category[] = [
     ],
   },
   {
-    name: "Divers Objets & Cadeaux Personnalisés",
-    slug: "divers-objets-cadeaux",
-  },
-  {
     name: "Ramadan / Eid 2026",
     slug: "ramadan-eid-2026",
   },
