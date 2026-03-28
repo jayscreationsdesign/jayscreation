@@ -16,13 +16,14 @@ export default function ProductGallery({ product }: { product: Product }) {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Image principale avec design amélioré */}
+      {/* Image principale avec design amélioré et cohérent */}
       <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#FAF7F2] to-[#F0EBE3] shadow-lg">
         <Image
           src={images[activeIndex]}
           alt={product.name}
           fill
           className="object-contain transition-transform duration-300 hover:scale-105"
+          style={{ objectPosition: 'center' }}
           priority
         />
 
@@ -77,7 +78,8 @@ export default function ProductGallery({ product }: { product: Product }) {
                 src={img}
                 alt={`${product.name} — vue ${i + 1}`}
                 fill
-                className="object-cover transition-transform duration-300 hover:scale-110"
+                className="object-contain transition-transform duration-300 hover:scale-110"
+                style={{ objectPosition: 'center' }}
               />
               {/* Indicateur actif */}
               {i === activeIndex && (

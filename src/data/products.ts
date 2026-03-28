@@ -284,11 +284,11 @@ export const products: Product[] = [
     price: "25,00€ - 30,00€",
     category: "Flocages",
     categorySlug: "flocage",
-    image: "/images/products/t-shirt-kael.png",
+    image: "/images/products/t-shirt-personnalise.png",
     images: [
+      "/images/products/t-shirt-kael.png",
       "/images/products/t-shirt-kael1.png",
-      "/images/products/t-shirt-lara.png",
-      "/images/products/t-shirt-philou.png"
+      "/images/products/t-shirt-lara.png"
     ],
     rating: 4,
     slug: "tshirt-personnalise",
