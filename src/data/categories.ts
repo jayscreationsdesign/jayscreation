@@ -16,7 +16,7 @@ export const categories: Category[] = [
     name: "Anniversaires",
     slug: "anniversaires",
     children: [
-      { name: "Papeterie", slug: "papeterie-sweet-tables" },
+      { name: "Papeterie Personnalisée", slug: "papeterie-sweet-tables" },
       {
         name: "Posters / Affiches",
         slug: "posters-affiches",
