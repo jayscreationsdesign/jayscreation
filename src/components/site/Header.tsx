@@ -31,6 +31,7 @@ const SKIP_SLUGS = new Set(["formation", "divers-objets-cadeaux"]);
 const SHORT_LABELS: Record<string, string> = {
   "divers-objets-cadeaux": "OBJETS & CADEAUX",
   "papeterie-telechargeable": "PAPETERIE TÉLÉCHARGEABLE",
+  "sweet-tables-decoration": "SWEET TABLES",
 };
 
 // ─── Build nav from categories ────────────────────────────────────────────────
@@ -246,7 +247,7 @@ export default function Header() {
         aria-label="Menu catégories"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-stretch justify-center">
+          <div className="flex items-stretch justify-center flex-nowrap overflow-x-auto hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {bottomNav.map((item) => {
               const isActive =
                 pathname.startsWith("/boutique") &&
@@ -263,8 +264,8 @@ export default function Header() {
                   <Link
                     href={item.href}
                     className={`
-                      inline-flex items-center gap-[3px] px-4 py-3
-                      text-xs font-medium uppercase tracking-[0.15em] whitespace-nowrap
+                      inline-flex items-center gap-[3px] px-2 py-3 flex-shrink-0
+                      text-[11px] font-medium uppercase tracking-[0.1em] whitespace-nowrap
                       transition-colors duration-300
                       ${
                         isActive
