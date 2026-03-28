@@ -123,17 +123,23 @@ const getSortedProducts = (
 
 // Fonction pour trouver si une catégorie est parente d'une sous-catégorie
 function isParentOfCategory(category: any, targetSlug: string): boolean {
-  if (category.slug === targetSlug) return true;
-  if (category.children) {
-    return category.children.some((child: any) => {
-      if (child.slug === targetSlug) return true;
-      if (child.children) {
-        return child.children.some((grandChild: any) => grandChild.slug === targetSlug);
-      }
-      return false;
-    });
+  try {
+    if (!category || !targetSlug) return false;
+    if (category.slug === targetSlug) return true;
+    if (category.children) {
+      return category.children.some((child: any) => {
+        if (child.slug === targetSlug) return true;
+        if (child.children) {
+          return child.children.some((grandChild: any) => grandChild.slug === targetSlug);
+        }
+        return false;
+      });
+    }
+    return false;
+  } catch (error) {
+    console.error('Erreur dans isParentOfCategory:', error);
+    return false;
   }
-  return false;
 }
 
 // Fonction pour trouver le slug du parent qui contient activeCategory comme enfant
@@ -284,12 +290,16 @@ function BoutiquePageContentInner() {
   // Dans un useEffect, quand l'URL change, ouvrir le bon accordéon
   useEffect(() => {
     if (categorySlug) {
-      const parentSlug = findParentSlug(categorySlug);
-      if (parentSlug) {
-        setOpenCategories(prev => {
-          if (prev.includes(parentSlug)) return prev;
-          return [...prev, parentSlug];
-        });
+      try {
+        const parentSlug = findParentSlug(categorySlug);
+        if (parentSlug) {
+          setOpenCategories(prev => {
+            if (prev.includes(parentSlug)) return prev;
+            return [...prev, parentSlug];
+          });
+        }
+      } catch (error) {
+        console.error('Erreur dans findParentSlug:', error);
       }
     }
   }, [categorySlug]);
