@@ -112,6 +112,21 @@ const getSortedProducts = (
   }
 };
 
+// Fonction pour trouver si une catégorie est parente d'une sous-catégorie
+function isParentOfCategory(category: any, targetSlug: string): boolean {
+  if (category.slug === targetSlug) return true;
+  if (category.children) {
+    return category.children.some((child: any) => {
+      if (child.slug === targetSlug) return true;
+      if (child.children) {
+        return child.children.some((grandChild: any) => grandChild.slug === targetSlug);
+      }
+      return false;
+    });
+  }
+  return false;
+}
+
 // Composant item de catégorie
 interface CategoryItemProps {
   category: any;
@@ -136,9 +151,9 @@ function CategoryItemComponent({
   useEffect(() => {
     const handleHeaderCategoryClick = (event: any) => {
       const { categorySlug } = event.detail;
-      // Si cette catégorie ou une de ses sous-catégories est concernée, l'ouvrir
-      if (categorySlug === category.slug || 
-          children.some(child => child.slug === categorySlug)) {
+      
+      // Si cette catégorie est concernée (directement ou via ses enfants), l'ouvrir
+      if (isParentOfCategory(category, categorySlug)) {
         setIsOpen(true);
       }
     };
@@ -147,7 +162,7 @@ function CategoryItemComponent({
     return () => {
       window.removeEventListener('openSidebarCategory', handleHeaderCategoryClick);
     };
-  }, [category.slug, children]);
+  }, [category]);
 
   return (
     <div>
