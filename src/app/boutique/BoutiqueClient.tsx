@@ -526,7 +526,7 @@ function BoutiquePageContentInner() {
                         <Button
                           variant="default"
                           size="sm"
-                          className="w-full rounded-full mt-3"
+                          className="w-full rounded-full mt-3 cursor-pointer"
                         >
                           Voir le produit
                         </Button>

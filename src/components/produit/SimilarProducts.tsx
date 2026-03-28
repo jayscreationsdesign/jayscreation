@@ -68,7 +68,7 @@ export default function SimilarProducts({
                   <Button
                     variant="default"
                     size="sm"
-                    className="mt-3 w-full rounded-full"
+                    className="mt-3 w-full rounded-full cursor-pointer"
                   >
                     Voir le produit
                   </Button>
