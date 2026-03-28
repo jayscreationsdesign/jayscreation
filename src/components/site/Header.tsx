@@ -315,12 +315,14 @@ export default function Header() {
                               href={child.href}
                               className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
                               onClick={() => {
-                                // Stocker la catégorie à ouvrir dans localStorage
+                                // Forcer directement l'ouverture dans la sidebar via contexte
                                 if (child.children?.length) {
                                   const categorySlug = child.href.split('category=')[1];
-                                  localStorage.setItem('openSidebarCategory', categorySlug);
-                                  // Forcer un re-rendu de la sidebar
-                                  window.dispatchEvent(new Event('storage'));
+                                  // Créer un événement personnalisé avec le bon type
+                                  const event = new CustomEvent('openSidebarCategory', { 
+                                    detail: { categorySlug, force: true } 
+                                  });
+                                  window.dispatchEvent(event);
                                 }
                               }}
                             >

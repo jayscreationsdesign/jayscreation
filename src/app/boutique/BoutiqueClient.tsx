@@ -157,13 +157,23 @@ function CategoryItemComponent({
   const hasChildren = children.length > 0;
   const { openCategory, setOpenCategory } = useContext(SidebarSyncContext);
 
-  // Forcer l'ouverture si cette catégorie est concernée par le contexte global
+  // Écouter l'événement personnalisé du header
   useEffect(() => {
-    if (openCategory && isParentOfCategory(category, openCategory)) {
-      console.log('Ouverture forcée pour:', category.name, 'car openCategory:', openCategory);
-      setIsOpen(true);
-    }
-  }, [openCategory, category]);
+    const handleHeaderCategoryClick = (event: any) => {
+      const { categorySlug, force } = event.detail;
+      
+      // Forcer l'ouverture si demandé ou si cette catégorie est concernée
+      if (force || isParentOfCategory(category, categorySlug)) {
+        console.log('Ouverture forcée pour:', category.name, 'categorySlug:', categorySlug, 'force:', force);
+        setIsOpen(true);
+      }
+    };
+
+    window.addEventListener('openSidebarCategory', handleHeaderCategoryClick);
+    return () => {
+      window.removeEventListener('openSidebarCategory', handleHeaderCategoryClick);
+    };
+  }, [category]);
 
   return (
     <div>
