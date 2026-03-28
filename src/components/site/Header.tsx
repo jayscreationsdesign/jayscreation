@@ -31,7 +31,6 @@ const SKIP_SLUGS = new Set(["formation", "divers-objets-cadeaux"]);
 const SHORT_LABELS: Record<string, string> = {
   "divers-objets-cadeaux": "OBJETS & CADEAUX",
   "papeterie-telechargeable": "PAPETERIE TÉLÉCHARGEABLE",
-  "sweet-tables-decoration": "SWEET TABLES",
 };
 
 // ─── Build nav from categories ────────────────────────────────────────────────
@@ -39,19 +38,55 @@ const SHORT_LABELS: Record<string, string> = {
 function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
+  // Première ligne - catégories principales
+  const firstLineCategories = ["sweet-tables-decoration", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"];
+  
   for (const cat of categories) {
-    // Exclure Baptême et Mariage de la navigation principale
-    if (cat.slug === "bapteme") continue;
-    if (cat.slug === "mariage") continue;
-    if (SKIP_SLUGS.has(cat.slug)) continue;
+    if (firstLineCategories.includes(cat.slug)) {
+      nav.push({
+        label: SHORT_LABELS[cat.slug] ?? cat.name.toUpperCase(),
+        href: `/boutique?category=${cat.slug}`,
+        categorySlug: cat.slug,
+        children: cat.children?.map((child: any) => ({
+          name: child.name,
+          href: `/boutique?category=${child.slug}`,
+          children: child.children?.map((grand: any) => ({
+            name: grand.name,
+            href: `/boutique?category=${grand.slug}`,
+          })),
+        })),
+      });
+    }
+  }
+
+  // Deuxième ligne - mariage et baptême
+  const mariageCat = categories.find(cat => cat.slug === "mariage");
+  if (mariageCat) {
     nav.push({
-      label: SHORT_LABELS[cat.slug] ?? cat.name.toUpperCase(),
-      href: `/boutique?category=${cat.slug}`,
-      categorySlug: cat.slug,
-      children: cat.children?.map((child) => ({
+      label: "MARIAGE",
+      href: `/boutique?category=${mariageCat.slug}`,
+      categorySlug: mariageCat.slug,
+      children: mariageCat.children?.map((child: any) => ({
         name: child.name,
         href: `/boutique?category=${child.slug}`,
-        children: child.children?.map((grand) => ({
+        children: child.children?.map((grand: any) => ({
+          name: grand.name,
+          href: `/boutique?category=${grand.slug}`,
+        })),
+      })),
+    });
+  }
+
+  const baptemeCat = categories.find(cat => cat.slug === "bapteme");
+  if (baptemeCat) {
+    nav.push({
+      label: "BAPTÊME",
+      href: `/boutique?category=${baptemeCat.slug}`,
+      categorySlug: baptemeCat.slug,
+      children: baptemeCat.children?.map((child: any) => ({
+        name: child.name,
+        href: `/boutique?category=${child.slug}`,
+        children: child.children?.map((grand: any) => ({
           name: grand.name,
           href: `/boutique?category=${grand.slug}`,
         })),
@@ -104,7 +139,6 @@ function buildBaptemeNav(): BottomNavItem[] {
 }
 
 const bottomNav = buildBottomNav();
-const baptemeNav = buildBaptemeNav();
 
 const topNavLinks = [
   { href: "/", label: "Accueil" },
@@ -247,7 +281,7 @@ export default function Header() {
         aria-label="Menu catégories"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-stretch justify-center flex-nowrap overflow-x-auto hide-scrollbar" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="flex items-stretch justify-center">
             {bottomNav.map((item) => {
               const isActive =
                 pathname.startsWith("/boutique") &&
@@ -264,8 +298,8 @@ export default function Header() {
                   <Link
                     href={item.href}
                     className={`
-                      inline-flex items-center gap-[3px] px-2 py-3 flex-shrink-0
-                      text-[11px] font-medium uppercase tracking-[0.1em] whitespace-nowrap
+                      inline-flex items-center gap-[3px] px-4 py-3
+                      text-xs font-medium uppercase tracking-[0.15em] whitespace-nowrap
                       transition-colors duration-300
                       ${
                         isActive
