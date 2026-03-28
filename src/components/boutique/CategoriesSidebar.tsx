@@ -76,7 +76,7 @@ function CategoryNode({
         onClick={handleClick}
         aria-current={isActive ? "page" : undefined}
         aria-expanded={hasChildren ? isOpen : undefined}
-        className={`w-full text-left py-2.5 pr-3 text-sm transition-all duration-150 flex items-center justify-between rounded-lg
+        className={`w-full text-left py-2.5 pr-3 text-sm transition-all duration-150 flex items-center justify-between rounded-lg cursor-pointer
           ${
             isActive
               ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] text-[#C8A96E] font-medium"
@@ -146,7 +146,7 @@ function SidebarContent({
       {activeCategory && (
         <button
           onClick={onReset}
-          className="mb-2 flex items-center gap-1 text-xs font-medium text-[#C8A96E] hover:underline"
+          className="mb-2 flex items-center gap-1 text-xs font-medium text-[#C8A96E] hover:underline cursor-pointer"
         >
           <X size={11} />
           Réinitialiser
@@ -157,7 +157,7 @@ function SidebarContent({
       <button
         onClick={onReset}
         aria-current={!activeCategory ? "page" : undefined}
-        className={`w-full text-left px-4 py-2.5 rounded-lg text-sm transition-all duration-150 ${
+        className={`w-full text-left px-4 py-2.5 rounded-lg text-sm transition-all duration-150 cursor-pointer ${
           !activeCategory
             ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] text-[#C8A96E] font-medium"
             : "text-foreground hover:bg-gray-50 hover:text-[#C8A96E]"
@@ -249,7 +249,7 @@ export default function CategoriesSidebar() {
         <button
           onClick={() => setMobileOpen(true)}
           aria-label="Ouvrir les filtres"
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer"
         >
           <SlidersHorizontal size={15} />
           Filtres
@@ -278,7 +278,7 @@ export default function CategoriesSidebar() {
               <button
                 onClick={() => setMobileOpen(false)}
                 aria-label="Fermer les filtres"
-                className="rounded-lg p-1.5 hover:bg-muted transition-colors"
+                className="rounded-lg p-1.5 hover:bg-muted transition-colors cursor-pointer"
               >
                 <X size={18} />
               </button>
