@@ -284,7 +284,12 @@ export const products: Product[] = [
     price: "25,00€ - 30,00€",
     category: "Flocages",
     categorySlug: "flocage",
-    image: "/images/products/t-shirt-personnalise.png",
+    image: "/images/products/t-shirt-kael.png",
+    images: [
+      "/images/products/t-shirt-kael1.png",
+      "/images/products/t-shirt-lara.png",
+      "/images/products/t-shirt-philou.png"
+    ],
     rating: 4,
     slug: "tshirt-personnalise",
   },
@@ -299,11 +304,6 @@ export const products: Product[] = [
     categorySlug: "faire-parts",
     parentCategorySlug: "mariage",
     image: "/images/products/faire-part-mariage-elegant.png",
-    images: [
-      "/images/products/faire-part-mariage-elegant-2.png",
-      "/images/products/faire-part-mariage-elegant-3.png",
-      "/images/products/faire-part-mariage-elegant-4.png"
-    ],
     description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable.",
     rating: 5,
   },
