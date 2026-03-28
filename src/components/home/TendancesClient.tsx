@@ -7,6 +7,13 @@ import { products } from "@/data/products";
 import type { Product } from "@/data/products";
 import { useState } from "react";
 
+// Fonction pour nettoyer les URLs d'images en supprimant les query strings
+function cleanImageUrl(url: string): string {
+  if (!url) return url;
+  // Supprimer tout ce qui vient après le ? (query string)
+  return url.split('?')[0];
+}
+
 export default function TendancesClient() {
   // Sélectionner les 8 produits les mieux notés
   const topRatedProducts = products
@@ -83,7 +90,7 @@ export default function TendancesClient() {
                   <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-[1.02] h-full">
                     <div className="aspect-square bg-white/20 rounded-xl mb-4 relative overflow-hidden">
                       <Image
-                        src={product.image}
+                        src={cleanImageUrl(product.image)}
                         alt={product.name}
                         fill
                         className="object-cover"
