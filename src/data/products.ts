@@ -24,7 +24,12 @@ export const products: Product[] = [
     numericPrice: 1,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/etiquette-bouteille-eau.png",
+    image: "/images/products/etiquette-bouteille-eau-tshirt-style.png",
+    images: [
+      "/images/products/etiquette-bouteille-eau-tshirt-style.png",
+      "/images/products/etiquette-capri-sun-tshirt-style.png",
+      "/images/products/etiquette-champomy-tshirt-style.png"
+    ],
     slug: "etiquette-bouteille-eau",
   },
   {
@@ -34,7 +39,12 @@ export const products: Product[] = [
     numericPrice: 1.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/etiquette-capri-sun.png",
+    image: "/images/products/etiquette-capri-sun-tshirt-style.png",
+    images: [
+      "/images/products/etiquette-capri-sun-tshirt-style.png",
+      "/images/products/etiquette-bouteille-eau-tshirt-style.png",
+      "/images/products/etiquette-champomy-tshirt-style.png"
+    ],
     slug: "etiquette-capri-sun",
   },
   {
@@ -44,7 +54,12 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/etiquette-champomy.png",
+    image: "/images/products/etiquette-champomy-tshirt-style.png",
+    images: [
+      "/images/products/etiquette-champomy-tshirt-style.png",
+      "/images/products/etiquette-bouteille-eau-tshirt-style.png",
+      "/images/products/etiquette-capri-sun-tshirt-style.png"
+    ],
     slug: "etiquette-champomy",
   },
   {
@@ -63,7 +78,12 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/stickers-personnalises.png",
+    image: "/images/products/stickers-personnalises-tshirt-style.png",
+    images: [
+      "/images/products/stickers-personnalises-tshirt-style.png",
+      "/images/products/flyers-cartes-visite-tshirt-style.png",
+      "/images/products/boite-de-lait-personnalisee-tshirt-style.png"
+    ],
     rating: 4,
     slug: "stickers-personnalises",
   },
@@ -73,7 +93,12 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/flyers-cartes-visite.png",
+    image: "/images/products/flyers-cartes-visite-tshirt-style.png",
+    images: [
+      "/images/products/flyers-cartes-visite-tshirt-style.png",
+      "/images/products/stickers-personnalises-tshirt-style.png",
+      "/images/products/boite-de-lait-personnalisee-tshirt-style.png"
+    ],
     rating: 5,
     slug: "flyers-cartes-visite-sur-mesure",
   },
@@ -83,7 +108,15 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/boite-cadeau-personnalisee.png",
+    image: "/images/products/Design sans titre (12)-styled.png",
+    images: [
+      "/images/products/Design sans titre (12)-styled.png",
+      "/images/products/Design sans titre (16)-styled.png",
+      "/images/products/Design sans titre (13)-styled.png",
+      "/images/products/Design sans titre (15)-styled.png",
+      "/images/products/Design sans titre (14)-styled.png",
+      "/images/products/Design sans titre (11)-styled.png"
+    ],
     slug: "boite-cadeau-personnalisee",
   },
   {
@@ -92,7 +125,12 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/boite-de-lait-personnalisee.png",
+    image: "/images/products/boite-de-lait-personnalisee-tshirt-style.png",
+    images: [
+      "/images/products/boite-de-lait-personnalisee-tshirt-style.png",
+      "/images/products/boite-pompotes-personnalisee-tshirt-style.png",
+      "/images/products/box-pyramide-tshirt-style.png"
+    ],
     slug: "boite-lait-personnalisee",
   },
   {
@@ -102,7 +140,12 @@ export const products: Product[] = [
     numericPrice: 2.3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/boite-pompotes-personnalisee.png",
+    image: "/images/products/boite-pompotes-personnalisee-tshirt-style.png",
+    images: [
+      "/images/products/boite-pompotes-personnalisee-tshirt-style.png",
+      "/images/products/boite-de-lait-personnalisee-tshirt-style.png",
+      "/images/products/box-pyramide-tshirt-style.png"
+    ],
     slug: "boite-pompotes-personnalisee",
   },
   {
@@ -111,7 +154,12 @@ export const products: Product[] = [
     price: "2,50€ - 5,50€",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/boites-pop-corn-personnalisees.png",
+    image: "/images/products/boites-pop-corn-personnalisees-tshirt-style.png",
+    images: [
+      "/images/products/boites-pop-corn-personnalisees-tshirt-style.png",
+      "/images/products/box-pyramide-tshirt-style.png",
+      "/images/products/cadre-personnalise-tshirt-style.png"
+    ],
     slug: "boites-pop-corn-personnalisees",
   },
   {
@@ -121,7 +169,12 @@ export const products: Product[] = [
     numericPrice: 2.99,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/box-pyramide.png",
+    image: "/images/products/box-pyramide-tshirt-style.png",
+    images: [
+      "/images/products/box-pyramide-tshirt-style.png",
+      "/images/products/cadre-personnalise-tshirt-style.png",
+      "/images/products/gourde-personnalisee-tshirt-style.png"
+    ],
     slug: "box-pyramide",
   },
   {
@@ -131,7 +184,12 @@ export const products: Product[] = [
     numericPrice: 15,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/cadre-personnalise.png",
+    image: "/images/products/cadre-personnalise-tshirt-style.png",
+    images: [
+      "/images/products/cadre-personnalise-tshirt-style.png",
+      "/images/products/gourde-personnalisee-tshirt-style.png",
+      "/images/products/tasse-personnalisee-tshirt-style.png"
+    ],
     rating: 5,
     slug: "cadre-personnalise",
   },
@@ -142,7 +200,12 @@ export const products: Product[] = [
     numericPrice: 25,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/gourde-personnalisee.png",
+    image: "/images/products/gourde-personnalisee-tshirt-style.png",
+    images: [
+      "/images/products/gourde-personnalisee-tshirt-style.png",
+      "/images/products/tasse-personnalisee-tshirt-style.png",
+      "/images/products/planche-etiquette-thermocollante-tshirt-style.png"
+    ],
     slug: "gourde-personnalisee",
   },
   {
@@ -262,7 +325,12 @@ export const products: Product[] = [
     numericPrice: 20,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/tasse-personnalisee.png",
+    image: "/images/products/tasse-personnalisee-tshirt-style.png",
+    images: [
+      "/images/products/tasse-personnalisee-tshirt-style.png",
+      "/images/products/planche-etiquette-thermocollante-tshirt-style.png",
+      "/images/products/faire-part-mariage-elegant-tshirt-style.png"
+    ],
     rating: 4,
     slug: "tasse-personnalisee",
   },
@@ -274,7 +342,12 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Flocages",
     categorySlug: "flocage",
-    image: "/images/products/planche-etiquette-thermocollante.png",
+    image: "/images/products/planche-etiquette-thermocollante-tshirt-style.png",
+    images: [
+      "/images/products/planche-etiquette-thermocollante-tshirt-style.png",
+      "/images/products/faire-part-mariage-elegant-tshirt-style.png",
+      "/images/products/t-shirt-kael-styled.png"
+    ],
     rating: 5,
     slug: "planche-etiquette-thermocollante",
   },
@@ -284,12 +357,13 @@ export const products: Product[] = [
     price: "25,00€ - 30,00€",
     category: "Flocages",
     categorySlug: "flocage",
-    image: "/images/products/t-shirt-personnalise.png",
+    image: "/images/products/t-shirt-kael-styled.png",
     images: [
-      "/images/products/t-shirt-kael.png",
-      "/images/products/t-shirt-kael1.png",
-      "/images/products/t-shirt-lara.png",
-      "/images/products/t-shirt-philou.png"
+      "/images/products/IMG_5558-styled.png",
+      "/images/products/IMG_5559-styled.png",
+      "/images/products/PicWish_09-styled.png",
+      "/images/products/PicWish_11-styled.png",
+      "/images/products/PicWish_18-styled.png"
     ],
     rating: 4,
     slug: "tshirt-personnalise",
@@ -304,7 +378,12 @@ export const products: Product[] = [
     category: "Faire-parts",
     categorySlug: "faire-parts",
     parentCategorySlug: "mariage",
-    image: "/images/products/faire-part-mariage-elegant.png",
+    image: "/images/products/faire-part-mariage-elegant-tshirt-style.png",
+    images: [
+      "/images/products/faire-part-mariage-elegant-tshirt-style.png",
+      "/images/products/t-shirt-kael-styled.png",
+      "/images/products/planche-etiquette-thermocollante-tshirt-style.png"
+    ],
     description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable.",
     rating: 5,
   },
