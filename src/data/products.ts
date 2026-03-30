@@ -357,13 +357,15 @@ export const products: Product[] = [
     price: "25,00€ - 30,00€",
     category: "Flocages",
     categorySlug: "flocage",
-    image: "/images/products/t-shirt-kael-styled.png",
+    image: "/images/products/T-Shirt Personnalisé.png",
     images: [
-      "/images/products/IMG_5558-styled.png",
-      "/images/products/IMG_5559-styled.png",
-      "/images/products/PicWish_09-styled.png",
-      "/images/products/PicWish_11-styled.png",
-      "/images/products/PicWish_18-styled.png"
+      "/images/products/T-Shirt Personnalisé1.png",
+      "/images/products/T-Shirt Personnalisé2.png",
+      "/images/products/T-Shirt Personnalisé3.png",
+      "/images/products/T-Shirt Personnalisé4.png",
+      "/images/products/T-Shirt Personnalisé5.png",
+      "/images/products/T-Shirt Personnalisé6.png",
+      "/images/products/T-Shirt Personnalisé8.png"
     ],
     rating: 4,
     slug: "tshirt-personnalise",

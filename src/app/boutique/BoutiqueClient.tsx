@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { products, type Product } from "@/data/products";
 import { categories } from "@/data/categories";
+import ProductCard from "@/components/ui/ProductCard";
 import {
   Select,
   SelectContent,
@@ -467,72 +468,13 @@ function BoutiquePageContentInner() {
             ) : (
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {sortedProducts.map((product) => (
-                  <div
+                  <ProductCard
                     key={product.id}
-                    className="flex flex-col overflow-hidden rounded-3xl bg-[#FAF7F2] shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105"
-                  >
-                    {/* IMAGE */}
-                    <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-
-                    {/* CONTENU */}
-                    <div className="flex flex-1 flex-col items-center justify-between gap-2 p-6 text-center">
-                      <div className="flex flex-col items-center gap-2">
-                        {/* Catégorie */}
-                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                          {product.category}
-                        </p>
-
-                        {/* Nom du produit */}
-                        <h3 className="font-heading text-lg font-semibold text-foreground">
-                          {product.name}
-                        </h3>
-
-                        {/* Prix */}
-                        <p className="text-base font-bold text-accent">
-                          {product.price}
-                        </p>
-
-                        {/* Rating - Stars */}
-                        {product.rating && (
-                          <div className="flex items-center justify-center gap-1 mt-1">
-                            {Array.from({ length: Math.round(product.rating) }).map(
-                              (_, i) => (
-                                <Star
-                                  key={i}
-                                  size={14}
-                                  className="fill-yellow-400 text-yellow-400"
-                                />
-                              )
-                            )}
-                            <span className="ml-1 text-xs text-muted-foreground">
-                              {product.rating.toFixed(1)}/5
-                            </span>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Bouton CTA */}
-                      <Link 
-                        href={`/produit/${product.slug}`} 
-                        className="w-full cursor-pointer"
-                      >
-                        <Button
-                          variant="default"
-                          size="sm"
-                          className="w-full rounded-full mt-3 cursor-pointer"
-                        >
-                          Voir le produit
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
+                    product={product}
+                    showCategory={true}
+                    showRating={true}
+                    aspectRatio="square"
+                  />
                 ))}
               </div>
             )}

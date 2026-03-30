@@ -1,92 +1,119 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { type Product } from "@/data/products";
+import ImageCarousel from "@/components/ui/ImageCarousel";
 
 export default function ProductGallery({ product }: { product: Product }) {
   // Images principales : image du produit + images additionnelles si elles existent
   const images = product.images ? [product.image, ...product.images] : [product.image];
-  const total = images.length;
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [thumbnailStart, setThumbnailStart] = useState(0);
 
-  const prev = () => setActiveIndex((i) => (i - 1 + total) % total);
-  const next = () => setActiveIndex((i) => (i + 1) % total);
+  // Limiter à 3 thumbnails visibles
+  const maxVisibleThumbnails = 3;
+  const visibleThumbnails = images.slice(thumbnailStart, thumbnailStart + maxVisibleThumbnails);
+
+  const handleThumbnailClick = (index: number) => {
+    setCurrentImageIndex(index);
+  };
+
+  const handleThumbnailPrev = () => {
+    setThumbnailStart(prev => Math.max(0, prev - 1));
+  };
+
+  const handleThumbnailNext = () => {
+    setThumbnailStart(prev => Math.min(images.length - maxVisibleThumbnails, prev + 1));
+  };
 
   return (
-    <div className="flex flex-col gap-4">
-      {/* Image principale avec design amélioré et cohérent */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#FAF7F2] to-[#F0EBE3] shadow-lg">
-        <Image
-          src={images[activeIndex]}
-          alt={product.name}
-          fill
-          className="object-contain transition-transform duration-300 hover:scale-105"
-          style={{ objectPosition: 'center' }}
-          priority
-        />
-
-        {/* Flèche gauche avec design moderne */}
-        {total > 1 && (
-          <button
-            onClick={prev}
-            aria-label="Image précédente"
-            className="absolute left-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-lg transition-all hover:bg-white hover:scale-110"
-          >
-            <ChevronLeft size={22} className="text-[#2C2C2C]" />
-          </button>
-        )}
-
-        {/* Flèche droite avec design moderne */}
-        {total > 1 && (
-          <button
-            onClick={next}
-            aria-label="Image suivante"
-            className="absolute right-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-lg transition-all hover:bg-white hover:scale-110"
-          >
-            <ChevronRight size={22} className="text-[#2C2C2C]" />
-          </button>
-        )}
-
-        {/* Compteur avec design élégant */}
-        <div className="absolute bottom-4 left-4 rounded-full bg-black/70 backdrop-blur-sm px-4 py-2 text-sm text-white font-medium shadow-lg">
-          {activeIndex + 1} / {total}
-        </div>
-
-        {/* Icôme zoom pour indiquer qu'on peut cliquer */}
-        <div className="absolute top-4 right-4 rounded-full bg-white/90 backdrop-blur-sm p-2 shadow-lg opacity-0 hover:opacity-100 transition-opacity">
-          <ZoomIn size={18} className="text-[#2C2C2C]" />
+    <div className="space-y-6">
+      {/* Carrousel principal */}
+      <div className="product-gallery-uniform relative rounded-xl overflow-hidden shadow-md max-w-md mx-auto">
+        <div className="relative aspect-[3/4]">
+          <img
+            src={images[currentImageIndex]}
+            alt={`${product.name} - vue ${currentImageIndex + 1}`}
+            className="w-full h-full object-cover"
+          />
+          
+          {/* Navigation flèches */}
+          {images.length > 1 && (
+            <>
+              <button
+                onClick={() => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)}
+                className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setCurrentImageIndex((prev) => (prev + 1) % images.length)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </>
+          )}
         </div>
       </div>
-
-      {/* Thumbnails avec design amélioré */}
-      {total > 1 && (
-        <div className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {images.map((img, i) => (
+      
+      {/* Carrousel de thumbnails - Style comme page d'accueil */}
+      {images.length > 1 && (
+        <div className="flex items-center justify-center gap-2">
+          {/* Flèche gauche */}
+          {thumbnailStart > 0 && (
             <button
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              aria-label={`Vue ${i + 1}`}
-              className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-all hover:scale-105 md:h-24 md:w-24 ${
-                i === activeIndex 
-                  ? "border-[#C8A96E] shadow-lg scale-105" 
-                  : "border-gray-200 hover:border-[#C8A96E]/50"
-              }`}
+              onClick={handleThumbnailPrev}
+              className="flex-shrink-0 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:bg-white transition-all duration-200"
             >
-              <Image
-                src={img}
-                alt={`${product.name} — vue ${i + 1}`}
-                fill
-                className="object-contain transition-transform duration-300 hover:scale-110"
-                style={{ objectPosition: 'center' }}
-              />
-              {/* Indicateur actif */}
-              {i === activeIndex && (
-                <div className="absolute inset-0 bg-[#C8A96E]/10 pointer-events-none" />
-              )}
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
             </button>
-          ))}
+          )}
+          
+          {/* Thumbnails visibles - Style comme page d'accueil */}
+          {visibleThumbnails.map((img, index) => {
+            const actualIndex = thumbnailStart + index;
+            const isActive = actualIndex === currentImageIndex;
+            
+            return (
+              <div
+                key={actualIndex}
+                onClick={() => handleThumbnailClick(actualIndex)}
+                className={`relative flex-shrink-0 w-20 h-24 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl ${
+                  isActive ? 'scale-105 shadow-xl' : ''
+                }`}
+                style={{ backgroundColor: '#fdf8ec' }}
+              >
+                <img
+                  src={img}
+                  alt={`${product.name} - vue ${actualIndex + 1}`}
+                  className="w-full h-full object-contain p-2"
+                />
+                {/* Indicateur actif - bordure dorée */}
+                {isActive && (
+                  <div className="absolute inset-0 border-2 border-[#C8A96E] rounded-3xl pointer-events-none" />
+                )}
+              </div>
+            );
+          })}
+          
+          {/* Flèche droite */}
+          {thumbnailStart + maxVisibleThumbnails < images.length && (
+            <button
+              onClick={handleThumbnailNext}
+              className="flex-shrink-0 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:bg-white transition-all duration-200"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          )}
         </div>
       )}
     </div>

@@ -144,3 +144,233 @@
   scrollbar-width: none;
 }
 
+/* SUPPRIMER TOUS LES FONDS DES IMAGES DES FICHES PRODUITS */
+.product-page img,
+.product-detail img,
+.product-gallery img,
+.product-image img,
+.product-card img,
+.product-item img,
+.product img,
+img[src*="/images/products/"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Supprimer les fonds des conteneurs d'images */
+.product-image-container,
+.product-gallery-container,
+.product-image-wrapper,
+.product-card-image,
+.product-detail-image {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Supprimer les pseudo-éléments de fond */
+.product-page img::before,
+.product-page img::after,
+.product-detail img::before,
+.product-detail img::after,
+.product-gallery img::before,
+.product-gallery img::after,
+img[src*="/images/products/"]::before,
+img[src*="/images/products/"]::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* STYLES CARROUSEL IMAGES */
+.image-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-carousel:focus-within {
+  outline: 2px solid #C8A96E;
+  outline-offset: 2px;
+}
+
+/* Navigation buttons */
+.carousel-nav-btn {
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.carousel-nav-btn:hover {
+  transform: scale(1.1);
+}
+
+.carousel-nav-btn:focus-visible {
+  outline: 2px solid #C8A96E;
+  outline-offset: 2px;
+}
+
+/* Dots indicators */
+.carousel-dot {
+  transition: all 0.3s ease;
+}
+
+.carousel-dot:focus-visible {
+  outline: 2px solid #C8A96E;
+  outline-offset: 2px;
+}
+
+/* Thumbnails */
+.carousel-thumbnail {
+  transition: all 0.3s ease;
+}
+
+.carousel-thumbnail:focus-visible {
+  outline: 2px solid #C8A96E;
+  outline-offset: 2px;
+}
+
+/* Design uniforme fiches produits */
+.product-uniform-bg {
+  background-color: #fdf8ec !important;
+}
+
+.product-card-uniform {
+  background-color: #fdf8ec !important;
+  border: 1px solid rgba(200, 169, 110, 0.2);
+}
+
+.product-gallery-uniform {
+  background-color: #fdf8ec !important;
+  border-radius: 1rem;
+}
+
+/* Thumbnails rectangulaires - Fond #f9f6f0 comme demandé */
+.product-thumbnail-rect {
+  background-color: #f9f6f0 !important;
+  border: 1px solid #e5e7eb !important;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.product-thumbnail-rect:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-color: #d1d5db !important;
+}
+
+.product-thumbnail-rect img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Images principales - Haute netteté */
+.product-gallery-uniform img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: contrast(1.02) brightness(1.01);
+}
+
+/* Images additionnelles - Gardées pour compatibilité */
+.product-additional-images {
+  background-color: #fdf8ec !important;
+  border: 2px solid #C8A96E !important;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-additional-images:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border-color: #D4A574 !important;
+}
+
+/* Numéros d'images - Gardés pour compatibilité */
+.image-number-badge {
+  background: #C8A96E !important;
+  color: white !important;
+  border: 2px solid white !important;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Swipe indicators */
+@media (hover: hover) {
+  .carousel-swipe-hint {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .image-carousel:hover .carousel-swipe-hint {
+    opacity: 1;
+  }
+}
+
+/* Loading states */
+.carousel-loading {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Optimisations mobile */
+@media (max-width: 768px) {
+  .carousel-nav-btn {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+  
+  .carousel-thumbnail {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+  
+  .carousel-dot {
+    width: 0.375rem !important;
+    height: 0.375rem !important;
+  }
+
+  .product-additional-images {
+    padding: 0.5rem !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .carousel-nav-btn {
+    border: 2px solid #000;
+  }
+  
+  .carousel-dot {
+    border: 1px solid #000;
+  }
+
+  .product-card-uniform {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .carousel-nav-btn,
+  .carousel-dot,
+  .carousel-thumbnail,
+  .product-additional-images {
+    transition: none;
+  }
+  
+  .image-carousel img {
+    transition: none;
+  }
+}
+
