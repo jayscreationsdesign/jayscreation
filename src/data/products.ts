@@ -24,11 +24,10 @@ export const products: Product[] = [
     numericPrice: 1,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/etiquette-bouteille-eau-tshirt-style.png",
+    image: "/images/products/Étiquette Bouteille d'Eau.png",
     images: [
-      "/images/products/etiquette-bouteille-eau-tshirt-style.png",
-      "/images/products/etiquette-capri-sun-tshirt-style.png",
-      "/images/products/etiquette-champomy-tshirt-style.png"
+      "/images/products/Étiquette Bouteille d'Eau1.png",
+      "/images/products/Étiquette Bouteille d'Eau2.png"
     ],
     slug: "etiquette-bouteille-eau",
   },
@@ -39,11 +38,10 @@ export const products: Product[] = [
     numericPrice: 1.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/etiquette-capri-sun-tshirt-style.png",
+    image: "/images/products/Étiquette Capri-Sun.png",
     images: [
-      "/images/products/etiquette-capri-sun-tshirt-style.png",
-      "/images/products/etiquette-bouteille-eau-tshirt-style.png",
-      "/images/products/etiquette-champomy-tshirt-style.png"
+      "/images/products/Étiquette Capri-Sun1.png",
+      "/images/products/Étiquette Capri-Sun2.png"
     ],
     slug: "etiquette-capri-sun",
   },
@@ -78,11 +76,9 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/stickers-personnalises-tshirt-style.png",
+    image: "/images/products/Stickers Personnalisés2.png",
     images: [
-      "/images/products/stickers-personnalises-tshirt-style.png",
-      "/images/products/flyers-cartes-visite-tshirt-style.png",
-      "/images/products/boite-de-lait-personnalisee-tshirt-style.png"
+      "/images/products/Stickers Personnalisés2.png"
     ],
     rating: 4,
     slug: "stickers-personnalises",
@@ -94,12 +90,6 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/flyers-cartes-visite-tshirt-style.png",
-    images: [
-      "/images/products/flyers-cartes-visite-tshirt-style.png",
-      "/images/products/stickers-personnalises-tshirt-style.png",
-      "/images/products/boite-de-lait-personnalisee-tshirt-style.png"
-    ],
-    rating: 5,
     slug: "flyers-cartes-visite-sur-mesure",
   },
   {
@@ -108,14 +98,15 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Design sans titre (12)-styled.png",
+    image: "/images/products/Boîte Cadeau Personnalisée1.png",
     images: [
-      "/images/products/Design sans titre (12)-styled.png",
-      "/images/products/Design sans titre (16)-styled.png",
-      "/images/products/Design sans titre (13)-styled.png",
-      "/images/products/Design sans titre (15)-styled.png",
-      "/images/products/Design sans titre (14)-styled.png",
-      "/images/products/Design sans titre (11)-styled.png"
+      "/images/products/Boîte Cadeau Personnalisée1.png",
+      "/images/products/Boîte Cadeau Personnalisée2.png",
+      "/images/products/Boîte Cadeau Personnalisée3.png",
+      "/images/products/Boîte Cadeau Personnalisée4.png",
+      "/images/products/Boîte Cadeau Personnalisée5.png",
+      "/images/products/Boîte Cadeau Personnalisée6.png",
+      "/images/products/Boîte Cadeau Personnalisée8.png"
     ],
     slug: "boite-cadeau-personnalisee",
   },
@@ -128,8 +119,10 @@ export const products: Product[] = [
     image: "/images/products/boite-de-lait-personnalisee-tshirt-style.png",
     images: [
       "/images/products/boite-de-lait-personnalisee-tshirt-style.png",
-      "/images/products/boite-pompotes-personnalisee-tshirt-style.png",
-      "/images/products/box-pyramide-tshirt-style.png"
+      "/images/products/Boîte de Lait Personnalisée2.png",
+      "/images/products/Boîte de Lait Personnalisée3.png",
+      "/images/products/Boîte de Lait Personnalisée4.png",
+      "/images/products/Boîte de Lait Personnalisée5.png"
     ],
     slug: "boite-lait-personnalisee",
   },
@@ -144,7 +137,8 @@ export const products: Product[] = [
     images: [
       "/images/products/boite-pompotes-personnalisee-tshirt-style.png",
       "/images/products/boite-de-lait-personnalisee-tshirt-style.png",
-      "/images/products/box-pyramide-tshirt-style.png"
+      "/images/products/box-pyramide-tshirt-style.png",
+      "/images/products/Boîte Pom'Potes Personnalisée2.png"
     ],
     slug: "boite-pompotes-personnalisee",
   },
@@ -158,7 +152,9 @@ export const products: Product[] = [
     images: [
       "/images/products/boites-pop-corn-personnalisees-tshirt-style.png",
       "/images/products/box-pyramide-tshirt-style.png",
-      "/images/products/cadre-personnalise-tshirt-style.png"
+      "/images/products/cadre-personnalise-tshirt-style.png",
+      "/images/products/Boîtes de Pop Corn Personnalisées2.png",
+      "/images/products/Boîtes de Pop Corn Personnalisées3.png"
     ],
     slug: "boites-pop-corn-personnalisees",
   },
@@ -173,7 +169,8 @@ export const products: Product[] = [
     images: [
       "/images/products/box-pyramide-tshirt-style.png",
       "/images/products/cadre-personnalise-tshirt-style.png",
-      "/images/products/gourde-personnalisee-tshirt-style.png"
+      "/images/products/gourde-personnalisee-tshirt-style.png",
+      "/images/products/Box Pyramide2.png"
     ],
     slug: "box-pyramide",
   },
@@ -202,9 +199,8 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/gourde-personnalisee-tshirt-style.png",
     images: [
-      "/images/products/gourde-personnalisee-tshirt-style.png",
-      "/images/products/tasse-personnalisee-tshirt-style.png",
-      "/images/products/planche-etiquette-thermocollante-tshirt-style.png"
+      "/images/products/Gourde Personnalisée2.png",
+      "/images/products/Gourde Personnalisée3.png"
     ],
     slug: "gourde-personnalisee",
   },
@@ -216,6 +212,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/haribo-dragibus.png",
+    images: [
+      "/images/products/haribo-dragibus.png",
+      "/images/products/Haribo Dragibus2.png"
+    ],
     slug: "haribo-dragibus",
   },
   {
@@ -257,6 +257,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/mms.png",
+    images: [
+      "/images/products/mms.png",
+      "/images/products/M&Ms2.png"
+    ],
     slug: "mms",
   },
   {
@@ -267,6 +271,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/mini-nutella.png",
+    images: [
+      "/images/products/mini-nutella.png",
+      "/images/products/Mini Nutella2.png"
+    ],
     slug: "mini-nutella",
   },
   {
@@ -277,6 +285,13 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/paquet-chips-personnalise.png",
+    images: [
+      "/images/products/paquet-chips-personnalise.png",
+      "/images/products/Paquet de Chips Personnalisé2.png",
+      "/images/products/Paquet de Chips Personnalisé3.png",
+      "/images/products/Paquet de Chips Personnalisé4.png",
+      "/images/products/Paquet de Chips Personnalisé5.png"
+    ],
     slug: "paquet-chips-personnalise",
   },
   {
@@ -286,6 +301,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/plateau-confiserie-personnalise.png",
+    images: [
+      "/images/products/plateau-confiserie-personnalise.png",
+      "/images/products/Plateau de Confiserie Personnalisé2.png"
+    ],
     slug: "plateau-confiserie-personnalise",
   },
   {
@@ -296,6 +315,11 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/sac-cadeau-personnalise.png",
+    images: [
+      "/images/products/sac-cadeau-personnalise.png",
+      "/images/products/Sac Cadeau Personnalisé2.png",
+      "/images/products/Sac Cadeau Personnalisé3.png"
+    ],
     slug: "sac-cadeau-personnalise",
   },
   {
@@ -306,6 +330,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/sachet-bonbons-personnalise.png",
+    images: [
+      "/images/products/sachet-bonbons-personnalise.png",
+      "/images/products/Sachet de Bonbons Personnalisé2.png"
+    ],
     slug: "sachet-bonbons-personnalise",
   },
   {
@@ -316,6 +344,12 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/smarties.png",
+    images: [
+      "/images/products/smarties.png",
+      "/images/products/Smarties2.png",
+      "/images/products/Smarties3.png",
+      "/images/products/Smarties4.png"
+    ],
     slug: "smarties",
   },
   {
