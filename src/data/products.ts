@@ -127,9 +127,8 @@ export const products: Product[] = [
     price: "2,50€ - 5,50€",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Boîtes de Pop Corn Personnalisées3.png",
+    image: "/images/products/Boîtes de Pop Corn Personnalisées2.png",
     images: [
-      "/images/products/Boîtes de Pop Corn Personnalisées3.png",
       "/images/products/Boîtes de Pop Corn Personnalisées2.png"
     ],
     slug: "boites-pop-corn-personnalisees",
@@ -161,9 +160,8 @@ export const products: Product[] = [
     numericPrice: 25,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Gourde Personnalisée3.png",
+    image: "/images/products/Gourde Personnalisée2.png",
     images: [
-      "/images/products/Gourde Personnalisée3.png",
       "/images/products/Gourde Personnalisée2.png"
     ],
     slug: "gourde-personnalisee",
@@ -236,9 +234,8 @@ export const products: Product[] = [
     numericPrice: 2.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Paquet de Chips Personnalisé3.png",
+    image: "/images/products/Paquet de Chips Personnalisé5.png",
     images: [
-      "/images/products/Paquet de Chips Personnalisé3.png",
       "/images/products/Paquet de Chips Personnalisé5.png"
     ],
     slug: "paquet-chips-personnalise",
@@ -260,6 +257,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Sac Cadeau Personnalisé3.png",
+    images: [
+      "/images/products/Sac Cadeau Personnalisé3.png",
+      "/images/products/Sac Cadeau Personnalisé2.png"
+    ],
     slug: "sac-cadeau-personnalise",
   },
   {
@@ -269,7 +270,10 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Sachet de Bonbons Personnalisé2.png",
+    images: [
+      "/images/products/Sachet de Bonbons Personnalisé2.png"
+    ],
     slug: "sachet-bonbons-personnalise",
   },
   {
@@ -280,9 +284,6 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Smarties4.png",
-    images: [
-      "/images/products/Smarties4.png"
-    ],
     slug: "smarties",
   },
   {
