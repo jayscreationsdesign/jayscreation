@@ -95,7 +95,6 @@ export const products: Product[] = [
       "/images/products/Boîte Cadeau Personnalisée2.png",
       "/images/products/Boîte Cadeau Personnalisée3.png",
       "/images/products/Boîte Cadeau Personnalisée4.png",
-      "/images/products/Boîte Cadeau Personnalisée5.png",
       "/images/products/Boîte Cadeau Personnalisée6.png",
       "/images/products/Boîte Cadeau Personnalisée8.png"
     ],
@@ -107,9 +106,8 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Boîte de Lait Personnalisée4.png",
+    image: "/images/products/Boîte de Lait Personnalisée5.png",
     images: [
-      "/images/products/Boîte de Lait Personnalisée4.png",
       "/images/products/Boîte de Lait Personnalisée5.png"
     ],
     slug: "boite-lait-personnalisee",
@@ -176,11 +174,7 @@ export const products: Product[] = [
     numericPrice: 2.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/haribo-dragibus.png",
-    images: [
-      "/images/products/haribo-dragibus.png",
-      "/images/products/Haribo Dragibus2.png"
-    ],
+    image: "/images/products/placeholder.png",
     slug: "haribo-dragibus",
   },
   {
@@ -211,11 +205,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/kinder-maxi.png",
-    images: [
-      "/images/products/kinder-maxi.png",
-      "/images/products/Kinder Maxi2.png"
-    ],
+    image: "/images/products/placeholder.png",
     slug: "kinder-maxi",
   },
   {
@@ -225,11 +215,7 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/mms.png",
-    images: [
-      "/images/products/mms.png",
-      "/images/products/M&Ms2.png"
-    ],
+    image: "/images/products/placeholder.png",
     slug: "mms",
   },
   {
@@ -252,7 +238,8 @@ export const products: Product[] = [
     image: "/images/products/Paquet de Chips Personnalisé3.png",
     images: [
       "/images/products/Paquet de Chips Personnalisé3.png",
-      "/images/products/Paquet de Chips Personnalisé4.png"
+      "/images/products/Paquet de Chips Personnalisé2.png",
+      "/images/products/Paquet de Chips Personnalisé5.png"
     ],
     slug: "paquet-chips-personnalise",
   },
@@ -276,12 +263,7 @@ export const products: Product[] = [
     numericPrice: 2.9,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/sac-cadeau-personnalise.png",
-    images: [
-      "/images/products/sac-cadeau-personnalise.png",
-      "/images/products/Sac Cadeau Personnalisé2.png",
-      "/images/products/Sac Cadeau Personnalisé3.png"
-    ],
+    image: "/images/products/Sac Cadeau Personnalisé3.png",
     slug: "sac-cadeau-personnalise",
   },
   {
@@ -291,11 +273,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/sachet-bonbons-personnalise.png",
-    images: [
-      "/images/products/sachet-bonbons-personnalise.png",
-      "/images/products/Sachet de Bonbons Personnalisé2.png"
-    ],
+    image: "/images/products/placeholder.png",
     slug: "sachet-bonbons-personnalise",
   },
   {
@@ -305,10 +283,8 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/smarties.png",
+    image: "/images/products/Smarties3.png",
     images: [
-      "/images/products/smarties.png",
-      "/images/products/Smarties2.png",
       "/images/products/Smarties3.png",
       "/images/products/Smarties4.png"
     ],
