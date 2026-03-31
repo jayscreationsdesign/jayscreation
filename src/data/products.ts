@@ -107,9 +107,8 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Boîte de Lait Personnalisée3.png",
+    image: "/images/products/Boîte de Lait Personnalisée4.png",
     images: [
-      "/images/products/Boîte de Lait Personnalisée3.png",
       "/images/products/Boîte de Lait Personnalisée4.png",
       "/images/products/Boîte de Lait Personnalisée5.png"
     ],
@@ -131,11 +130,7 @@ export const products: Product[] = [
     price: "2,50€ - 5,50€",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Boîtes de Pop Corn Personnalisées2.png",
-    images: [
-      "/images/products/Boîtes de Pop Corn Personnalisées2.png",
-      "/images/products/Boîtes de Pop Corn Personnalisées3.png"
-    ],
+    image: "/images/products/Boîtes de Pop Corn Personnalisées3.png",
     slug: "boites-pop-corn-personnalisees",
   },
   {
@@ -182,6 +177,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/haribo-dragibus.png",
+    images: [
+      "/images/products/haribo-dragibus.png",
+      "/images/products/Haribo Dragibus2.png"
+    ],
     slug: "haribo-dragibus",
   },
   {
@@ -213,6 +212,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/kinder-maxi.png",
+    images: [
+      "/images/products/kinder-maxi.png",
+      "/images/products/Kinder Maxi2.png"
+    ],
     slug: "kinder-maxi",
   },
   {
@@ -223,6 +226,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/mms.png",
+    images: [
+      "/images/products/mms.png",
+      "/images/products/M&Ms2.png"
+    ],
     slug: "mms",
   },
   {
