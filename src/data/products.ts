@@ -39,6 +39,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Étiquette Capri-Sun2.png",
+    images: [
+      "/images/products/Étiquette Capri-Sun2.png",
+      "/images/products/Étiquette Capri-Sun3.png"
+    ],
     slug: "etiquette-capri-sun",
   },
   {
@@ -48,12 +52,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/etiquette-champomy-tshirt-style.png",
-    images: [
-      "/images/products/etiquette-champomy-tshirt-style.png",
-      "/images/products/etiquette-bouteille-eau-tshirt-style.png",
-      "/images/products/etiquette-capri-sun-tshirt-style.png"
-    ],
+    image: "/images/products/placeholder.png",
     slug: "etiquette-champomy",
   },
   {
@@ -129,6 +128,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîtes de Pop Corn Personnalisées3.png",
+    images: [
+      "/images/products/Boîtes de Pop Corn Personnalisées3.png",
+      "/images/products/Boîtes de Pop Corn Personnalisées2.png"
+    ],
     slug: "boites-pop-corn-personnalisees",
   },
   {
@@ -148,13 +151,7 @@ export const products: Product[] = [
     numericPrice: 15,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/cadre-personnalise-tshirt-style.png",
-    images: [
-      "/images/products/cadre-personnalise-tshirt-style.png",
-      "/images/products/gourde-personnalisee-tshirt-style.png",
-      "/images/products/tasse-personnalisee-tshirt-style.png"
-    ],
-    rating: 5,
+    image: "/images/products/placeholder.png",
     slug: "cadre-personnalise",
   },
   {
@@ -165,6 +162,10 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Gourde Personnalisée3.png",
+    images: [
+      "/images/products/Gourde Personnalisée3.png",
+      "/images/products/Gourde Personnalisée2.png"
+    ],
     slug: "gourde-personnalisee",
   },
   {
@@ -238,7 +239,6 @@ export const products: Product[] = [
     image: "/images/products/Paquet de Chips Personnalisé3.png",
     images: [
       "/images/products/Paquet de Chips Personnalisé3.png",
-      "/images/products/Paquet de Chips Personnalisé2.png",
       "/images/products/Paquet de Chips Personnalisé5.png"
     ],
     slug: "paquet-chips-personnalise",
@@ -249,11 +249,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/plateau-confiserie-personnalise.png",
-    images: [
-      "/images/products/plateau-confiserie-personnalise.png",
-      "/images/products/Plateau de Confiserie Personnalisé2.png"
-    ],
+    image: "/images/products/placeholder.png",
     slug: "plateau-confiserie-personnalise",
   },
   {
@@ -283,9 +279,8 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Smarties3.png",
+    image: "/images/products/Smarties4.png",
     images: [
-      "/images/products/Smarties3.png",
       "/images/products/Smarties4.png"
     ],
     slug: "smarties",
@@ -297,13 +292,7 @@ export const products: Product[] = [
     numericPrice: 20,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/tasse-personnalisee-tshirt-style.png",
-    images: [
-      "/images/products/tasse-personnalisee-tshirt-style.png",
-      "/images/products/planche-etiquette-thermocollante-tshirt-style.png",
-      "/images/products/faire-part-mariage-elegant-tshirt-style.png"
-    ],
-    rating: 4,
+    image: "/images/products/placeholder.png",
     slug: "tasse-personnalisee",
   },
 
