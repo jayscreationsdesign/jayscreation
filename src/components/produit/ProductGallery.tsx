@@ -3,16 +3,26 @@
 import { useState } from "react";
 import { type Product } from "@/data/products";
 import ImageCarousel from "@/components/ui/ImageCarousel";
+import { getImageSrc, getImageArray } from "@/lib/images";
 
 export default function ProductGallery({ product }: { product: Product }) {
-  // Images principales : image du produit + images additionnelles si elles existent
-  const images = product.images ? [product.image, ...product.images] : [product.image];
+  // Gestion des erreurs d'images avec fallback
+  const [imageError, setImageError] = useState(false);
+  const mainImage = getImageSrc(product.image);
+  const fallbackImage = "/images/products/placeholder.svg";
+  const images = getImageArray(product.images, mainImage);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [thumbnailStart, setThumbnailStart] = useState(0);
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const displayImages = imageError ? [fallbackImage] : images;
+
   // Limiter à 3 thumbnails visibles
   const maxVisibleThumbnails = 3;
-  const visibleThumbnails = images.slice(thumbnailStart, thumbnailStart + maxVisibleThumbnails);
+  const visibleThumbnails = displayImages.slice(thumbnailStart, thumbnailStart + maxVisibleThumbnails);
 
   const handleThumbnailClick = (index: number) => {
     setCurrentImageIndex(index);
@@ -23,7 +33,7 @@ export default function ProductGallery({ product }: { product: Product }) {
   };
 
   const handleThumbnailNext = () => {
-    setThumbnailStart(prev => Math.min(images.length - maxVisibleThumbnails, prev + 1));
+    setThumbnailStart(prev => Math.min(displayImages.length - maxVisibleThumbnails, prev + 1));
   };
 
   return (
@@ -32,16 +42,17 @@ export default function ProductGallery({ product }: { product: Product }) {
       <div className="product-gallery-uniform relative rounded-xl overflow-hidden shadow-md max-w-md mx-auto">
         <div className="relative aspect-[3/4]">
           <img
-            src={images[currentImageIndex]}
+            src={displayImages[currentImageIndex]}
             alt={`${product.name} - vue ${currentImageIndex + 1}`}
             className="w-full h-full object-cover"
+            onError={handleImageError}
           />
           
           {/* Navigation flèches */}
-          {images.length > 1 && (
+          {displayImages.length > 1 && (
             <>
               <button
-                onClick={() => setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length)}
+                onClick={() => setCurrentImageIndex((prev) => (prev - 1 + displayImages.length) % displayImages.length)}
                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +60,7 @@ export default function ProductGallery({ product }: { product: Product }) {
                 </svg>
               </button>
               <button
-                onClick={() => setCurrentImageIndex((prev) => (prev + 1) % images.length)}
+                onClick={() => setCurrentImageIndex((prev) => (prev + 1) % displayImages.length)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,7 +73,7 @@ export default function ProductGallery({ product }: { product: Product }) {
       </div>
       
       {/* Carrousel de thumbnails - Style comme page d'accueil */}
-      {images.length > 1 && (
+      {displayImages.length > 1 && (
         <div className="flex items-center justify-center gap-2">
           {/* Flèche gauche */}
           {thumbnailStart > 0 && (
@@ -104,7 +115,7 @@ export default function ProductGallery({ product }: { product: Product }) {
           })}
           
           {/* Flèche droite */}
-          {thumbnailStart + maxVisibleThumbnails < images.length && (
+          {thumbnailStart + maxVisibleThumbnails < displayImages.length && (
             <button
               onClick={handleThumbnailNext}
               className="flex-shrink-0 w-8 h-8 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:bg-white transition-all duration-200"

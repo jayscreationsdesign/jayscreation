@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getImageArray } from "@/lib/images";
 
 interface ImageCarouselProps {
   images: string[];
@@ -29,15 +30,17 @@ export default function ImageCarousel({
   showArrows = true,
   aspectRatio = "square"
 }: ImageCarouselProps) {
+  // Valider et filtrer les images avec fallback
+  const validImages = getImageArray(images);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Auto-play logic
   useEffect(() => {
-    if (isPlaying && images.length > 1) {
+    if (isPlaying && validImages.length > 1) {
       intervalRef.current = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setCurrentIndex((prev) => (prev + 1) % validImages.length);
       }, autoPlayInterval);
     } else {
       if (intervalRef.current) {
@@ -51,72 +54,44 @@ export default function ImageCarousel({
         clearInterval(intervalRef.current);
       }
     };
-  }, [isPlaying, images.length, autoPlayInterval]);
+  }, [isPlaying, validImages.length, autoPlayInterval]);
 
-  // Navigation functions
   const goToPrevious = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  }, [images.length]);
+    setCurrentIndex((prev) => (prev - 1 + validImages.length) % validImages.length);
+  }, [validImages.length]);
 
   const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  }, [images.length]);
+    setCurrentIndex((prev) => (prev + 1) % validImages.length);
+  }, [validImages.length]);
 
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index);
   }, []);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") goToPrevious();
-      if (e.key === "ArrowRight") goToNext();
-    };
+  const togglePlayPause = useCallback(() => {
+    setIsPlaying(!isPlaying);
+  }, [isPlaying]);
 
-    const container = document.getElementById(`carousel-${alt.replace(/\s+/g, '-')}`);
-    if (container) {
-      container.addEventListener("keydown", handleKeyDown);
-      return () => container.removeEventListener("keydown", handleKeyDown);
+  // Get aspect ratio classes
+  const getAspectRatioClass = () => {
+    switch (aspectRatio) {
+      case "video":
+        return "aspect-video";
+      case "portrait":
+        return "aspect-[3/4]";
+      case "landscape":
+        return "aspect-[4/3]";
+      default:
+        return "aspect-square";
     }
-  }, [goToPrevious, goToNext, alt]);
-
-  // Touch/Swipe support
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(0);
-    setTouchStart(e.targetTouches[0].clientX);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) goToNext();
-    if (isRightSwipe) goToPrevious();
-  };
-
-  // Aspect ratio classes
-  const aspectRatioClasses = {
-    square: "aspect-square",
-    video: "aspect-video",
-    portrait: "aspect-[3/4]",
-    landscape: "aspect-[4/3]"
-  };
-
-  // If only one image, show simple image
-  if (images.length <= 1) {
+  // Si pas d'images valides, afficher le placeholder
+  if (validImages.length === 0) {
     return (
-      <div className={`relative ${aspectRatioClasses[aspectRatio]} w-full overflow-hidden rounded-xl ${className}`}>
+      <div className={`relative ${getAspectRatioClass()} ${className}`}>
         <Image
-          src={images[0]}
+          src="/images/products/placeholder.png"
           alt={alt}
           fill
           className="object-contain"
@@ -126,174 +101,113 @@ export default function ImageCarousel({
     );
   }
 
-  // Category variant - minimal carousel
-  if (variant === "category") {
-    return (
-      <div 
-        id={`carousel-${alt.replace(/\s+/g, '-')}`}
-        className={`relative ${aspectRatioClasses[aspectRatio]} w-full overflow-hidden rounded-xl ${className}`}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <Image
-          src={images[currentIndex]}
-          alt={`${alt} — vue ${currentIndex + 1}`}
-          fill
-          className="object-contain transition-transform duration-300"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-
-        {/* Minimal arrows for category */}
-        {showArrows && (
-          <>
-            <button
-              onClick={goToPrevious}
-              aria-label="Image précédente"
-              className="absolute left-2 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm shadow-lg transition-all hover:bg-white hover:scale-110 md:left-3 md:h-9 md:w-9"
-            >
-              <ChevronLeft size={16} className="text-gray-700" />
-            </button>
-            <button
-              onClick={goToNext}
-              aria-label="Image suivante"
-              className="absolute right-2 top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 backdrop-blur-sm shadow-lg transition-all hover:bg-white hover:scale-110 md:right-3 md:h-9 md:w-9"
-            >
-              <ChevronRight size={16} className="text-gray-700" />
-            </button>
-          </>
-        )}
-
-        {/* Minimal dots for category */}
-        {showDots && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goToSlide(i)}
-                aria-label={`Aller à l'image ${i + 1}`}
-                className={`h-1.5 w-1.5 rounded-full transition-all ${
-                  i === currentIndex
-                    ? "bg-gray-800 w-4"
-                    : "bg-white/60 hover:bg-white/80"
-                }`}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Image counter */}
-        <div className="absolute top-2 right-2 rounded-full bg-black/60 backdrop-blur-sm px-2 py-1 text-xs text-white">
-          {currentIndex + 1}/{images.length}
-        </div>
-      </div>
-    );
-  }
-
-  // Product variant - full carousel
   return (
-    <div 
-      id={`carousel-${alt.replace(/\s+/g, '-')}`}
-      className={`relative ${aspectRatioClasses[aspectRatio]} w-full overflow-hidden rounded-xl ${className}`}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      <Image
-        src={images[currentIndex]}
-        alt={`${alt} — vue ${currentIndex + 1}`}
-        fill
-        className="object-contain transition-transform duration-300"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        priority={currentIndex === 0}
-      />
+    <div className={`relative ${className}`}>
+      {/* Main Image */}
+      <div className={`relative ${getAspectRatioClass()} overflow-hidden`}>
+        <Image
+          src={validImages[currentIndex]}
+          alt={`${alt} - Image ${currentIndex + 1}`}
+          fill
+          className="object-contain transition-opacity duration-300"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority={currentIndex === 0}
+        />
+      </div>
 
-      {/* Navigation arrows */}
-      {showArrows && (
+      {/* Navigation Arrows */}
+      {showArrows && validImages.length > 1 && (
         <>
           <button
             onClick={goToPrevious}
-            aria-label="Image précédente"
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-lg transition-all hover:bg-white hover:scale-110"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200 z-10"
+            aria-label="Previous image"
           >
-            <ChevronLeft size={22} className="text-gray-800" />
+            <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={goToNext}
-            aria-label="Image suivante"
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-lg transition-all hover:bg-white hover:scale-110"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200 z-10"
+            aria-label="Next image"
           >
-            <ChevronRight size={22} className="text-gray-800" />
+            <ChevronRight className="w-4 h-4" />
           </button>
         </>
       )}
 
-      {/* Image counter */}
-      <div className="absolute top-4 left-4 rounded-full bg-black/70 backdrop-blur-sm px-3 py-2 text-sm text-white font-medium">
-        {currentIndex + 1} / {images.length}
-      </div>
-
-      {/* Play/Pause button for auto-play */}
-      {autoPlay && (
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          aria-label={isPlaying ? "Pause" : "Lecture automatique"}
-          className="absolute top-4 right-4 rounded-full bg-white/90 backdrop-blur-sm p-2 shadow-lg transition-all hover:bg-white hover:scale-110"
-        >
-          {isPlaying ? (
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <rect x="6" y="4" width="4" height="16" />
-              <rect x="14" y="4" width="4" height="16" />
-            </svg>
-          ) : (
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          )}
-        </button>
-      )}
-
-      {/* Dots indicator */}
-      {showDots && (
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-          {images.map((_, i) => (
+      {/* Dots Indicator */}
+      {showDots && validImages.length > 1 && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {validImages.map((_, index) => (
             <button
-              key={i}
-              onClick={() => goToSlide(i)}
-              aria-label={`Aller à l'image ${i + 1}`}
-              className={`h-2 w-2 rounded-full transition-all ${
-                i === currentIndex
-                  ? "bg-white w-6"
-                  : "bg-white/50 hover:bg-white/70"
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                index === currentIndex
+                  ? "bg-[#C8A96E] w-6"
+                  : "bg-white/60 hover:bg-white/80"
               }`}
+              aria-label={`Go to image ${index + 1}`}
             />
           ))}
         </div>
       )}
 
-      {/* Thumbnails */}
-      {showThumbnails && (
-        <div className="mt-4 flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {images.map((img, i) => (
+      {/* Play/Pause Button (Product variant only) */}
+      {variant === "product" && validImages.length > 1 && (
+        <button
+          onClick={togglePlayPause}
+          className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200 z-10"
+          aria-label={isPlaying ? "Pause" : "Play"}
+        >
+          <svg
+            className="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            {isPlaying ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 9v6m4-6v6"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+              />
+            )}
+          </svg>
+        </button>
+      )}
+
+      {/* Thumbnails (Product variant only) */}
+      {showThumbnails && variant === "product" && validImages.length > 1 && (
+        <div className="absolute bottom-4 left-4 right-4 flex gap-2 overflow-x-auto z-10">
+          {validImages.map((image, index) => (
             <button
-              key={i}
-              onClick={() => goToSlide(i)}
-              aria-label={`Vue ${i + 1}`}
-              className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg border-2 transition-all hover:scale-105 md:h-20 md:w-20 ${
-                i === currentIndex 
-                  ? "border-[#C8A96E] shadow-lg scale-105" 
-                  : "border-gray-200 hover:border-[#C8A96E]/50"
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                index === currentIndex
+                  ? "border-[#C8A96E] scale-110"
+                  : "border-white/60 hover:border-white/80"
               }`}
+              aria-label={`Thumbnail ${index + 1}`}
             >
               <Image
-                src={img}
-                alt={`${alt} — vue ${i + 1}`}
+                src={image}
+                alt={`${alt} - Thumbnail ${index + 1}`}
                 fill
-                className="object-contain"
-                sizes="80px"
+                className="object-cover"
+                sizes="64px"
               />
-              {i === currentIndex && (
-                <div className="absolute inset-0 bg-[#C8A96E]/10 pointer-events-none" />
+              {index === currentIndex && (
+                <div className="absolute inset-0 border-2 border-[#C8A96E] rounded-lg pointer-events-none" />
               )}
             </button>
           ))}

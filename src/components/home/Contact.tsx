@@ -1,0 +1,43 @@
+"use client"
+
+export function Contact() {
+  return (
+    <section className="py-16 bg-[#FAF7F2]">
+      <div className="max-w-4xl mx-auto px-4 text-center">
+        <h2 className="text-3xl font-bold text-[#2C2C2C] mb-8">
+          Contactez-nous
+        </h2>
+        <p className="text-lg text-[#6B6B6B] mb-12">
+          Une question ? Un projet en tête ? Notre équipe est là pour vous accompagner
+          dans la création de vos événements inoubliables.
+        </p>
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-[#C8A96E] rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-white">📧</span>
+            </div>
+            <h3 className="font-semibold text-[#2C2C2C] mb-2">Email</h3>
+            <p className="text-[#6B6B6B]">contact@jayscreations.fr</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-[#C8A96E] rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-white">📱</span>
+            </div>
+            <h3 className="font-semibold text-[#2C2C2C] mb-2">Téléphone</h3>
+            <p className="text-[#6B6B6B]">+33 6 12 34 56 78</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-[#C8A96E] rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-white">📍</span>
+            </div>
+            <h3 className="font-semibold text-[#2C2C2C] mb-2">Localisation</h3>
+            <p className="text-[#6B6B6B]">France</p>
+          </div>
+        </div>
+        <button className="bg-[#C8A96E] text-white px-8 py-3 rounded-lg hover:bg-[#B89A5E] transition-colors">
+          Envoyer un message
+        </button>
+      </div>
+    </section>
+  );
+}

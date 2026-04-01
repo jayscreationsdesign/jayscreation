@@ -225,18 +225,28 @@ function CategoryItemComponent({
       >
         <span>{category.name}</span>
         {hasChildren && (
-          <button
+          <span
+            role="button"
+            tabIndex={0}
             onClick={(e) => {
               e.stopPropagation(); // Empêcher la propagation au parent
               setIsOpen(!isOpen); // Toggle du dropdown
             }}
-            className="p-1 hover:bg-gray-100 rounded"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsOpen(!isOpen);
+              }
+            }}
+            className="p-1 hover:bg-gray-100 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent"
+            aria-label={`Ouvrir/fermer le sous-menu de ${category.name}`}
           >
             <ChevronDown
               size={16}
               className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
             />
-          </button>
+          </span>
         )}
       </button>
 

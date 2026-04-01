@@ -2,6 +2,8 @@
 
 import { type Product } from "@/data/products";
 import ImageCarousel from "@/components/ui/ImageCarousel";
+import { getImageSrc, getImageArray } from "@/lib/images";
+import { useState } from "react";
 
 interface ProductCarouselProps {
   product: Product;
@@ -9,13 +11,22 @@ interface ProductCarouselProps {
 }
 
 export default function ProductCarousel({ product, className = "" }: ProductCarouselProps) {
-  // Récupérer toutes les images : image principale + images additionnelles
-  const images = product.images ? [product.image, ...product.images] : [product.image];
+  // Gestion des erreurs d'images avec fallback
+  const [imageError, setImageError] = useState(false);
+  const mainImage = getImageSrc(product.image);
+  const fallbackImage = "/images/products/placeholder.svg";
+  const images = getImageArray(product.images, mainImage);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const displayImages = imageError ? [fallbackImage] : images;
 
   return (
     <div className={`product-card-uniform relative rounded-2xl overflow-hidden shadow-lg ${className}`}>
       <ImageCarousel
-        images={images}
+        images={displayImages}
         alt={product.name}
         variant="category"
         className="w-full"

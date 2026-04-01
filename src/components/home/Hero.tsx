@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
-export default function Hero() {
+export function Hero() {
   return (
     <section className="relative overflow-hidden">
       {/* Forcer déploiement Vercel - 27/03/2026 */}

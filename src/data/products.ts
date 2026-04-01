@@ -13,6 +13,7 @@ export interface Product {
   description?: string;
   longDescription?: string;
   reviewCount?: number;
+  themes?: string[]; // Thèmes disponibles pour ce produit
 }
 
 export const products: Product[] = [
@@ -32,6 +33,7 @@ export const products: Product[] = [
       "/images/products/Boîte Cadeau Personnalisée8.png"
     ],
     slug: "boite-cadeau-personnalisee",
+    themes: ["mariage", "anniversaire", "baby-shower"],
   },
   {
     id: "8",
@@ -46,6 +48,7 @@ export const products: Product[] = [
       "/images/products/Boîte de Lait Personnalisée3.png"
     ],
     slug: "boite-lait-personnalisee",
+    themes: ["bapteme", "naissance", "communion"],
   },
   {
     id: "9",
@@ -56,6 +59,7 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîte Pom'Potes Personnalisée2.png",
     slug: "boite-pompotes-personnalisee",
+    themes: ["anniversaire", "baby-shower", "noel"],
   },
   {
     id: "10",

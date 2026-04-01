@@ -34,7 +34,7 @@ export default function RootLayout({
       lang="fr"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground" suppressHydrationWarning>
         <div className="w-full max-w-none">
           <Header />
           <main className="flex-1">{children}</main>

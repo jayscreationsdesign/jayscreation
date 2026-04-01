@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import { type Product } from "@/data/products";
 import ImageCarousel from "./ImageCarousel";
+import { getImageSrc, getImageArray } from "@/lib/images";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -21,9 +23,18 @@ export default function ProductCard({
   showRating = true,
   aspectRatio = "square"
 }: ProductCardProps) {
-  // Récupérer toutes les images : image principale + images additionnelles
-  const allImages = product.images ? [product.image, ...product.images] : [product.image];
+  // Gestion des erreurs d'images avec fallback
+  const [imageError, setImageError] = useState(false);
+  const mainImage = getImageSrc(product.image);
+  const fallbackImage = "/images/products/placeholder.svg";
+  const allImages = getImageArray(product.images, mainImage);
   const hasMultipleImages = allImages.length > 1;
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const displayImage = imageError ? fallbackImage : mainImage;
 
   return (
     <div
@@ -48,11 +59,12 @@ export default function ProductCard({
         ) : (
           <div className="product-card-uniform relative aspect-square w-full overflow-hidden rounded-t-3xl shadow-lg">
             <Image
-              src={product.image}
+              src={displayImage}
               alt={product.name}
               fill
               className="object-contain transition-transform duration-300 hover:scale-105 p-4"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={handleImageError}
             />
           </div>
         )}

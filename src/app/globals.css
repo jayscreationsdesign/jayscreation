@@ -127,6 +127,16 @@
   html {
     @apply font-sans;
   }
+
+  /* Curseur pointer sur tous les éléments cliquables */
+  button, 
+  a, 
+  [role="button"],
+  select,
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
 }
 
 @keyframes marquee {

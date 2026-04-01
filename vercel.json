@@ -1,3 +1,8 @@
 {
-  "alias": ["www.jayscreationsdesign.fr", "jayscreationsdesign.fr"]
+  "alias": ["www.jayscreationsdesign.fr", "jayscreationsdesign.fr"],
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next"
 }

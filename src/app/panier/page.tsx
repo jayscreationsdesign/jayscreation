@@ -1,0 +1,200 @@
+"use client";
+
+import Link from "next/link";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
+
+export default function PanierPage() {
+  const { items, removeItem, updateQuantite, clearCart } = useCartStore();
+  
+  const sousTotal = items.reduce(
+    (acc, item) => acc + (item.prix * item.quantite), 0
+  );
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(price);
+  };
+
+  if (items.length === 0) {
+    return (
+      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+        <div className="text-center bg-white rounded-2xl p-12 shadow-sm border border-[#E8E4DF] max-w-md">
+          <ShoppingBag size={48} className="text-[#C8A96E] mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-[#2C2C2C] mb-2">
+            Votre panier est vide
+          </h2>
+          <p className="text-[#6B6B6B] mb-6">
+            Découvrez nos créations personnalisées et ajoutez vos articles préférés pour commencer votre commande.
+          </p>
+          <Link href="/boutique"
+            className="cursor-pointer inline-block bg-[#C8A96E] text-white px-8 py-3 
+            rounded-full font-medium hover:bg-[#B89A5E] transition-colors">
+            Découvrir la boutique
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#FAF7F2]">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <Link href="/boutique"
+            className="cursor-pointer flex items-center gap-3 text-[#C8A96E] hover:text-[#B89A5E] transition-colors">
+            <ArrowLeft size={20} />
+            <span className="font-medium">Continuer mes achats</span>
+          </Link>
+          <h1 className="text-3xl font-bold text-[#2C2C2C]">
+            Mon Panier ({items.reduce((sum, item) => sum + item.quantite, 0)} articles)
+          </h1>
+          <button
+            onClick={clearCart}
+            className="cursor-pointer text-sm text-red-400 hover:text-red-500 border border-red-200 px-4 py-2 rounded-full transition-colors"
+          >
+            Vider le panier
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* Articles */}
+          <div className="lg:col-span-2 space-y-4">
+            {items.map((item) => (
+              <div key={item.id} 
+                className="bg-white rounded-2xl p-6 border border-[#E8E4DF] 
+                flex gap-6 items-center">
+                
+                {/* Image */}
+                <div className="relative w-24 h-24 flex-shrink-0">
+                  <img 
+                    src={item.image || "/images/products/placeholder.svg"}
+                    alt={item.nom}
+                    className="w-full h-full object-cover rounded-xl"
+                  />
+                </div>
+                
+                {/* Détails */}
+                <div className="flex-1 min-w-0">
+                  <div className="mb-2">
+                    <Link href={`/produit/${item.slug}`}
+                      className="cursor-pointer font-semibold text-[#2C2C2C] 
+                      hover:text-[#C8A96E] hover:underline transition-colors 
+                      block truncate">
+                      {item.nom}
+                    </Link>
+                    {item.theme && (
+                      <span className="text-xs text-[#C8A96E] capitalize ml-2">
+                        Thème : {item.theme}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center gap-4 mb-4">
+                    <button
+                      onClick={() => updateQuantite(item.id, Math.max(1, item.quantite - 1))}
+                      className="cursor-pointer w-8 h-8 rounded-full border border-[#E8E4DF] 
+                      flex items-center justify-center hover:border-[#C8A96E] transition-colors"
+                    >
+                      <Minus size={14} />
+                    </button>
+                    <span className="w-12 text-center font-medium text-[#2C2C2C]">
+                      {item.quantite}
+                    </span>
+                    <button
+                      onClick={() => updateQuantite(item.id, item.quantite + 1)}
+                      className="cursor-pointer w-8 h-8 rounded-full border border-[#E8E4DF] 
+                      flex items-center justify-center hover:border-[#C8A96E] transition-colors"
+                    >
+                      <Plus size={14} />
+                    </button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-[#6B6B6B]">Prix unitaire</p>
+                      <p className="font-bold text-[#2C2C2C]">
+                        {formatPrice(item.prix)}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="cursor-pointer text-red-400 hover:text-red-500 transition-colors"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Récapitulatif */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl p-6 border border-[#E8E4DF] sticky top-8">
+              <h2 className="text-lg font-bold text-[#2C2C2C] mb-6">
+                Récapitulatif
+              </h2>
+              
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between text-sm">
+                  <span className="text-[#6B6B6B]">Sous-total</span>
+                  <span className="font-medium text-[#2C2C2C]">
+                    {formatPrice(sousTotal)}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-[#6B6B6B]">Livraison</span>
+                  <span className="text-green-600 font-medium">Gratuite</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-[#6B6B6B]">TVA</span>
+                  <span className="font-medium text-[#2C2C2C]">Incluse</span>
+                </div>
+              </div>
+              
+              <div className="border-t border-[#E8E4DF] pt-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-xl font-bold text-[#2C2C2C]">Total</span>
+                  <span className="text-2xl font-bold text-[#C8A96E]">
+                    {formatPrice(sousTotal)}
+                  </span>
+                </div>
+              </div>
+              
+              {/* Message de réassurance */}
+              <div className="bg-[#FAF7F2] p-4 rounded-lg text-sm text-[#6B6B6B] mb-6">
+                <p className="mb-1">✓ Livraison offerte dès 50€ d'achat</p>
+                <p className="mb-1">✓ Modifications jusqu'à validation</p>
+                <p>✓ Satisfait ou remboursé 30 jours</p>
+              </div>
+              
+              {/* Boutons d'action */}
+              <div className="space-y-3 mt-6">
+                <Link href="/commande">
+                  <button className="cursor-pointer w-full bg-[#C8A96E] text-white 
+                    text-center py-4 rounded-full font-medium hover:bg-[#B89A5E] 
+                    transition-colors">
+                    Commander
+                  </button>
+                </Link>
+                <Link href="/boutique">
+                  <button className="cursor-pointer w-full border border-[#C8A96E] 
+                    text-[#C8A96E] text-center py-4 rounded-full font-medium 
+                    hover:bg-[#FAF7F2] transition-colors">
+                    Continuer mes achats
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
