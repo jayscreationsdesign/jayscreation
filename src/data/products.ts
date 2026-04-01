@@ -18,71 +18,6 @@ export interface Product {
 export const products: Product[] = [
   // PAPETERIE
   {
-    id: "1",
-    name: "Étiquette Bouteille d'Eau",
-    price: "1,00€",
-    numericPrice: 1,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Étiquette Bouteille d'Eau.png",
-    images: [
-      "/images/products/Étiquette Bouteille d'Eau1.png",
-      "/images/products/Étiquette Bouteille d'Eau2.png"
-    ],
-    slug: "etiquette-bouteille-eau",
-  },
-  {
-    id: "2",
-    name: "Étiquette Capri-Sun",
-    price: "1,50€",
-    numericPrice: 1.5,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Étiquette Capri-Sun2.png",
-    images: [
-      "/images/products/Étiquette Capri-Sun3.png"
-    ],
-    slug: "etiquette-capri-sun",
-  },
-  {
-    id: "3",
-    name: "Étiquette Champomy",
-    price: "2,50€",
-    numericPrice: 2.5,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
-    slug: "etiquette-champomy",
-  },
-  {
-    id: "4",
-    name: "Étiquette Mini Canette Coca-Cola",
-    price: "1,80€",
-    numericPrice: 1.8,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
-    slug: "etiquette-mini-canette-coca",
-  },
-  {
-    id: "5",
-    name: "Stickers Personnalisés",
-    price: "Sur devis",
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Stickers Personnalisés2.png",
-    slug: "stickers-personnalises",
-  },
-  {
-    id: "6",
-    name: "Flyers & Cartes de Visite Sur Mesure",
-    price: "Sur devis",
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Flyers & Cartes de Visite Sur Mesure2.png",
-    slug: "flyers-cartes-visite-sur-mesure",
-  },
-  {
     id: "7",
     name: "Boîte Cadeau Personnalisée",
     price: "Sur devis",
@@ -151,6 +86,29 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/placeholder.png",
     slug: "cadre-personnalise",
+  },
+  {
+    id: "30",
+    name: "Cône Friandise Personnalisé",
+    slug: "cone-friandise-personnalise",
+    price: "Sur devis",
+    category: "Papeterie Personnalisée",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/67.png",
+    images: [
+      "/images/products/68.png"
+    ],
+    description: "Cône friandise personnalisé pour vos événements spéciaux. Design unique et personnalisable avec vos couleurs et thèmes.",
+    rating: 5,
+  },
+  {
+    id: "6",
+    name: "Flyers & Cartes de Visite Sur Mesure",
+    price: "Sur devis",
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/Flyers & Cartes de Visite Sur Mesure2.png",
+    slug: "flyers-cartes-visite-sur-mesure",
   },
   {
     id: "13",
@@ -283,6 +241,15 @@ export const products: Product[] = [
     slug: "smarties",
   },
   {
+    id: "5",
+    name: "Stickers Personnalisés",
+    price: "Sur devis",
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/Stickers Personnalisés2.png",
+    slug: "stickers-personnalises",
+  },
+  {
     id: "25",
     name: "Tasse Personnalisée",
     price: "20,00€",
@@ -291,6 +258,53 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/placeholder.png",
     slug: "tasse-personnalisee",
+  },
+  {
+    id: "1",
+    name: "Étiquette Bouteille d'Eau",
+    price: "1,00€",
+    numericPrice: 1,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/Étiquette Bouteille d'Eau.png",
+    images: [
+      "/images/products/Étiquette Bouteille d'Eau1.png",
+      "/images/products/Étiquette Bouteille d'Eau2.png"
+    ],
+    slug: "etiquette-bouteille-eau",
+  },
+  {
+    id: "2",
+    name: "Étiquette Capri-Sun",
+    price: "1,50€",
+    numericPrice: 1.5,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/Étiquette Capri-Sun2.png",
+    images: [
+      "/images/products/Étiquette Capri-Sun3.png"
+    ],
+    slug: "etiquette-capri-sun",
+  },
+  {
+    id: "3",
+    name: "Étiquette Champomy",
+    price: "2,50€",
+    numericPrice: 2.5,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/placeholder.png",
+    slug: "etiquette-champomy",
+  },
+  {
+    id: "4",
+    name: "Étiquette Mini Canette Coca-Cola",
+    price: "1,80€",
+    numericPrice: 1.8,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/placeholder.png",
+    slug: "etiquette-mini-canette-coca",
   },
 
   // FLOCAGES
@@ -352,6 +366,10 @@ export const products: Product[] = [
     categorySlug: "marque-places",
     parentCategorySlug: "mariage",
     image: "/images/products/Eventail programme mariage4.png",
+    images: [
+      "/images/products/Eventail programme mariage2.png",
+      "/images/products/Eventail programme mariage5.png"
+    ],
     description: "Éventail programme de mariage élégant et pratique pour vos invités. Design personnalisable avec informations du déroulement de la cérémonie.",
     rating: 5,
   },
