@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { categories } from "@/data/categories";
+import { useCartStore } from "@/store/cartStore";
 
 // ─── Types ────────────────────────────────────────────────────────────
 
@@ -129,9 +130,24 @@ export default function Header() {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileOpenItems, setMobileOpenItems] = useState<Set<string>>(new Set());
+  const [cartHover, setCartHover] = useState(false);
+  const [cartDropdownHover, setCartDropdownHover] = useState(false);
   // Active category read client-side to avoid useSearchParams in layout
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cartCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  
+  // Panier states
+  const items = useCartStore((state) => state.items);
+  const totalItems = items.reduce((acc, item) => acc + item.quantite, 0);
+  const sousTotal = items.reduce((acc, item) => acc + item.prix * item.quantite, 0);
+
+  // Debug pour voir les articles dans la console
+  useEffect(() => {
+    console.log('🛒 Articles dans le Header:', items);
+    console.log('🛒 TotalItems:', totalItems);
+    console.log('🛒 IDs des articles:', items.map(item => ({ id: item.id, nom: item.nom, quantite: item.quantite })));
+  }, [items, totalItems]);
 
   // Scroll shadow
   useEffect(() => {
@@ -156,8 +172,37 @@ export default function Header() {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
     setOpenDropdown(href);
   };
+
   const handleMouseLeave = () => {
-    closeTimerRef.current = setTimeout(() => setOpenDropdown(null), 80);
+    closeTimerRef.current = setTimeout(() => setOpenDropdown(null), 150);
+  };
+
+  // Cart hover handlers with extended delay
+  const handleCartMouseEnter = () => {
+    if (cartCloseTimerRef.current) clearTimeout(cartCloseTimerRef.current);
+    setCartHover(true);
+    setCartDropdownHover(true);
+  };
+
+  const handleCartMouseLeave = () => {
+    // Don't close immediately, give user time to move to dropdown
+    cartCloseTimerRef.current = setTimeout(() => {
+      setCartHover(false);
+      setCartDropdownHover(false);
+    }, 500); // 500ms delay instead of immediate
+  };
+
+  const handleCartDropdownMouseEnter = () => {
+    if (cartCloseTimerRef.current) clearTimeout(cartCloseTimerRef.current);
+    setCartDropdownHover(true);
+  };
+
+  const handleCartDropdownMouseLeave = () => {
+    // Only close if not hovering over button or dropdown
+    cartCloseTimerRef.current = setTimeout(() => {
+      setCartHover(false);
+      setCartDropdownHover(false);
+    }, 300);
   };
 
   const toggleMobileItem = (href: string) => {
@@ -264,7 +309,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
-              src="/images/logo-jays.png"
+              src="/images/logo/LOGO (2).png"
               alt="Jay's Creations Design"
               width={60}
               height={60}
@@ -298,16 +343,79 @@ export default function Header() {
 
           <div className="flex items-center gap-2">
             {/* Panier */}
-            <Link
-              href="/panier"
-              className="relative inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+            <div
+              className="relative"
+              onMouseEnter={handleCartMouseEnter}
+              onMouseLeave={handleCartMouseLeave}
             >
-              <ShoppingBag className="h-4 w-4" />
-              <span className="hidden sm:inline">Panier</span>
-              <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] font-semibold text-white">
-                0
-              </span>
-            </Link>
+              <Link
+                href="/panier"
+                className="relative inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+              >
+                <ShoppingBag className="h-4 w-4" />
+                <span className="hidden sm:inline">Panier</span>
+                <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] font-semibold text-white">
+                  {totalItems}
+                </span>
+              </Link>
+
+              {/* Mini panier dropdown */}
+              {(cartHover || cartDropdownHover) && totalItems > 0 && (
+                <div 
+                  className="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 p-4"
+                  onMouseEnter={handleCartDropdownMouseEnter}
+                  onMouseLeave={handleCartDropdownMouseLeave}
+                >
+                  <p className="text-sm font-semibold text-gray-900 mb-3">
+                    Mon panier ({totalItems} article{totalItems > 1 ? "s" : ""})
+                  </p>
+                  <div className="space-y-3 max-h-64 overflow-y-auto">
+                    {items.map((item) => (
+                      <div key={item.id} className="flex gap-3 items-center">
+                        <img
+                          src={item.image || "/images/products/placeholder.svg"}
+                          alt={item.nom}
+                          className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <Link
+                            href={item.slug ? `/produit/${item.slug}` : '#'}
+                            className="text-xs font-medium text-gray-900 truncate hover:text-blue-600 transition-colors"
+                            onClick={() => {
+                              console.log('🛒 Clic sur article:', item.nom); // Debug
+                              setCartHover(false);
+                              setCartDropdownHover(false);
+                            }}
+                          >
+                            {item.nom}
+                          </Link>
+                          {item.theme && (
+                            <p className="text-xs text-gray-600 capitalize">
+                              {item.theme}
+                            </p>
+                          )}
+                          <p className="text-xs text-gray-600">
+                            x{item.quantite} · {(item.prix * item.quantite).toFixed(2)} €
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="border-t border-gray-200 mt-3 pt-3">
+                    <div className="flex justify-between text-sm font-bold mb-3">
+                      <span>Total</span>
+                      <span className="text-gray-900">{sousTotal.toFixed(2)} €</span>
+                    </div>
+                    <Link
+                      href="/panier"
+                      className="block w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white text-center py-3 rounded-lg text-sm font-medium hover:from-amber-600 hover:to-amber-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]"
+                    >
+                      Voir mon panier
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Hamburger — mobile uniquement */}
             <button

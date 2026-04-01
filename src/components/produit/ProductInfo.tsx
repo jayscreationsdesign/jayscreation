@@ -117,7 +117,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
             <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#C8A96E]">
               <Check size={10} className="text-[#C8A96E]" strokeWidth={3} />
             </div>
-            <span className="text-sm text-[#6B6B6B]">Satisfait ou remboursé 30 jours</span>
+            <span className="text-sm text-[#6B6B6B]">Personnalisation incluse</span>
           </div>
         </div>
       </div>

@@ -28,20 +28,33 @@ export const useCartStore = create<CartStore>()(
       items: [],
       
       addItem: (newItem) => {
+        console.log('🛒 Ajout article:', newItem); // Debug
         set((state) => {
+          console.log('🛒 Panier actuel:', state.items); // Debug
+          
+          // Générer un ID unique si non fourni
+          const itemWithId = {
+            ...newItem,
+            id: newItem.id || `${newItem.slug}-${newItem.theme || 'default'}-${Date.now()}`
+          };
+          
           const existingIndex = state.items.findIndex(
             (i) => i.slug === newItem.slug && 
             (i.theme || "") === (newItem.theme || "")
           );
+          console.log('🛒 Index trouvé:', existingIndex); // Debug
           if (existingIndex >= 0) {
+            console.log('🛒 Fusion article existant'); // Debug
             const updated = [...state.items];
             updated[existingIndex] = {
               ...updated[existingIndex],
               quantite: updated[existingIndex].quantite + 1
             };
+            console.log('🛒 Panier après fusion:', updated); // Debug
             return { items: updated };
           }
-          return { items: [...state.items, { ...newItem, quantite: 1 }] };
+          console.log('🛒 Nouvel article ajouté avec ID:', itemWithId.id); // Debug
+          return { items: [...state.items, { ...itemWithId, quantite: 1 }] };
         });
       },
       
