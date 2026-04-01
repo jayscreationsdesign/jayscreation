@@ -62,6 +62,16 @@ export const categories: Category[] = [
     ],
   },
   {
+    name: "Papeterie Saisonnière",
+    slug: "papeterie-saisonniere",
+    children: [
+      { name: "Noël", slug: "noel" },
+      { name: "Saint-Valentin", slug: "saint-valentin" },
+      { name: "Pâques", slug: "paques" },
+      { name: "Halloween", slug: "halloween" },
+    ],
+  },
+  {
     name: "Chocolat",
     slug: "chocolat",
     children: [

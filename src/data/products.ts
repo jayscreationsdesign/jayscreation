@@ -41,7 +41,9 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîte de Lait Personnalisée5.png",
     images: [
-      "/images/products/Boîte de Lait Personnalisée4.png"
+      "/images/products/Boîte de Lait Personnalisée4.png",
+      "/images/products/Boîte de Lait Personnalisée2.png",
+      "/images/products/Boîte de Lait Personnalisée3.png"
     ],
     slug: "boite-lait-personnalisee",
   },
@@ -118,7 +120,70 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Gourde Personnalisée2.png",
+    images: [
+      "/images/products/Gourde Personnalisée3.png"
+    ],
     slug: "gourde-personnalisee",
+  },
+
+  // PAPETERIE SAISONNIÈRE
+  {
+    id: "31",
+    name: "Carte de Noël Personnalisée",
+    slug: "carte-noel-personnalisee",
+    price: "Sur devis",
+    category: "Papeterie Saisonnière",
+    categorySlug: "papeterie-saisonniere",
+    image: "/images/products/placeholder.png",
+    description: "Carte de Noël personnalisée pour vos vœux de fin d'année. Design unique et élégant.",
+    rating: 5,
+  },
+  {
+    id: "32",
+    name: "Décoration Saint-Valentin",
+    slug: "decoration-saint-valentin",
+    price: "Sur devis",
+    category: "Papeterie Saisonnière",
+    categorySlug: "papeterie-saisonniere",
+    image: "/images/products/placeholder.png",
+    description: "Décoration Saint-Valentin pour célébrer l'amour. Cœurs et motifs romantiques personnalisés.",
+    rating: 5,
+  },
+  {
+    id: "33",
+    name: "Garniture Pâques",
+    slug: "garniture-paques",
+    price: "Sur devis",
+    category: "Papeterie Saisonnière",
+    categorySlug: "papeterie-saisonniere",
+    image: "/images/products/placeholder.png",
+    description: "Garniture Pâques avec œufs et lapins décoratifs. Ambiance printanière garantie.",
+    rating: 5,
+  },
+  {
+    id: "34",
+    name: "Décoration Halloween",
+    slug: "decoration-halloween",
+    price: "Sur devis",
+    category: "Papeterie Saisonnière",
+    categorySlug: "papeterie-saisonniere",
+    image: "/images/products/placeholder.png",
+    description: "Décoration Halloween avec citrouilles et motifs effrayants. Pour une soirée mémorable.",
+    rating: 5,
+  },
+  {
+    id: "35",
+    name: "Boîte à Œuf de Pâques Personnalisée",
+    slug: "boite-oeuf-paques-personnalisee",
+    price: "Sur devis",
+    category: "Papeterie Saisonnière",
+    categorySlug: "paques",
+    image: "/images/products/36.png",
+    images: [
+      "/images/products/38.png"
+    ],
+    description: "Boîte à œuf de Pâques personnalisée pour vos célébrations printanières. Design unique et coloré avec motifs de Pâques.",
+    rating: 5,
   },
   {
     id: "14",

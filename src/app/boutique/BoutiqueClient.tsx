@@ -83,6 +83,13 @@ const getFilteredProducts = (
     filtered = allProducts.filter((p) => baptemeSubCategorySlugs.includes(p.categorySlug));
   }
   
+  // Si c'est la catégorie Papeterie Saisonnière, chercher dans toutes les sous-catégories saisonnières
+  if (filtered.length === 0 && categorySlug === "papeterie-saisonniere") {
+    console.log("Recherche dans toutes les sous-catégories Papeterie Saisonnière...");
+    const saisonniereSubCategorySlugs = ["noel", "saint-valentin", "paques", "halloween"];
+    filtered = allProducts.filter((p) => saisonniereSubCategorySlugs.includes(p.categorySlug));
+  }
+  
   console.log("Produits filtrés:", filtered.length);
   
   return filtered;

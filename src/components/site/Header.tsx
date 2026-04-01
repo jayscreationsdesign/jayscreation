@@ -56,14 +56,14 @@ function buildBottomNav(): BottomNavItem[] {
     }
   }
 
-  // Deuxième ligne - mariage et baptême
+  // Deuxième ligne - mariage, baptême et papeterie saisonnière
   const mariageCat = categories.find(cat => cat.slug === "mariage");
   if (mariageCat) {
     nav.push({
       label: "MARIAGE",
       href: `/boutique?category=${mariageCat.slug}`,
       categorySlug: mariageCat.slug,
-      children: mariageCat.children?.map((child: any) => ({
+      children: mariageCat.children?.map((child: any) =>({
         name: child.name,
         href: `/boutique?category=${child.slug}`,
         children: child.children?.map((grand: any) => ({
@@ -87,6 +87,19 @@ function buildBottomNav(): BottomNavItem[] {
           name: grand.name,
           href: `/boutique?category=${grand.slug}`,
         })),
+      })),
+    });
+  }
+
+  const papeterieSaisonniereCat = categories.find(cat => cat.slug === "papeterie-saisonniere");
+  if (papeterieSaisonniereCat) {
+    nav.push({
+      label: "PAPETERIE SAISONNIÈRE",
+      href: `/boutique?category=${papeterieSaisonniereCat.slug}`,
+      categorySlug: papeterieSaisonniereCat.slug,
+      children: papeterieSaisonniereCat.children?.map((child: any) => ({
+        name: child.name,
+        href: `/boutique?category=${child.slug}`,
       })),
     });
   }
