@@ -18,15 +18,15 @@ export function About() {
         </p>
         <div className="grid md:grid-cols-3 gap-8 mt-12">
           <div className="text-center">
-            <div className="text-3xl font-bold text-[#C8A96E] mb-2">8+</div>
+            <div className="text-3xl font-bold text-[#8B4513] mb-2">8+</div>
             <div className="text-[#6B6B6B]">Années d'expérience</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-[#C8A96E] mb-2">5000+</div>
+            <div className="text-3xl font-bold text-[#8B4513] mb-2">5000+</div>
             <div className="text-[#6B6B6B]">Clients satisfaits</div>
           </div>
           <div className="text-center">
-            <div className="text-3xl font-bold text-[#C8A96E] mb-2">100%</div>
+            <div className="text-3xl font-bold text-[#8B4513] mb-2">100%</div>
             <div className="text-[#6B6B6B]">Personnalisable</div>
           </div>
         </div>

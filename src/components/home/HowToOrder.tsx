@@ -75,11 +75,11 @@ export default function HowToOrder() {
               >
                 {/* Numéro */}
                 <div className="mb-4 flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground font-heading font-bold text-base">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#8B4513] text-white font-heading font-bold text-base">
                     {step.number}
                   </div>
-                  <div className="h-px flex-1 bg-accent/20" />
-                  <Icon className="h-5 w-5 text-accent" />
+                  <div className="h-px flex-1 bg-[#8B4513]/20" />
+                  <Icon className="h-5 w-5 text-[#8B4513]" />
                 </div>
 
                 {/* Contenu */}

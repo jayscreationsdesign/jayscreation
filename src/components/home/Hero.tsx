@@ -33,14 +33,14 @@ export function Hero() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/boutique"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8B4513] px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#6B3410]"
               >
                 Découvrir la boutique{" "}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-accent bg-background px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#8B4513] bg-background px-6 py-3 text-sm font-medium text-[#8B4513] transition-colors hover:bg-muted"
               >
                 Demander un devis
               </Link>

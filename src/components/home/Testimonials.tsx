@@ -16,7 +16,7 @@ export function Testimonials() {
             <div key={i} className="bg-[#FAF7F2] p-6 rounded-xl">
               <div className="flex mb-4">
                 {[...Array(testimonial.rating)].map((_, j) => (
-                  <span key={j} className="text-[#C8A96E]">★</span>
+                  <span key={j} className="text-[#8B4513]">★</span>
                 ))}
               </div>
               <p className="text-[#6B6B6B] mb-4 italic">

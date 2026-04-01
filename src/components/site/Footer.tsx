@@ -123,7 +123,7 @@ export default function Footer() {
                 />
                 <button
                   type="button"
-                  className="w-full h-11 rounded-full bg-accent text-accent-foreground font-medium text-sm hover:bg-accent/90 transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full h-11 rounded-full bg-[#8B4513] text-white font-medium text-sm hover:bg-[#6B3410] transition-all transform hover:scale-[1.02] active:scale-[0.98]"
                 >
                   S&apos;abonner
                 </button>
