@@ -13,7 +13,7 @@ export default function CartButton() {
       <Button
         variant="outline"
         size="sm"
-        className="relative border-[#C8A96E] text-[#C8A96E] hover:bg-[#FAF7F2] hover:border-[#B89A5E]"
+        className="relative border-[#C8A96E] text-[#C8A96E] hover:bg-white hover:border-[#C8A96E]"
       >
         <ShoppingBag size={20} />
         {count > 0 && (

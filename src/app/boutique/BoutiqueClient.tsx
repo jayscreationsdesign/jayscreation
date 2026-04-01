@@ -366,7 +366,7 @@ function BoutiquePageContentInner() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-jc-bg">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Grille principale : Sidebar + Contenu */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
@@ -375,14 +375,14 @@ function BoutiquePageContentInner() {
             <div className="space-y-4 sticky top-8">
               {/* Titre */}
               <div>
-                <h2 className="text-lg font-heading font-semibold text-foreground">
+                <h2 className="text-lg font-heading font-semibold text-jc-text">
                   Catégories
                 </h2>
                 {categorySlug && (
-                  <p className="text-xs text-muted-foreground mt-2">
+                  <p className="text-xs text-jc-muted mt-2">
                     <button
                       onClick={handleRemoveFilter}
-                      className="text-accent hover:underline font-medium"
+                      className="text-jc-accent hover:underline font-medium"
                     >
                       ✕ Réinitialiser
                     </button>

@@ -39,7 +39,7 @@ export default function ProductCard({
   return (
     <div
       className={`flex flex-col overflow-hidden rounded-3xl shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105 ${className}`}
-      style={{ backgroundColor: '#fdf8ec' }}
+      style={{ backgroundColor: 'var(--jc-surface)', border: '1px solid var(--jc-border)' }}
     >
       {/* IMAGE avec carrousel conditionnel et fond #fdf8ec */}
       <div className="relative">
@@ -73,6 +73,13 @@ export default function ProductCard({
       {/* CONTENU */}
       <div className="flex flex-1 flex-col items-center justify-between gap-2 p-6 text-center">
         <div className="flex flex-col items-center gap-2">
+          {/* Badge "Sélection du moment" - conditionnel */}
+          {(product.id === "1" || product.name?.includes("Sélection")) && (
+            <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8B4513] mb-2">
+              Sélection du moment
+            </div>
+          )}
+          
           {/* Catégorie */}
           {showCategory && (
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -86,7 +93,7 @@ export default function ProductCard({
           </h3>
 
           {/* Prix */}
-          <p className="text-base font-bold text-accent">
+          <p className="text-base font-bold text-jc-accent">
             {product.price}
           </p>
 
@@ -116,7 +123,7 @@ export default function ProductCard({
         {/* Bouton */}
         <Link
           href={`/produit/${product.slug}`}
-          className="mt-4 w-full rounded-full bg-accent px-6 py-3 text-center font-medium text-accent-foreground transition-all hover:bg-accent/90 hover:scale-105"
+          className="mt-4 w-full rounded-full bg-jc-accent px-6 py-3 text-center font-medium text-white transition-all hover:bg-jc-accent-dark hover:scale-105"
         >
           Voir le produit
         </Link>

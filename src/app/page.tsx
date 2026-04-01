@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { supabase } from "@/lib/supabase"
 import { Hero } from "@/components/home/Hero"
+import { SectionDivider } from "@/components/ui/SectionDivider"
 import { FeaturedProducts } from "@/components/home/FeaturedProducts"
 import { Categories } from "@/components/home/Categories"
 import { About } from "@/components/home/About"

@@ -140,7 +140,14 @@ export default function RelatedProductsCarousel({
                         />
                       </div>
                       
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex flex-col items-center gap-2">
+                        {/* Badge "Sélection du moment" - conditionnel */}
+                        {(fields.id === "1" || fields.name?.includes("Sélection")) && (
+                          <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8B4513] mb-2">
+                            Sélection du moment
+                          </div>
+                        )}
+                        
                         <h3 className="font-heading text-sm font-semibold text-[#2C2C2C] line-clamp-2">
                           {fields.name}
                         </h3>

@@ -5,7 +5,7 @@ export function Contact() {
   return (
     <section className="py-16 bg-[#FAF7F2]">
       <div className="max-w-4xl mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold text-[#2C2C2C] mb-8">
+        <h2 className="text-3xl font-bold text-jc-text mb-8">
           Contactez-nous
         </h2>
         <p className="text-lg text-[#6B6B6B] mb-12">

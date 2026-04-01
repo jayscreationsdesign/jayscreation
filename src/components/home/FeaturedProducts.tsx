@@ -67,6 +67,13 @@ export function FeaturedProducts() {
 
                 {/* Infos */}
                 <div>
+                  {/* Badge "Sélection du moment" - conditionnel */}
+                  {(product.id === "1" || product.name?.includes("Sélection")) && (
+                    <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8B4513] mb-2">
+                      Sélection du moment
+                    </div>
+                  )}
+                  
                   <div className="flex items-center gap-1 mb-1">
                     <p className="text-[#8B4513] font-semibold text-sm truncate flex-1">
                       {product.name}

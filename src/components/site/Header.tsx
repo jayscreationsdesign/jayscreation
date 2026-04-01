@@ -228,8 +228,8 @@ export default function Header() {
           href={item.href}
           className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
             isActive
-              ? "text-[#C8A96E] border-b-[1.5px] border-[#C8A96E] pb-[7px]"
-              : "text-[#6B6B6B] hover:text-[#C8A96E]"
+              ? "text-jc-accent border-b-[1.5px] border-jc-accent pb-[7px]"
+              : "text-jc-muted hover:text-jc-accent"
           }`}
         >
           {item.label}
@@ -244,11 +244,11 @@ export default function Header() {
           <div
             onMouseEnter={() => handleMouseEnter(item.href)}
             onMouseLeave={handleMouseLeave}
-            className={`absolute left-1/2 -translate-x-1/2 top-full z-50 min-w-[220px] rounded-xl bg-white shadow-xl py-3 transition-all duration-200 ${
+            className={`absolute left-1/2 -translate-x-1/2 top-full z-50 min-w-[220px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 transition-all duration-200 border border-[#E8E4DF] ${
               isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
             }`}
           >
-            <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-white border-l border-t border-[#E8E4DF]" />
+            <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#E8E4DF]" />
             <div className="relative">
               {item.children.map((child) => (
                 <div
@@ -259,7 +259,7 @@ export default function Header() {
                 >
                   <Link
                     href={child.href}
-                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-jc-text hover:bg-[#8B4513] hover:text-white transition-colors duration-150 rounded-lg mx-2"
                     onClick={() => {
                       if (child.children?.length) {
                         const categorySlug = child.href.split('category=')[1];
@@ -269,16 +269,16 @@ export default function Header() {
                     }}
                   >
                     {child.name}
-                    {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-[#C8A96E]" /> : null}
+                    {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-jc-accent" /> : null}
                   </Link>
                   {child.children?.length && openSubMenu === child.href && (
-                    <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-white shadow-xl py-3 z-50">
-                      <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-white border-l border-t border-[#E8E4DF]" />
+                    <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 z-50 border border-[#E8E4DF]">
+                      <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#E8E4DF]" />
                       {child.children.map((grand) => (
                         <Link
                           key={grand.href}
                           href={grand.href}
-                          className="block px-5 py-2.5 text-sm font-normal text-[#2C2C2C] hover:bg-[#FAF7F2] hover:text-[#C8A96E] transition-colors duration-150"
+                          className="block px-5 py-2.5 text-sm font-normal text-jc-text hover:bg-[#8B4513] hover:text-white transition-colors duration-150 rounded-lg mx-2"
                         >
                           {grand.name}
                         </Link>

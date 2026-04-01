@@ -54,6 +54,13 @@ export default function SimilarProducts({
               {/* Infos */}
               <div className="flex flex-1 flex-col items-center justify-between gap-2 p-6 text-center">
                 <div className="flex flex-col items-center gap-2">
+                  {/* Badge "Sélection du moment" - conditionnel */}
+                  {(product.id === "1" || product.name?.includes("Sélection")) && (
+                    <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8B4513] mb-2">
+                      Sélection du moment
+                    </div>
+                  )}
+                  
                   <p className="text-xs font-medium uppercase tracking-wide text-[#6B6B6B]">
                     {product.category}
                   </p>

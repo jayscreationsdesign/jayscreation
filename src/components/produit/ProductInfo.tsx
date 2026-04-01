@@ -169,10 +169,10 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
       <div className="mt-6 rounded-2xl border-2 border-[#C8A96E] bg-[#FAF7F2] p-5">
         {/* Badge "LES PLUS POPULAIRES" */}
         <div className="mb-4 flex items-center justify-between">
-          <span className="inline-block rounded-full bg-[#C8A96E] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+          <span className="inline-block rounded-full bg-[#8B4513] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
             Les plus populaires
           </span>
-          <span className="text-xs font-medium text-[#C8A96E]">✦ Sur-mesure</span>
+          <span className="text-xs font-medium text-[#8B4513]">✦ Sur-mesure</span>
         </div>
 
         {/* Titre offre */}

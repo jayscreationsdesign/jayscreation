@@ -20,18 +20,18 @@ export default function PanierPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
-        <div className="text-center bg-white rounded-2xl p-12 shadow-sm border border-[#E8E4DF] max-w-md">
-          <ShoppingBag size={48} className="text-[#C8A96E] mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-[#2C2C2C] mb-2">
+      <div className="min-h-screen bg-jc-bg flex items-center justify-center">
+        <div className="text-center bg-jc-surface rounded-2xl p-12 shadow-sm border-jc-border max-w-md">
+          <ShoppingBag size={48} className="text-jc-accent mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-jc-text mb-2">
             Votre panier est vide
           </h2>
-          <p className="text-[#6B6B6B] mb-6">
+          <p className="text-jc-muted mb-6">
             Découvrez nos créations personnalisées et ajoutez vos articles préférés pour commencer votre commande.
           </p>
           <Link href="/boutique"
-            className="cursor-pointer inline-block bg-[#C8A96E] text-white px-8 py-3 
-            rounded-full font-medium hover:bg-[#B89A5E] transition-colors">
+            className="cursor-pointer inline-block bg-jc-accent text-white px-8 py-3 
+            rounded-full font-medium hover:bg-jc-accent-dark transition-colors">
             Découvrir la boutique
           </Link>
         </div>
@@ -40,17 +40,17 @@ export default function PanierPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2]">
+    <div className="min-h-screen bg-jc-bg">
       <div className="max-w-6xl mx-auto px-4 py-8">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/boutique"
-            className="cursor-pointer flex items-center gap-3 text-[#C8A96E] hover:text-[#B89A5E] transition-colors">
+            className="cursor-pointer flex items-center gap-3 text-jc-accent hover:text-jc-accent-dark transition-colors">
             <ArrowLeft size={20} />
             <span className="font-medium">Continuer mes achats</span>
           </Link>
-          <h1 className="text-3xl font-bold text-[#2C2C2C]">
+          <h1 className="text-3xl font-bold text-jc-text">
             Mon Panier ({items.reduce((sum, item) => sum + item.quantite, 0)} articles)
           </h1>
           <button
@@ -177,16 +177,16 @@ export default function PanierPage() {
               {/* Boutons d'action */}
               <div className="space-y-3 mt-6">
                 <Link href="/commande">
-                  <button className="cursor-pointer w-full bg-[#C8A96E] text-white 
-                    text-center py-4 rounded-full font-medium hover:bg-[#B89A5E] 
-                    transition-colors">
+                  <button className="cursor-pointer w-full bg-white text-[#C8A96E] 
+                    text-center py-4 rounded-full font-medium hover:bg-white/90 
+                    transition-colors border border-[#C8A96E]">
                     Commander
                   </button>
                 </Link>
                 <Link href="/boutique">
-                  <button className="cursor-pointer w-full border border-[#C8A96E] 
-                    text-[#C8A96E] text-center py-4 rounded-full font-medium 
-                    hover:bg-[#FAF7F2] transition-colors">
+                  <button className="cursor-pointer w-full bg-white text-[#C8A96E] 
+                    text-center py-4 rounded-full font-medium hover:bg-white/90 
+                    transition-colors border border-[#C8A96E]">
                     Continuer mes achats
                   </button>
                 </Link>
