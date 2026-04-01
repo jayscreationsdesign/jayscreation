@@ -40,7 +40,6 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Étiquette Capri-Sun2.png",
     images: [
-      "/images/products/Étiquette Capri-Sun2.png",
       "/images/products/Étiquette Capri-Sun3.png"
     ],
     slug: "etiquette-capri-sun",
@@ -80,7 +79,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Flyers & Cartes de Visite Sur Mesure2.png",
     slug: "flyers-cartes-visite-sur-mesure",
   },
   {
@@ -107,7 +106,7 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîte de Lait Personnalisée5.png",
     images: [
-      "/images/products/Boîte de Lait Personnalisée5.png"
+      "/images/products/Boîte de Lait Personnalisée4.png"
     ],
     slug: "boite-lait-personnalisee",
   },
@@ -129,7 +128,7 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîtes de Pop Corn Personnalisées2.png",
     images: [
-      "/images/products/Boîtes de Pop Corn Personnalisées2.png"
+      "/images/products/Boîtes de Pop Corn Personnalisées3.png"
     ],
     slug: "boites-pop-corn-personnalisees",
   },
@@ -161,9 +160,6 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Gourde Personnalisée2.png",
-    images: [
-      "/images/products/Gourde Personnalisée2.png"
-    ],
     slug: "gourde-personnalisee",
   },
   {
@@ -173,7 +169,7 @@ export const products: Product[] = [
     numericPrice: 2.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Haribo Dragibus2.png",
     slug: "haribo-dragibus",
   },
   {
@@ -204,7 +200,7 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Kinder Maxi2.png",
     slug: "kinder-maxi",
   },
   {
@@ -214,7 +210,7 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/M&Ms2.png",
     slug: "mms",
   },
   {
@@ -224,7 +220,7 @@ export const products: Product[] = [
     numericPrice: 2.7,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/mini-nutella.png",
+    image: "/images/products/Mini Nutella2.png",
     slug: "mini-nutella",
   },
   {
@@ -234,9 +230,10 @@ export const products: Product[] = [
     numericPrice: 2.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Paquet de Chips Personnalisé5.png",
+    image: "/images/products/Paquet de Chips Personnalisé2.png",
     images: [
-      "/images/products/Paquet de Chips Personnalisé5.png"
+      "/images/products/Paquet de Chips Personnalisé4.png",
+      "/images/products/Paquet de Chips Personnalisé3.png"
     ],
     slug: "paquet-chips-personnalise",
   },
@@ -246,7 +243,7 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Plateau de Confiserie Personnalisé2.png",
     slug: "plateau-confiserie-personnalise",
   },
   {
@@ -258,7 +255,6 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Sac Cadeau Personnalisé3.png",
     images: [
-      "/images/products/Sac Cadeau Personnalisé3.png",
       "/images/products/Sac Cadeau Personnalisé2.png"
     ],
     slug: "sac-cadeau-personnalise",
@@ -271,9 +267,6 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Sachet de Bonbons Personnalisé2.png",
-    images: [
-      "/images/products/Sachet de Bonbons Personnalisé2.png"
-    ],
     slug: "sachet-bonbons-personnalise",
   },
   {
@@ -283,7 +276,10 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Smarties4.png",
+    image: "/images/products/Smarties2.png",
+    images: [
+      "/images/products/Smarties3.png"
+    ],
     slug: "smarties",
   },
   {
@@ -306,7 +302,6 @@ export const products: Product[] = [
     categorySlug: "flocage",
     image: "/images/products/planche-etiquette-thermocollante-tshirt-style.png",
     images: [
-      "/images/products/planche-etiquette-thermocollante-tshirt-style.png",
       "/images/products/faire-part-mariage-elegant-tshirt-style.png",
       "/images/products/t-shirt-kael-styled.png"
     ],
@@ -342,13 +337,22 @@ export const products: Product[] = [
     category: "Faire-parts",
     categorySlug: "faire-parts",
     parentCategorySlug: "mariage",
-    image: "/images/products/faire-part-mariage-elegant-tshirt-style.png",
-    images: [
-      "/images/products/faire-part-mariage-elegant-tshirt-style.png",
-      "/images/products/t-shirt-kael-styled.png",
-      "/images/products/planche-etiquette-thermocollante-tshirt-style.png"
-    ],
+    image: "/images/products/Faire-Part Mariage Élégant.png",
     description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable.",
+    rating: 5,
+  },
+
+  // MARIAGE - MARQUE-PLACES
+  {
+    id: "29",
+    name: "Éventail Programme de Mariage",
+    slug: "eventail-programme-mariage",
+    price: "Sur devis",
+    category: "Marque-places",
+    categorySlug: "marque-places",
+    parentCategorySlug: "mariage",
+    image: "/images/products/Eventail programme mariage4.png",
+    description: "Éventail programme de mariage élégant et pratique pour vos invités. Design personnalisable avec informations du déroulement de la cérémonie.",
     rating: 5,
   },
 ];
