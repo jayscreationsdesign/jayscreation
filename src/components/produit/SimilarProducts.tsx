@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { products, type Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 export default function SimilarProducts({
   currentProduct,
@@ -71,15 +72,9 @@ export default function SimilarProducts({
                     {product.price}
                   </p>
                 </div>
-                <Link href={`/produit/${product.slug}`} className="w-full">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="mt-3 w-full rounded-full cursor-pointer"
-                  >
+                <PrimaryCtaButton href={`/produit/${product.slug}`}>
                     Voir le produit
-                  </Button>
-                </Link>
+                  </PrimaryCtaButton>
               </div>
             </div>
           ))}

@@ -76,22 +76,28 @@ function CategoryNode({
         onClick={handleClick}
         aria-current={isActive ? "page" : undefined}
         aria-expanded={hasChildren ? isOpen : undefined}
-        className={`w-full text-left py-2.5 pr-3 text-sm transition-all duration-150 flex items-center justify-between rounded-lg cursor-pointer!
+        className={`w-full text-left py-2.5 pr-3 text-sm transition-colors duration-200 flex items-center justify-between rounded-lg cursor-pointer!
           ${
             isActive
-              ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] text-[#C8A96E] font-medium"
+              ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] font-medium"
               : depth === 0
-              ? "text-foreground hover:bg-gray-50 hover:text-[#C8A96E]"
+              ? "text-foreground"
               : depth === 1
-              ? "text-[#6B6B6B] hover:text-[#C8A96E]"
-              : "text-[#9B9B9B] hover:text-[#C8A96E]"
+              ? "text-[#6B6B6B]"
+              : "text-[#9B9B9B]"
           }`}
         style={{ 
           paddingLeft: `${16 + depth * 16}px`,
           cursor: 'pointer !important'
         }}
       >
-        <span>{category.name}</span>
+        <span className={
+          isActive 
+            ? "text-[#C8A96E]"
+            : "text-[#2C1A0E] hover:text-[#8B4513] transition-colors duration-200"
+        }>
+          {category.name}
+        </span>
         {hasChildren && (
           <ChevronDown
             size={14}
@@ -149,11 +155,13 @@ function SidebarContent({
       {activeCategory && (
         <button
           onClick={onReset}
-          className="mb-2 flex items-center gap-1 text-xs font-medium text-[#C8A96E] hover:underline cursor-pointer!"
+          className="mb-2 flex items-center gap-1 text-xs font-medium cursor-pointer! px-2 py-1 rounded transition-colors duration-200"
           style={{ cursor: 'pointer !important' }}
         >
-          <X size={11} />
-          Réinitialiser
+          <span className="text-[#C8A96E] hover:text-[#8B4513] transition-colors duration-200">
+            <X size={11} />
+            Réinitialiser
+          </span>
         </button>
       )}
 
@@ -161,15 +169,21 @@ function SidebarContent({
       <button
         onClick={onReset}
         aria-current={!activeCategory ? "page" : undefined}
-        className={`w-full text-left px-4 py-2.5 rounded-lg text-sm transition-all duration-150 cursor-pointer!
+        className={`w-full text-left px-4 py-2.5 rounded-lg text-sm transition-colors duration-200 cursor-pointer!
           ${
           !activeCategory
-            ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] text-[#C8A96E] font-medium"
-            : "text-foreground hover:bg-gray-50 hover:text-[#C8A96E]"
+            ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] font-medium"
+            : ""
           }`}
         style={{ cursor: 'pointer !important' }}
       >
-        Tous les produits
+        <span className={
+          !activeCategory 
+            ? "text-[#C8A96E]"
+            : "text-[#2C1A0E] hover:text-[#8B4513] transition-colors duration-200"
+        }>
+          Tous les produits
+        </span>
       </button>
 
       {/* Arbre de catégories */}
@@ -255,11 +269,13 @@ export default function CategoriesSidebar() {
         <button
           onClick={() => setMobileOpen(true)}
           aria-label="Ouvrir les filtres"
-          className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted transition-colors cursor-pointer!"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium cursor-pointer! transition-colors duration-200"
           style={{ cursor: 'pointer !important' }}
         >
-          <SlidersHorizontal size={15} />
-          Filtres
+          <span className="text-[#2C1A0E] hover:text-[#8B4513]">
+            <SlidersHorizontal size={15} />
+            Filtres
+          </span>
           {activeCategory && (
             <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-accent text-[10px] font-bold text-white">
               1
@@ -285,10 +301,12 @@ export default function CategoriesSidebar() {
               <button
                 onClick={() => setMobileOpen(false)}
                 aria-label="Fermer les filtres"
-                className="rounded-lg p-1.5 hover:bg-muted transition-colors cursor-pointer!"
+                className="rounded-lg p-1.5 cursor-pointer! transition-colors duration-200"
                 style={{ cursor: 'pointer !important' }}
               >
-                <X size={18} />
+                <span className="text-[#2C1A0E] hover:text-[#8B4513]">
+                  <X size={18} />
+                </span>
               </button>
             </div>
             <div className="flex-1 overflow-y-auto p-4">

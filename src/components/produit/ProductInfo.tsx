@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Minus, Plus, ShoppingBag, Check, Star } from "lucide-react";
 import { type Product } from "@/data/products";
 import ProductAccordions from "./ProductAccordions";
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 interface ProductInfoProps {
   product: Product;
@@ -267,25 +268,18 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
             </button>
           </div>
 
-          {/* Bouton CTA simple - TOUJOURS CLIQUABLE */}
-          <button 
-            className="flex h-14 flex-1 items-center justify-center gap-2 rounded-full bg-[#C8A96E] text-sm font-medium uppercase tracking-widest text-white transition-colors duration-300 hover:bg-[#B89A5E] cursor-pointer"
-            onClick={() => onAddToCart?.()}
-            type="button"
-          >
+          {/* Bouton CTA standardisé */}
+          <PrimaryCtaButton onClick={() => onAddToCart?.()}>
             <ShoppingBag size={18} />
             Ajouter au panier
-          </button>
+          </PrimaryCtaButton>
         </div>
       ) : (
         <div className="mt-6">
-          <Link
-            href="/contact"
-            className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-[#C8A96E] text-sm font-medium uppercase tracking-widest text-white transition-colors duration-300 hover:bg-[#B89A5E]"
-          >
+          <PrimaryCtaButton href="/contact" showArrow={false}>
             <ShoppingBag size={18} />
             Demander un devis
-          </Link>
+          </PrimaryCtaButton>
         </div>
       )}
 

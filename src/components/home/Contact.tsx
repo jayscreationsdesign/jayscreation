@@ -1,5 +1,6 @@
 "use client"
 import { Mail, Phone, MapPin } from "lucide-react"
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 export function Contact() {
   return (
@@ -35,9 +36,9 @@ export function Contact() {
             <p className="text-[#6B6B6B]">France</p>
           </div>
         </div>
-        <button className="bg-[#8B4513] text-white px-8 py-3 rounded-lg hover:bg-[#6B3410] transition-colors shadow-md hover:shadow-lg">
+        <PrimaryCtaButton onClick={() => console.log('Contact form')}>
           Envoyer un message
-        </button>
+        </PrimaryCtaButton>
       </div>
     </section>
   );

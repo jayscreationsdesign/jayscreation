@@ -6,6 +6,7 @@ import { getImageSrc, getImageArray } from "@/lib/images";
 import { useState } from "react";
 import { useCartStore } from "@/store/cartStore";
 import { Minus, Plus, ShoppingBag } from "lucide-react";
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 interface ProductClientProps {
   product: Product;
@@ -264,15 +265,11 @@ export default function ProductClient({ product }: ProductClientProps) {
                   </div>
                 </div>
 
-                {/* Bouton ajouter au panier */}
-                <button
-                  onClick={handleAddToCart}
-                  disabled={!canAddToCart}
-                  className="w-full h-14 flex items-center justify-center gap-2 rounded-full bg-[#C8A96E] text-sm font-medium uppercase tracking-widest text-white transition-colors duration-300 hover:bg-[#B89A5E] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                {/* Bouton ajouter au panier standardisé */}
+                <PrimaryCtaButton onClick={handleAddToCart} disabled={!canAddToCart}>
                   <ShoppingBag size={18} />
                   Ajouter au panier
-                </button>
+                </PrimaryCtaButton>
 
                 {/* Message d'aide si thème requis */}
                 {shouldRequireTheme && !canAddToCart && (

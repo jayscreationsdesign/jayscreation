@@ -1,4 +1,5 @@
 "use client"
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton"
 
 export function Categories() {
   return (
@@ -20,7 +21,12 @@ export function Categories() {
                   <span className="text-[#8B4513] font-semibold text-lg">{category.name}</span>
                 </div>
                 <div className="h-px bg-[#8B4513] mb-3"></div>
-                <p className="text-[#8B4513]/70 text-sm">
+                <div className="mt-4 flex justify-start">
+                  <PrimaryCtaButton href={`/boutique?category=${category.name.toLowerCase()}`} showArrow={false}>
+                    {category.name}
+                  </PrimaryCtaButton>
+                </div>
+                <p className="text-[#8B4513]/70 text-sm mt-4">
                   {category.subtitle}
                 </p>
               </div>

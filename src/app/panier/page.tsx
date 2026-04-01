@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 export default function PanierPage() {
   const { items, removeItem, updateQuantite, clearCart } = useCartStore();
@@ -20,20 +21,20 @@ export default function PanierPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-jc-bg flex items-center justify-center">
-        <div className="text-center bg-jc-surface rounded-2xl p-12 shadow-sm border-jc-border max-w-md">
-          <ShoppingBag size={48} className="text-jc-accent mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-jc-text mb-2">
+      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+        <div className="text-center bg-white rounded-3xl border border-[#E8E4DF] px-10 py-12 shadow-[0_18px_45px_rgba(0,0,0,0.04)] max-w-md">
+          <div className="bg-[#FAF7F2] rounded-full p-3 mx-auto mb-4 w-fit">
+            <ShoppingBag size={48} className="text-[#C8A96E]" />
+          </div>
+          <h2 className="text-[#2C1A0E] font-semibold text-xl mb-2">
             Votre panier est vide
           </h2>
-          <p className="text-jc-muted mb-6">
+          <p className="text-[#6B6B6B] text-sm max-w-md mx-auto mb-8">
             Découvrez nos créations personnalisées et ajoutez vos articles préférés pour commencer votre commande.
           </p>
-          <Link href="/boutique"
-            className="cursor-pointer inline-block bg-jc-accent text-white px-8 py-3 
-            rounded-full font-medium hover:bg-jc-accent-dark transition-colors">
+          <PrimaryCtaButton href="/boutique">
             Découvrir la boutique
-          </Link>
+          </PrimaryCtaButton>
         </div>
       </div>
     );

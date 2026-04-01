@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 export function Hero() {
   return (
@@ -31,19 +32,12 @@ export function Hero() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link
-                href="/boutique"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8B4513] px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-[#6B3410]"
-              >
-                Découvrir la boutique{" "}
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#8B4513] bg-background px-6 py-3 text-sm font-medium text-[#8B4513] transition-colors hover:bg-muted"
-              >
+              <PrimaryCtaButton href="/boutique">
+                Découvrir la boutique
+              </PrimaryCtaButton>
+              <PrimaryCtaButton href="/contact" showArrow={false}>
                 Demander un devis
-              </Link>
+              </PrimaryCtaButton>
             </div>
 
             <div className="mt-10 grid gap-3 sm:grid-cols-3">

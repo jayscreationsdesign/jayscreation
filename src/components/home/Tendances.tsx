@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { products } from "@/data/products";
 import type { Product } from "@/data/products";
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 export default function Tendances() {
   // Sélectionner les 8 produits les mieux notés
@@ -84,13 +85,9 @@ export default function Tendances() {
 
         {/* Call-to-action */}
         <div className="text-center">
-          <Link
-            href="/tendances"
-            className="inline-flex items-center gap-3 bg-white text-[#C8A96E] px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all duration-300 transform hover:scale-[1.02] group"
-          >
-            <span className="text-lg">Explorer les tendances</span>
-            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-          </Link>
+          <PrimaryCtaButton href="/tendances">
+            Explorer les tendances
+          </PrimaryCtaButton>
           <p className="text-white/70 text-sm mt-4">
             Découvrez toutes nos créations tendance
           </p>

@@ -3,9 +3,13 @@
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { type Product } from "@/data/products";
+import ImageCarousel from "@/components/ui/ImageCarousel";
+import { getImageSrc, getImageArray } from "@/lib/images";
+import { useState } from "react";
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import { products, type Product as LocalProduct } from "@/data/products";
 import type { Product as SupabaseProduct } from "@/types/product";
-import { useState } from "react";
 import { useSmartRecommendations } from "@/hooks/useSmartRecommendations";
 
 // Types unifiés
@@ -169,12 +173,9 @@ export default function RelatedProductsCarousel({
                         <span className="text-sm font-bold text-[#C8A96E]">
                           {fields.price}
                         </span>
-                        <Link
-                          href={`/produit/${fields.slug}`}
-                          className="inline-flex items-center gap-1 bg-[#C8A96E] text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-[#B89A5E] transition-colors"
-                        >
+                        <PrimaryCtaButton href={`/produit/${fields.slug}`}>
                           Voir le produit
-                        </Link>
+                        </PrimaryCtaButton>
                       </div>
                     </div>
                   </div>

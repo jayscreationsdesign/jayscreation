@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import { products } from "@/data/products"
+import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton"
 
 export function FeaturedProducts() {
   const [current, setCurrent] = useState(0)
@@ -91,14 +92,9 @@ export function FeaturedProducts() {
                     <span className="text-[#8B4513] font-bold text-sm">
                       {product.price}
                     </span>
-                    <Link
-                      href={`/produit/${product.slug}`}
-                      className="cursor-pointer bg-white/40 hover:bg-white/50 
-                      text-[#8B4513] text-xs px-3 py-1.5 rounded-full 
-                      transition-colors border border-white/60"
-                    >
+                    <PrimaryCtaButton href={`/produit/${product.slug}`}>
                       Voir
-                    </Link>
+                    </PrimaryCtaButton>
                   </div>
                 </div>
               </div>

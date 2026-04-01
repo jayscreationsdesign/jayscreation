@@ -7,6 +7,7 @@ import { type Product } from "@/data/products";
 import ImageCarousel from "./ImageCarousel";
 import { getImageSrc, getImageArray } from "@/lib/images";
 import { useState } from "react";
+import PrimaryCtaButton from "./PrimaryCtaButton";
 
 interface ProductCardProps {
   product: Product;
@@ -120,13 +121,10 @@ export default function ProductCard({
           )}
         </div>
 
-        {/* Bouton */}
-        <Link
-          href={`/produit/${product.slug}`}
-          className="mt-4 w-full rounded-full bg-jc-accent px-6 py-3 text-center font-medium text-white transition-all hover:bg-jc-accent-dark hover:scale-105"
-        >
+        {/* Bouton standardisé */}
+        <PrimaryCtaButton href={`/produit/${product.slug}`}>
           Voir le produit
-        </Link>
+        </PrimaryCtaButton>
       </div>
     </div>
   );
