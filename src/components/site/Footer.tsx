@@ -12,44 +12,44 @@ export default function Footer() {
             {/* Colonne 1 : Brand - Plus large */}
             <div className="lg:col-span-2">
               <Link href="/" className="inline-flex items-center gap-3 mb-4">
-                <div className="h-12 w-12 rounded-full bg-accent/10 flex items-center justify-center">
-                  <span className="font-heading text-lg font-bold text-accent">J</span>
+                <div className="h-12 w-12 rounded-full bg-[#8B4513] flex items-center justify-center">
+                  <span className="font-heading text-lg font-bold text-white">J</span>
                 </div>
                 <div>
                   <h3 className="font-heading text-xl font-bold text-foreground">
                     Jay&apos;s Creations Design
                   </h3>
-                  <p className="text-xs text-accent font-medium">Pour Sublimer Vos Événements</p>
+                  <p className="text-xs text-[#8B4513] font-medium">Pour Sublimer Vos Événements</p>
                 </div>
               </Link>
               
               {/* Contact info */}
               <div className="mt-2 space-y-3">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <div className="h-8 w-8 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="h-4 w-4 text-accent" />
+                  <div className="h-8 w-8 rounded-full bg-[#8B4513] flex items-center justify-center flex-shrink-0">
+                    <MapPin className="h-4 w-4 text-white" />
                   </div>
                   <span>15 Quai d&apos;Asnières, 92390 Villeneuve-la-Garenne</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <div className="h-8 w-8 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                    <Phone className="h-4 w-4 text-accent" />
+                  <div className="h-8 w-8 rounded-full bg-[#8B4513] flex items-center justify-center flex-shrink-0">
+                    <Phone className="h-4 w-4 text-white" />
                   </div>
                   <a href="tel:+33763920823" className="hover:text-foreground transition-colors font-medium">
                     +33 7 63 92 08 23
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <div className="h-8 w-8 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                    <Mail className="h-4 w-4 text-accent" />
+                  <div className="h-8 w-8 rounded-full bg-[#8B4513] flex items-center justify-center flex-shrink-0">
+                    <Mail className="h-4 w-4 text-white" />
                   </div>
                   <a href="mailto:jayscreations.d@gmail.com" className="hover:text-foreground transition-colors font-medium">
                     jayscreations.d@gmail.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <div className="h-8 w-8 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                    <Clock className="h-4 w-4 text-accent" />
+                  <div className="h-8 w-8 rounded-full bg-[#8B4513] flex items-center justify-center flex-shrink-0">
+                    <Clock className="h-4 w-4 text-white" />
                   </div>
                   <div>
                     <div className="font-medium">Lun – Ven : 7h – 19h</div>
@@ -138,7 +138,7 @@ export default function Footer() {
                     href="https://www.instagram.com/jays_creations_design/"
                     target="_blank"
                     rel="noreferrer"
-                    className="h-10 w-10 rounded-full bg-white/80 backdrop-blur border border-[#E8E4DF] flex items-center justify-center text-foreground hover:bg-accent hover:text-accent-foreground transition-all transform hover:scale-110"
+                    className="h-10 w-10 rounded-full bg-[#8B4513] border border-[#8B4513] flex items-center justify-center text-white hover:bg-[#6B3410] transition-all transform hover:scale-110"
                     aria-label="Instagram"
                   >
                     <Camera className="h-4 w-4" />
@@ -147,7 +147,7 @@ export default function Footer() {
                     href="https://www.tiktok.com/@jayscreationsdesign"
                     target="_blank"
                     rel="noreferrer"
-                    className="h-10 w-10 rounded-full bg-white/80 backdrop-blur border border-[#E8E4DF] flex items-center justify-center text-foreground hover:bg-accent hover:text-accent-foreground transition-all transform hover:scale-110"
+                    className="h-10 w-10 rounded-full bg-[#8B4513] border border-[#8B4513] flex items-center justify-center text-white hover:bg-[#6B3410] transition-all transform hover:scale-110"
                     aria-label="TikTok"
                   >
                     <Music2 className="h-4 w-4" />

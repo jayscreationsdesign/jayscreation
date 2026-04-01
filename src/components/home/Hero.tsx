@@ -12,8 +12,8 @@ export function Hero() {
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-4 py-2 text-sm text-muted-foreground">
-              <Sparkles className="h-4 w-4 text-accent" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#C8A96E] bg-white px-4 py-2 text-sm text-[#C8A96E]">
+              <Sparkles className="h-4 w-4 text-[#C8A96E]" />
               Édition premium, personnalisation sur-mesure
             </div>
 
@@ -47,21 +47,21 @@ export function Hero() {
             </div>
 
             <div className="mt-10 grid gap-3 sm:grid-cols-3">
-              <div className="rounded-2xl border border-border bg-background/60 px-4 py-4">
-                <div className="text-2xl font-heading text-accent">24h</div>
-                <div className="mt-1 text-xs text-muted-foreground">
+              <div className="rounded-2xl border border-[#C8A96E] bg-white px-4 py-4">
+                <div className="text-2xl font-heading text-[#C8A96E] font-bold">24h</div>
+                <div className="mt-1 text-xs text-[#C8A96E]/70">
                   Aperçu maquette
                 </div>
               </div>
-              <div className="rounded-2xl border border-border bg-background/60 px-4 py-4">
-                <div className="text-2xl font-heading text-accent">100%</div>
-                <div className="mt-1 text-xs text-muted-foreground">
+              <div className="rounded-2xl border border-[#C8A96E] bg-white px-4 py-4">
+                <div className="text-2xl font-heading text-[#C8A96E] font-bold">100%</div>
+                <div className="mt-1 text-xs text-[#C8A96E]/70">
                   Personnalisé
                 </div>
               </div>
-              <div className="rounded-2xl border border-border bg-background/60 px-4 py-4">
-                <div className="text-2xl font-heading text-accent">Premium</div>
-                <div className="mt-1 text-xs text-muted-foreground">
+              <div className="rounded-2xl border border-[#C8A96E] bg-white px-4 py-4">
+                <div className="text-2xl font-heading text-[#C8A96E] font-bold">Premium</div>
+                <div className="mt-1 text-xs text-[#C8A96E]/70">
                   Finitions & dorures
                 </div>
               </div>
