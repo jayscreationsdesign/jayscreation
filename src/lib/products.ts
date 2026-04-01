@@ -3,7 +3,13 @@ import type { Product } from '@/types/product';
 
 export async function getAllProducts(): Promise<Product[]> {
   try {
-    const { data, error } = await supabase
+    // Vérifier si supabase est configuré
+    if (!(supabase as any).from) {
+      console.log('Supabase non configuré - retour de produits vides');
+      return [];
+    }
+
+    const { data, error } = await (supabase as any)
       .from('products')
       .select('*')
       .eq('actif', true)
@@ -11,19 +17,25 @@ export async function getAllProducts(): Promise<Product[]> {
 
     if (error) {
       console.error('Error fetching all products:', error);
-      throw new Error('Failed to fetch products');
+      return [];
     }
 
     return data || [];
   } catch (error) {
     console.error('Unexpected error in getAllProducts:', error);
-    throw error;
+    return [];
   }
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
-    const { data, error } = await supabase
+    // Vérifier si supabase est configuré
+    if (!(supabase as any).from) {
+      console.log('Supabase non configuré - retour de produit null');
+      return null;
+    }
+
+    const { data, error } = await (supabase as any)
       .from('products')
       .select('*')
       .eq('slug', slug)
@@ -31,20 +43,26 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       .single();
 
     if (error) {
-      console.error(`Error fetching product with slug ${slug}:`, error);
+      console.error('Error fetching product by slug:', error);
       return null;
     }
 
     return data;
   } catch (error) {
-    console.error(`Unexpected error in getProductBySlug for ${slug}:`, error);
+    console.error('Unexpected error in getProductBySlug:', error);
     return null;
   }
 }
 
 export async function getProductsByCategorie(categorie: string): Promise<Product[]> {
   try {
-    const { data, error } = await supabase
+    // Vérifier si supabase est configuré
+    if (!(supabase as any).from) {
+      console.log('Supabase non configuré - retour de produits vides');
+      return [];
+    }
+
+    const { data, error } = await (supabase as any)
       .from('products')
       .select('*')
       .eq('categorie', categorie)
@@ -52,13 +70,13 @@ export async function getProductsByCategorie(categorie: string): Promise<Product
       .order('nom', { ascending: true });
 
     if (error) {
-      console.error(`Error fetching products for category ${categorie}:`, error);
-      throw new Error('Failed to fetch products by category');
+      console.error('Error fetching products by category:', error);
+      return [];
     }
 
     return data || [];
   } catch (error) {
-    console.error(`Unexpected error in getProductsByCategorie for ${categorie}:`, error);
+    console.error('Unexpected error in getProductsByCategorie:', error);
     throw error;
   }
 }
@@ -101,6 +119,33 @@ export async function getFeaturedProducts(limit: number = 8): Promise<Product[]>
     return data || [];
   } catch (error) {
     console.error('Unexpected error in getFeaturedProducts:', error);
+    throw error;
+  }
+}
+
+export async function searchProducts(query: string): Promise<Product[]> {
+  try {
+    // Vérifier si supabase est configuré
+    if (!(supabase as any).from) {
+      console.log('Supabase non configuré - retour de produits vides');
+      return [];
+    }
+
+    const { data, error } = await (supabase as any)
+      .from('products')
+      .select('*')
+      .eq('actif', true)
+      .or(`nom.ilike.%${query}%,description.ilike.%${query}%`)
+      .order('nom', { ascending: true });
+
+    if (error) {
+      console.error('Error searching products:', error);
+      throw error;
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error('Unexpected error in searchProducts:', error);
     throw error;
   }
 }

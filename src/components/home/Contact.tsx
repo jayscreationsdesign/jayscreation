@@ -1,4 +1,5 @@
 "use client"
+import { Mail, Phone, MapPin } from "lucide-react"
 
 export function Contact() {
   return (
@@ -13,28 +14,28 @@ export function Contact() {
         </p>
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           <div className="text-center">
-            <div className="w-12 h-12 bg-[#C8A96E] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white">📧</span>
+            <div className="w-14 h-14 bg-[#8B4513] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <Mail className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-semibold text-[#2C2C2C] mb-2">Email</h3>
             <p className="text-[#6B6B6B]">contact@jayscreations.fr</p>
           </div>
           <div className="text-center">
-            <div className="w-12 h-12 bg-[#C8A96E] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white">📱</span>
+            <div className="w-14 h-14 bg-[#8B4513] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <Phone className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-semibold text-[#2C2C2C] mb-2">Téléphone</h3>
-            <p className="text-[#6B6B6B]">+33 6 12 34 56 78</p>
+            <p className="text-[#6B6B6B]">+33 7 63 92 08 23</p>
           </div>
           <div className="text-center">
-            <div className="w-12 h-12 bg-[#C8A96E] rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white">📍</span>
+            <div className="w-14 h-14 bg-[#8B4513] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <MapPin className="w-6 h-6 text-white" />
             </div>
             <h3 className="font-semibold text-[#2C2C2C] mb-2">Localisation</h3>
             <p className="text-[#6B6B6B]">France</p>
           </div>
         </div>
-        <button className="bg-[#C8A96E] text-white px-8 py-3 rounded-lg hover:bg-[#B89A5E] transition-colors">
+        <button className="bg-[#8B4513] text-white px-8 py-3 rounded-lg hover:bg-[#6B3410] transition-colors shadow-md hover:shadow-lg">
           Envoyer un message
         </button>
       </div>

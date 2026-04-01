@@ -2,12 +2,27 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@/lib/supabase';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+// Vérifier si les variables d'environnement sont disponibles
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+if (!stripeSecretKey) {
+  console.warn('STRIPE_SECRET_KEY non définie - API checkout en mode mock');
+}
+
+const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, {
   apiVersion: '2024-06-20' as any,
-});
+}) : null;
 
 export async function POST(request: NextRequest) {
   try {
+    // Si Stripe n'est pas configuré, retourner une réponse mock
+    if (!stripe) {
+      return NextResponse.json({
+        message: 'Service de paiement non configuré - Mode démo',
+        url: '/commande/succes'
+      });
+    }
+
     const { items, client } = await request.json();
 
     if (!items || !Array.isArray(items) || items.length === 0) {

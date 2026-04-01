@@ -13,9 +13,13 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  // Test de connexion Supabase
-  const { data, error } = await supabase.from("products").select("*").limit(1)
-  console.log("Supabase test:", data, error)
+  // Test de connexion Supabase (optionnel pour le déploiement)
+  try {
+    const { data, error } = await (supabase as any).from("products")?.select("*")?.limit(1) || { data: null, error: null };
+    console.log("Supabase test:", data, error);
+  } catch (error) {
+    console.log("Supabase non configuré - utilisation des données statiques");
+  }
 
   return (
     <main>
