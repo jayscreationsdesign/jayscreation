@@ -13,10 +13,6 @@ export interface UserProfile {
 }
 
 export async function signIn(email: string, password: string) {
-  if (!isSupabaseConfigured) {
-    return { data: null, error: { message: "Service d'authentification temporairement indisponible" } as AuthError }
-  }
-
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -31,10 +27,6 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signUp(email: string, password: string, metadata: { prenom: string; nom: string }) {
-  if (!isSupabaseConfigured) {
-    return { data: null, error: { message: "Service d'authentification temporairement indisponible" } as AuthError }
-  }
-
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -136,10 +128,6 @@ export function onAuthStateChange(callback: (user: User | null) => void) {
 }
 
 export async function signInWithGoogle() {
-  if (!isSupabaseConfigured) {
-    return { data: null, error: { message: "Service d'authentification temporairement indisponible" } as AuthError }
-  }
-
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
