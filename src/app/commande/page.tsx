@@ -38,6 +38,9 @@ export default function CommandePage() {
     personnalisation: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [showCouponInput, setShowCouponInput] = useState(false);
   const [hasHydrated, setHasHydrated] = useState(false);
 
   // Gérer l'hydratation côté client
@@ -52,8 +55,8 @@ export default function CommandePage() {
     return sum + unitPrice * quantity;
   }, 0);
 
-  // Montant pour Stripe (en centimes)
-  const stripeAmount = Math.round(orderTotal * 100);
+  // Calcul du total avec réduction
+  const finalTotal = Math.max(0, orderTotal - discount);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -64,6 +67,20 @@ export default function CommandePage() {
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const applyCoupon = () => {
+    if (couponCode.toUpperCase() === 'GRATUIT100' || couponCode.toUpperCase() === 'FREE100') {
+      setDiscount(orderTotal); // 100% de réduction
+      alert('🎉 Coupon 100% appliqué ! Votre commande est gratuite.');
+    } else {
+      alert('❌ Code coupon invalide');
+    }
+  };
+
+  const removeCoupon = () => {
+    setCouponCode('');
+    setDiscount(0);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -77,7 +94,8 @@ export default function CommandePage() {
         body: JSON.stringify({
           items,
           client: formData,
-          total: orderTotal,
+          total: finalTotal,
+          coupon: couponCode.toUpperCase(),
         }),
       });
 
@@ -323,6 +341,63 @@ export default function CommandePage() {
 
                 <Separator className="bg-[#8B4513]" />
 
+                {/* Section Coupon */}
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <Label className="text-[#2C2C2C] flex items-center gap-2">
+                      🎫 Code de réduction
+                    </Label>
+                    <button
+                      type="button"
+                      onClick={() => setShowCouponInput(!showCouponInput)}
+                      className="text-sm text-green-600 hover:text-green-800"
+                    >
+                      {showCouponInput ? 'Masquer' : 'Ajouter'}
+                    </button>
+                  </div>
+                  
+                  {showCouponInput && (
+                    <div className="space-y-3">
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Entrez votre code promo"
+                          value={couponCode}
+                          onChange={(e) => setCouponCode(e.target.value)}
+                          className="border-green-300 focus:border-green-500"
+                        />
+                        <button
+                          type="button"
+                          onClick={applyCoupon}
+                          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                        >
+                          Appliquer
+                        </button>
+                      </div>
+                      
+                      {discount > 0 && (
+                        <div className="flex items-center justify-between bg-green-100 p-2 rounded">
+                          <span className="text-green-800">
+                            🎉 Coupon appliqué : -{formatPrice(discount)}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={removeCoupon}
+                            className="text-red-600 hover:text-red-800 text-sm"
+                          >
+                            Supprimer
+                          </button>
+                        </div>
+                      )}
+                      
+                      <div className="text-xs text-green-600">
+                        Codes valides : GRATUIT100, FREE100
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <Separator className="bg-[#8B4513]" />
+
                 {/* Personnalisation */}
                 <div>
                   <Label htmlFor="personnalisation" className="text-[#2C2C2C] flex items-center gap-2">
@@ -344,7 +419,9 @@ export default function CommandePage() {
                   disabled={isLoading || items.length === 0}
                   className="w-full bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574] text-white py-4 text-lg"
                 >
-                  {isLoading ? 'Traitement en cours...' : `Payer avec Stripe - ${formatPrice(orderTotal)}`}
+                  {isLoading ? 'Traitement en cours...' : 
+        finalTotal === 0 ? 'Valider la commande gratuite' : 
+        `Payer avec Stripe - ${formatPrice(finalTotal)}`}
                 </Button>
               </form>
             </CardContent>

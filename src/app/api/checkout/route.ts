@@ -88,6 +88,36 @@ export async function POST(request: NextRequest) {
       cancel_url: cancelUrl.toString()
     });
 
+    // Calcul du total pour déterminer si la commande est gratuite
+    const totalAmount = items.reduce((sum: number, item: any) => {
+      const unitPrice = Number(item.prix) || 0;
+      const quantity = Number(item.quantite) || 0;
+      return sum + unitPrice * quantity;
+    }, 0);
+
+    // Vérifier si la commande est gratuite (total = 0) ou si un coupon 100% est appliqué
+    const hasFreeCoupon = body.coupon === 'GRATUIT100' || body.coupon === 'FREE100';
+    const isFreeOrder = totalAmount === 0 || hasFreeCoupon;
+
+    console.log('🔧 Analyse commande:', {
+      totalAmount,
+      hasFreeCoupon,
+      isFreeOrder,
+      itemCount: items.length
+    });
+
+    // Si la commande est gratuite, rediriger directement vers la page de succès
+    if (isFreeOrder) {
+      // Créer une session gratuite pour suivi
+      const freeSessionId = `free_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      return NextResponse.json({
+        message: 'Commande gratuite traitée avec succès',
+        url: `/checkout/success?session_id=${freeSessionId}&free_order=true`,
+        sessionId: freeSessionId,
+        isFreeOrder: true
+      });
+    }
     // Validation et construction des line_items
     const line_items = items.map((item: any, index: number) => {
       const unitPrice = Number(item.prix);
