@@ -64,15 +64,13 @@ export function FeaturedProducts() {
           </button>
 
           {/* Cards */}
-          <div className="flex gap-4 overflow-hidden flex-1">
+          <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4">
             {featured.slice(current, current + visibleCount).map((product) => (
               <div key={product.id}
-                className="flex-1 min-w-0 bg-white/40 backdrop-blur-sm 
-                rounded-2xl p-4 border border-white/50 w-[85vw] mx-auto md:w-auto">
+                className="snap-start shrink-0 w-[80vw] md:w-auto bg-white rounded-2xl p-4 flex flex-col gap-2">
                 
                 {/* Image */}
-                <div className="w-full h-48 md:h-56 rounded-xl overflow-hidden 
-                  mb-4 flex items-center justify-center bg-[#E8D5B7]">
+                <div className="relative h-48 w-full bg-[#E8D5B7] rounded-xl overflow-hidden">
                   {product.image ? (
                     <img
                       src={product.image}
@@ -95,7 +93,7 @@ export function FeaturedProducts() {
                   )}
                   
                   <div className="flex items-center gap-1 mb-1">
-                    <p className="text-[#2C2C2C] font-semibold text-sm md:text-base truncate flex-1">
+                    <p className="text-sm font-semibold line-clamp-2">
                       {product.name}
                     </p>
                     <div className="flex items-center gap-0.5 flex-shrink-0">
@@ -108,10 +106,10 @@ export function FeaturedProducts() {
                       `${product.name} personnalisé pour vos événements spéciaux. Design unique...`}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#2C2C2C] font-bold text-sm md:text-base">
+                    <span className="text-sm font-bold text-[#2C2C2C]">
                       {product.price}
                     </span>
-                    <PrimaryCtaButton href={`/produit/${product.slug}`} className="px-4 py-2 text-sm w-full md:w-auto">
+                    <PrimaryCtaButton href={`/produit/${product.slug}`} className="w-full py-2 text-sm mt-auto">
                       Voir
                     </PrimaryCtaButton>
                   </div>

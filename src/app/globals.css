@@ -402,3 +402,12 @@ img[data-product],
   background-color: #E8D5B7 !important;
 }
 
+/* Scrollbar hide pour carousel mobile */
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none; 
+}
+.scrollbar-hide { 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
+
