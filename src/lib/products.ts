@@ -5,6 +5,7 @@ export async function getAllProducts(): Promise<Product[]> {
   try {
     // Vérifier si supabase est configuré
     if (!(supabase as any).from) {
+      // Gestion silencieuse - ne bloque pas l'affichage
       console.log('Supabase non configuré - retour de produits vides');
       return [];
     }
@@ -31,6 +32,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
     // Vérifier si supabase est configuré
     if (!(supabase as any).from) {
+      // Gestion silencieuse - ne bloque pas l'affichage
       console.log('Supabase non configuré - retour de produit null');
       return null;
     }
@@ -58,6 +60,7 @@ export async function getProductsByCategorie(categorie: string): Promise<Product
   try {
     // Vérifier si supabase est configuré
     if (!(supabase as any).from) {
+      // Gestion silencieuse - ne bloque pas l'affichage
       console.log('Supabase non configuré - retour de produits vides');
       return [];
     }
@@ -127,6 +130,7 @@ export async function searchProducts(query: string): Promise<Product[]> {
   try {
     // Vérifier si supabase est configuré
     if (!(supabase as any).from) {
+      // Gestion silencieuse - ne bloque pas l'affichage
       console.log('Supabase non configuré - retour de produits vides');
       return [];
     }

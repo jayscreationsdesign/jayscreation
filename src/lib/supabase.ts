@@ -1,12 +1,16 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js"
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Variables Supabase manquantes. Vérifiez NEXT_PUBLIC_SUPABASE_URL et NEXT_PUBLIC_SUPABASE_ANON_KEY dans .env.local')
+if (!supabaseUrl || !supabaseKey) {
+  console.warn("Variables Supabase manquantes")
 }
 
-export const supabase = createClient(supabaseUrl!, supabaseAnonKey!)
+export const supabase = createClient(
+  supabaseUrl || "",
+  supabaseKey || ""
+)
 
-export { createClient } from '@supabase/supabase-js'
+export const isSupabaseConfigured = 
+  !!supabaseUrl && !!supabaseKey

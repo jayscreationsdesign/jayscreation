@@ -19,6 +19,7 @@ export default async function Home() {
     const { data, error } = await (supabase as any).from("products")?.select("*")?.limit(1) || { data: null, error: null };
     console.log("Supabase test:", data, error);
   } catch (error) {
+    // Gestion silencieuse - ne bloque pas l'affichage
     console.log("Supabase non configuré - utilisation des données statiques");
   }
 
