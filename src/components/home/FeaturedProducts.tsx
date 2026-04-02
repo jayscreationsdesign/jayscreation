@@ -94,7 +94,7 @@ export function FeaturedProducts() {
                       {product.price}
                     </span>
                     <PrimaryCtaButton href={`/produit/${product.slug}`} className="px-4 py-2 text-sm">
-                      Voir →
+                      Voir
                     </PrimaryCtaButton>
                   </div>
                 </div>
