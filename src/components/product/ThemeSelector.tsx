@@ -12,7 +12,7 @@ interface ThemeSelectorProps {
   placeholder?: string
 }
 
-export function ThemeSelector({ value, onChange, categories, label = "Choisissez votre thème", placeholder = "Sélectionnez un thème..." }: ThemeSelectorProps) {
+export function ThemeSelector({ value, onChange, categories, label = "Choisissez votre thème", placeholder = "🎨 Sélectionnez un thème..." }: ThemeSelectorProps) {
   console.log("ThemeSelector rendu", { value, categories: categories.length })
 
   return (
