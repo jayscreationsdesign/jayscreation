@@ -155,8 +155,8 @@ export async function POST(request: NextRequest) {
     try {
       const { createClient } = require('@/lib/supabase');
       const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+        process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
       );
       await supabase.from('commandes').insert({
         stripe_session_id: session.id,
