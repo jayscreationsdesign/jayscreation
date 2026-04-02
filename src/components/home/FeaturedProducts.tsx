@@ -54,15 +54,16 @@ export function FeaturedProducts() {
                 
                 {/* Image */}
                 <div className="w-full aspect-square rounded-xl overflow-hidden 
-                  mb-4 flex items-center justify-center">
+                  mb-4 flex items-center justify-center bg-[#E8D5B7]">
                   {product.image ? (
                     <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-full object-cover"
+                      style={{ backgroundColor: '#E8D5B7' }}
                     />
                   ) : (
-                    <div className="w-full h-full rounded-xl" />
+                    <div className="w-full h-full rounded-xl bg-[#E8D5B7]" />
                   )}
                 </div>
 

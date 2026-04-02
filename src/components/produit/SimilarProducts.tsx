@@ -43,12 +43,13 @@ export default function SimilarProducts({
               className="flex flex-col overflow-hidden rounded-3xl bg-[#FAF7F2] shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
               {/* Image */}
-              <div className="relative aspect-square w-full overflow-hidden">
+              <div className="relative aspect-square w-full overflow-hidden bg-[#E8D5B7]">
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover"
+                  style={{ backgroundColor: '#E8D5B7' }}
                 />
               </div>
 

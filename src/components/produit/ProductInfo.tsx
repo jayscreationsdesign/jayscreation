@@ -134,7 +134,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
             value={selectedTheme}
             onChange={(value) => onThemeChange?.(value || "")}
             categories={THEME_CATEGORIES}
-            label={`Thème pour ${product.name}`}
+            label="Choisissez votre thème"
             placeholder="🎨 Sélectionnez un thème..."
           />
           {!selectedTheme && (

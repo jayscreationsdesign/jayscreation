@@ -43,12 +43,13 @@ export default function Tendances() {
               key={product.id}
               className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-[1.02]"
             >
-              <div className="aspect-square rounded-xl mb-4 relative overflow-hidden">
+              <div className="aspect-square rounded-xl mb-4 relative overflow-hidden bg-[#E8D5B7]">
                 <Image
                   src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover"
+                  style={{ backgroundColor: '#E8D5B7' }}
                 />
               </div>
               

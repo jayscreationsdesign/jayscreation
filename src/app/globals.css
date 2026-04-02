@@ -384,3 +384,12 @@ img[src*="/images/products/"]::after {
   }
 }
 
+/* Fond beige sable chaud pour toutes les images produit */
+img[data-product],
+.product-image,
+.product-card img,
+.product-gallery img,
+.product-thumbnail-rect img {
+  background-color: #E8D5B7 !important;
+}
+

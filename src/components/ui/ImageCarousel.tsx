@@ -192,7 +192,7 @@ export default function ImageCarousel({
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+              className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 bg-[#E8D5B7] ${
                 index === currentIndex
                   ? "border-[#8B4513] scale-110"
                   : "border-white/60 hover:border-white/80"
@@ -205,6 +205,7 @@ export default function ImageCarousel({
                 fill
                 className="object-cover"
                 sizes="64px"
+                style={{ backgroundColor: '#E8D5B7' }}
               />
               {index === currentIndex && (
                 <div className="absolute inset-0 border-2 border-[#8B4513] rounded-lg pointer-events-none" />

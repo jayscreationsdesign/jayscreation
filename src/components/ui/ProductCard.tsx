@@ -58,13 +58,14 @@ export default function ProductCard({
             />
           </div>
         ) : (
-          <div className="product-card-uniform relative aspect-square w-full overflow-hidden rounded-t-3xl shadow-lg">
+          <div className="product-card-uniform relative aspect-square w-full overflow-hidden rounded-t-3xl shadow-lg bg-[#E8D5B7]">
             <Image
               src={displayImage}
               alt={product.name}
               fill
               className="object-contain transition-transform duration-300 hover:scale-105 p-4"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              style={{ backgroundColor: '#E8D5B7' }}
               onError={handleImageError}
             />
           </div>

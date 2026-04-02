@@ -40,11 +40,12 @@ export default function ProductGallery({ product }: { product: Product }) {
     <div className="space-y-6">
       {/* Carrousel principal */}
       <div className="product-gallery-uniform relative rounded-xl overflow-hidden shadow-md max-w-md mx-auto">
-        <div className="relative aspect-[3/4]">
+        <div className="relative aspect-[3/4] bg-[#E8D5B7]">
           <img
             src={displayImages[currentImageIndex]}
             alt={`${product.name} - vue ${currentImageIndex + 1}`}
             className="w-full h-full object-cover"
+            style={{ backgroundColor: '#E8D5B7' }}
             onError={handleImageError}
           />
           
@@ -96,7 +97,7 @@ export default function ProductGallery({ product }: { product: Product }) {
               <div
                 key={actualIndex}
                 onClick={() => handleThumbnailClick(actualIndex)}
-                className={`product-thumbnail-rect relative flex-shrink-0 w-20 h-24 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl ${
+                className={`product-thumbnail-rect relative flex-shrink-0 w-20 h-24 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl bg-[#E8D5B7] ${
                   isActive ? 'scale-105 shadow-xl' : ''
                 }`}
               >
@@ -104,6 +105,7 @@ export default function ProductGallery({ product }: { product: Product }) {
                   src={img}
                   alt={`${product.name} - vue ${actualIndex + 1}`}
                   className="w-full h-full object-contain p-2"
+                  style={{ backgroundColor: '#E8D5B7' }}
                 />
                 {/* Indicateur actif - bordure dorée */}
                 {isActive && (

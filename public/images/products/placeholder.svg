@@ -1,9 +1,9 @@
 <svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Fond -->
-  <rect width="640" height="640" fill="#FDFBF7"/>
+  <rect width="640" height="640" fill="#E8D5B7"/>
   
   <!-- Cercle de fond -->
-  <circle cx="320" cy="280" r="120" fill="#F0EBE3"/>
+  <circle cx="320" cy="280" r="120" fill="#D4C5A8"/>
   
   <!-- Icône appareil photo -->
   <g transform="translate(320, 280)">
@@ -12,7 +12,7 @@
     
     <!-- Objectif -->
     <circle cx="0" cy="-5" r="12" fill="#2C2C2C" stroke="#1A1A1A" stroke-width="2"/>
-    <circle cx="0" cy="-5" r="8" fill="#FDFBF7"/>
+    <circle cx="0" cy="-5" r="8" fill="#E8D5B7"/>
     
     <!-- Viseur -->
     <rect x="-4" y="-9" width="8" height="8" rx="1" fill="none" stroke="#C8A96E" stroke-width="1.5"/>
