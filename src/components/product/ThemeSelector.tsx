@@ -32,7 +32,7 @@ export function ThemeSelector({ value, onChange, categories, label = "Choisissez
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         
-        <SelectContent className="w-[320px] rounded-2xl border-2 border-[#E8E4DF] bg-white shadow-xl max-h-96 overflow-y-auto">
+        <SelectContent className="w-[400px] rounded-2xl border-2 border-[#E8E4DF] bg-white shadow-xl max-h-96 overflow-y-auto">
           <div className="p-3">
             {categories.map((category) => (
               <div key={category.id} className="mb-4 last:mb-0">
@@ -49,11 +49,11 @@ export function ThemeSelector({ value, onChange, categories, label = "Choisissez
                     <SelectItem 
                       key={theme.id} 
                       value={theme.id}
-                      className="rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#FAF7F2] hover:text-[#8B4513] focus:bg-[#8B4513]/10 focus:text-[#8B4513] py-2.5 px-3 text-sm w-full"
+                      className="rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#FAF7F2] hover:text-[#8B4513] focus:bg-[#8B4513]/10 focus:text-[#8B4513] py-3 px-4 text-sm w-full"
                     >
-                      <div className="flex items-center gap-2 w-full">
+                      <div className="flex items-center gap-3 w-full min-w-0">
                         <div className="w-1.5 h-1.5 bg-[#D4A574] rounded-full opacity-60 flex-shrink-0" />
-                        <span className="font-medium text-left flex-1">{theme.label}</span>
+                        <span className="font-medium text-left truncate flex-1">{theme.label}</span>
                       </div>
                     </SelectItem>
                   ))}
