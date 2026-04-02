@@ -135,12 +135,13 @@ export default function RelatedProductsCarousel({
                     className="flex-shrink-0 w-full md:w-1/2 lg:w-1/4 px-2"
                   >
                     <div className="bg-white rounded-2xl p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] h-full border border-[#E8E4DF]">
-                      <div className="aspect-square rounded-xl mb-4 relative overflow-hidden">
+                      <div className="aspect-square rounded-xl mb-4 relative overflow-hidden bg-[#E8D5B7]">
                         <Image
                           src={cleanImageUrl(fields.image)}
                           alt={fields.name}
                           fill
                           className="object-cover"
+                          style={{ backgroundColor: '#E8D5B7' }}
                         />
                       </div>
                       

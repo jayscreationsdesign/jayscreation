@@ -393,3 +393,12 @@ img[data-product],
   background-color: #E8D5B7 !important;
 }
 
+/* Fond universel images produit */
+.product-image-wrapper,
+.product-card-image,
+[class*="product"] img,
+[class*="ProductCard"] img,
+[class*="ProductImage"] img {
+  background-color: #E8D5B7 !important;
+}
+
