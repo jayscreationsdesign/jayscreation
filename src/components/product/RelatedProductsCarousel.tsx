@@ -86,23 +86,19 @@ export default function RelatedProductsCarousel({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // Utiliser la logique de recommandation intelligente avec scoring
-  const { relatedProducts, hasRecommendations } = useSmartRecommendations(
-    currentProduct, 
-    allProducts
-  );
+  // SIMPLIFICATION : Toujours utiliser les produits disponibles
+  const displayProducts = allProducts
+    .filter(p => {
+      const fields = getProductFields(p);
+      const currentFields = getProductFields(currentProduct);
+      return fields.id !== currentFields.id; // Exclure seulement le produit courant
+    })
+    .slice(0, 8); // Prendre les 8 premiers produits
 
-  // TOUJOURS afficher la section avec des produits de repli si nécessaire
-  const displayProducts = relatedProducts.length > 0 ? relatedProducts : 
-    allProducts
-      .filter(p => {
-        const fields = getProductFields(p);
-        return fields.id !== getProductFields(currentProduct).id;
-      })
-      .slice(0, 8);
-
-  // Toujours afficher la section
-  const shouldDisplay = displayProducts.length > 0;
+  // TOUJOURS afficher la section si on a des produits
+  if (displayProducts.length === 0) {
+    return null;
+  }
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % Math.max(1, displayProducts.length - visibleCount + 1));
@@ -111,11 +107,6 @@ export default function RelatedProductsCarousel({
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 + Math.max(1, displayProducts.length - visibleCount + 1)) % Math.max(1, displayProducts.length - visibleCount + 1));
   };
-
-  // Ne pas afficher si aucun produit disponible
-  if (!shouldDisplay) {
-    return null;
-  }
 
   return (
     <section className="py-16 bg-[#FAF7F2]">

@@ -68,7 +68,7 @@ export default async function ProductPage({
       <ProductClient slug={slug} />
 
       {/* Section 3 - Carrousel "Vous aimerez peut-être aussi" */}
-      <RelatedProductsCarousel currentProduct={product} />
+      <RelatedProductsCarousel currentProduct={product} allProducts={products} />
 
       {/* Section 4 - Bande de badges défilante */}
       <ProductBadgeMarquee />
