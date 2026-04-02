@@ -208,9 +208,9 @@ export default function PanierPage() {
               </div>
               
               {/* Section Coupon */}
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-lg p-6 shadow-md mb-6">
+              <div className="bg-[#FAF7F2] border-2 border-[#8B4513] rounded-lg p-6 shadow-md mb-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-[#2C2C2C] flex items-center gap-2 text-lg font-semibold">
+                  <h3 className="text-[#8B4513] flex items-center gap-2 text-lg font-semibold">
                     🎫 Code de réduction
                   </h3>
                   <button
@@ -224,13 +224,13 @@ export default function PanierPage() {
                 
                 {showCouponInput && (
                   <div className="space-y-4">
-                    <div className="bg-white p-3 rounded-lg border border-green-200">
+                    <div className="bg-white p-3 rounded-lg border border-[#E8E4DF]">
                       <input
                         type="text"
                         placeholder="Entrez votre code promo (ex: GRATUIT100)"
                         value={couponCode}
                         onChange={(e) => setCouponCode(e.target.value)}
-                        className="w-full border-green-300 focus:border-green-500 text-center font-mono px-3 py-2 rounded"
+                        className="w-full border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 text-center font-mono px-3 py-2 rounded"
                       />
                     </div>
                     
@@ -243,7 +243,7 @@ export default function PanierPage() {
                     </button>
                     
                     {discount > 0 && (
-                      <div className="flex items-center justify-between bg-green-100 p-4 rounded-lg border-2 border-green-300">
+                      <div className="flex items-center justify-between bg-green-50 p-4 rounded-lg border-2 border-green-300">
                         <span className="text-green-800 font-bold flex items-center gap-2">
                           ✅ Coupon appliqué : -{formatPrice(discount)}
                         </span>
@@ -257,9 +257,9 @@ export default function PanierPage() {
                       </div>
                     )}
                     
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                      <p className="text-sm text-yellow-800 font-medium text-center">
-                        💡 Codes valides : <span className="font-mono bg-yellow-100 px-2 py-1 rounded">GRATUIT100</span> et <span className="font-mono bg-yellow-100 px-2 py-1 rounded">FREE100</span>
+                    <div className="bg-[#FAF7F2] border border-[#E8E4DF] rounded-lg p-3">
+                      <p className="text-sm text-[#8B4513] font-medium text-center">
+                        💡 Codes valides : <span className="font-mono bg-white px-2 py-1 rounded border border-[#E8E4DF]">GRATUIT100</span> et <span className="font-mono bg-white px-2 py-1 rounded border border-[#E8E4DF]">FREE100</span>
                       </p>
                     </div>
                   </div>
