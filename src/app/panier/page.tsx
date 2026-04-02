@@ -216,7 +216,7 @@ export default function PanierPage() {
                   <button
                     type="button"
                     onClick={() => setShowCouponInput(!showCouponInput)}
-                    className="text-sm bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-4 py-2 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                   >
                     {showCouponInput ? 'Masquer' : 'Ajouter'}
                   </button>
@@ -237,9 +237,9 @@ export default function PanierPage() {
                     <button
                       type="button"
                       onClick={applyCoupon}
-                      className="w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 font-semibold transition-colors"
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-6 py-4 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed text-lg"
                     >
-                      🎉 Appliquer le code
+                      <span className="text-lg">🎉 Appliquer le code</span>
                     </button>
                     
                     {discount > 0 && (
@@ -250,7 +250,7 @@ export default function PanierPage() {
                         <button
                           type="button"
                           onClick={removeCoupon}
-                          className="bg-red-500 text-white px-3 py-1 rounded-full text-sm hover:bg-red-600"
+                          className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-3 py-1 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           Supprimer
                         </button>
