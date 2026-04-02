@@ -75,7 +75,7 @@ export default function Tendances() {
                 </span>
                 <Link
                   href={`/produit/${product.slug}`}
-                  className="inline-flex items-center gap-1 bg-white/20 text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-white/30 transition-colors"
+                  className="inline-flex items-center gap-1 bg-white/10 text-white/90 px-1.5 py-0.5 rounded-sm text-xs font-light hover:bg-white/20 transition-all duration-300"
                 >
                   Voir
                 </Link>

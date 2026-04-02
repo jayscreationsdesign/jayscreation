@@ -53,13 +53,13 @@ export function FeaturedProducts() {
                 rounded-2xl p-4 border border-white/50">
                 
                 {/* Image */}
-                <div className="w-full aspect-square rounded-xl overflow-hidden 
+                <div className="w-full h-56 rounded-xl overflow-hidden 
                   mb-4 flex items-center justify-center bg-[#E8D5B7]">
                   {product.image ? (
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       style={{ backgroundColor: '#E8D5B7' }}
                     />
                   ) : (
@@ -77,7 +77,7 @@ export function FeaturedProducts() {
                   )}
                   
                   <div className="flex items-center gap-1 mb-1">
-                    <p className="text-[#8B4513] font-semibold text-sm truncate flex-1">
+                    <p className="text-[#2C2C2C] font-semibold text-base truncate flex-1">
                       {product.name}
                     </p>
                     <div className="flex items-center gap-0.5 flex-shrink-0">
@@ -85,16 +85,16 @@ export function FeaturedProducts() {
                       <span className="text-[#8B4513] text-xs">5/5</span>
                     </div>
                   </div>
-                  <p className="text-[#6B4423]/70 text-xs line-clamp-2 mb-3">
+                  <p className="text-[#6B5B45] text-sm line-clamp-2 mb-3">
                     {product.description || 
                       `${product.name} personnalisé pour vos événements spéciaux. Design unique...`}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#8B4513] font-bold text-sm">
+                    <span className="text-[#2C2C2C] font-bold text-base">
                       {product.price}
                     </span>
-                    <PrimaryCtaButton href={`/produit/${product.slug}`}>
-                      Voir
+                    <PrimaryCtaButton href={`/produit/${product.slug}`} className="px-4 py-2 text-sm">
+                      Voir →
                     </PrimaryCtaButton>
                   </div>
                 </div>

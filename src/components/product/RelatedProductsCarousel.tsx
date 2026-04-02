@@ -135,12 +135,12 @@ export default function RelatedProductsCarousel({
                     className="flex-shrink-0 w-full md:w-1/2 lg:w-1/4 px-2"
                   >
                     <div className="bg-white rounded-2xl p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] h-full border border-[#E8E4DF]">
-                      <div className="aspect-square rounded-xl mb-4 relative overflow-hidden bg-[#E8D5B7]">
+                      <div className="h-56 rounded-xl mb-4 relative overflow-hidden bg-[#E8D5B7]">
                         <Image
                           src={cleanImageUrl(fields.image)}
                           alt={fields.name}
                           fill
-                          className="object-cover"
+                          className="object-contain"
                           style={{ backgroundColor: '#E8D5B7' }}
                         />
                       </div>
@@ -153,7 +153,7 @@ export default function RelatedProductsCarousel({
                           </div>
                         )}
                         
-                        <h3 className="font-heading text-sm font-semibold text-[#2C2C2C] line-clamp-2">
+                        <h3 className="font-heading text-base font-semibold text-[#2C2C2C] line-clamp-2">
                           {fields.name}
                         </h3>
                         {fields.rating && (
@@ -166,19 +166,19 @@ export default function RelatedProductsCarousel({
                         )}
                       </div>
                       
-                      <p className="text-xs text-[#6B6B6B] mb-3 line-clamp-2">
+                      <p className="text-sm text-[#6B5B45] mb-3 line-clamp-2">
                         {fields.description || `Création de la catégorie ${fields.category}`}
                       </p>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-[#8B4513]">
+                        <span className="text-base font-bold text-[#2C2C2C]">
                           {fields.price}
                         </span>
                         <Link
                           href={`/produit/${fields.slug}`}
-                          className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-white bg-[#8B4513] rounded-lg hover:bg-[#A0522D] transition-colors duration-200 shadow-sm"
+                          className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#8B4513] rounded-lg hover:bg-[#A0522D] transition-colors duration-200 shadow-sm"
                         >
-                          voir
+                          Voir →
                         </Link>
                       </div>
                     </div>

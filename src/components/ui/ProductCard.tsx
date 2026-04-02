@@ -39,13 +39,13 @@ export default function ProductCard({
 
   return (
     <div
-      className={`flex flex-col overflow-hidden rounded-3xl shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105 ${className}`}
+      className={`flex flex-col overflow-hidden rounded-3xl shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105 min-h-[420px] ${className}`}
       style={{ backgroundColor: 'var(--jc-surface)', border: '1px solid var(--jc-border)' }}
     >
       {/* IMAGE avec carrousel conditionnel et fond #fdf8ec */}
       <div className="relative">
         {hasMultipleImages ? (
-          <div className="product-card-uniform relative rounded-t-3xl overflow-hidden shadow-lg">
+          <div className="product-card-uniform relative h-64 w-full rounded-t-3xl overflow-hidden shadow-lg bg-[#E8D5B7]">
             <ImageCarousel
               images={allImages}
               alt={product.name}
@@ -58,12 +58,12 @@ export default function ProductCard({
             />
           </div>
         ) : (
-          <div className="product-card-uniform relative aspect-square w-full overflow-hidden rounded-t-3xl shadow-lg bg-[#E8D5B7]">
+          <div className="product-card-uniform relative h-64 w-full overflow-hidden rounded-t-3xl shadow-lg bg-[#E8D5B7]">
             <Image
               src={displayImage}
               alt={product.name}
               fill
-              className="object-contain transition-transform duration-300 hover:scale-105 p-4"
+              className="object-cover transition-transform duration-300 hover:scale-105 p-4"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               style={{ backgroundColor: '#E8D5B7' }}
               onError={handleImageError}
@@ -90,7 +90,7 @@ export default function ProductCard({
           )}
 
           {/* Nom du produit */}
-          <h3 className="font-heading text-lg font-semibold text-foreground line-clamp-2">
+          <h3 className="font-heading text-base font-semibold text-foreground line-clamp-2">
             {product.name}
           </h3>
 
@@ -123,8 +123,11 @@ export default function ProductCard({
         </div>
 
         {/* Bouton standardisé */}
-        <PrimaryCtaButton href={`/produit/${product.slug}`}>
-          Voir le produit
+        <PrimaryCtaButton 
+          href={`/produit/${product.slug}`}
+          className="px-4 py-2 text-sm"
+        >
+          Voir →
         </PrimaryCtaButton>
       </div>
     </div>
