@@ -137,6 +137,11 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
             label={`Thème pour ${product.name}`}
             placeholder="🎨 Sélectionnez un thème..."
           />
+          {!selectedTheme && (
+            <p className="text-sm text-amber-700 mt-1">
+              ✨ Veuillez sélectionner un thème pour continuer
+            </p>
+          )}
         </div>
       )}
 
@@ -267,7 +272,8 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
           {/* Bouton CTA standardisé - largeur adaptative */}
           <PrimaryCtaButton 
             onClick={() => onAddToCart?.(qty)} 
-            className="flex-1 min-w-[200px]"
+            className="flex-1 min-w-[200px] disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={(product.requires_theme ?? true) && !selectedTheme}
           >
             <ShoppingBag size={18} className="flex-shrink-0" />
             Ajouter au panier
