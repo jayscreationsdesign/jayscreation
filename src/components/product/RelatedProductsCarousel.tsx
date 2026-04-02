@@ -105,14 +105,14 @@ export default function RelatedProductsCarousel({
           {/* Boutons de navigation */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white text-[#C8A96E] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#C8A96E] shadow-lg"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white text-[#8B4513] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#8B4513] shadow-lg"
             aria-label="Produit précédent"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white text-[#C8A96E] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#C8A96E] shadow-lg"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white text-[#8B4513] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#8B4513] shadow-lg"
             aria-label="Produit suivant"
           >
             <ChevronRight className="h-5 w-5" />
@@ -135,7 +135,7 @@ export default function RelatedProductsCarousel({
                     className="flex-shrink-0 w-full md:w-1/2 lg:w-1/4 px-2"
                   >
                     <div className="bg-white rounded-2xl p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] h-full border border-[#E8E4DF]">
-                      <div className="aspect-square bg-[#FAF7F2] rounded-xl mb-4 relative overflow-hidden">
+                      <div className="aspect-square rounded-xl mb-4 relative overflow-hidden">
                         <Image
                           src={cleanImageUrl(fields.image)}
                           alt={fields.name}
@@ -157,7 +157,7 @@ export default function RelatedProductsCarousel({
                         </h3>
                         {fields.rating && (
                           <div className="flex items-center gap-1">
-                            <Star className="h-3 w-3 text-[#C8A96E] fill-current" />
+                            <Star className="h-3 w-3 text-[#8B4513] fill-current" />
                             <span className="text-xs font-medium text-[#6B6B6B]">
                               {fields.rating}/5
                             </span>
@@ -170,12 +170,15 @@ export default function RelatedProductsCarousel({
                       </p>
                       
                       <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold text-[#C8A96E]">
+                        <span className="text-sm font-bold text-[#8B4513]">
                           {fields.price}
                         </span>
-                        <PrimaryCtaButton href={`/produit/${fields.slug}`}>
-                          Voir le produit
-                        </PrimaryCtaButton>
+                        <Link
+                          href={`/produit/${fields.slug}`}
+                          className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-white bg-[#8B4513] rounded-lg hover:bg-[#A0522D] transition-colors duration-200 shadow-sm"
+                        >
+                          voir
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -192,8 +195,8 @@ export default function RelatedProductsCarousel({
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === currentIndex 
-                    ? "bg-[#C8A96E] w-8" 
-                    : "bg-[#E8E4DF] hover:bg-[#C8A96E]/60"
+                    ? "bg-[#8B4513] w-8" 
+                    : "bg-[#E8E4DF] hover:bg-[#8B4513]/60"
                 }`}
                 aria-label={`Aller au produit ${index + 1}`}
               />

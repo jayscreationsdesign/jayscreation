@@ -10,7 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { ArrowLeft, ShoppingBag, User, Mail, Phone, MapPin, Edit3 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface FormData {
   prenom: string;
@@ -25,7 +25,7 @@ interface FormData {
 }
 
 export default function CommandePage() {
-  const { items, total, clearCart } = useCartStore();
+  const { items, clearCart } = useCartStore();
   const [formData, setFormData] = useState<FormData>({
     prenom: '',
     nom: '',
@@ -38,6 +38,22 @@ export default function CommandePage() {
     personnalisation: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [hasHydrated, setHasHydrated] = useState(false);
+
+  // Gérer l'hydratation côté client
+  useEffect(() => {
+    setHasHydrated(true);
+  }, []);
+
+  // Source de vérité unique pour le total
+  const orderTotal = items.reduce((sum, item) => {
+    const unitPrice = Number(item.prix) || 0;
+    const quantity = Number(item.quantite) || 0;
+    return sum + unitPrice * quantity;
+  }, 0);
+
+  // Montant pour Stripe (en centimes)
+  const stripeAmount = Math.round(orderTotal * 100);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -55,35 +71,51 @@ export default function CommandePage() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/checkout', {
+      const res = await fetch('/api/checkout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           items,
           client: formData,
+          total: orderTotal,
         }),
       });
 
-      const { url } = await response.json();
-      
-      if (url) {
-        window.location.href = url;
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.error || 'Erreur lors de la création de la session Stripe');
       }
+
+      if (!data?.url) {
+        throw new Error('Aucune URL Stripe retournée');
+      }
+
+      window.location.href = data.url;
     } catch (error) {
-      console.error('Erreur lors de la création de la session Stripe:', error);
-    } finally {
       setIsLoading(false);
+      alert(error instanceof Error ? error.message : 'Erreur Stripe');
     }
   };
+
+  // Afficher un état de chargement pendant l'hydratation
+  if (!hasHydrated) {
+    return (
+      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8B4513] mx-auto mb-4"></div>
+          <p className="text-[#6B6B6B]">Chargement de votre panier...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-[#FAF7F2]">
         <div className="container mx-auto px-4 py-16">
           <div className="text-center">
-            <ShoppingBag size={64} className="mx-auto text-[#C8A96E] mb-6" />
+            <ShoppingBag size={64} className="mx-auto text-[#8B4513] mb-6" />
             <h1 className="text-3xl font-bold text-[#2C2C2C] mb-4">
               Votre panier est vide
             </h1>
@@ -91,7 +123,7 @@ export default function CommandePage() {
               Ajoutez des articles à votre panier pour passer commande
             </p>
             <Link href="/boutique">
-              <Button className="bg-[#C8A96E] hover:bg-[#B89A5E] text-white">
+              <Button className="bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574] text-white">
                 Retour à la boutique
               </Button>
             </Link>
@@ -107,7 +139,7 @@ export default function CommandePage() {
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link href="/boutique">
-            <Button variant="ghost" className="text-[#C8A96E] hover:bg-[#E8E4DF]">
+            <Button variant="ghost" className="text-[#8B4513] hover:bg-[#8B4513]">
               <ArrowLeft size={20} />
             </Button>
           </Link>
@@ -118,7 +150,7 @@ export default function CommandePage() {
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Récapitulatif commande */}
-          <Card className="bg-white border-[#C8A96E]">
+          <Card className="bg-white border-[#8B4513]">
             <CardHeader>
               <CardTitle className="text-[#2C2C2C] flex items-center gap-2">
                 <ShoppingBag size={24} />
@@ -144,26 +176,26 @@ export default function CommandePage() {
                     <p className="text-sm text-[#6B6B6B]">Quantité: {item.quantite}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-[#C8A96E]">
+                    <p className="font-semibold text-[#8B4513]">
                       {formatPrice(item.prix * item.quantite)}
                     </p>
                   </div>
                 </div>
               ))}
               
-              <Separator className="bg-[#E8E4DF]" />
+              <Separator className="bg-[#8B4513]" />
               
               <div className="flex justify-between items-center pt-4">
                 <span className="text-xl font-bold text-[#2C2C2C]">Total</span>
-                <span className="text-2xl font-bold text-[#C8A96E]">
-                  {formatPrice(total)}
+                <span className="text-2xl font-bold text-[#8B4513]">
+                  {formatPrice(orderTotal)}
                 </span>
               </div>
             </CardContent>
           </Card>
 
           {/* Formulaire client */}
-          <Card className="bg-white border-[#C8A96E]">
+          <Card className="bg-white border-[#8B4513]">
             <CardHeader>
               <CardTitle className="text-[#2C2C2C] flex items-center gap-2">
                 <User size={24} />
@@ -184,7 +216,7 @@ export default function CommandePage() {
                         value={formData.prenom}
                         onChange={(e) => handleInputChange('prenom', e.target.value)}
                         required
-                        className="border-[#C8A96E] focus:border-[#B89A5E]"
+                        className="border-[#8B4513] focus:border-[#6b3410]"
                       />
                     </div>
                     <div>
@@ -196,7 +228,7 @@ export default function CommandePage() {
                         value={formData.nom}
                         onChange={(e) => handleInputChange('nom', e.target.value)}
                         required
-                        className="border-[#C8A96E] focus:border-[#B89A5E]"
+                        className="border-[#8B4513] focus:border-[#6b3410]"
                       />
                     </div>
                   </div>
@@ -212,7 +244,7 @@ export default function CommandePage() {
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       required
-                      className="border-[#C8A96E] focus:border-[#B89A5E]"
+                      className="border-[#8B4513] focus:border-[#6b3410]"
                     />
                   </div>
                   
@@ -226,12 +258,12 @@ export default function CommandePage() {
                       value={formData.telephone}
                       onChange={(e) => handleInputChange('telephone', e.target.value)}
                       required
-                      className="border-[#C8A96E] focus:border-[#B89A5E]"
+                      className="border-[#8B4513] focus:border-[#6b3410]"
                     />
                   </div>
                 </div>
 
-                <Separator className="bg-[#E8E4DF]" />
+                <Separator className="bg-[#8B4513]" />
 
                 {/* Adresse de livraison */}
                 <div className="space-y-4">
@@ -245,7 +277,7 @@ export default function CommandePage() {
                       value={formData.adresse}
                       onChange={(e) => handleInputChange('adresse', e.target.value)}
                       required
-                      className="border-[#C8A96E] focus:border-[#B89A5E]"
+                      className="border-[#8B4513] focus:border-[#6b3410]"
                     />
                   </div>
                   
@@ -259,7 +291,7 @@ export default function CommandePage() {
                         value={formData.codePostal}
                         onChange={(e) => handleInputChange('codePostal', e.target.value)}
                         required
-                        className="border-[#C8A96E] focus:border-[#B89A5E]"
+                        className="border-[#8B4513] focus:border-[#6b3410]"
                       />
                     </div>
                     <div>
@@ -271,7 +303,7 @@ export default function CommandePage() {
                         value={formData.ville}
                         onChange={(e) => handleInputChange('ville', e.target.value)}
                         required
-                        className="border-[#C8A96E] focus:border-[#B89A5E]"
+                        className="border-[#8B4513] focus:border-[#6b3410]"
                       />
                     </div>
                     <div>
@@ -283,13 +315,13 @@ export default function CommandePage() {
                         value={formData.pays}
                         onChange={(e) => handleInputChange('pays', e.target.value)}
                         required
-                        className="border-[#C8A96E] focus:border-[#B89A5E]"
+                        className="border-[#8B4513] focus:border-[#6b3410]"
                       />
                     </div>
                   </div>
                 </div>
 
-                <Separator className="bg-[#E8E4DF]" />
+                <Separator className="bg-[#8B4513]" />
 
                 {/* Personnalisation */}
                 <div>
@@ -302,7 +334,7 @@ export default function CommandePage() {
                     value={formData.personnalisation}
                     onChange={(e) => handleInputChange('personnalisation', e.target.value)}
                     placeholder="Décrivez ici vos besoins de personnalisation, couleurs spécifiques, textes à ajouter, etc."
-                    className="border-[#C8A96E] focus:border-[#B89A5E] min-h-[100px]"
+                    className="border-[#8B4513] focus:border-[#6b3410] min-h-[100px]"
                   />
                 </div>
 
@@ -310,9 +342,9 @@ export default function CommandePage() {
                 <Button
                   type="submit"
                   disabled={isLoading || items.length === 0}
-                  className="w-full bg-[#C8A96E] hover:bg-[#B89A5E] text-white py-4 text-lg"
+                  className="w-full bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574] text-white py-4 text-lg"
                 >
-                  {isLoading ? 'Traitement en cours...' : `Payer avec Stripe - ${formatPrice(total)}`}
+                  {isLoading ? 'Traitement en cours...' : `Payer avec Stripe - ${formatPrice(orderTotal)}`}
                 </Button>
               </form>
             </CardContent>

@@ -6,6 +6,8 @@ import { Minus, Plus, ShoppingBag, Check, Star } from "lucide-react";
 import { type Product } from "@/data/products";
 import ProductAccordions from "./ProductAccordions";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
+import ThemeSelector from "@/components/product/ThemeSelector";
+import { THEME_CATEGORIES } from "@/config/themes";
 
 interface ProductInfoProps {
   product: Product;
@@ -44,7 +46,7 @@ function parsePrice(product: Product): { display: string; isSurDevis: boolean } 
 function CheckBadge({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#C8A96E]">
+      <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
         <Check size={9} className="text-white" strokeWidth={3} />
       </div>
       <span className="text-xs text-[#6B6B6B]">{label}</span>
@@ -64,10 +66,11 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         {product.name}
       </h1>
 
-      {/* ── 2. Description ─────────────────────────────────── */}
+      {/* ── 2. Description SEO optimisée ─────────────────────────── */}
       <p className="mt-3 text-sm leading-relaxed text-[#6B6B6B]" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
-        {product.description ??
-          `Papeterie artisanale 100% personnalisée — thème, couleurs et texte sur-mesure. Idéal pour mariage, baptême, anniversaire et toute célébration unique.*`}
+        {product.description ?? 
+          `Papeterie artisanale 100% personnalisée pour mariage, baptême, anniversaire — thème, couleurs et texte sur-mesure. Créations uniques avec finitions dorées et qualité premium. Livraison offerte dès 50€ d'achat. Personnalisation illimitée jusqu'à validation. Commandez votre ${product.name} personnalisé dès maintenant pour sublimer votre événement !`
+        }
       </p>
 
       {/* ── 3. Étoiles + avis ──────────────────────────── */}
@@ -81,8 +84,8 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
                 strokeWidth={1.5}
                 className={
                   i < Math.round(product.rating!)
-                    ? "fill-[#C8A96E] text-[#C8A96E]"
-                    : "fill-transparent text-[#C8A96E]"
+                    ? "fill-[#8B4513] text-[#8B4513]"
+                    : "fill-transparent text-[#8B4513]"
                 }
               />
             ))}
@@ -96,37 +99,50 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
       {/* ── 4. Badges de confiance ───────────────────────────── */}
       <div className="mt-5 flex flex-col gap-2.5">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#C8A96E]">
-            <Check size={10} className="text-[#C8A96E]" strokeWidth={3} />
+          <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+            <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
           </div>
           <span className="text-sm text-[#6B6B6B]">À partir de 1€ seulement par pièce</span>
         </div>
         <div className="flex items-center gap-2.5">
-          <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#C8A96E]">
-            <Check size={10} className="text-[#C8A96E]" strokeWidth={3} />
+          <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+            <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
           </div>
           <span className="text-sm text-[#6B6B6B]">Livraison offerte dès 50€ d'achat</span>
         </div>
         <div className="grid grid-cols-2 gap-x-4">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#C8A96E]">
-              <Check size={10} className="text-[#C8A96E]" strokeWidth={3} />
+            <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+              <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
             </div>
             <span className="text-sm text-[#6B6B6B]">Modifications jusqu'à validation</span>
           </div>
           <div className="flex items-center gap-2.5">
-            <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#C8A96E]">
-              <Check size={10} className="text-[#C8A96E]" strokeWidth={3} />
+            <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+              <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
             </div>
             <span className="text-sm text-[#6B6B6B]">Personnalisation incluse</span>
           </div>
         </div>
       </div>
 
-      {/* ── 5. Thème sélectionné (affichage seulement) ─────────────── */}
+      {/* ── 6. Section thème ─────────────────────────────────────── */}
+      {product.themes && product.themes.length > 0 && (
+        <div className="mt-8">
+          <ThemeSelector
+            value={selectedTheme}
+            onChange={(value) => onThemeChange?.(value || "")}
+            categories={THEME_CATEGORIES}
+            label={`Thème pour ${product.name}`}
+            placeholder="🎨 Sélectionnez un thème..."
+          />
+        </div>
+      )}
+
+      {/* ── 7. Thème sélectionné (affichage seulement) ─────────────── */}
       {selectedTheme && (
         <div className="mt-8">
-          <div className="p-4 bg-white rounded-lg border border-[#C8A96E]/30">
+          <div className="p-4 bg-white rounded-lg border border-[#8B4513]/30">
             <p className="text-sm text-[#2C2C2C]">
               <span className="font-medium">Thème sélectionné :</span> {selectedTheme}
             </p>
@@ -137,37 +153,8 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </div>
       )}
 
-      {/* ── 6. Section thème (déplacée ici) ─────────────────────── */}
-      <div className="mt-8">
-        <h3 className="text-lg font-semibold text-[#2C2C2C] mb-4">Choisissez votre thème</h3>
-        <div className="bg-[#FAF7F2] rounded-lg p-6 border border-[#C8A96E]/30">
-          <div className="bg-white rounded-lg p-4 border border-[#E8E4DF]">
-            <select 
-              className="w-full p-3 border border-[#E8E4DF] rounded-lg text-[#2C2C2C] focus:outline-none focus:ring-2 focus:ring-[#C8A96E]"
-              value={selectedTheme || ""}
-              onChange={(e) => {
-                onThemeChange?.(e.target.value);
-              }}
-            >
-              <option value="">Sélectionner un thème...</option>
-              <option value="mariage">Mariage</option>
-              <option value="bapteme">Baptême</option>
-              <option value="anniversaire">Anniversaire</option>
-              <option value="baby-shower">Baby Shower</option>
-              <option value="ramadan-eid">Ramadan/Eid</option>
-              <option value="communion">Communion</option>
-              <option value="naissance">Naissance</option>
-              <option value="noel">Noël</option>
-            </select>
-          </div>
-          <p className="mt-3 text-sm text-[#6B6B6B]">
-            Choisissez le style qui correspond le mieux à votre événement
-          </p>
-        </div>
-      </div>
-
       {/* ── 7. Boîte offre mise en valeur ─────────────────────── */}
-      <div className="mt-6 rounded-2xl border-2 border-[#C8A96E] bg-[#FAF7F2] p-5">
+      <div className="mt-6 rounded-2xl border-2 border-[#8B4513] bg-[#FAF7F2] p-5">
         {/* Badge "LES PLUS POPULAIRES" */}
         <div className="mb-4 flex items-center justify-between">
           <span className="inline-block rounded-full bg-[#8B4513] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
@@ -178,8 +165,8 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
 
         {/* Titre offre */}
         <div className="mb-1 flex items-center gap-3">
-          <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-[#C8A96E]">
-            <div className="h-2 w-2 rounded-full bg-[#C8A96E]" />
+          <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-[#8B4513]">
+            <div className="h-2 w-2 rounded-full bg-[#8B4513]" />
           </div>
           <p className="text-base font-bold text-[#2C2C2C]">Personnalisez et économisez</p>
         </div>
@@ -188,7 +175,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         <div className="mb-4 flex items-baseline gap-3">
           <span
             className={`text-2xl font-bold ${
-              isSurDevis ? "text-[#C8A96E]" : "text-[#2C2C2C]"
+              isSurDevis ? "text-[#8B4513]" : "text-[#2C2C2C]"
             }`}
           >
             {display}
@@ -211,20 +198,20 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         <label
           className={`flex cursor-pointer items-center justify-between rounded-2xl border-2 px-5 py-4 transition-all ${
             purchaseType === "commande"
-              ? "border-[#C8A96E] bg-white"
-              : "border-[#E8E4DF] bg-white hover:border-[#C8A96E]/50"
+              ? "border-[#8B4513] bg-white"
+              : "border-[#E8E4DF] bg-white hover:border-[#8B4513]/50"
           }`}
         >
           <div className="flex items-center gap-3">
             <div
               className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${
                 purchaseType === "commande"
-                  ? "border-[#C8A96E]"
+                  ? "border-[#8B4513]"
                   : "border-[#E8E4DF]"
               }`}
             >
               {purchaseType === "commande" && (
-                <div className="h-2.5 w-2.5 rounded-full bg-[#C8A96E]" />
+                <div className="h-2.5 w-2.5 rounded-full bg-[#8B4513]" />
               )}
             </div>
             <div>
@@ -248,36 +235,53 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
       {!isSurDevis ? (
         <div className="mt-6 flex items-center gap-3">
           {/* Pill quantité (fond sombre) */}
-          <div className="flex items-center overflow-hidden rounded-full bg-[#2C2C2C]">
+          <div className="flex items-center overflow-hidden rounded-full bg-[#2C2C2C] flex-shrink-0">
             <button
               onClick={() => setQty((q) => Math.max(1, q - 1))}
-              className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E]"
+              className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
               aria-label="Diminuer la quantité"
             >
               <Minus size={16} />
             </button>
-            <span className="flex h-14 w-10 items-center justify-center text-center font-medium text-white">
-              {qty}
-            </span>
+            <input
+              type="number"
+              min="1"
+              value={qty}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (!isNaN(value) && value >= 1) {
+                  setQty(value);
+                }
+              }}
+              className="flex h-14 w-16 bg-transparent text-center font-medium text-white border-0 outline-none focus:ring-0 text-lg [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              aria-label="Quantité"
+            />
             <button
               onClick={() => setQty((q) => q + 1)}
-              className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E]"
+              className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
               aria-label="Augmenter la quantité"
             >
               <Plus size={16} />
             </button>
           </div>
 
-          {/* Bouton CTA standardisé */}
-          <PrimaryCtaButton onClick={() => onAddToCart?.()}>
-            <ShoppingBag size={18} />
+          {/* Bouton CTA standardisé - largeur adaptative */}
+          <PrimaryCtaButton 
+            onClick={() => onAddToCart?.(qty)} 
+            className="flex-1 min-w-[200px]"
+          >
+            <ShoppingBag size={18} className="flex-shrink-0" />
             Ajouter au panier
           </PrimaryCtaButton>
         </div>
       ) : (
         <div className="mt-6">
-          <PrimaryCtaButton href="/contact" showArrow={false}>
-            <ShoppingBag size={18} />
+          <PrimaryCtaButton 
+            href="/contact" 
+            showArrow={false}
+            className="min-w-[200px]"
+          >
+            <ShoppingBag size={18} className="flex-shrink-0" />
             Demander un devis
           </PrimaryCtaButton>
         </div>

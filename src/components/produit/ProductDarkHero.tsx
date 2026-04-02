@@ -34,7 +34,7 @@ export default function ProductDarkHero() {
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
           {PILLARS.map(({ Icon, title, desc }) => (
             <div key={title} className="flex flex-col items-center text-center">
-              <Icon size={40} className="text-[#C8A96E]" />
+              <Icon size={40} className="text-[#8B4513]" />
               <h3 className="mt-3 text-base font-semibold text-white">{title}</h3>
               <p className="mt-1 text-sm text-white/60">{desc}</p>
             </div>

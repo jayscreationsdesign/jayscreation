@@ -25,10 +25,10 @@ export default async function Home() {
   return (
     <main>
       <Hero />
-      <FeaturedProducts />
       <Categories />
-      <About />
       <Testimonials />
+      <About />
+      <FeaturedProducts />
       <Contact />
     </main>
   )

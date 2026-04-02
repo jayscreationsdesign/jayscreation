@@ -55,7 +55,7 @@ export default function TendancesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FAF7F2] to-white">
-      <section className="py-20 bg-gradient-to-r from-[#C8A96E] to-[#D4A574] relative overflow-hidden">
+      <section className="py-20 bg-gradient-to-r from-[#8B4513] to-[#D4A574] relative overflow-hidden">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 mb-6">
@@ -99,7 +99,7 @@ export default function TendancesPage() {
               <div className="grid gap-6 md:grid-cols-3 mb-12">
                 {tendance.featuredProducts.map((product) => (
                   <div key={product.id} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                    <div className="aspect-square bg-gray-50 relative overflow-hidden">
+                    <div className="aspect-square relative overflow-hidden">
                       <Image
                         src={product.image}
                         alt={product.name}
@@ -154,7 +154,7 @@ export default function TendancesPage() {
         </div>
       </section>
 
-      <section className="py-16 bg-gradient-to-r from-[#C8A96E] to-[#D4A574]">
+      <section className="py-16 bg-gradient-to-r from-[#8B4513] to-[#D4A574]">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 text-center">
           <h2 className="font-heading text-3xl text-white font-bold mb-4">
             Pret a creer votre moment parfait ?

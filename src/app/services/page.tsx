@@ -37,7 +37,7 @@ export default function ServicesPage() {
       <div className="mb-12">
         <h1 className="font-heading text-4xl text-foreground">Nos Services</h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-          JaysCreation propose une gamme complète de services pour transformer
+          Jay's Creations propose une gamme complète de services pour transformer
           vos idées en créations papeterie exceptionnelles. De la conception au
           rendu final, nous accompagnons chaque étape de votre projet événementiel.
         </p>

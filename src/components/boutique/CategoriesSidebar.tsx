@@ -79,12 +79,8 @@ function CategoryNode({
         className={`w-full text-left py-2.5 pr-3 text-sm transition-colors duration-200 flex items-center justify-between rounded-lg cursor-pointer!
           ${
             isActive
-              ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] font-medium"
-              : depth === 0
-              ? "text-foreground"
-              : depth === 1
-              ? "text-[#6B6B6B]"
-              : "text-[#9B9B9B]"
+              ? "bg-[#F0EBE3] border-l-[3px] border-[#8B4513] font-medium"
+              : ""
           }`}
         style={{ 
           paddingLeft: `${16 + depth * 16}px`,
@@ -93,8 +89,8 @@ function CategoryNode({
       >
         <span className={
           isActive 
-            ? "text-[#C8A96E]"
-            : "text-[#2C1A0E] hover:text-[#8B4513] transition-colors duration-200"
+            ? "text-[#8B4513]"
+            : "text-[#2C1A0E] hover:text-[#D4A574] transition-colors duration-200"
         }>
           {category.name}
         </span>
@@ -158,7 +154,7 @@ function SidebarContent({
           className="mb-2 flex items-center gap-1 text-xs font-medium cursor-pointer! px-2 py-1 rounded transition-colors duration-200"
           style={{ cursor: 'pointer !important' }}
         >
-          <span className="text-[#C8A96E] hover:text-[#8B4513] transition-colors duration-200">
+          <span className="text-[#8B4513] hover:text-[#D4A574] transition-colors duration-200">
             <X size={11} />
             Réinitialiser
           </span>
@@ -172,15 +168,15 @@ function SidebarContent({
         className={`w-full text-left px-4 py-2.5 rounded-lg text-sm transition-colors duration-200 cursor-pointer!
           ${
           !activeCategory
-            ? "bg-[#F0EBE3] border-l-[3px] border-[#C8A96E] font-medium"
+            ? "bg-[#F0EBE3] border-l-[3px] border-[#8B4513] font-medium"
             : ""
           }`}
         style={{ cursor: 'pointer !important' }}
       >
         <span className={
           !activeCategory 
-            ? "text-[#C8A96E]"
-            : "text-[#2C1A0E] hover:text-[#8B4513] transition-colors duration-200"
+            ? "text-[#8B4513]"
+            : "text-[#2C1A0E] hover:text-[#D4A574] transition-colors duration-200"
         }>
           Tous les produits
         </span>
@@ -272,7 +268,7 @@ export default function CategoriesSidebar() {
           className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium cursor-pointer! transition-colors duration-200"
           style={{ cursor: 'pointer !important' }}
         >
-          <span className="text-[#2C1A0E] hover:text-[#8B4513]">
+          <span className="text-[#2C1A0E] hover:text-[#D4A574]">
             <SlidersHorizontal size={15} />
             Filtres
           </span>
@@ -304,7 +300,7 @@ export default function CategoriesSidebar() {
                 className="rounded-lg p-1.5 cursor-pointer! transition-colors duration-200"
                 style={{ cursor: 'pointer !important' }}
               >
-                <span className="text-[#2C1A0E] hover:text-[#8B4513]">
+                <span className="text-[#2C1A0E] hover:text-[#D4A574]">
                   <X size={18} />
                 </span>
               </button>

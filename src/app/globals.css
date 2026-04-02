@@ -55,32 +55,32 @@
   --card-foreground: #2C2C2C;
   --popover: #FAF7F2;
   --popover-foreground: #2C2C2C;
-  --primary: #C8A96E; /* Accent dore / chaud */
+  --primary: #8B4513; /* Accent brun */
   --primary-foreground: #2C2C2C;
-  --secondary: #D4A574; /* Accent secondaire */
+  --secondary: #8B4513; /* Accent secondaire */
   --secondary-foreground: #2C2C2C;
   --muted: #F3EAD8;
   --muted-foreground: #6B6B6B; /* Texte secondaire */
-  --accent: #C8A96E;
+  --accent: #8B4513;
   --accent-foreground: #2C2C2C;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #EAD9B0;
-  --input: #EAD9B0;
-  --ring: #C8A96E;
-  --chart-1: #C8A96E;
-  --chart-2: #D4A574;
-  --chart-3: #B89455;
-  --chart-4: #A27F40;
-  --chart-5: #8F6D32;
+  --border: #8B4513;
+  --input: #8B4513;
+  --ring: #8B4513;
+  --chart-1: #8B4513;
+  --chart-2: #8B4513;
+  --chart-3: #8B4513;
+  --chart-4: #8B4513;
+  --chart-5: #8B4513;
   --radius: 0.75rem;
   --sidebar: #FAF7F2;
   --sidebar-foreground: #2C2C2C;
-  --sidebar-primary: #C8A96E;
+  --sidebar-primary: #8B4513;
   --sidebar-primary-foreground: #2C2C2C;
-  --sidebar-accent: #D4A574;
+  --sidebar-accent: #8B4513;
   --sidebar-accent-foreground: #2C2C2C;
-  --sidebar-border: #EAD9B0;
-  --sidebar-ring: #C8A96E;
+  --sidebar-border: #8B4513;
+  --sidebar-ring: #8B4513;
 }
 
 .dark {
@@ -90,31 +90,31 @@
   --card-foreground: #F5F1E9;
   --popover: #1F1C18;
   --popover-foreground: #F5F1E9;
-  --primary: #C8A96E;
+  --primary: #8B4513;
   --primary-foreground: #1F1C18;
-  --secondary: #D4A574;
+  --secondary: #8B4513;
   --secondary-foreground: #1F1C18;
   --muted: #2A2620;
   --muted-foreground: #C1B7A6;
-  --accent: #C8A96E;
+  --accent: #8B4513;
   --accent-foreground: #1F1C18;
   --destructive: oklch(0.704 0.191 22.216);
   --border: #3A342C;
   --input: #3A342C;
-  --ring: #C8A96E;
-  --chart-1: #C8A96E;
-  --chart-2: #D4A574;
-  --chart-3: #B89455;
-  --chart-4: #A27F40;
-  --chart-5: #8F6D32;
+  --ring: #8B4513;
+  --chart-1: #8B4513;
+  --chart-2: #8B4513;
+  --chart-3: #8B4513;
+  --chart-4: #8B4513;
+  --chart-5: #8B4513;
   --sidebar: #1F1C18;
   --sidebar-foreground: #F5F1E9;
-  --sidebar-primary: #C8A96E;
+  --sidebar-primary: #8B4513;
   --sidebar-primary-foreground: #1F1C18;
-  --sidebar-accent: #D4A574;
+  --sidebar-accent: #8B4513;
   --sidebar-accent-foreground: #1F1C18;
   --sidebar-border: #3A342C;
-  --sidebar-ring: #C8A96E;
+  --sidebar-ring: #8B4513;
 }
 
 @layer base {
@@ -202,7 +202,7 @@ img[src*="/images/products/"]::after {
 }
 
 .image-carousel:focus-within {
-  outline: 2px solid #C8A96E;
+  outline: 2px solid #8B4513;
   outline-offset: 2px;
 }
 
@@ -217,7 +217,7 @@ img[src*="/images/products/"]::after {
 }
 
 .carousel-nav-btn:focus-visible {
-  outline: 2px solid #C8A96E;
+  outline: 2px solid #8B4513;
   outline-offset: 2px;
 }
 
@@ -227,7 +227,7 @@ img[src*="/images/products/"]::after {
 }
 
 .carousel-dot:focus-visible {
-  outline: 2px solid #C8A96E;
+  outline: 2px solid #8B4513;
   outline-offset: 2px;
 }
 
@@ -237,28 +237,28 @@ img[src*="/images/products/"]::after {
 }
 
 .carousel-thumbnail:focus-visible {
-  outline: 2px solid #C8A96E;
+  outline: 2px solid #8B4513;
   outline-offset: 2px;
 }
 
 /* Design uniforme fiches produits */
 .product-uniform-bg {
-  background-color: #fdf8ec !important;
+  background-color: #FAF7F2 !important;
 }
 
 .product-card-uniform {
-  background-color: #fdf8ec !important;
-  border: 1px solid rgba(200, 169, 110, 0.2);
+  background-color: #FAF7F2 !important;
+  border: 1px solid rgba(139, 69, 19, 0.2);
 }
 
 .product-gallery-uniform {
-  background-color: #fdf8ec !important;
+  background-color: #FAF7F2 !important;
   border-radius: 1rem;
 }
 
-/* Thumbnails rectangulaires - Fond #f9f6f0 comme demandé */
+/* Thumbnails rectangulaires - Fond #FAF7F2 comme section "comment ça marche" */
 .product-thumbnail-rect {
-  background-color: #f9f6f0 !important;
+  background-color: #FAF7F2 !important;
   border: 1px solid #e5e7eb !important;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -288,7 +288,7 @@ img[src*="/images/products/"]::after {
 /* Images additionnelles - Gardées pour compatibilité */
 .product-additional-images {
   background-color: #fdf8ec !important;
-  border: 2px solid #C8A96E !important;
+  border: 2px solid #8B4513 !important;
   transition: all 0.3s ease;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -297,12 +297,12 @@ img[src*="/images/products/"]::after {
 .product-additional-images:hover {
   transform: scale(1.1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  border-color: #D4A574 !important;
+  border-color: #8B4513 !important;
 }
 
 /* Numéros d'images - Gardés pour compatibilité */
 .image-number-badge {
-  background: #C8A96E !important;
+  background: #8B4513 !important;
   color: white !important;
   border: 2px solid white !important;
   font-weight: bold;

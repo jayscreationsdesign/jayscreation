@@ -3,22 +3,10 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-// Créer un client mock si les variables ne sont pas définies (pour le déploiement)
-const createMockClient = () => ({
-  from: () => ({
-    select: () => ({
-      eq: () => ({
-        single: () => Promise.resolve({ data: null, error: null })
-      })
-    })
-  }),
-  auth: {
-    getUser: () => Promise.resolve({ data: { user: null }, error: null })
-  }
-})
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn('Variables Supabase manquantes. Vérifiez NEXT_PUBLIC_SUPABASE_URL et NEXT_PUBLIC_SUPABASE_ANON_KEY dans .env.local')
+}
 
-export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : createMockClient()
+export const supabase = createClient(supabaseUrl!, supabaseAnonKey!)
 
 export { createClient } from '@supabase/supabase-js'

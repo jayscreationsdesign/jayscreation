@@ -46,7 +46,7 @@ export function SectionDivider({
           transition-all duration-300
         `}
         style={{
-          background: "linear-gradient(90deg, #C8A96E, #B8954A, #C8A96E)",
+          background: "linear-gradient(90deg, #8B4513, #B8954A, #8B4513)",
           boxShadow: variant === "elegant" 
             ? "0 2px 8px rgba(200, 169, 110, 0.3)" 
             : variant === "default" 

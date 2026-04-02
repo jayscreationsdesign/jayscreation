@@ -19,7 +19,7 @@ function AccordionRow({
   onToggle: () => void;
 }) {
   return (
-    <div className="border-b border-[#E8E4DF]">
+    <div className="border-b border-[#8B4513]">
       <button
         onClick={onToggle}
         aria-expanded={isOpen}

@@ -73,8 +73,8 @@ function StarRow({ filled, size = 14 }: { filled: number; size?: number }) {
           strokeWidth={1.5}
           className={
             i < Math.round(filled)
-              ? "fill-[#C8A96E] text-[#C8A96E]"
-              : "fill-transparent text-[#C8A96E]"
+              ? "fill-[#8B4513] text-[#8B4513]"
+              : "fill-transparent text-[#8B4513]"
           }
         />
       ))}
@@ -131,11 +131,11 @@ export default function ProductReviews({ product }: { product: Product }) {
               <div key={star} className="flex items-center gap-3">
                 <div className="flex items-center gap-1 w-8 shrink-0">
                   <span className="text-xs text-[#6B6B6B]">{star}</span>
-                  <Star size={11} className="fill-[#C8A96E] text-[#C8A96E]" />
+                  <Star size={11} className="fill-[#8B4513] text-[#8B4513]" />
                 </div>
                 <div className="flex-1 h-2 rounded-full bg-[#E8E4DF] overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-[#C8A96E]"
+                    className="h-full rounded-full bg-[#8B4513]"
                     style={{ width: `${total > 0 ? (count / total) * 100 : 0}%` }}
                   />
                 </div>
@@ -160,7 +160,7 @@ export default function ProductReviews({ product }: { product: Product }) {
         {/* ── Les clients disent ── */}
         <div className="mb-8">
           <h3 className="text-lg font-bold text-[#2C2C2C]">Les clients disent</h3>
-          <p className="mt-1 flex items-center gap-1.5 text-xs text-[#C8A96E]">
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-[#8B4513]">
             <span>✦</span>
             <span>Généré à partir des avis clients.</span>
           </p>
@@ -205,7 +205,7 @@ export default function ProductReviews({ product }: { product: Product }) {
                   <button
                     key={opt}
                     onClick={() => { setNotation(opt); setNotationOpen(false); }}
-                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-[#FAF7F2] ${notation === opt ? "text-[#C8A96E] font-medium" : "text-[#2C2C2C]"}`}
+                    className={`block w-full px-4 py-2 text-left text-sm transition-colors hover:bg-[#FAF7F2] ${notation === opt ? "text-[#8B4513] font-medium" : "text-[#2C2C2C]"}`}
                   >
                     {opt}
                   </button>
@@ -220,7 +220,7 @@ export default function ProductReviews({ product }: { product: Product }) {
             className="flex items-center gap-2 rounded-full border border-[#E8E4DF] bg-white px-4 py-2 text-sm text-[#2C2C2C]"
           >
             Avec les médias
-            <div className={`h-4 w-4 rounded-full border-2 ${withMedia ? "border-[#C8A96E] bg-[#C8A96E]" : "border-[#E8E4DF]"}`} />
+            <div className={`h-4 w-4 rounded-full border-2 ${withMedia ? "border-[#8B4513] bg-[#8B4513]" : "border-[#E8E4DF]"}`} />
           </button>
 
           {/* Trier par */}
@@ -236,7 +236,7 @@ export default function ProductReviews({ product }: { product: Product }) {
               <div className="flex items-start gap-4">
 
                 {/* Avatar */}
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white border border-[#E8E4DF] text-sm font-semibold text-[#C8A96E]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white border border-[#E8E4DF] text-sm font-semibold text-[#8B4513]">
                   {review.name.charAt(0)}
                 </div>
 
@@ -246,7 +246,7 @@ export default function ProductReviews({ product }: { product: Product }) {
                     <span className="text-sm font-semibold text-[#2C2C2C]">{review.name}</span>
                     {review.verified && (
                       <span className="flex items-center gap-1 text-xs text-[#6B6B6B]">
-                        <CheckCircle size={12} className="text-[#C8A96E]" />
+                        <CheckCircle size={12} className="text-[#8B4513]" />
                         Acheteur vérifié
                       </span>
                     )}
@@ -272,10 +272,10 @@ export default function ProductReviews({ product }: { product: Product }) {
                   {/* Utile ? */}
                   <div className="mt-3 flex items-center gap-4 text-xs text-[#6B6B6B]">
                     <span>Cet avis vous a-t-il été utile ?</span>
-                    <button className="flex items-center gap-1 hover:text-[#C8A96E] transition-colors">
+                    <button className="flex items-center gap-1 hover:text-[#8B4513] transition-colors">
                       <ThumbsUp size={13} /> 0
                     </button>
-                    <button className="flex items-center gap-1 hover:text-[#C8A96E] transition-colors">
+                    <button className="flex items-center gap-1 hover:text-[#8B4513] transition-colors">
                       <ThumbsDown size={13} /> 0
                     </button>
                   </div>

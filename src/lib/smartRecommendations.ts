@@ -208,31 +208,35 @@ export function getRecommendationInfo(
 
   if (cartThemes.length > 0 && relatedProducts.length > 0) {
     return {
-      title: "Pour compléter votre sélection",
-      subtitle: `D'autres créations pour vos événements ${cartThemes.slice(0, 2).join(', ')}${cartThemes.length > 2 ? '...' : ''}`
+      title: "Créations coordonnées pour votre panier",
+      subtitle: `Parfaitement assorties à vos sélections ${cartThemes.slice(0, 2).join(', ')}${cartThemes.length > 2 ? '...' : ''}`
     };
   }
 
   // Si le produit courant a des thèmes spécifiques
   if (currentFields.themes.length > 0) {
     return {
-      title: "Pour le même événement",
-      subtitle: `D'autres créations pour vos ${currentFields.themes.slice(0, 2).join(', ')}${currentFields.themes.length > 2 ? '...' : ''}`
+      title: "Vous aimerez peut-être aussi...",
+      subtitle: `Complétez votre thématique ${currentFields.themes.slice(0, 2).join(', ')}${currentFields.themes.length > 2 ? '...' : ''} avec nos créations coordonnées`
     };
   }
 
   // Si le produit a une catégorie spécifique
   if (currentFields.category) {
+    const categoryName = currentFields.category.toLowerCase();
+    const isFeminine = ['faire-parts', 'invitations', 'cartes'].some(word => categoryName.includes(word));
+    const accord = isFeminine ? 'artisanales' : 'artisanaux';
+    
     return {
-      title: "Dans la même catégorie",
-      subtitle: `Découvrez d'autres ${currentFields.category.toLowerCase()}`
+      title: "Découvertes similaires",
+      subtitle: `Explorez notre collection de ${categoryName} ${accord}`
     };
   }
 
   // Par défaut
   return {
-    title: "Vous aimerez peut-être aussi",
-    subtitle: "Découvrez d'autres créations qui pourraient vous plaire"
+    title: "Nos coups de cœur pour vous",
+    subtitle: "Des créations uniques qui sublimeront vos moments précieux"
   };
 }
 

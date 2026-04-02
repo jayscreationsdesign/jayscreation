@@ -32,7 +32,7 @@ export default function TendancesClient() {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-r from-[#C8A96E] to-[#D4A574] relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-r from-[#8B4513] to-[#D4A574] relative overflow-hidden">
       {/* Pattern de fond subtil */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -151,7 +151,7 @@ export default function TendancesClient() {
         <div className="text-center">
           <Link
             href="/tendances"
-            className="inline-flex items-center gap-3 bg-white text-[#C8A96E] px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all duration-300 transform hover:scale-[1.02] group"
+            className="inline-flex items-center gap-3 bg-white text-[#8B4513] px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all duration-300 transform hover:scale-[1.02] group"
           >
             <span className="text-lg">Explorer les tendances</span>
             <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />

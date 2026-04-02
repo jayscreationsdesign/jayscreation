@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import ThemeSelector from "@/components/product/ThemeSelector";
-import { ALL_THEMES } from "@/config/themes";
+import { THEME_CATEGORIES } from "@/config/themes";
 
 export default function TestThemePage() {
-  const [selectedTheme, setSelectedTheme] = useState("");
+  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-white py-12">
@@ -20,9 +20,9 @@ export default function TestThemePage() {
             </p>
           </div>
 
-          <div className="bg-[#FAF7F2] rounded-xl p-8 border border-[#C8A96E]">
+          <div className="bg-[#FAF7F2] rounded-xl p-8 border border-[#8B4513]">
             <ThemeSelector
-              themes={ALL_THEMES}
+              categories={THEME_CATEGORIES}
               value={selectedTheme}
               onChange={setSelectedTheme}
               label="Choisissez votre thème"

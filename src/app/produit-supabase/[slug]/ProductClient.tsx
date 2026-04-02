@@ -120,7 +120,7 @@ export default function ProductClient({ product }: ProductClientProps) {
             {displayGalleryImages && displayGalleryImages.length > 1 && (
               <div className="grid grid-cols-4 gap-2">
                 {displayGalleryImages.slice(1).map((image, index) => (
-                  <div key={index} className="relative aspect-square overflow-hidden rounded-lg border border-gray-200">
+                  <div className="relative aspect-square overflow-hidden rounded-xl border border-gray-200">
                     <Image
                       src={image}
                       alt={`${product.nom} - Image ${index + 1}`}
@@ -182,7 +182,7 @@ export default function ProductClient({ product }: ProductClientProps) {
               {/* Section thème - AU DESSUS DE PERSONNALISATION */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Choisissez votre thème</h3>
-                <div className="bg-[#FAF7F2] rounded-lg p-4 border border-[#C8A96E]">
+                <div className="bg-[#FAF7F2] rounded-lg p-4 border border-[#8B4513]">
                   <select 
                     className="w-full p-3 border border-[#E8E4DF] rounded-lg text-[#2C2C2C]"
                     value={selectedTheme}

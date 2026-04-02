@@ -26,15 +26,15 @@ const config = {
           border: "#E8E4DF",
           text: "#2C1A0E",
           muted: "#6B6B6B",
-          accent: "#C8A96E",
-          "accent-dark": "#B8954A",
+          accent: "#8B4513",
+          "accent-dark": "#6b3410",
         },
       },
       fontFamily: {
         heading: ["var(--font-heading)", "Playfair Display", "serif"],
       },
       backgroundImage: {
-        "jc-gold": "linear-gradient(135deg, #C8A96E, #B8954A, #C8A96E)",
+        "jc-gold": "linear-gradient(135deg, #8B4513, #6b3410, #8B4513)",
       },
     },
   },

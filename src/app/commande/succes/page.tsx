@@ -37,7 +37,7 @@ function SuccessPageContent() {
     return (
       <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C8A96E] mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B4513] mx-auto mb-4"></div>
           <p className="text-[#6B6B6B]">Traitement de votre commande...</p>
         </div>
       </div>
@@ -65,7 +65,7 @@ function SuccessPageContent() {
           </div>
 
           {/* Carte de résumé */}
-          <Card className="bg-white border-[#C8A96E] mb-8">
+          <Card className="bg-white border-[#8B4513] mb-8">
             <CardHeader>
               <CardTitle className="text-[#2C2C2C] flex items-center gap-2">
                 <Package size={24} />
@@ -85,7 +85,7 @@ function SuccessPageContent() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#6B6B6B]">Total payé:</span>
-                    <span className="font-bold text-[#C8A96E]">{orderDetails.total} €</span>
+                    <span className="font-bold text-[#8B4513]">{orderDetails.total} €</span>
                   </div>
                 </>
               )}
@@ -93,14 +93,14 @@ function SuccessPageContent() {
           </Card>
 
           {/* Informations de suivi */}
-          <div className="bg-white rounded-xl border border-[#C8A96E] p-6 mb-8">
+          <div className="bg-white rounded-xl border border-[#8B4513] p-6 mb-8">
             <h3 className="text-lg font-semibold text-[#2C2C2C] mb-4 flex items-center gap-2">
-              <Truck size={20} className="text-[#C8A96E]" />
+              <Truck size={20} className="text-[#8B4513]" />
               Prochaines étapes
             </h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-[#C8A96E] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                <div className="w-6 h-6 bg-[#8B4513] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                   1
                 </div>
                 <p className="text-[#6B6B6B]">
@@ -108,7 +108,7 @@ function SuccessPageContent() {
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-[#C8A96E] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                <div className="w-6 h-6 bg-[#8B4513] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                   2
                 </div>
                 <p className="text-[#6B6B6B]">
@@ -116,7 +116,7 @@ function SuccessPageContent() {
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-[#C8A96E] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                <div className="w-6 h-6 bg-[#8B4513] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                   3
                 </div>
                 <p className="text-[#6B6B6B]">
@@ -124,7 +124,7 @@ function SuccessPageContent() {
                 </p>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-[#C8A96E] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                <div className="w-6 h-6 bg-[#8B4513] text-white rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                   4
                 </div>
                 <p className="text-[#6B6B6B]">
@@ -137,13 +137,13 @@ function SuccessPageContent() {
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/boutique" className="flex-1">
-              <Button className="w-full bg-[#C8A96E] hover:bg-[#B89A5E] text-white">
+              <Button className="w-full bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574] text-white">
                 <ShoppingBag size={20} className="mr-2" />
                 Continuer mes achats
               </Button>
             </Link>
             <Link href="/contact" className="flex-1">
-              <Button variant="outline" className="w-full border-[#C8A96E] text-[#C8A96E] hover:bg-[#FAF7F2]">
+              <Button variant="outline" className="w-full border-[#8B4513] text-[#8B4513] hover:bg-[#FAF7F2]">
                 Contacter le support
               </Button>
             </Link>
@@ -153,7 +153,7 @@ function SuccessPageContent() {
           <div className="text-center mt-8 p-4 bg-[#FAF7F2] rounded-lg">
             <p className="text-sm text-[#6B6B6B]">
               Pour toute question concernant votre commande, n'hésitez pas à nous contacter à{' '}
-              <a href="mailto:contact@jayscreations.fr" className="text-[#C8A96E] hover:underline">
+              <a href="mailto:contact@jayscreations.fr" className="text-[#8B4513] hover:underline">
                 contact@jayscreations.fr
               </a>
             </p>

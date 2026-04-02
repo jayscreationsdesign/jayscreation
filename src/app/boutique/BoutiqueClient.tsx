@@ -31,6 +31,40 @@ const SidebarSyncContext = createContext<{
 // Types
 type SortOption = "default" | "price-asc" | "price-desc" | "rating";
 
+// Filtrer les produits par recherche textuelle
+const getSearchFilteredProducts = (
+  allProducts: Product[],
+  searchQuery: string | null
+): Product[] => {
+  if (!searchQuery || searchQuery.trim() === "") return allProducts;
+  
+  const query = searchQuery.toLowerCase().trim();
+  
+  return allProducts.filter((product) => {
+    // Recherche dans le nom du produit
+    if (product.name && product.name.toLowerCase().includes(query)) {
+      return true;
+    }
+    
+    // Recherche dans la description
+    if (product.description && product.description.toLowerCase().includes(query)) {
+      return true;
+    }
+    
+    // Recherche dans la catégorie
+    if (product.category && product.category.toLowerCase().includes(query)) {
+      return true;
+    }
+    
+    // Recherche dans le slug
+    if (product.slug && product.slug.toLowerCase().includes(query)) {
+      return true;
+    }
+    
+    return false;
+  });
+};
+
 // Filtrer les produits par catégorie (via categorySlug)
 const getFilteredProducts = (
   allProducts: Product[],
@@ -331,18 +365,33 @@ function BoutiquePageContentInner() {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  // Mettre à jour categorySlug quand searchParams change
+  // Mettre à jour categorySlug et searchQuery quand searchParams change
   useEffect(() => {
     setCategorySlug(searchParams.get("category"));
   }, [searchParams]);
 
-  // Debug pour voir le categorySlug
-  console.log("categorySlug:", categorySlug);
+  // Récupérer le paramètre de recherche
+  const searchQuery = searchParams.get("search");
 
-  const filteredProducts = useMemo(
-    () => getFilteredProducts(products, categorySlug),
-    [categorySlug]
-  );
+  // Debug pour voir le categorySlug et searchQuery
+  console.log("categorySlug:", categorySlug);
+  console.log("searchQuery:", searchQuery);
+
+  const filteredProducts = useMemo(() => {
+    let resultProducts = products;
+    
+    // D'abord filtrer par catégorie si nécessaire
+    if (categorySlug) {
+      resultProducts = getFilteredProducts(resultProducts, categorySlug);
+    }
+    
+    // Ensuite filtrer par recherche textuelle si nécessaire
+    if (searchQuery) {
+      resultProducts = getSearchFilteredProducts(resultProducts, searchQuery);
+    }
+    
+    return resultProducts;
+  }, [categorySlug, searchQuery]);
 
   const sortedProducts = useMemo(
     () => getSortedProducts(filteredProducts, sortBy),
@@ -427,6 +476,15 @@ function BoutiquePageContentInner() {
           <main className="lg:col-span-4 order-1 lg:order-2">
             {/* HEADER avec compteur et menus déroulants */}
             <div className="mb-8 space-y-4 border-b border-gray-200 pb-6">
+              {/* Message de recherche si applicable */}
+              {searchQuery && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                  <p className="text-sm text-blue-800">
+                    🔍 Recherche pour "<span className="font-semibold">{searchQuery}</span>" - {totalResults} résultat{totalResults > 1 ? "s" : ""} trouvé{totalResults > 1 ? "s" : ""}
+                  </p>
+                </div>
+              )}
+
               {/* Ligne 1 : Compteur */}
               <div className="text-sm text-muted-foreground">
                 Affichage de{" "}

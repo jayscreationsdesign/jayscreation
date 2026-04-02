@@ -16,10 +16,10 @@ export function Hero() {
             pour rendre vos moments inoubliables.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-[#C8A96E] text-white px-8 py-3 rounded-lg hover:bg-[#B89A5E] transition-colors">
+            <button className="bg-[#8B4513] text-white px-8 py-3 rounded-lg hover:bg-[#B89A5E] transition-colors">
               Découvrir nos créations
             </button>
-            <button className="border-2 border-[#C8A96E] text-[#C8A96E] px-8 py-3 rounded-lg hover:bg-[#FAF7F2] transition-colors">
+            <button className="border-2 border-[#8B4513] text-[#8B4513] px-8 py-3 rounded-lg hover:bg-[#FAF7F2] transition-colors">
               Contactez-nous
             </button>
           </div>
@@ -27,8 +27,8 @@ export function Hero() {
       </div>
       
       {/* Éléments décoratifs */}
-      <div className="absolute top-10 right-10 w-20 h-20 bg-[#C8A96E]/10 rounded-full"></div>
-      <div className="absolute bottom-10 left-10 w-32 h-32 bg-[#C8A96E]/5 rounded-full"></div>
+      <div className="absolute top-10 right-10 w-20 h-20 bg-[#8B4513]/10 rounded-full"></div>
+      <div className="absolute bottom-10 left-10 w-32 h-32 bg-[#8B4513]/5 rounded-full"></div>
     </section>
   );
 }

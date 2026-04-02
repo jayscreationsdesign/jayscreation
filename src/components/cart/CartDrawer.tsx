@@ -25,18 +25,18 @@ export default function CartDrawer() {
         <Button
           variant="outline"
           size="sm"
-          className="relative border-[#C8A96E] text-[#C8A96E] hover:bg-[#FAF7F2] hover:border-[#B89A5E]"
+          className="relative border-[#8B4513] text-[#8B4513] hover:bg-[#FAF7F2] hover:border-[#6b3410]"
         >
           <ShoppingBag size={20} />
           {items.length > 0 && (
-            <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-[#C8A96E] text-white text-xs font-medium flex items-center justify-center">
+            <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-[#8B4513] text-white text-xs font-medium flex items-center justify-center">
               {items.reduce((sum, item) => sum + item.quantite, 0)}
             </span>
           )}
         </Button>
       </SheetTrigger>
       
-      <SheetContent className="w-full sm:w-96 bg-white border-l-[#C8A96E]">
+      <SheetContent className="w-full sm:w-96 bg-white border-l-[#8B4513]">
         <SheetHeader>
           <SheetTitle className="text-[#2C2C2C] font-heading text-xl">
             Votre Panier ({items.reduce((sum, item) => sum + item.quantite, 0)} articles)
@@ -48,11 +48,11 @@ export default function CartDrawer() {
           <div className="flex-1 overflow-y-auto py-4">
             {items.length === 0 ? (
               <div className="text-center py-8">
-                <ShoppingBag size={48} className="mx-auto text-[#C8A96E] mb-4" />
+                <ShoppingBag size={48} className="mx-auto text-[#8B4513] mb-4" />
                 <p className="text-[#6B6B6B] mb-4">Votre panier est vide</p>
                 <Button
                   onClick={() => setIsOpen(false)}
-                  className="bg-[#C8A96E] hover:bg-[#B89A5E] text-white"
+                  className="bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574]"
                 >
                   Commencer mes achats
                 </Button>
@@ -86,7 +86,7 @@ export default function CartDrawer() {
                           {item.personnalisation}
                         </p>
                       )}
-                      <p className="text-sm font-semibold text-[#C8A96E]">
+                      <p className="text-sm font-semibold text-[#8B4513]">
                         {formatPrice(item.prix)}
                       </p>
                     </div>
@@ -102,12 +102,12 @@ export default function CartDrawer() {
                         <Trash2 size={16} />
                       </Button>
                       
-                      <div className="flex items-center gap-1 bg-white rounded-md border border-[#E8E4DF]">
+                      <div className="flex items-center gap-1 bg-white rounded-md border border-[#8B4513]">
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => updateQuantite(item.id, item.quantite - 1)}
-                          className="text-[#C8A96E] hover:bg-[#FAF7F2] p-1 h-8 w-8"
+                          className="text-[#8B4513] hover:bg-[#FAF7F2] p-1 h-8 w-8"
                         >
                           <Minus size={14} />
                         </Button>
@@ -118,7 +118,7 @@ export default function CartDrawer() {
                           variant="ghost"
                           size="sm"
                           onClick={() => updateQuantite(item.id, item.quantite + 1)}
-                          className="text-[#C8A96E] hover:bg-[#FAF7F2] p-1 h-8 w-8"
+                          className="text-[#8B4513] hover:bg-[#FAF7F2] p-1 h-8 w-8"
                         >
                           <Plus size={14} />
                         </Button>
@@ -132,19 +132,19 @@ export default function CartDrawer() {
           
           {/* Total et actions */}
           {items.length > 0 && (
-            <div className="border-t border-[#E8E4DF] pt-4 space-y-3">
+            <div className="border-t border-[#8B4513] pt-4 space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold text-[#2C2C2C]">
                   Total :
                 </span>
-                <span className="text-xl font-bold text-[#C8A96E]">
+                <span className="text-xl font-bold text-[#8B4513]">
                   {formatPrice(total)}
                 </span>
               </div>
               
               <div className="space-y-2">
                 <Link href="/commande" onClick={() => setIsOpen(false)}>
-                  <Button className="w-full bg-[#C8A96E] hover:bg-[#B89A5E] text-white">
+                  <Button className="w-full bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574]">
                     Valider ma commande
                   </Button>
                 </Link>
@@ -152,7 +152,7 @@ export default function CartDrawer() {
                 <Button
                   variant="outline"
                   onClick={clearCart}
-                  className="w-full border-[#C8A96E] text-[#C8A96E] hover:bg-[#FAF7F2]"
+                  className="w-full border-[#8B4513] text-[#8B4513] hover:bg-[#FAF7F2]"
                 >
                   Vider le panier
                 </Button>

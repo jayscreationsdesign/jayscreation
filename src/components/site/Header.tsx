@@ -3,10 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ShoppingBag, ChevronDown, Menu, X } from "lucide-react";
+import { ShoppingBag, ChevronDown, Menu, X, User, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { categories } from "@/data/categories";
 import { useCartStore } from "@/store/cartStore";
+import { getUser } from "@/lib/auth";
 
 // ─── Types ────────────────────────────────────────────────────────────
 
@@ -132,6 +133,11 @@ export default function Header() {
   const [mobileOpenItems, setMobileOpenItems] = useState<Set<string>>(new Set());
   const [cartHover, setCartHover] = useState(false);
   const [cartDropdownHover, setCartDropdownHover] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   // Active category read client-side to avoid useSearchParams in layout
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -141,6 +147,22 @@ export default function Header() {
   const items = useCartStore((state) => state.items);
   const totalItems = items.reduce((acc, item) => acc + item.quantite, 0);
   const sousTotal = items.reduce((acc, item) => acc + item.prix * item.quantite, 0);
+
+  // Vérifier si l'utilisateur est connecté
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const currentUser = await getUser();
+        setUser(currentUser);
+      } catch (error) {
+        // Ne pas lancer d'erreur, simplement définir user à null
+        console.error('Error checking user authentication:', error);
+        setUser(null);
+      }
+    };
+    
+    checkUser();
+  }, []);
 
   // Debug pour voir les articles dans la console
   useEffect(() => {
@@ -167,6 +189,65 @@ export default function Header() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
+  // Close search when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isSearchOpen && target && !target.closest('.search-panel') && !target.closest('[data-search-trigger]')) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSearchOpen]);
+
+  // Handle search submission
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      // Rediriger vers la page de recherche avec le query
+      window.location.href = `/boutique?search=${encodeURIComponent(searchQuery.trim())}`;
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
+  // Handle search button click
+  const handleSearchClick = () => {
+    if (!isSearchOpen) {
+      setIsSearchOpen(true);
+      // Focus automatique sur l'input après ouverture
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  };
+
+  // Handle input blur
+  const handleInputBlur = () => {
+    // Fermer seulement si l'input est vide
+    if (!searchQuery.trim()) {
+      setTimeout(() => setIsSearchOpen(false), 150);
+    }
+  };
+
+  // Handle key down
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      if (searchQuery.trim()) {
+        // Escape avec du texte : vider le champ mais rester ouvert
+        setSearchQuery("");
+        inputRef.current?.focus();
+      } else {
+        // Escape sans texte : fermer
+        setIsSearchOpen(false);
+      }
+    }
+  };
+
   // Dropdown open/close with a small delay on leave to avoid flickering
   const handleMouseEnter = (href: string) => {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
@@ -174,7 +255,7 @@ export default function Header() {
   };
 
   const handleMouseLeave = () => {
-    closeTimerRef.current = setTimeout(() => setOpenDropdown(null), 150);
+    closeTimerRef.current = setTimeout(() => setOpenDropdown(null), 800);
   };
 
   // Cart hover handlers with extended delay
@@ -226,10 +307,10 @@ export default function Header() {
       >
         <Link
           href={item.href}
-          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
+          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 hover:text-[#6b3410] ${
             isActive
-              ? "text-jc-accent border-b-[1.5px] border-jc-accent pb-[7px]"
-              : "text-jc-muted hover:text-jc-accent"
+              ? "text-[#2C1A0E] border-b-[1.5px] border-[#2C1A0E] pb-[7px]"
+              : "text-[#2C1A0E]"
           }`}
         >
           {item.label}
@@ -242,13 +323,16 @@ export default function Header() {
         </Link>
         {item.children && (
           <div
+            className="relative"
             onMouseEnter={() => handleMouseEnter(item.href)}
             onMouseLeave={handleMouseLeave}
-            className={`absolute left-1/2 -translate-x-1/2 top-full z-50 min-w-[220px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 transition-all duration-200 border border-[#E8E4DF] ${
-              isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
-            }`}
           >
-            <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#E8E4DF]" />
+            <div
+              className={`absolute left-1/2 -translate-x-1/2 top-full z-50 min-w-[220px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 transition-all duration-200 border border-[#8B4513] ${
+                isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+              }`}
+            >
+            <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#8B4513]" />
             <div className="relative">
               {item.children.map((child) => (
                 <div
@@ -259,7 +343,7 @@ export default function Header() {
                 >
                   <Link
                     href={child.href}
-                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-jc-text hover:bg-[#8B4513] hover:text-white transition-colors duration-150 rounded-lg mx-2"
+                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#FAF7F2] hover:text-[#6b3410] transition-all duration-500 rounded-lg mx-2"
                     onClick={() => {
                       if (child.children?.length) {
                         const categorySlug = child.href.split('category=')[1];
@@ -269,16 +353,16 @@ export default function Header() {
                     }}
                   >
                     {child.name}
-                    {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-jc-accent" /> : null}
+                    {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-[#2C1A0E]" /> : null}
                   </Link>
                   {child.children?.length && openSubMenu === child.href && (
-                    <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 z-50 border border-[#E8E4DF]">
-                      <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#E8E4DF]" />
+                    <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 z-50 border border-[#8B4513]">
+                      <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#8B4513]" />
                       {child.children.map((grand) => (
                         <Link
                           key={grand.href}
                           href={grand.href}
-                          className="block px-5 py-2.5 text-sm font-normal text-jc-text hover:bg-[#8B4513] hover:text-white transition-colors duration-150 rounded-lg mx-2"
+                          className="block px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#FAF7F2] hover:text-[#6b3410] transition-all duration-500 rounded-lg mx-2"
                         >
                           {grand.name}
                         </Link>
@@ -287,6 +371,7 @@ export default function Header() {
                   )}
                 </div>
               ))}
+            </div>
             </div>
           </div>
         )}
@@ -332,8 +417,8 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors duration-200 hover:text-accent ${
-                  pathname === link.href ? "text-accent" : "text-muted-foreground"
+                className={`text-sm font-medium transition-colors duration-200 hover:text-[#6b3410] ${
+                  pathname === link.href ? "text-[#2C1A0E]" : "text-[#2C1A0E]"
                 }`}
               >
                 {link.label}
@@ -341,85 +426,112 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            {/* Panier */}
-            <div
-              className="relative"
-              onMouseEnter={handleCartMouseEnter}
-              onMouseLeave={handleCartMouseLeave}
-            >
+          <div className="flex flex-col items-end gap-2">
+            {/* Première ligne : Recherche, Connexion et Panier */}
+            <div className="flex items-center gap-2">
+              {/* Recherche */}
+              <div className="relative flex items-center">
+                <button
+                  type="button"
+                  onClick={handleSearchClick}
+                  data-search-trigger
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#8B4513] text-white shadow-sm hover:bg-[#8B4513]/90 hover:text-[#D4A574] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8B4513] transition-colors"
+                  aria-label={isSearchOpen ? "Fermer la recherche" : "Ouvrir la recherche"}
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Lien Mon Compte */}
               <Link
-                href="/panier"
-                className="relative inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                href={user ? "/compte" : "/connexion"}
+                className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
-                <ShoppingBag className="h-4 w-4" />
-                <span className="hidden sm:inline">Panier</span>
-                <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] font-semibold text-white">
-                  {totalItems}
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">
+                  {user ? (user.user_metadata?.prenom || user.email?.split('@')[0]) : 'Connexion'}
                 </span>
               </Link>
 
-              {/* Mini panier dropdown */}
-              {(cartHover || cartDropdownHover) && totalItems > 0 && (
-                <div 
-                  className="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 p-4"
-                  onMouseEnter={handleCartDropdownMouseEnter}
-                  onMouseLeave={handleCartDropdownMouseLeave}
+              {/* Panier */}
+              <div
+                className="relative"
+                onMouseEnter={handleCartMouseEnter}
+                onMouseLeave={handleCartMouseLeave}
+              >
+                <Link
+                  href="/panier"
+                  className="relative inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                 >
-                  <p className="text-sm font-semibold text-gray-900 mb-3">
-                    Mon panier ({totalItems} article{totalItems > 1 ? "s" : ""})
-                  </p>
-                  <div className="space-y-3 max-h-64 overflow-y-auto">
-                    {items.map((item) => (
-                      <div key={item.id} className="flex gap-3 items-center">
-                        <img
-                          src={item.image || "/images/products/placeholder.svg"}
-                          alt={item.nom}
-                          className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
-                        />
-                        <div className="flex-1 min-w-0">
-                          <Link
-                            href={item.slug ? `/produit/${item.slug}` : '#'}
-                            className="text-xs font-medium text-gray-900 truncate hover:text-blue-600 transition-colors"
-                            onClick={() => {
-                              console.log('🛒 Clic sur article:', item.nom); // Debug
-                              setCartHover(false);
-                              setCartDropdownHover(false);
-                            }}
-                          >
-                            {item.nom}
-                          </Link>
-                          {item.theme && (
-                            <p className="text-xs text-gray-600 capitalize">
-                              {item.theme}
+                  <ShoppingBag className="h-4 w-4 text-[#8B4513]" />
+                  <span className="hidden sm:inline">Panier</span>
+                  <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] font-semibold text-white">
+                    {totalItems}
+                  </span>
+                </Link>
+
+                {/* Mini panier dropdown */}
+                {(cartHover || cartDropdownHover) && totalItems > 0 && (
+                  <div 
+                    className="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 p-4"
+                    onMouseEnter={handleCartDropdownMouseEnter}
+                    onMouseLeave={handleCartDropdownMouseLeave}
+                  >
+                    <p className="text-sm font-semibold text-gray-900 mb-3">
+                      Mon panier ({totalItems} article{totalItems > 1 ? "s" : ""})
+                    </p>
+                    <div className="space-y-3 max-h-64 overflow-y-auto">
+                      {items.map((item) => (
+                        <div key={item.id} className="flex gap-3 items-center">
+                          <img
+                            src={item.image || "/images/products/placeholder.svg"}
+                            alt={item.nom}
+                            className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <Link
+                              href={item.slug ? `/produit/${item.slug}` : '#'}
+                              className="text-xs font-medium text-gray-900 truncate hover:text-[#6b3410] transition-colors"
+                              onClick={() => {
+                                console.log('🛒 Clic sur article:', item.nom); // Debug
+                                setCartHover(false);
+                                setCartDropdownHover(false);
+                              }}
+                            >
+                              {item.nom}
+                            </Link>
+                            {item.theme && (
+                              <p className="text-xs text-gray-600 capitalize">
+                                {item.theme}
+                              </p>
+                            )}
+                            <p className="text-xs text-gray-600">
+                              x{item.quantite} · {(item.prix * item.quantite).toFixed(2)} €
                             </p>
-                          )}
-                          <p className="text-xs text-gray-600">
-                            x{item.quantite} · {(item.prix * item.quantite).toFixed(2)} €
-                          </p>
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="border-t border-gray-200 mt-3 pt-3">
-                    <div className="flex justify-between text-sm font-bold mb-3">
-                      <span>Total</span>
-                      <span className="text-gray-900">{sousTotal.toFixed(2)} €</span>
+                      ))}
                     </div>
-                    <Link
-                      href="/panier"
-                      className="block w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white text-center py-3 rounded-lg text-sm font-medium hover:from-amber-600 hover:to-amber-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]"
-                    >
-                      Voir mon panier
-                    </Link>
+                    <div className="border-t border-gray-200 mt-3 pt-3">
+                      <div className="flex justify-between text-sm font-bold mb-3">
+                        <span>Total</span>
+                        <span className="text-gray-900">{sousTotal.toFixed(2)} €</span>
+                      </div>
+                      <Link
+                        href="/panier"
+                        className="block w-full bg-[#8B4513] text-white text-center py-3 rounded-lg text-sm font-medium hover:bg-[#A0522D] transition-colors duration-200 shadow-sm"
+                      >
+                        Voir mon panier
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
 
             {/* Hamburger — mobile uniquement */}
             <button
-              className="lg:hidden inline-flex items-center justify-center rounded-lg p-2 text-foreground hover:bg-muted transition-colors"
+              className="lg:hidden inline-flex items-center justify-center rounded-lg p-2 text-foreground hover:bg-muted hover:text-[#D4A574] transition-colors"
               aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen((v) => !v)}
@@ -438,7 +550,7 @@ export default function Header() {
           BARRE CATÉGORIES — desktop uniquement
       ══════════════════════════════════════════ */}
       <nav
-        className="hidden lg:block bg-white border-b border-[#E8E4DF] py-1.5"
+        className="hidden lg:block bg-white border-b border-[#8B4513] py-1.5"
         aria-label="Menu catégories"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -447,27 +559,55 @@ export default function Header() {
             {bottomNavRow1.map(renderNavItem)}
           </div>
           {/* Ligne 2 — Catégories événements */}
-          <div className="flex items-center justify-center gap-8 mt-1 pt-1 border-t border-[#E8E4DF]/50">
+          <div className="flex items-center justify-center gap-8 mt-1 pt-1 border-t border-[#8B4513]/50">
             {bottomNavRow2.map(renderNavItem)}
           </div>
         </div>
       </nav>
 
+      {/* Panneau de recherche premium sous le header */}
+      <div
+        className={`search-panel absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-sm z-40 transition-all duration-300 ease-out ${
+          isSearchOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+        }`}
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
+          <div className="max-w-2xl mx-auto">
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Rechercher un produit"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onBlur={handleInputBlur}
+                onKeyDown={handleKeyDown}
+                className="w-full h-12 pl-5 pr-14 bg-white border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B4513]/20 focus:border-[#8B4513] shadow-sm transition-all duration-200"
+                autoFocus
+              />
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#E8E4DF] bg-white">
+        <div className="lg:hidden border-t border-[#8B4513] bg-white">
           <nav
             aria-label="Menu mobile"
           >
             {/* Liens principaux */}
-            <div className="space-y-0.5 pb-3 border-b border-[#E8E4DF]">
+            <div className="space-y-0.5 pb-3 border-b border-[#8B4513]">
               {topNavLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors ${
+                  className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors hover:text-[#6b3410] ${
                     pathname === link.href
-                      ? "text-[#C8A96E]"
-                      : "text-[#2C2C2C] hover:text-[#C8A96E] hover:bg-[#FAF7F2]"
+                      ? "text-[#2C1A0E]"
+                      : "text-[#2C1A0E] hover:bg-[#FAF7F2]"
                   }`}
                 >
                   {link.label}
@@ -481,7 +621,7 @@ export default function Header() {
                 item.children ? (
                   <div key={item.href}>
                     <button
-                      className="flex w-full items-center justify-between px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#C8A96E] rounded-lg hover:bg-[#FAF7F2] transition-colors"
+                      className="flex w-full items-center justify-between px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-[#2C1A0E] hover:text-[#6b3410] rounded-lg hover:bg-[#FAF7F2] transition-colors"
                       onClick={() => toggleMobileItem(item.href)}
                       aria-expanded={mobileOpenItems.has(item.href)}
                     >
@@ -500,7 +640,7 @@ export default function Header() {
                           <div key={child.href}>
                             <Link
                               href={child.href}
-                              className="block px-4 py-2 text-sm text-[#6B6B6B] hover:text-[#C8A96E] transition-colors rounded-lg hover:bg-[#FAF7F2]"
+                              className="block px-4 py-2 text-sm text-[#2C1A0E] hover:text-[#6b3410] transition-colors rounded-lg hover:bg-[#FAF7F2]"
                             >
                               {child.name}
                             </Link>
@@ -508,7 +648,7 @@ export default function Header() {
                               <Link
                                 key={grand.href}
                                 href={grand.href}
-                                className="block pl-8 py-1.5 text-xs text-[#6B6B6B] hover:text-[#C8A96E] transition-colors rounded-lg hover:bg-[#FAF7F2]"
+                                className="block pl-8 py-1.5 text-xs text-[#2C1A0E] hover:text-[#6b3410] transition-colors rounded-lg hover:bg-[#FAF7F2]"
                               >
                                 ↳ {grand.name}
                               </Link>
@@ -522,7 +662,7 @@ export default function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#C8A96E] rounded-lg hover:bg-[#FAF7F2] transition-colors"
+                    className="block px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-[#2C1A0E] hover:text-[#6b3410] rounded-lg hover:bg-[#FAF7F2] transition-colors"
                   >
                     {item.label}
                   </Link>

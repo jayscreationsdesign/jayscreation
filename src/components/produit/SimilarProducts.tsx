@@ -43,7 +43,7 @@ export default function SimilarProducts({
               className="flex flex-col overflow-hidden rounded-3xl bg-[#FAF7F2] shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
               {/* Image */}
-              <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
+              <div className="relative aspect-square w-full overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -68,7 +68,7 @@ export default function SimilarProducts({
                   <h3 className="font-heading text-lg font-semibold text-[#2C2C2C]">
                     {product.name}
                   </h3>
-                  <p className="text-base font-bold text-[#C8A96E]">
+                  <p className="text-base font-bold text-[#8B4513]">
                     {product.price}
                   </p>
                 </div>

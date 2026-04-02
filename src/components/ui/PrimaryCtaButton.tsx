@@ -34,12 +34,12 @@ export default function PrimaryCtaButton({
   onClick,
   disabled = false
 }: PrimaryCtaButtonProps) {
-  const baseClasses = "inline-flex items-center gap-3 rounded-full bg-[#8b4513] px-8 py-4 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseClasses = "inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-6 py-4 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed min-w-fit whitespace-nowrap text-center";
   
   const buttonContent = (
     <>
-      <span className="text-lg">{children}</span>
-      {showArrow && <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />}
+      <span className="text-lg inline-flex items-center justify-center gap-2 w-full">{children}</span>
+      {showArrow && <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />}
     </>
   );
 

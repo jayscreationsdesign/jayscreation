@@ -25,7 +25,7 @@ export default function AnnulationPage() {
           </div>
 
           {/* Carte d'information */}
-          <Card className="bg-white border-[#C8A96E] mb-8">
+          <Card className="bg-white border-[#8B4513] mb-8">
             <CardHeader>
               <CardTitle className="text-[#2C2C2C]">
                 Que s'est-il passé ?
@@ -50,13 +50,13 @@ export default function AnnulationPage() {
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/commande" className="flex-1">
-              <Button className="w-full bg-[#C8A96E] hover:bg-[#B89A5E] text-white">
+              <Button className="w-full bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574] text-white">
                 <ArrowLeft size={20} className="mr-2" />
                 Retour à la commande
               </Button>
             </Link>
             <Link href="/boutique" className="flex-1">
-              <Button variant="outline" className="w-full border-[#C8A96E] text-[#C8A96E] hover:bg-[#FAF7F2]">
+              <Button variant="outline" className="w-full border-[#8B4513] text-[#8B4513] hover:bg-[#FAF7F2]">
                 <ShoppingBag size={20} className="mr-2" />
                 Retour à la boutique
               </Button>
@@ -71,13 +71,13 @@ export default function AnnulationPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="mailto:contact@jayscreations.fr" 
-                className="text-[#C8A96E] hover:underline"
+                className="text-[#8B4513] hover:underline"
               >
                 contact@jayscreations.fr
               </a>
               <a 
                 href="tel:+33612345678" 
-                className="text-[#C8A96E] hover:underline"
+                className="text-[#8B4513] hover:underline"
               >
                 +33 6 12 34 56 78
               </a>

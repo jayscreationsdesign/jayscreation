@@ -130,7 +130,7 @@ export default function ContactPage() {
                 <div>
                   <div className="text-xs text-muted-foreground">Horaires</div>
                   <div className="mt-1 text-sm font-medium text-foreground">
-                    Lun – Ven : 7h – 19h
+                    Lun. – Ven. : 7h – 19h
                   </div>
                   <div className="text-sm text-muted-foreground">
                     Week-end : 10h – 17h

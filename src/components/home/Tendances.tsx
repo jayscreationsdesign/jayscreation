@@ -13,7 +13,7 @@ export default function Tendances() {
     .slice(0, 8);
 
   return (
-    <section className="py-16 bg-gradient-to-r from-[#C8A96E] to-[#D4A574] relative overflow-hidden">
+    <section className="py-16 bg-gradient-to-r from-[#8B4513] to-[#D4A574] relative overflow-hidden">
       {/* Pattern de fond subtil */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -43,7 +43,7 @@ export default function Tendances() {
               key={product.id}
               className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-[1.02]"
             >
-              <div className="aspect-square bg-white/20 rounded-xl mb-4 relative overflow-hidden">
+              <div className="aspect-square rounded-xl mb-4 relative overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.name}

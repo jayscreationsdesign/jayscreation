@@ -27,7 +27,7 @@ export default function ProductEngagements() {
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
           {ENGAGEMENTS.map((e) => (
             <div key={e.label}>
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#C8A96E]">
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#8B4513]">
                 {e.label}
               </p>
               <h3 className="font-heading mt-2 text-xl text-[#2C2C2C]">{e.title}</h3>

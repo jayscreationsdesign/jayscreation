@@ -96,10 +96,9 @@ export default function ProductGallery({ product }: { product: Product }) {
               <div
                 key={actualIndex}
                 onClick={() => handleThumbnailClick(actualIndex)}
-                className={`relative flex-shrink-0 w-20 h-24 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl ${
+                className={`product-thumbnail-rect relative flex-shrink-0 w-20 h-24 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl ${
                   isActive ? 'scale-105 shadow-xl' : ''
                 }`}
-                style={{ backgroundColor: '#fdf8ec' }}
               >
                 <img
                   src={img}
@@ -108,7 +107,7 @@ export default function ProductGallery({ product }: { product: Product }) {
                 />
                 {/* Indicateur actif - bordure dorée */}
                 {isActive && (
-                  <div className="absolute inset-0 border-2 border-[#C8A96E] rounded-3xl pointer-events-none" />
+                  <div className="absolute inset-0 border-2 border-[#8B4513] rounded-3xl pointer-events-none" />
                 )}
               </div>
             );

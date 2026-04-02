@@ -36,7 +36,7 @@ function FAQRow({ q, a }: { q: string; a: string }) {
         </span>
         <ChevronDown
           size={20}
-          className={`flex-shrink-0 text-[#C8A96E] transition-transform duration-200 ${
+          className={`flex-shrink-0 text-[#8B4513] transition-transform duration-200 ${
             open ? "rotate-180" : ""
           }`}
         />

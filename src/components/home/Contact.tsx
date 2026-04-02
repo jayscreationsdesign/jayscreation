@@ -4,7 +4,9 @@ import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 export function Contact() {
   return (
-    <section className="py-16 bg-[#FAF7F2]">
+    <section className="py-16" style={{
+      background: "linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%)"
+    }}>
       <div className="max-w-4xl mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold text-jc-text mb-8">
           Contactez-nous

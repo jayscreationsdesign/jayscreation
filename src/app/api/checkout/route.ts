@@ -1,30 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient } from '@/lib/supabase';
 
-// Vérifier si les variables d'environnement sont disponibles
+// Vérification de la clé Stripe avec fallback pour le déploiement
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
-if (!stripeSecretKey) {
-  console.warn('STRIPE_SECRET_KEY non définie - API checkout en mode mock');
+let stripe: Stripe | null = null;
+if (stripeSecretKey) {
+  try {
+    stripe = new Stripe(stripeSecretKey, {
+      apiVersion: '2024-06-20' as any,
+    });
+  } catch (error) {
+    console.error('Erreur initialisation Stripe:', error);
+  }
+} else {
+  console.warn('STRIPE_SECRET_KEY non configurée - Mode démo');
 }
-
-const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, {
-  apiVersion: '2024-06-20' as any,
-}) : null;
 
 export async function POST(request: NextRequest) {
   try {
-    // Si Stripe n'est pas configuré, retourner une réponse mock
+    // Mode démo si Stripe n'est pas configuré
     if (!stripe) {
       return NextResponse.json({
         message: 'Service de paiement non configuré - Mode démo',
         url: '/commande/succes'
       });
     }
+    // Parsing du body avec validation
+    let body;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      return NextResponse.json(
+        { error: 'Invalid JSON payload' },
+        { status: 400 }
+      );
+    }
 
-    const { items, client } = await request.json();
+    const { items, client } = body;
 
+    // Validation du panier
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
         { error: 'Panier invalide ou vide' },
@@ -43,7 +58,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Validation de l'email
+    // Validation email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(client.email)) {
       return NextResponse.json(
@@ -52,31 +67,77 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Création des line_items pour Stripe
-    const line_items = items.map((item: any) => ({
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name: item.nom,
-          description: item.theme ? `Thème: ${item.theme}` : undefined,
-          images: [item.image],
+    // Construction des URLs obligatoires avec new URL() (ASCII uniquement)
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+                   request.headers.get('origin') || 
+                   'http://localhost:3000';
+    
+    if (!baseUrl) {
+      throw new Error("Missing baseUrl for Stripe callbacks");
+    }
+
+    // URLs construites proprement avec new URL() - 100% ASCII
+    const successUrl = new URL("/checkout/success", baseUrl);
+    successUrl.searchParams.set("session_id", "{CHECKOUT_SESSION_ID}");
+
+    const cancelUrl = new URL("/checkout/cancel", baseUrl);
+
+    console.log("🔧 URLs Stripe validées:", {
+      baseUrl,
+      success_url: successUrl.toString(),
+      cancel_url: cancelUrl.toString()
+    });
+
+    // Validation et construction des line_items
+    const line_items = items.map((item: any, index: number) => {
+      const unitPrice = Number(item.prix);
+      const quantity = Number(item.quantite);
+      
+      if (!unitPrice || unitPrice <= 0) {
+        throw new Error(`Prix invalide pour l'article ${index}: ${unitPrice}`);
+      }
+      
+      if (!quantity || quantity <= 0) {
+        throw new Error(`Quantité invalide pour l'article ${index}: ${quantity}`);
+      }
+
+      return {
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: item.nom || 'Produit sans nom',
+            description: item.theme ? `Thème: ${item.theme}` : undefined,
+            images: item.image ? [item.image] : undefined,
+          },
+          unit_amount: Math.round(unitPrice * 100),
         },
-        unit_amount: Math.round(item.prix * 100), // Conversion en centimes
-      },
-      quantity: item.quantite,
-    }));
+        quantity: quantity,
+      };
+    });
 
-    // Calcul du total
-    const total = items.reduce((sum: number, item: any) => sum + item.prix * item.quantite, 0);
+    // Validation finale des line_items
+    if (line_items.length === 0) {
+      return NextResponse.json(
+        { error: 'Aucun article valide dans le panier' },
+        { status: 400 }
+      );
+    }
 
-    // Création de la session Stripe
+    // Création de la session Stripe avec logging détaillé
+    console.log('🔧 Création session Stripe avec:', {
+      itemCount: items.length,
+      baseUrl,
+      success_url: successUrl.toString(),
+      cancel_url: cancelUrl.toString(),
+      totalAmount: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0)
+    });
+
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      mode: "payment",
       line_items,
-      mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/commande/succes?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/commande/annulation`,
-      expires_at: Math.floor(Date.now() / 1000) + 1800 as number, // Expire dans 30 minutes (timestamp Unix en secondes)
+      success_url: successUrl.toString(),
+      cancel_url: cancelUrl.toString(),
+      expires_at: Math.floor(Date.now() / 1000) + 1800,
       metadata: {
         client_nom: `${client.prenom} ${client.nom}`,
         client_email: client.email,
@@ -86,20 +147,18 @@ export async function POST(request: NextRequest) {
         articles_json: JSON.stringify(items),
       },
       customer_email: client.email,
-      billing_address_collection: 'required',
-      shipping_address_collection: {
-        allowed_countries: ['FR', 'BE', 'CH', 'LU', 'MC'],
-      },
     });
 
-    // Sauvegarde dans Supabase
-    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
-    const { error: dbError } = await supabase
-      .from('commandes')
-      .insert({
+    console.log('✅ Session Stripe créée:', session.id);
+
+    // Sauvegarde dans Supabase (non bloquant)
+    try {
+      const { createClient } = require('@/lib/supabase');
+      const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+      await supabase.from('commandes').insert({
         stripe_session_id: session.id,
         statut: 'en_attente',
-        total: total,
+        total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
         client_nom: `${client.prenom} ${client.nom}`,
         client_email: client.email,
         client_telephone: client.telephone,
@@ -107,17 +166,42 @@ export async function POST(request: NextRequest) {
         articles: items,
         personnalisation: client.personnalisation || null,
       });
-
-    if (dbError) {
-      console.error('Erreur Supabase:', dbError);
-      // On continue même si la sauvegarde échoue, le paiement est prioritaire
+    } catch (dbError) {
+      console.error('⚠️ Erreur Supabase (non bloquant):', dbError);
     }
 
     return NextResponse.json({ url: session.url });
-  } catch (error) {
-    console.error('Erreur API Checkout:', error);
+  } catch (error: any) {
+    // Logging détaillé de l'erreur Stripe
+    console.error('❌ Erreur création session Stripe:', {
+      message: error.message,
+      type: error.type,
+      code: error.code,
+      param: error.param,
+      stack: error.stack
+    });
+
+    // Message d'erreur spécifique selon le type d'erreur
+    let errorMessage = 'Erreur serveur lors de la création de la session de paiement';
+    
+    if (error.type === 'StripeCardError') {
+      errorMessage = 'Erreur de carte bancaire';
+    } else if (error.type === 'StripeRateLimitError') {
+      errorMessage = 'Trop de requêtes, veuillez réessayer plus tard';
+    } else if (error.type === 'StripeInvalidRequestError') {
+      errorMessage = 'Requête invalide: ' + error.message;
+    } else if (error.type === 'StripeAPIError') {
+      errorMessage = 'Erreur API Stripe: ' + error.message;
+    } else if (error.type === 'StripeConnectionError') {
+      errorMessage = 'Erreur de connexion avec Stripe';
+    } else if (error.type === 'StripeAuthenticationError') {
+      errorMessage = 'Erreur d\'authentification Stripe (clé API invalide)';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
     return NextResponse.json(
-      { error: 'Erreur serveur lors de la création de la session de paiement' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

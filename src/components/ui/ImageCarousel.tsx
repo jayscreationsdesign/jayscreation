@@ -144,7 +144,7 @@ export default function ImageCarousel({
               onClick={() => goToSlide(index)}
               className={`w-2 h-2 rounded-full transition-all duration-200 ${
                 index === currentIndex
-                  ? "bg-[#C8A96E] w-6"
+                  ? "bg-[#8B4513] w-6"
                   : "bg-white/60 hover:bg-white/80"
               }`}
               aria-label={`Go to image ${index + 1}`}
@@ -194,7 +194,7 @@ export default function ImageCarousel({
               onClick={() => goToSlide(index)}
               className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                 index === currentIndex
-                  ? "border-[#C8A96E] scale-110"
+                  ? "border-[#8B4513] scale-110"
                   : "border-white/60 hover:border-white/80"
               }`}
               aria-label={`Thumbnail ${index + 1}`}
@@ -207,7 +207,7 @@ export default function ImageCarousel({
                 sizes="64px"
               />
               {index === currentIndex && (
-                <div className="absolute inset-0 border-2 border-[#C8A96E] rounded-lg pointer-events-none" />
+                <div className="absolute inset-0 border-2 border-[#8B4513] rounded-lg pointer-events-none" />
               )}
             </button>
           ))}

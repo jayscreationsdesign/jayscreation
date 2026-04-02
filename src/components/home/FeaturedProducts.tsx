@@ -40,7 +40,7 @@ export function FeaturedProducts() {
             disabled={current === 0}
             className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full 
             bg-white/30 text-[#8B4513] flex items-center justify-center 
-            hover:bg-white/40 transition-colors disabled:opacity-30"
+            hover:bg-white/40 hover:text-[#D4A574] transition-colors disabled:opacity-30"
           >
             <ChevronLeft size={20} />
           </button>
@@ -54,7 +54,7 @@ export function FeaturedProducts() {
                 
                 {/* Image */}
                 <div className="w-full aspect-square rounded-xl overflow-hidden 
-                  bg-white/20 mb-4 flex items-center justify-center">
+                  mb-4 flex items-center justify-center">
                   {product.image ? (
                     <img
                       src={product.image}
@@ -62,7 +62,7 @@ export function FeaturedProducts() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-white/30 rounded-xl" />
+                    <div className="w-full h-full rounded-xl" />
                   )}
                 </div>
 
@@ -107,7 +107,7 @@ export function FeaturedProducts() {
             disabled={current >= featured.length - visible}
             className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full 
             bg-white/30 text-[#8B4513] flex items-center justify-center 
-            hover:bg-white/40 transition-colors disabled:opacity-30"
+            hover:bg-white/40 hover:text-[#D4A574] transition-colors disabled:opacity-30"
           >
             <ChevronRight size={20} />
           </button>
@@ -134,7 +134,7 @@ export function FeaturedProducts() {
             href="/boutique"
             className="cursor-pointer inline-flex items-center gap-2 
             bg-[#8B4513] text-white px-8 py-4 rounded-full font-medium 
-            hover:bg-[#6B3410] transition-colors"
+            hover:bg-[#6B3410] hover:text-[#D4A574] transition-colors"
           >
             Explorer les tendances →
           </Link>
