@@ -1,7 +1,7 @@
 "use client"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronDown, Palette } from "lucide-react"
+import { Palette } from "lucide-react"
 import type { ThemeCategory } from "@/config/themes"
 
 interface ThemeSelectorProps {
@@ -29,20 +29,14 @@ export function ThemeSelector({ value, onChange, categories, label = "Choisissez
       
       <Select value={value || ""} onValueChange={onChange}>
         <SelectTrigger className="w-full group rounded-2xl border-2 border-[#E8E4DF] bg-white px-5 py-3 text-sm text-[#2C1A0E] hover:border-[#8B4513]/50 focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 transition-all duration-200 shadow-sm hover:shadow-md">
-          <div className="flex items-center justify-between w-full">
-            <SelectValue placeholder={placeholder} className="text-left" />
-            <ChevronDown 
-              size={18} 
-              className="text-[#8B4513] group-hover:text-[#6B3410] transition-colors duration-200 flex-shrink-0 ml-2" 
-            />
-          </div>
+          <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         
-        <SelectContent className="rounded-2xl border-2 border-[#E8E4DF] bg-white shadow-xl backdrop-blur-sm max-h-96 overflow-y-auto">
-          <div className="p-2">
+        <SelectContent className="w-[320px] rounded-2xl border-2 border-[#E8E4DF] bg-white shadow-xl max-h-96 overflow-y-auto">
+          <div className="p-3">
             {categories.map((category) => (
-              <div key={category.id} className="mb-3 last:mb-0">
-                <div className="px-4 py-2 bg-gradient-to-r from-[#FAF7F2] to-[#F5F0E6] rounded-xl mb-2 border border-[#E8E4DF]/50">
+              <div key={category.id} className="mb-4 last:mb-0">
+                <div className="px-3 py-2 bg-gradient-to-r from-[#FAF7F2] to-[#F5F0E6] rounded-lg mb-2 border border-[#E8E4DF]/50">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 bg-[#8B4513] rounded-full" />
                     <span className="text-[11px] font-bold uppercase tracking-wider text-[#8B4513]">
@@ -50,16 +44,16 @@ export function ThemeSelector({ value, onChange, categories, label = "Choisissez
                     </span>
                   </div>
                 </div>
-                <div className="space-y-1 px-2">
+                <div className="space-y-1">
                   {category.themes.map((theme) => (
                     <SelectItem 
                       key={theme.id} 
                       value={theme.id}
-                      className="rounded-xl cursor-pointer transition-all duration-200 hover:bg-[#FAF7F2] hover:text-[#8B4513] focus:bg-[#8B4513]/10 focus:text-[#8B4513] py-2.5 px-4 text-sm"
+                      className="rounded-lg cursor-pointer transition-all duration-200 hover:bg-[#FAF7F2] hover:text-[#8B4513] focus:bg-[#8B4513]/10 focus:text-[#8B4513] py-2.5 px-3 text-sm w-full"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-1.5 h-1.5 bg-[#D4A574] rounded-full opacity-60" />
-                        <span className="font-medium">{theme.label}</span>
+                      <div className="flex items-center gap-2 w-full">
+                        <div className="w-1.5 h-1.5 bg-[#D4A574] rounded-full opacity-60 flex-shrink-0" />
+                        <span className="font-medium text-left flex-1">{theme.label}</span>
                       </div>
                     </SelectItem>
                   ))}
