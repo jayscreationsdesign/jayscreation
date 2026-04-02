@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getUser, getUserProfile } from '@/lib/auth'
+import { isSupabaseConfigured } from '@/lib/supabase'
 import { ShoppingBag, Calendar, TrendingUp, Package, User, CreditCard, MapPin, LogOut } from 'lucide-react'
 import Link from 'next/link'
 
@@ -10,11 +11,19 @@ export default function ComptePage() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [authError, setAuthError] = useState<string | null>(null)
   const router = useRouter()
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        // Vérifier si Supabase est configuré
+        if (!isSupabaseConfigured) {
+          setAuthError("Service d'authentification temporairement indisponible")
+          setLoading(false)
+          return
+        }
+
         const currentUser = await getUser()
         
         if (!currentUser) {
@@ -43,6 +52,26 @@ export default function ComptePage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B4513]"></div>
           <p className="mt-4 text-gray-600">Chargement de votre compte...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (authError) {
+    return (
+      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+        <div className="text-center max-w-md mx-4 p-6 bg-white rounded-lg shadow-lg">
+          <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl">⚠️</span>
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Service Temporairement Indisponible</h2>
+          <p className="text-gray-600 mb-6">{authError}</p>
+          <Link 
+            href="/boutique" 
+            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#8B4513] hover:bg-[#6B3410] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8B4513]"
+          >
+            Retour à la boutique
+          </Link>
         </div>
       </div>
     )
