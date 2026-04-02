@@ -1,43 +1,45 @@
-"use client";
+"use client"
 
-import { products } from "@/data/products";
-import ProductGallery from "@/components/produit/ProductGallery";
-import ProductInfo from "@/components/produit/ProductInfo";
-import { useState } from "react";
-import { useCartStore } from "@/store/cartStore";
+import { products } from "@/data/products"
+import ProductGallery from "@/components/produit/ProductGallery"
+import ProductInfo from "@/components/produit/ProductInfo"
+import { useState } from "react"
+import { useCartStore } from "@/store/cartStore"
 
 interface ProductClientProps {
-  slug: string;
+  slug: string
 }
 
 export default function ProductClient({ slug }: ProductClientProps) {
-  const product = products.find((p) => p.slug === slug);
-  const [selectedTheme, setSelectedTheme] = useState("");
-  const { addItem } = useCartStore();
+  const product = products.find((p) => p.slug === slug)
+  const [selectedTheme, setSelectedTheme] = useState("")
+  const [qty, setQty] = useState(1)
+  const { addItem } = useCartStore()
 
   if (!product) {
-    return <div>Produit non trouvé</div>;
+    return <div>Produit non trouvé</div>
   }
 
   const handleAddToCart = () => {
-    const prixString = typeof product.price === "string" 
+    const prixString = typeof product.price === "string"
       ? product.price : String(product.price)
     const prix = parseFloat(
       prixString.replace(/[^\d,]/g, "").replace(",", ".")
-    ) || 0;
+    ) || 0
 
     addItem({
-      id: `${product.id}-${Date.now()}`,
+      id: `${product.slug}-${selectedTheme || "default"}`,
       nom: product.name,
       prix: prix,
-      quantite: 1,
+      quantite: qty,
       image: product.image || "/images/products/placeholder.svg",
       theme: selectedTheme || undefined,
       slug: product.slug,
-    });
+    })
 
-    alert(`✅ ${product.name} ajouté au panier !`);
-  };
+    setQty(1)
+    alert(`✅ ${product.name} ajouté au panier !`)
+  }
 
   return (
     <div className="bg-white">
@@ -53,10 +55,12 @@ export default function ProductClient({ slug }: ProductClientProps) {
               canAddToCart={true}
               onAddToCart={handleAddToCart}
               onThemeChange={setSelectedTheme}
+              qty={qty}
+              onQtyChange={setQty}
             />
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

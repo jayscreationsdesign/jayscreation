@@ -10,11 +10,13 @@ import ThemeSelector from "@/components/product/ThemeSelector";
 import { THEME_CATEGORIES } from "@/config/themes";
 
 interface ProductInfoProps {
-  product: Product;
+  product: any;
   selectedTheme?: string;
   canAddToCart?: boolean;
   onAddToCart?: (quantity?: number) => void;
   onThemeChange?: (theme: string) => void;
+  qty: number;
+  onQtyChange: (qty: number) => void;
 }
 
 // ── Thèmes disponibles ────────────────────────────────────────────────────────
@@ -54,8 +56,7 @@ function CheckBadge({ label }: { label: string }) {
   );
 }
 
-export default function ProductInfo({ product, selectedTheme, canAddToCart = true, onAddToCart, onThemeChange }: ProductInfoProps) {
-  const [qty, setQty] = useState(1);
+export default function ProductInfo({ product, selectedTheme, canAddToCart = true, onAddToCart, onThemeChange, qty, onQtyChange }: ProductInfoProps) {
   const [purchaseType, setPurchaseType] = useState<"commande">("commande");
   const { display, isSurDevis } = parsePrice(product);
 
@@ -237,7 +238,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
           {/* Pill quantité (fond sombre) */}
           <div className="flex items-center overflow-hidden rounded-full bg-[#2C2C2C] flex-shrink-0">
             <button
-              onClick={() => setQty((q) => Math.max(1, q - 1))}
+              onClick={() => onQtyChange(Math.max(1, qty - 1))}
               className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
               aria-label="Diminuer la quantité"
             >
@@ -248,16 +249,14 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
               min="1"
               value={qty}
               onChange={(e) => {
-                const value = parseInt(e.target.value);
-                if (!isNaN(value) && value >= 1) {
-                  setQty(value);
-                }
+                const value = parseInt(e.target.value) || 1;
+                onQtyChange(value);
               }}
               className="flex h-14 w-16 bg-transparent text-center font-medium text-white border-0 outline-none focus:ring-0 text-lg [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               aria-label="Quantité"
             />
             <button
-              onClick={() => setQty((q) => q + 1)}
+              onClick={() => onQtyChange(qty + 1)}
               className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
               aria-label="Augmenter la quantité"
             >
