@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
@@ -10,10 +10,28 @@ export function FeaturedProducts() {
   const [current, setCurrent] = useState(0)
   const featured = products.slice(0, 8)
   const visible = 4
+  
+  // Responsive: 1 carte sur mobile, 4 sur desktop
+  const getVisibleCount = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 1 : 4
+    }
+    return 4
+  }
+  
+  const [visibleCount, setVisibleCount] = useState(getVisibleCount())
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getVisibleCount())
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const prev = () => setCurrent((c) => Math.max(0, c - 1))
   const next = () => setCurrent((c) => 
-    Math.min(featured.length - visible, c + 1))
+    Math.min(featured.length - visibleCount, c + 1))
 
   return (
     <section className="py-16" style={{
@@ -47,13 +65,13 @@ export function FeaturedProducts() {
 
           {/* Cards */}
           <div className="flex gap-4 overflow-hidden flex-1">
-            {featured.slice(current, current + visible).map((product) => (
+            {featured.slice(current, current + visibleCount).map((product) => (
               <div key={product.id}
                 className="flex-1 min-w-0 bg-white/40 backdrop-blur-sm 
-                rounded-2xl p-4 border border-white/50">
+                rounded-2xl p-4 border border-white/50 w-[85vw] mx-auto md:w-auto">
                 
                 {/* Image */}
-                <div className="w-full h-56 rounded-xl overflow-hidden 
+                <div className="w-full h-48 md:h-56 rounded-xl overflow-hidden 
                   mb-4 flex items-center justify-center bg-[#E8D5B7]">
                   {product.image ? (
                     <img
@@ -77,7 +95,7 @@ export function FeaturedProducts() {
                   )}
                   
                   <div className="flex items-center gap-1 mb-1">
-                    <p className="text-[#2C2C2C] font-semibold text-base truncate flex-1">
+                    <p className="text-[#2C2C2C] font-semibold text-sm md:text-base truncate flex-1">
                       {product.name}
                     </p>
                     <div className="flex items-center gap-0.5 flex-shrink-0">
@@ -90,10 +108,10 @@ export function FeaturedProducts() {
                       `${product.name} personnalisé pour vos événements spéciaux. Design unique...`}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-[#2C2C2C] font-bold text-base">
+                    <span className="text-[#2C2C2C] font-bold text-sm md:text-base">
                       {product.price}
                     </span>
-                    <PrimaryCtaButton href={`/produit/${product.slug}`} className="px-4 py-2 text-sm">
+                    <PrimaryCtaButton href={`/produit/${product.slug}`} className="px-4 py-2 text-sm w-full md:w-auto">
                       Voir
                     </PrimaryCtaButton>
                   </div>
@@ -105,7 +123,7 @@ export function FeaturedProducts() {
           {/* Bouton next */}
           <button
             onClick={next}
-            disabled={current >= featured.length - visible}
+            disabled={current >= featured.length - visibleCount}
             className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full 
             bg-white/30 text-[#8B4513] flex items-center justify-center 
             hover:bg-white/40 hover:text-[#D4A574] transition-colors disabled:opacity-30"
@@ -116,7 +134,7 @@ export function FeaturedProducts() {
 
         {/* Dots */}
         <div className="flex justify-center gap-2 mt-6">
-          {Array.from({ length: featured.length - visible + 1 }).map((_, i) => (
+          {Array.from({ length: featured.length - visibleCount + 1 }).map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}

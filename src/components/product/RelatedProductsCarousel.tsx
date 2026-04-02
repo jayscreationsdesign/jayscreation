@@ -6,7 +6,7 @@ import Image from "next/image";
 import { type Product } from "@/data/products";
 import ImageCarousel from "@/components/ui/ImageCarousel";
 import { getImageSrc, getImageArray } from "@/lib/images";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import { products, type Product as LocalProduct } from "@/data/products";
 import type { Product as SupabaseProduct } from "@/types/product";
@@ -56,14 +56,38 @@ function getProductFields(product: UnifiedProduct) {
 interface RelatedProductsCarouselProps {
   currentProduct: UnifiedProduct;
   allProducts?: UnifiedProduct[];
+  title?: string;
+  subtitle?: string;
 }
 
 export default function RelatedProductsCarousel({ 
-  currentProduct,
-  allProducts = products
+  currentProduct, 
+  allProducts = [],
+  title = "Vous aimerez aussi",
+  subtitle = "Découvrez d'autres créations qui pourraient vous plaire"
 }: RelatedProductsCarouselProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // Responsive: 1 carte sur mobile, 3 sur desktop
+  const getVisibleCount = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 1 : 3
+    }
+    return 3
+  }
+  
+  const [visibleCount, setVisibleCount] = useState(getVisibleCount())
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setVisibleCount(getVisibleCount())
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   // Utiliser la logique de recommandation intelligente avec scoring
-  const { relatedProducts, title, subtitle, hasRecommendations } = useSmartRecommendations(
+  const { relatedProducts, hasRecommendations } = useSmartRecommendations(
     currentProduct, 
     allProducts
   );
@@ -73,14 +97,12 @@ export default function RelatedProductsCarousel({
     return null;
   }
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.max(1, relatedProducts.length - 3));
+    setCurrentIndex((prev) => (prev + 1) % Math.max(1, relatedProducts.length - visibleCount + 1));
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + Math.max(1, relatedProducts.length - 3)) % Math.max(1, relatedProducts.length - 3));
+    setCurrentIndex((prev) => (prev - 1 + Math.max(1, relatedProducts.length - visibleCount + 1)) % Math.max(1, relatedProducts.length - visibleCount + 1));
   };
 
   if (relatedProducts.length === 0) {
@@ -134,7 +156,7 @@ export default function RelatedProductsCarousel({
                     key={`${fields.id}-${index}`}
                     className="flex-shrink-0 w-full md:w-1/2 lg:w-1/4 px-2"
                   >
-                    <div className="bg-white rounded-2xl p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] h-full border border-[#E8E4DF]">
+                    <div className="bg-white rounded-2xl p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] h-full border border-[#E8E4DF] w-[85vw] mx-auto md:w-auto">
                       <div className="h-56 rounded-xl mb-4 relative overflow-hidden bg-[#E8D5B7]">
                         <Image
                           src={cleanImageUrl(fields.image)}
@@ -190,14 +212,14 @@ export default function RelatedProductsCarousel({
 
           {/* Indicateurs de position */}
           <div className="flex justify-center gap-2 mt-6">
-            {Array.from({ length: Math.max(1, relatedProducts.length - 3) }).map((_, index) => (
+            {Array.from({ length: Math.max(1, relatedProducts.length - visibleCount + 1) }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2 h-2 rounded-full transition-all duration-300 ${
                   index === currentIndex 
                     ? "bg-[#8B4513] w-8" 
-                    : "bg-[#E8E4DF] hover:bg-[#8B4513]/60"
+                    : "bg-[#8E8E4DF] hover:bg-[#8B4513]/60"
                 }`}
                 aria-label={`Aller au produit ${index + 1}`}
               />

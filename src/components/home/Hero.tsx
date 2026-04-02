@@ -40,7 +40,7 @@ export function Hero() {
               </PrimaryCtaButton>
             </div>
 
-            <div className="mt-10 grid gap-3 sm:grid-cols-3">
+            <div className="mt-10 flex flex-col gap-4 sm:grid sm:grid-cols-3">
               <div className="rounded-2xl border-jc-accent bg-jc-surface px-4 py-4">
                 <div className="text-2xl font-heading text-jc-accent font-bold">24h</div>
                 <div className="mt-1 text-xs text-jc-accent/70">
