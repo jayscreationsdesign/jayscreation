@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { useEffect } from 'react';
 
 export interface CartItem {
   id: string;
@@ -31,30 +30,31 @@ export const useCartStore = create<CartStore>()(
       addItem: (newItem) => {
         console.log('🛒 Ajout article:', newItem); // Debug
         set((state) => {
-          console.log('🛒 Panier actuel avant ajout:', state.items); // Debug
+          console.log('🛒 Panier actuel:', state.items); // Debug
           
-          // Chercher un article existant avec le même produit et thème (pas le même ID)
-          const existingItem = state.items.find((i) => 
-            i.slug === newItem.slug && 
+          // Générer un ID unique si non fourni
+          const itemWithId = {
+            ...newItem,
+            id: newItem.id || `${newItem.slug}-${newItem.theme || 'default'}-${Date.now()}`
+          };
+          
+          const existingIndex = state.items.findIndex(
+            (i) => i.slug === newItem.slug && 
             (i.theme || "") === (newItem.theme || "")
           );
-          console.log('🛒 Article existant trouvé:', existingItem); // Debug
-          
-          if (existingItem) {
+          console.log('🛒 Index trouvé:', existingIndex); // Debug
+          if (existingIndex >= 0) {
             console.log('🛒 Fusion article existant'); // Debug
-            const updated = state.items.map((item) =>
-              (item.slug === newItem.slug && (item.theme || "") === (newItem.theme || ""))
-                ? { ...item, quantite: item.quantite + newItem.quantite }
-                : item
-            );
+            const updated = [...state.items];
+            updated[existingIndex] = {
+              ...updated[existingIndex],
+              quantite: updated[existingIndex].quantite + 1
+            };
             console.log('🛒 Panier après fusion:', updated); // Debug
             return { items: updated };
           }
-          
-          console.log('🛒 Nouvel article ajouté avec ID:', newItem.id); // Debug
-          const newItems = [...state.items, { ...newItem }];
-          console.log('🛒 Panier après ajout:', newItems); // Debug
-          return { items: newItems };
+          console.log('🛒 Nouvel article ajouté avec ID:', itemWithId.id); // Debug
+          return { items: [...state.items, { ...itemWithId, quantite: 1 }] };
         });
       },
       
@@ -94,15 +94,3 @@ export const useCartStore = create<CartStore>()(
     }
   )
 );
-
-// Hook pour gérer l'hydratation du store
-export const useCartStoreHydration = () => {
-  const hasHydrated = useCartStore.persist.hasHydrated;
-  
-  useEffect(() => {
-    // Forcer l'hydratation côté client
-    useCartStore.persist.rehydrate();
-  }, []);
-  
-  return hasHydrated();
-};

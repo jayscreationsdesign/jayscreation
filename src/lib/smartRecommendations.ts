@@ -216,7 +216,7 @@ export function getRecommendationInfo(
   // Si le produit courant a des thèmes spécifiques
   if (currentFields.themes.length > 0) {
     return {
-      title: "Vous aimerez peut-être aussi...",
+      title: "Créations assorties pour votre événement",
       subtitle: `Complétez votre thématique ${currentFields.themes.slice(0, 2).join(', ')}${currentFields.themes.length > 2 ? '...' : ''} avec nos créations coordonnées`
     };
   }

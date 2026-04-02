@@ -203,6 +203,71 @@ export async function POST(request: NextRequest) {
       console.error('⚠️ Erreur Supabase (non bloquant):', dbError);
     }
 
+    // Envoi des emails de notification (non bloquant)
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+      
+      // 1. Email de confirmation au client
+      const emailResponse = await fetch(`${baseUrl}/api/email/order-confirmation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client: {
+            prenom: client.prenom,
+            nom: client.nom,
+            email: client.email,
+            telephone: client.telephone,
+            adresse: client.adresse,
+            codePostal: client.codePostal,
+            ville: client.ville,
+            pays: client.pays
+          },
+          items,
+          total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+          coupon: session.metadata?.coupon || ''
+        })
+      });
+
+      if (emailResponse.ok) {
+        console.log('✅ Email confirmation client envoyé');
+      } else {
+        console.error('❌ Erreur email confirmation client');
+      }
+    } catch (emailError) {
+      console.error('⚠️ Erreur envoi email client:', emailError);
+    }
+
+    // 2. Notification admin
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+      
+      const adminResponse = await fetch(`${baseUrl}/api/notifications/admin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'order_confirmed',
+          data: {
+            client: {
+              prenom: client.prenom,
+              nom: client.nom,
+              email: client.email
+            },
+            items,
+            total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+            coupon: session.metadata?.coupon || ''
+          }
+        })
+      });
+
+      if (adminResponse.ok) {
+        console.log('✅ Notification admin commande envoyée');
+      } else {
+        console.error('❌ Erreur notification admin');
+      }
+    } catch (adminError) {
+      console.error('⚠️ Erreur notification admin:', adminError);
+    }
+
     return NextResponse.json({ url: session.url });
   } catch (error: any) {
     // Logging détaillé de l'erreur Stripe
