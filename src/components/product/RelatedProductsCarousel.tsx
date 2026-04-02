@@ -92,21 +92,29 @@ export default function RelatedProductsCarousel({
     allProducts
   );
 
-  // Ne pas afficher le carrousel s'il n'y a pas de recommandations
-  if (!hasRecommendations) {
-    return null;
-  }
+  // TOUJOURS afficher la section avec des produits de repli si nécessaire
+  const displayProducts = relatedProducts.length > 0 ? relatedProducts : 
+    allProducts
+      .filter(p => {
+        const fields = getProductFields(p);
+        return fields.id !== getProductFields(currentProduct).id;
+      })
+      .slice(0, 8);
+
+  // Toujours afficher la section
+  const shouldDisplay = displayProducts.length > 0;
 
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.max(1, relatedProducts.length - visibleCount + 1));
+    setCurrentIndex((prev) => (prev + 1) % Math.max(1, displayProducts.length - visibleCount + 1));
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + Math.max(1, relatedProducts.length - visibleCount + 1)) % Math.max(1, relatedProducts.length - visibleCount + 1));
+    setCurrentIndex((prev) => (prev - 1 + Math.max(1, displayProducts.length - visibleCount + 1)) % Math.max(1, displayProducts.length - visibleCount + 1));
   };
 
-  if (relatedProducts.length === 0) {
-    return null; // Ne pas afficher si aucun produit similaire
+  // Ne pas afficher si aucun produit disponible
+  if (!shouldDisplay) {
+    return null;
   }
 
   return (
@@ -149,7 +157,7 @@ export default function RelatedProductsCarousel({
               }}
             >
               {/* Afficher les produits */}
-              {relatedProducts.map((product, index) => {
+              {displayProducts.map((product, index) => {
                 const fields = getProductFields(product);
                 return (
                   <div
@@ -212,7 +220,7 @@ export default function RelatedProductsCarousel({
 
           {/* Indicateurs de position */}
           <div className="flex justify-center gap-2 mt-6">
-            {Array.from({ length: Math.max(1, relatedProducts.length - visibleCount + 1) }).map((_, index) => (
+            {Array.from({ length: Math.max(1, displayProducts.length - visibleCount + 1) }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
