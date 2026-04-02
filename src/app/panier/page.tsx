@@ -9,6 +9,9 @@ import { useState, useEffect } from "react";
 export default function PanierPage() {
   const { items, removeItem, updateQuantite, clearCart } = useCartStore();
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [showCouponInput, setShowCouponInput] = useState(true);
   
   // Gérer l'hydratation côté client
   useEffect(() => {
@@ -31,11 +34,28 @@ export default function PanierPage() {
     (acc, item) => acc + (item.prix * item.quantite), 0
   );
 
+  // Calcul du total avec réduction
+  const finalTotal = Math.max(0, sousTotal - discount);
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('fr-FR', {
       style: 'currency',
       currency: 'EUR',
     }).format(price);
+  };
+
+  const applyCoupon = () => {
+    if (couponCode.toUpperCase() === 'GRATUIT100' || couponCode.toUpperCase() === 'FREE100') {
+      setDiscount(sousTotal); // 100% de réduction
+      alert('🎉 Coupon 100% appliqué ! Votre commande est gratuite.');
+    } else {
+      alert('❌ Code coupon invalide');
+    }
+  };
+
+  const removeCoupon = () => {
+    setCouponCode('');
+    setDiscount(0);
   };
 
   if (items.length === 0) {
@@ -187,13 +207,77 @@ export default function PanierPage() {
                 </div>
               </div>
               
+              {/* Section Coupon */}
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-lg p-6 shadow-md mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-[#2C2C2C] flex items-center gap-2 text-lg font-semibold">
+                    🎫 Code de réduction
+                  </h3>
+                  <button
+                    type="button"
+                    onClick={() => setShowCouponInput(!showCouponInput)}
+                    className="text-sm bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700"
+                  >
+                    {showCouponInput ? 'Masquer' : 'Ajouter'}
+                  </button>
+                </div>
+                
+                {showCouponInput && (
+                  <div className="space-y-4">
+                    <div className="bg-white p-3 rounded-lg border border-green-200">
+                      <input
+                        type="text"
+                        placeholder="Entrez votre code promo (ex: GRATUIT100)"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value)}
+                        className="w-full border-green-300 focus:border-green-500 text-center font-mono px-3 py-2 rounded"
+                      />
+                    </div>
+                    
+                    <button
+                      type="button"
+                      onClick={applyCoupon}
+                      className="w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 font-semibold transition-colors"
+                    >
+                      🎉 Appliquer le code
+                    </button>
+                    
+                    {discount > 0 && (
+                      <div className="flex items-center justify-between bg-green-100 p-4 rounded-lg border-2 border-green-300">
+                        <span className="text-green-800 font-bold flex items-center gap-2">
+                          ✅ Coupon appliqué : -{formatPrice(discount)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={removeCoupon}
+                          className="bg-red-500 text-white px-3 py-1 rounded-full text-sm hover:bg-red-600"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    )}
+                    
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                      <p className="text-sm text-yellow-800 font-medium text-center">
+                        💡 Codes valides : <span className="font-mono bg-yellow-100 px-2 py-1 rounded">GRATUIT100</span> et <span className="font-mono bg-yellow-100 px-2 py-1 rounded">FREE100</span>
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
               <div className="border-t border-[#E8E4DF] pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold text-[#8B4513]">Total</span>
                   <span className="text-2xl font-bold text-[#8B4513]">
-                    {formatPrice(sousTotal)}
+                    {formatPrice(finalTotal)}
                   </span>
                 </div>
+                {discount > 0 && (
+                  <div className="mt-2 text-sm text-green-600 text-center">
+                    Économie de {formatPrice(discount)} avec votre coupon ! 🎉
+                  </div>
+                )}
               </div>
               
               {/* Message de réassurance */}
@@ -205,11 +289,11 @@ export default function PanierPage() {
               
               {/* Boutons d'action */}
               <div className="mt-8">
-                <Link href="/commande">
+                <Link href={`/commande?coupon=${encodeURIComponent(couponCode)}&discount=${discount}`}>
                   <button className="cursor-pointer w-full bg-[#8B4513] text-white 
                     text-center py-4 rounded-full font-medium hover:bg-[#D4A574] hover:text-white
                     transition-colors duration-200 shadow-sm">
-                    Commander
+                    {finalTotal === 0 ? 'Valider la commande gratuite' : 'Commander'}
                   </button>
                 </Link>
               </div>

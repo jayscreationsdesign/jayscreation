@@ -1,16 +1,16 @@
 "use client";
 
-import { useCartStore } from '@/store/cartStore';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Separator } from '@/components/ui/separator';
-import { ArrowLeft, ShoppingBag, User, Mail, Phone, MapPin, Edit3 } from 'lucide-react';
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { useCartStore } from "@/store/cartStore";
+import { Mail, Phone, MapPin, Edit3, User, ShoppingBag, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 
 interface FormData {
   prenom: string;
@@ -25,6 +25,7 @@ interface FormData {
 }
 
 export default function CommandePage() {
+  const searchParams = useSearchParams();
   const { items, clearCart } = useCartStore();
   const [formData, setFormData] = useState<FormData>({
     prenom: '',
@@ -38,10 +39,11 @@ export default function CommandePage() {
     personnalisation: '',
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [couponCode, setCouponCode] = useState('');
-  const [discount, setDiscount] = useState(0);
-  const [showCouponInput, setShowCouponInput] = useState(true);
   const [hasHydrated, setHasHydrated] = useState(false);
+
+  // Lire les paramètres de l'URL (coupon et discount)
+  const urlCoupon = searchParams.get('coupon') || '';
+  const urlDiscount = Number(searchParams.get('discount')) || 0;
 
   // Gérer l'hydratation côté client
   useEffect(() => {
@@ -55,8 +57,8 @@ export default function CommandePage() {
     return sum + unitPrice * quantity;
   }, 0);
 
-  // Calcul du total avec réduction
-  const finalTotal = Math.max(0, orderTotal - discount);
+  // Calcul du total avec réduction depuis l'URL
+  const finalTotal = Math.max(0, orderTotal - urlDiscount);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -67,20 +69,6 @@ export default function CommandePage() {
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-  };
-
-  const applyCoupon = () => {
-    if (couponCode.toUpperCase() === 'GRATUIT100' || couponCode.toUpperCase() === 'FREE100') {
-      setDiscount(orderTotal); // 100% de réduction
-      alert('🎉 Coupon 100% appliqué ! Votre commande est gratuite.');
-    } else {
-      alert('❌ Code coupon invalide');
-    }
-  };
-
-  const removeCoupon = () => {
-    setCouponCode('');
-    setDiscount(0);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -95,7 +83,7 @@ export default function CommandePage() {
           items,
           client: formData,
           total: finalTotal,
-          coupon: couponCode.toUpperCase(),
+          coupon: urlCoupon.toUpperCase(),
         }),
       });
 
@@ -206,9 +194,14 @@ export default function CommandePage() {
               <div className="flex justify-between items-center pt-4">
                 <span className="text-xl font-bold text-[#2C2C2C]">Total</span>
                 <span className="text-2xl font-bold text-[#8B4513]">
-                  {formatPrice(orderTotal)}
+                  {formatPrice(finalTotal)}
                 </span>
               </div>
+              {urlDiscount > 0 && (
+                <div className="mt-2 text-sm text-green-600 text-center">
+                  🎉 Coupon appliqué : -{formatPrice(urlDiscount)}
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -341,77 +334,16 @@ export default function CommandePage() {
 
                 <Separator className="bg-[#8B4513]" />
 
-                {/* Section Coupon */}
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-lg p-6 shadow-md">
-                  <div className="flex items-center justify-between mb-4">
-                    <Label className="text-[#2C2C2C] flex items-center gap-2 text-lg font-semibold">
-                      🎫 Code de réduction
-                    </Label>
-                    <button
-                      type="button"
-                      onClick={() => setShowCouponInput(!showCouponInput)}
-                      className="text-sm bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700"
-                    >
-                      {showCouponInput ? 'Masquer' : 'Ajouter'}
-                    </button>
-                  </div>
-                  
-                  {showCouponInput && (
-                    <div className="space-y-4">
-                      <div className="bg-white p-3 rounded-lg border border-green-200">
-                        <Input
-                          placeholder="Entrez votre code promo (ex: GRATUIT100)"
-                          value={couponCode}
-                          onChange={(e) => setCouponCode(e.target.value)}
-                          className="border-green-300 focus:border-green-500 text-center font-mono"
-                        />
-                      </div>
-                      
-                      <button
-                        type="button"
-                        onClick={applyCoupon}
-                        className="w-full bg-green-600 text-white px-4 py-3 rounded-lg hover:bg-green-700 font-semibold transition-colors"
-                      >
-                        🎉 Appliquer le code
-                      </button>
-                      
-                      {discount > 0 && (
-                        <div className="flex items-center justify-between bg-green-100 p-4 rounded-lg border-2 border-green-300">
-                          <span className="text-green-800 font-bold flex items-center gap-2">
-                            ✅ Coupon appliqué : -{formatPrice(discount)}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={removeCoupon}
-                            className="bg-red-500 text-white px-3 py-1 rounded-full text-sm hover:bg-red-600"
-                          >
-                            Supprimer
-                          </button>
-                        </div>
-                      )}
-                      
-                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                        <p className="text-sm text-yellow-800 font-medium text-center">
-                          💡 Codes valides : <span className="font-mono bg-yellow-100 px-2 py-1 rounded">GRATUIT100</span> et <span className="font-mono bg-yellow-100 px-2 py-1 rounded">FREE100</span>
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <Separator className="bg-[#8B4513]" />
-
                 {/* Personnalisation */}
                 <div>
                   <Label htmlFor="personnalisation" className="text-[#2C2C2C] flex items-center gap-2">
                     <Edit3 size={16} />
                     Personnalisation / Instructions spéciales
                   </Label>
-                  <Textarea
+                  <Input
                     id="personnalisation"
                     value={formData.personnalisation}
-                    onChange={(e) => handleInputChange('personnalisation', e.target.value)}
-                    placeholder="Décrivez ici vos besoins de personnalisation, couleurs spécifiques, textes à ajouter, etc."
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('personnalisation', e.target.value)}
                     className="border-[#8B4513] focus:border-[#6b3410] min-h-[100px]"
                   />
                 </div>
