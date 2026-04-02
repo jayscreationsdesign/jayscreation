@@ -156,8 +156,8 @@ export default function CommandePage() {
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Récapitulatif commande */}
-          <Card className="bg-white border-[#8B4513]">
-            <CardHeader>
+          <Card className="bg-white border border-[#8B4513] shadow-lg">
+            <CardHeader className="border-b border-[#8B4513]/50">
               <CardTitle className="text-[#2C2C2C] flex items-center gap-2">
                 <ShoppingBag size={24} />
                 Récapitulatif de la commande
@@ -165,7 +165,7 @@ export default function CommandePage() {
             </CardHeader>
             <CardContent className="space-y-4">
               {items.map((item) => (
-                <div key={item.id} className="flex gap-3 p-3 bg-[#FAF7F2] rounded-lg">
+                <div key={item.id} className="flex gap-3 p-3 bg-[#FAF7F2] rounded-lg border border-[#E8E4DF]">
                   <div className="relative w-16 h-16 flex-shrink-0">
                     <Image
                       src={item.image}
@@ -189,7 +189,7 @@ export default function CommandePage() {
                 </div>
               ))}
               
-              <Separator className="bg-[#8B4513]" />
+              <Separator className="bg-[#8B4513]/50" />
               
               <div className="flex justify-between items-center pt-4">
                 <span className="text-xl font-bold text-[#2C2C2C]">Total</span>
@@ -198,7 +198,7 @@ export default function CommandePage() {
                 </span>
               </div>
               {urlDiscount > 0 && (
-                <div className="mt-2 text-sm text-green-600 text-center">
+                <div className="mt-2 text-sm text-green-600 text-center bg-green-50 rounded-lg p-2 border border-green-200">
                   🎉 Coupon appliqué : -{formatPrice(urlDiscount)}
                 </div>
               )}
@@ -206,8 +206,8 @@ export default function CommandePage() {
           </Card>
 
           {/* Formulaire client */}
-          <Card className="bg-white border-[#8B4513]">
-            <CardHeader>
+          <Card className="bg-white border border-[#8B4513] shadow-lg">
+            <CardHeader className="border-b border-[#8B4513]/50">
               <CardTitle className="text-[#2C2C2C] flex items-center gap-2">
                 <User size={24} />
                 Informations de livraison
@@ -227,7 +227,7 @@ export default function CommandePage() {
                         value={formData.prenom}
                         onChange={(e) => handleInputChange('prenom', e.target.value)}
                         required
-                        className="border-[#8B4513] focus:border-[#6b3410]"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                       />
                     </div>
                     <div>
@@ -239,7 +239,7 @@ export default function CommandePage() {
                         value={formData.nom}
                         onChange={(e) => handleInputChange('nom', e.target.value)}
                         required
-                        className="border-[#8B4513] focus:border-[#6b3410]"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                       />
                     </div>
                   </div>
@@ -255,7 +255,7 @@ export default function CommandePage() {
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       required
-                      className="border-[#8B4513] focus:border-[#6b3410]"
+                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                     />
                   </div>
                   
@@ -269,12 +269,12 @@ export default function CommandePage() {
                       value={formData.telephone}
                       onChange={(e) => handleInputChange('telephone', e.target.value)}
                       required
-                      className="border-[#8B4513] focus:border-[#6b3410]"
+                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                     />
                   </div>
                 </div>
 
-                <Separator className="bg-[#8B4513]" />
+                <Separator className="bg-[#8B4513]/50" />
 
                 {/* Adresse de livraison */}
                 <div className="space-y-4">
@@ -288,7 +288,7 @@ export default function CommandePage() {
                       value={formData.adresse}
                       onChange={(e) => handleInputChange('adresse', e.target.value)}
                       required
-                      className="border-[#8B4513] focus:border-[#6b3410]"
+                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                     />
                   </div>
                   
@@ -302,7 +302,7 @@ export default function CommandePage() {
                         value={formData.codePostal}
                         onChange={(e) => handleInputChange('codePostal', e.target.value)}
                         required
-                        className="border-[#8B4513] focus:border-[#6b3410]"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                       />
                     </div>
                     <div>
@@ -314,7 +314,7 @@ export default function CommandePage() {
                         value={formData.ville}
                         onChange={(e) => handleInputChange('ville', e.target.value)}
                         required
-                        className="border-[#8B4513] focus:border-[#6b3410]"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                       />
                     </div>
                     <div>
@@ -326,13 +326,13 @@ export default function CommandePage() {
                         value={formData.pays}
                         onChange={(e) => handleInputChange('pays', e.target.value)}
                         required
-                        className="border-[#8B4513] focus:border-[#6b3410]"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
                       />
                     </div>
                   </div>
                 </div>
 
-                <Separator className="bg-[#8B4513]" />
+                <Separator className="bg-[#8B4513]/50" />
 
                 {/* Personnalisation */}
                 <div>
@@ -344,19 +344,21 @@ export default function CommandePage() {
                     id="personnalisation"
                     value={formData.personnalisation}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('personnalisation', e.target.value)}
-                    className="border-[#8B4513] focus:border-[#6b3410] min-h-[100px]"
+                    className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[100px]"
                   />
                 </div>
 
-                {/* Bouton de paiement */}
+                {/* Bouton de paiement - utilise les mêmes couleurs que PrimaryCtaButton */}
                 <Button
                   type="submit"
                   disabled={isLoading || items.length === 0}
-                  className="w-full bg-[#8B4513] hover:bg-[#6b3410] hover:text-[#D4A574] text-white py-4 text-lg"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-6 py-4 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed text-lg"
                 >
-                  {isLoading ? 'Traitement en cours...' : 
-        finalTotal === 0 ? 'Valider la commande gratuite' : 
-        `Payer avec Stripe - ${formatPrice(finalTotal)}`}
+                  <span className="text-lg">
+                    {isLoading ? 'Traitement en cours...' : 
+                    finalTotal === 0 ? 'Valider la commande gratuite' : 
+                    `Payer avec Stripe - ${formatPrice(finalTotal)}`}
+                  </span>
                 </Button>
               </form>
             </CardContent>
