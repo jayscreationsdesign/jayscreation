@@ -154,7 +154,10 @@ export async function POST(request: NextRequest) {
     // Sauvegarde dans Supabase (non bloquant)
     try {
       const { createClient } = require('@/lib/supabase');
-      const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ""
+      );
       await supabase.from('commandes').insert({
         stripe_session_id: session.id,
         statut: 'en_attente',
