@@ -7,5 +7,11 @@
   "outputDirectory": ".next",
   "github": {
     "enabled": false
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/abandoned-carts",
+      "schedule": "*/30 * * * *"
+    }
+  ]
 }
