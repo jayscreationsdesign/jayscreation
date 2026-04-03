@@ -30,7 +30,7 @@ export default function PrimaryCtaButton({
   children, 
   className, 
   href, 
-  showArrow = true,
+  showArrow = false,
   onClick,
   disabled = false
 }: PrimaryCtaButtonProps) {

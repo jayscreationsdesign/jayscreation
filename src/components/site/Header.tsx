@@ -145,8 +145,36 @@ export default function Header() {
   
   // Panier states
   const items = useCartStore((state) => state.items);
-  const totalItems = items.reduce((acc, item) => acc + item.quantite, 0);
-  const sousTotal = items.reduce((acc, item) => acc + item.prix * item.quantite, 0);
+  const totalItems = useCartStore((state) => state.count);
+  const sousTotal = useCartStore((state) => state.total);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Debug pour voir l'état du panier
+  useEffect(() => {
+    console.log('🛒 Header - Panier items:', items);
+    console.log('🛒 Header - Total items:', totalItems);
+    console.log('🛒 Header - Sous-total:', sousTotal);
+    console.log('🛒 Header - Badge doit afficher:', totalItems);
+  }, [items, totalItems, sousTotal]);
+
+  // Forcer la mise à jour du badge
+  useEffect(() => {
+    const itemCount = items.reduce((acc, item) => acc + item.quantite, 0);
+    console.log('🛒 Header - Calcul direct:', itemCount);
+    if (itemCount !== totalItems) {
+      console.log('🛒 Header - Décalage détecté, forcer mise à jour');
+    }
+  }, [items, totalItems]);
+
+  // Hydrater le store côté client
+  useEffect(() => {
+    // Forcer l'hydratation du store
+    const hasHydrated = useCartStore.persist.hasHydrated();
+    if (!hasHydrated) {
+      useCartStore.persist.rehydrate();
+    }
+    setHydrated(true);
+  }, []);
 
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
@@ -465,9 +493,11 @@ export default function Header() {
                 >
                   <ShoppingBag className="h-4 w-4 text-[#8B4513]" />
                   <span className="hidden sm:inline">Panier</span>
-                  <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-[11px] font-semibold text-white">
-                    {totalItems}
-                  </span>
+                  {items.reduce((acc, item) => acc + item.quantite, 0) > 0 && (
+                    <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8B4513] px-1 text-[11px] font-semibold text-white">
+                      {items.reduce((acc, item) => acc + item.quantite, 0)}
+                    </span>
+                  )}
                 </Link>
 
                 {/* Mini panier dropdown */}

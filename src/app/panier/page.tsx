@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
@@ -11,10 +11,27 @@ export default function PanierPage() {
   const [codePromo, setCodePromo] = useState('');
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState('');
+  const [hydrated, setHydrated] = useState(false);
   
   const sousTotal = items.reduce(
     (acc, item) => acc + (item.prix * item.quantite), 0
   );
+
+  // Debug pour voir l'état du panier
+  useEffect(() => {
+    console.log('🛒 Panier - Items:', items);
+    console.log('🛒 Panier - Sous-total:', sousTotal);
+  }, [items, sousTotal]);
+
+  // Hydrater le store côté client
+  useEffect(() => {
+    // Forcer l'hydratation du store
+    const hasHydrated = useCartStore.persist.hasHydrated();
+    if (!hasHydrated) {
+      useCartStore.persist.rehydrate();
+    }
+    setHydrated(true);
+  }, []);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -47,6 +64,7 @@ export default function PanierPage() {
 
   const totalAvecRemise = sousTotal - getRemise();
 
+  
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
@@ -269,7 +287,7 @@ export default function PanierPage() {
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold text-[#2C2C2C]">Total</span>
                   <span className="text-2xl font-bold text-[#8B4513]">
-                    {formatPrice(sousTotal)}
+                    {formatPrice(totalAvecRemise)}
                   </span>
                 </div>
               </div>

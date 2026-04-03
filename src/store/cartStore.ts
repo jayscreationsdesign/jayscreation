@@ -48,13 +48,13 @@ export const useCartStore = create<CartStore>()(
             const updated = [...state.items];
             updated[existingIndex] = {
               ...updated[existingIndex],
-              quantite: updated[existingIndex].quantite + 1
+              quantite: updated[existingIndex].quantite + newItem.quantite
             };
             console.log('🛒 Panier après fusion:', updated); // Debug
             return { items: updated };
           }
           console.log('🛒 Nouvel article ajouté avec ID:', itemWithId.id); // Debug
-          return { items: [...state.items, { ...itemWithId, quantite: 1 }] };
+          return { items: [...state.items, { ...itemWithId, quantite: newItem.quantite }] };
         });
       },
       
