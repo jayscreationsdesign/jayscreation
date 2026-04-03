@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { signIn, signUp, signInWithGoogle } from '@/lib/auth'
+import { triggerWelcomeEmail } from '@/lib/email-triggers'
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react'
 
 export default function ConnexionPage() {
@@ -65,7 +66,13 @@ export default function ConnexionPage() {
     if (result.error) {
       setError(result.error.message)
     } else {
-      // Inscription réussie - connexion immédiate sans confirmation email
+      // Inscription réussie - envoyer email de bienvenue
+      await triggerWelcomeEmail({
+        email: signupEmail,
+        name: `${prenom} ${nom}`.trim()
+      });
+      
+      // Connexion immédiate sans confirmation email
       // Si l'utilisateur est déjà dans la réponse, on le redirige directement
       if (result.data.user) {
         router.push('/compte')
@@ -76,11 +83,10 @@ export default function ConnexionPage() {
           router.push('/compte')
         } else {
           setError('Compte créé mais erreur de connexion automatique. Veuillez vous connecter manuellement.')
-          setActiveTab('signin')
         }
       }
     }
-    
+    setActiveTab('signin')
     setLoading(false)
   }
 

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Emails Jay's Creations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .btn {
+            background-color: #8B4513;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: #6b3410;
+        }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .email-info {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Test Emails Jay's Creations Design</h1>
+        
+        <div class="email-info">
+            <h3>📋 Configuration actuelle :</h3>
+            <ul>
+                <li><strong>Expéditeur bienvenue :</strong> commande@jayscreationsdesign.fr</li>
+                <li><strong>Expéditeur transactions :</strong> contact@jayscreationsdesign.fr</li>
+                <li><strong>Expéditeur panier abandonné :</strong> commande@jayscreationsdesign.fr</li>
+                <li><strong>SMTP :</strong> smtp.ionos.de:587</li>
+                <li><strong>Auth :</strong> jayscreations.d@gmail.com</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h3>🎉 Test Email de Bienvenue</h3>
+            <p>Envoie un email de bienvenue à l'adresse de test.</p>
+            <button class="btn" onclick="testWelcomeEmail()">Tester Bienvenue</button>
+            <div id="welcome-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📦 Test Emails de Commande</h3>
+            <p>Envoie une confirmation commande au client et une notification à l'admin.</p>
+            <button class="btn" onclick="testOrderEmails()">Tester Commande</button>
+            <div id="order-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📋 Test Demande de Devis</h3>
+            <p>Envoie une demande de devis à l'admin.</p>
+            <button class="btn" onclick="testQuoteRequest()">Tester Devis</button>
+            <div id="quote-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>⚠️ Test Alerte Stock</h3>
+            <p>Envoie une alerte de stock faible à l'admin.</p>
+            <button class="btn" onclick="testLowStock()">Tester Stock</button>
+            <div id="stock-result"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🛒 Test Panier Abandonné</h3>
+            <p>Envoie un email de panier abandonné au client.</p>
+            <button class="btn" onclick="testAbandonedCart()">Tester Panier</button>
+            <div id="cart-result"></div>
+        </div>
+
+        <div class="info">
+            <h3>📧 Adresses de test :</h3>
+            <ul>
+                <li><strong>Email client test :</strong> jayscreations.d@gmail.com</li>
+                <li><strong>Email admin test :</strong> commande@jayscreationsdesign.fr</li>
+                <li><strong>Email contact test :</strong> contact@jayscreationsdesign.fr</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showResult(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="result ${type}">${message}</div>`;
+        }
+
+        function showLoading(elementId) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = '<div class="result info">⏳ Envoi en cours...</div>';
+        }
+
+        async function testWelcomeEmail() {
+            const resultId = 'welcome-result';
+            showLoading(resultId);
+            
+            try {
+                const response = await fetch('/api/webhooks/new-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'jayscreations.d@gmail.com',
+                        name: 'Test User'
+                    })
+                });
+                
+                if (response.ok) {
+                    showResult(resultId, '✅ Email de bienvenue envoyé avec succès !<br>Vérifiez : jayscreations.d@gmail.com', 'success');
+                } else {
+                    const error = await response.text();
+                    showResult(resultId, `❌ Erreur: ${error}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultId, `❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+
+        async function testOrderEmails() {
+            const resultId = 'order-result';
+            showLoading(resultId);
+            
+            try {
+                const response = await fetch('/api/webhooks/new-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: 'TEST-001',
+                        customer_name: 'Client Test',
+                        customer_email: 'jayscreations.d@gmail.com',
+                        customer_phone: '06 12 34 56 78',
+                        total: 49.90,
+                        items: [{ name: 'Faire-part test', quantity: 2 }],
+                        created_at: new Date().toISOString()
+                    })
+                });
+                
+                if (response.ok) {
+                    showResult(resultId, '✅ Emails de commande envoyés !<br>Vérifiez :<br>- jayscreations.d@gmail.com (client)<br>- commande@jayscreationsdesign.fr (admin)', 'success');
+                } else {
+                    const error = await response.text();
+                    showResult(resultId, `❌ Erreur: ${error}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultId, `❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+
+        async function testQuoteRequest() {
+            const resultId = 'quote-result';
+            showLoading(resultId);
+            
+            try {
+                const response = await fetch('/api/webhooks/quote-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: 'Test Client',
+                        email: 'jayscreations.d@gmail.com',
+                        phone: '06 98 76 54 32',
+                        product: 'Faire-part mariage test',
+                        quantity: '50',
+                        budget: '200-300€',
+                        event_date: '2024-06-15',
+                        message: 'Ceci est un test de demande de devis.'
+                    })
+                });
+                
+                if (response.ok) {
+                    showResult(resultId, '✅ Demande de devis envoyée !<br>Vérifiez : contact@jayscreationsdesign.fr', 'success');
+                } else {
+                    const error = await response.text();
+                    showResult(resultId, `❌ Erreur: ${error}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultId, `❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLowStock() {
+            const resultId = 'stock-result';
+            showLoading(resultId);
+            
+            try {
+                const response = await fetch('/api/webhooks/low-stock', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: 'PROD-001',
+                        name: 'Faire-part mariage test',
+                        sku: 'FP-MARRIAGE-001',
+                        stock: 3,
+                        alert_threshold: 5
+                    })
+                });
+                
+                if (response.ok) {
+                    showResult(resultId, '✅ Alerte de stock envoyée !<br>Vérifiez : commande@jayscreationsdesign.fr', 'success');
+                } else {
+                    const error = await response.text();
+                    showResult(resultId, `❌ Erreur: ${error}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultId, `❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAbandonedCart() {
+            const resultId = 'cart-result';
+            showLoading(resultId);
+            
+            try {
+                const response = await fetch('/api/webhooks/abandoned-cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        customer_email: 'jayscreations.d@gmail.com',
+                        items: [
+                            { name: 'Invitation mariage', quantity: 2 },
+                            { name: 'Menu mariage', quantity: 1 }
+                        ],
+                        total: 89.90
+                    })
+                });
+                
+                if (response.ok) {
+                    showResult(resultId, '✅ Email panier abandonné envoyé !<br>Vérifiez :<br>- jayscreations.d@gmail.com (client)<br>- contact@jayscreationsdesign.fr (notification admin)', 'success');
+                } else {
+                    const error = await response.text();
+                    showResult(resultId, `❌ Erreur: ${error}`, 'error');
+                }
+            } catch (error) {
+                showResult(resultId, `❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
