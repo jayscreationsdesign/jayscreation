@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { getUser, getUserProfile, updateUserProfile } from '@/lib/auth'
 import { User, Mail, Phone, MapPin, Save } from 'lucide-react'
+import Link from 'next/link'
+import Breadcrumb from '@/components/ui/Breadcrumb'
 
 export default function ProfilPage() {
   const [user, setUser] = useState<any>(null)
@@ -106,11 +108,33 @@ export default function ProfilPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Mon Profil</h1>
-          <p className="text-gray-600">Gérez vos informations personnelles</p>
+      {/* Breadcrumb - PREMIER ÉLÉMENT */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumb 
+          items={[
+            { label: "Accueil", href: "/" },
+            { label: "Mon compte", href: "/compte" },
+            { label: "Mon profil" }
+          ]}
+        />
+      </div>
+
+      {/* Titre de la page - APRÈS le breadcrumb */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-gray-900">Mon Profil</h1>
+            <Link 
+              href="/boutique" 
+              className="bg-[#8B4513] text-white px-6 py-2 rounded-lg hover:bg-[#6b3410] transition-colors"
+            >
+              Retour à la boutique
+            </Link>
+          </div>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-8">
 
         {/* Message de succès/erreur */}
         {message && (

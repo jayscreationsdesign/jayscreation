@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getUser, getUserProfile } from '@/lib/auth'
-import { ShoppingBag, Calendar, TrendingUp, Package, User, CreditCard, MapPin, LogOut, Gift, Settings, MapPin as MapPinIcon } from 'lucide-react'
+import { ShoppingBag, Calendar, TrendingUp, Package, User, CreditCard, MapPin, ArrowLeft, Home } from 'lucide-react'
 import Link from 'next/link'
 import Breadcrumb from '@/components/ui/Breadcrumb'
 
-export default function ComptePage() {
+export default function TableauDeBordPage() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -42,7 +42,7 @@ export default function ComptePage() {
       <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B4513]"></div>
-          <p className="mt-4 text-gray-600">Chargement de votre compte...</p>
+          <p className="mt-4 text-gray-600">Chargement de votre tableau de bord...</p>
         </div>
       </div>
     )
@@ -59,7 +59,8 @@ export default function ComptePage() {
         <Breadcrumb 
           items={[
             { label: "Accueil", href: "/" },
-            { label: "Mon compte" }
+            { label: "Mon compte", href: "/compte" },
+            { label: "Mon tableau de bord" }
           ]}
         />
       </div>
@@ -81,6 +82,7 @@ export default function ComptePage() {
 
       {/* Contenu principal */}
       <div className="max-w-7xl mx-auto px-4 py-8">
+        
         {/* Cards métriques */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div 
@@ -140,7 +142,8 @@ export default function ComptePage() {
           
           <div className="space-y-4">
             {[1, 2, 3].map((order) => (
-              <div key={order} className="border border-gray-200 rounded-lg p-4">
+              <div key={order} className="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors cursor-pointer"
+                   onClick={() => router.push('/compte/commandes')}>
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-medium text-gray-900">Commande #{1000 + order}</p>
@@ -160,7 +163,6 @@ export default function ComptePage() {
 
         {/* Menu Mon Compte */}
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Mon Compte</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link 
               href="/compte/profil" 
@@ -188,7 +190,7 @@ export default function ComptePage() {
               href="/compte/reductions" 
               className="flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:border-[#8B4513] hover:bg-[#8B4513]/5 transition-all"
             >
-              <Gift className="h-6 w-6 text-[#8B4513]" />
+              <Home className="h-6 w-6 text-[#8B4513]" />
               <div>
                 <h3 className="font-medium text-gray-900">Mes réductions</h3>
                 <p className="text-sm text-gray-600">Codes et offres</p>
@@ -199,7 +201,7 @@ export default function ComptePage() {
               href="/compte/adresses" 
               className="flex items-center gap-3 p-4 rounded-lg border border-gray-200 hover:border-[#8B4513] hover:bg-[#8B4513]/5 transition-all"
             >
-              <MapPinIcon className="h-6 w-6 text-[#8B4513]" />
+              <MapPin className="h-6 w-6 text-[#8B4513]" />
               <div>
                 <h3 className="font-medium text-gray-900">Mes adresses</h3>
                 <p className="text-sm text-gray-600">Livraison et facturation</p>
@@ -208,8 +210,82 @@ export default function ComptePage() {
           </div>
         </div>
 
-        {/* Accès rapide */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Statistiques et activité */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Réductions disponibles */}
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-900">Mes Réductions</h2>
+              <Link 
+                href="/compte/reductions" 
+                className="text-[#8B4513] hover:text-[#8B4513] font-medium transition-colors"
+              >
+                Voir tout
+              </Link>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div>
+                  <p className="font-medium text-gray-900">SOLDES2024</p>
+                  <p className="text-sm text-gray-600">20% de réduction</p>
+                </div>
+                <span className="text-green-600 font-medium">Disponible</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                <div>
+                  <p className="font-medium text-gray-900">FIDELITE</p>
+                  <p className="text-sm text-gray-600">5% de réduction</p>
+                </div>
+                <span className="text-green-600 font-medium">Disponible</span>
+              </div>
+              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div>
+                  <p className="font-medium text-gray-900">BIENVENUE10</p>
+                  <p className="text-sm text-gray-600">10% de réduction</p>
+                </div>
+                <span className="text-gray-600 font-medium">Utilisée</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Activité récente */}
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Activité Récente</h2>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-[#8B4513] rounded-full mt-2"></div>
+                <div>
+                  <p className="font-medium text-gray-900">Commande #1003 passée</p>
+                  <p className="text-sm text-gray-600">Il y a 2 jours • 295,00€</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                <div>
+                  <p className="font-medium text-gray-900">Commande #1002 livrée</p>
+                  <p className="text-sm text-gray-600">Il y a 5 jours • 89,90€</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                <div>
+                  <p className="font-medium text-gray-900">Nouvelle réduction disponible</p>
+                  <p className="text-sm text-gray-600">Il y a 1 semaine • ANNIVERSAIRE</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                <div>
+                  <p className="font-medium text-gray-900">Profil mis à jour</p>
+                  <p className="text-sm text-gray-600">Il y a 2 semaines</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Actions rapides */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
           <Link 
             href="/boutique" 
             className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow"
@@ -223,7 +299,7 @@ export default function ComptePage() {
             href="/compte/reductions" 
             className="bg-white rounded-xl shadow-sm p-6 border border-gray-100 hover:shadow-md transition-shadow"
           >
-            <Gift className="h-8 w-8 text-[#8B4513] mb-3" />
+            <Home className="h-8 w-8 text-[#8B4513] mb-3" />
             <h3 className="font-medium text-gray-900 mb-2">Voir mes réductions</h3>
             <p className="text-sm text-gray-600">Profiter des offres disponibles</p>
           </Link>

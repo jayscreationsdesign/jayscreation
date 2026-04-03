@@ -2,21 +2,29 @@
 
 import { useState, useEffect } from 'react'
 import { getUser } from '@/lib/auth'
-import { supabase } from '@/lib/supabase'
-import { Eye, Package, Truck, CheckCircle, XCircle, Clock } from 'lucide-react'
+import { Eye, Package, Truck, CheckCircle, XCircle, Clock, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
+import Breadcrumb from '@/components/ui/Breadcrumb'
 
 interface Commande {
   id: string
   numero_commande: string
   client_email: string
   date_commande: string
-  statut: 'en_attente' | 'payee' | 'annulee'
+  statut: 'en_attente' | 'payee' | 'annulee' | 'expediee' | 'livree'
   total: number
   articles: {
     nom: string
     quantite: number
     prix: number
+    image?: string
   }[]
+  adresse_livraison?: {
+    rue: string
+    ville: string
+    code_postal: string
+    pays: string
+  }
 }
 
 export default function CommandesPage() {
@@ -36,19 +44,86 @@ export default function CommandesPage() {
 
       setUser(currentUser)
 
-      // Récupérer les commandes depuis Supabase
-      const { data, error } = await supabase
-        .from('commandes')
-        .select('*')
-        .eq('client_email', currentUser.email)
-        .order('date_commande', { ascending: false })
+      // Données de démonstration pour l'interface
+      const demoCommandes: Commande[] = [
+        {
+          id: '1',
+          numero_commande: 'CMD-2024-001',
+          client_email: currentUser.email || 'client@example.com',
+          date_commande: '2024-03-15',
+          statut: 'payee',
+          total: 125.50,
+          articles: [
+            { nom: 'Faire-part mariage - Floral Blanc Or', quantite: 50, prix: 2.50 },
+            { nom: 'Tableau d\'accueil personnalisé', quantite: 2, prix: 15.00 },
+            { nom: 'Menu de table - Élégant', quantite: 10, prix: 1.20 }
+          ],
+          adresse_livraison: {
+            rue: '15 Quai d\'Asnières',
+            ville: 'Villeneuve-la-Garenne',
+            code_postal: '92390',
+            pays: 'France'
+          }
+        },
+        {
+          id: '2',
+          numero_commande: 'CMD-2024-002',
+          client_email: currentUser.email || 'client@example.com',
+          date_commande: '2024-03-10',
+          statut: 'expediee',
+          total: 89.90,
+          articles: [
+            { nom: 'Marque-place personnalisé', quantite: 100, prix: 0.80 },
+            { nom: 'Cadeaux invités - Sachets lavandes', quantite: 50, prix: 1.50 }
+          ],
+          adresse_livraison: {
+            rue: '15 Quai d\'Asnières',
+            ville: 'Villeneuve-la-Garenne',
+            code_postal: '92390',
+            pays: 'France'
+          }
+        },
+        {
+          id: '3',
+          numero_commande: 'CMD-2024-003',
+          client_email: currentUser.email || 'client@example.com',
+          date_commande: '2024-03-05',
+          statut: 'en_attente',
+          total: 295.00,
+          articles: [
+            { nom: 'Faire-part mariage - Floral Blanc Or', quantite: 100, prix: 2.50 },
+            { nom: 'Tableau d\'accueil personnalisé', quantite: 1, prix: 15.00 },
+            { nom: 'Menu de table - Élégant', quantite: 20, prix: 1.20 },
+            { nom: 'Marque-place personnalisé', quantite: 100, prix: 0.80 },
+            { nom: 'Cadeaux invités - Sachets lavandes', quantite: 100, prix: 1.50 }
+          ],
+          adresse_livraison: {
+            rue: '15 Quai d\'Asnières',
+            ville: 'Villeneuve-la-Garenne',
+            code_postal: '92390',
+            pays: 'France'
+          }
+        },
+        {
+          id: '4',
+          numero_commande: 'CMD-2024-004',
+          client_email: currentUser.email || 'client@example.com',
+          date_commande: '2024-02-28',
+          statut: 'livree',
+          total: 45.00,
+          articles: [
+            { nom: 'Boîte-cadeau personnalisée', quantite: 3, prix: 15.00 }
+          ],
+          adresse_livraison: {
+            rue: '15 Quai d\'Asnières',
+            ville: 'Villeneuve-la-Garenne',
+            code_postal: '92390',
+            pays: 'France'
+          }
+        }
+      ]
 
-      if (error) {
-        console.error('Erreur lors de la récupération des commandes:', error)
-      } else {
-        setCommandes(data || [])
-      }
-
+      setCommandes(demoCommandes)
       setLoading(false)
     }
 
@@ -60,6 +135,10 @@ export default function CommandesPage() {
       case 'en_attente':
         return 'bg-orange-100 text-orange-800'
       case 'payee':
+        return 'bg-blue-100 text-blue-800'
+      case 'expediee':
+        return 'bg-purple-100 text-purple-800'
+      case 'livree':
         return 'bg-green-100 text-green-800'
       case 'annulee':
         return 'bg-red-100 text-red-800'
@@ -74,6 +153,10 @@ export default function CommandesPage() {
         return 'En attente'
       case 'payee':
         return 'Payée'
+      case 'expediee':
+        return 'Expédiée'
+      case 'livree':
+        return 'Livrée'
       case 'annulee':
         return 'Annulée'
       default:
@@ -87,6 +170,10 @@ export default function CommandesPage() {
         return <Clock className="h-4 w-4" />
       case 'payee':
         return <CheckCircle className="h-4 w-4" />
+      case 'expediee':
+        return <Truck className="h-4 w-4" />
+      case 'livree':
+        return <Package className="h-4 w-4" />
       case 'annulee':
         return <XCircle className="h-4 w-4" />
       default:
@@ -107,10 +194,88 @@ export default function CommandesPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
+      {/* Breadcrumb - PREMIER ÉLÉMENT */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumb 
+          items={[
+            { label: "Accueil", href: "/" },
+            { label: "Mon compte", href: "/compte" },
+            { label: "Mes commandes" }
+          ]}
+        />
+      </div>
+
+      {/* Titre de la page - APRÈS le breadcrumb */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-gray-900">Mes Commandes</h1>
+            <Link 
+              href="/boutique" 
+              className="bg-[#8B4513] text-white px-6 py-2 rounded-lg hover:bg-[#6b3410] transition-colors"
+            >
+              Nouvelle commande
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Mes Commandes</h1>
-          <p className="text-gray-600">Consultez l'historique de vos commandes</p>
+        {/* Statistiques */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center">
+              <div className="p-3 bg-[#8B4513]/10 rounded-lg">
+                <Package className="h-6 w-6 text-[#8B4513]" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">Total commandes</p>
+                <p className="text-2xl font-bold text-gray-900">{commandes.length}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center">
+              <div className="p-3 bg-green-50 rounded-lg">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">Livrées</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {commandes.filter(c => c.statut === 'livree').length}
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center">
+              <div className="p-3 bg-blue-50 rounded-lg">
+                <Truck className="h-6 w-6 text-blue-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">En cours</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {commandes.filter(c => ['en_attente', 'payee', 'expediee'].includes(c.statut)).length}
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+            <div className="flex items-center">
+              <div className="p-3 bg-purple-50 rounded-lg">
+                <Eye className="h-6 w-6 text-purple-600" />
+              </div>
+              <div className="ml-4">
+                <p className="text-sm text-gray-600">Total dépensé</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {commandes.reduce((sum, c) => sum + c.total, 0).toFixed(2)}€
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -122,12 +287,12 @@ export default function CommandesPage() {
                   <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <h3 className="text-lg font-medium text-gray-900 mb-2">Aucune commande</h3>
                   <p className="text-gray-600 mb-4">Vous n'avez pas encore passé de commande.</p>
-                  <a 
+                  <Link 
                     href="/boutique" 
-                    className="inline-flex items-center bg-[#8B4513] text-white px-6 py-2 rounded-lg hover:bg-[#8B4513] transition-colors"
+                    className="inline-flex items-center bg-[#8B4513] text-white px-6 py-2 rounded-lg hover:bg-[#6b3410] transition-colors"
                   >
                     Commencer mes achats
-                  </a>
+                  </Link>
                 </div>
               ) : (
                 <div className="divide-y divide-gray-200">
@@ -162,7 +327,8 @@ export default function CommandesPage() {
                       </div>
                       
                       <div className="text-sm text-gray-600">
-                        {commande.articles.length} article{commande.articles.length > 1 ? 's' : ''}
+                        {commande.articles.length} article{commande.articles.length > 1 ? 's' : ''} • 
+                        {commande.adresse_livraison && ` ${commande.adresse_livraison.ville}`}
                       </div>
                     </div>
                   ))}
@@ -177,11 +343,11 @@ export default function CommandesPage() {
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-lg font-medium text-gray-900">
-                    Détail Commande #{selectedCommande.numero_commande}
+                    Commande #{selectedCommande.numero_commande}
                   </h3>
                   <button
                     onClick={() => setSelectedCommande(null)}
-                    className="text-gray-400 hover:text-gray-600"
+                    className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
                   >
                     ×
                   </button>
@@ -203,27 +369,53 @@ export default function CommandesPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Total:</span>
-                    <span className="font-bold text-lg">
+                    <span className="font-bold text-lg text-[#8B4513]">
                       {selectedCommande.total.toFixed(2)}€
                     </span>
                   </div>
                 </div>
 
+                {selectedCommande.adresse_livraison && (
+                  <div className="border-t border-gray-200 pt-4 mb-6">
+                    <h4 className="font-medium text-gray-900 mb-3">Adresse de livraison</h4>
+                    <div className="text-sm text-gray-600">
+                      <p>{selectedCommande.adresse_livraison.rue}</p>
+                      <p>{selectedCommande.adresse_livraison.code_postal} {selectedCommande.adresse_livraison.ville}</p>
+                      <p>{selectedCommande.adresse_livraison.pays}</p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="border-t border-gray-200 pt-4">
-                  <h4 className="font-medium text-gray-900 mb-3">Articles</h4>
+                  <h4 className="font-medium text-gray-900 mb-3">Articles ({selectedCommande.articles.length})</h4>
                   <div className="space-y-3">
                     {selectedCommande.articles.map((article, index) => (
                       <div key={index} className="flex justify-between text-sm">
-                        <div>
+                        <div className="flex-1">
                           <p className="font-medium text-gray-900">{article.nom}</p>
                           <p className="text-gray-600">Quantité: {article.quantite}</p>
                         </div>
-                        <p className="font-medium">
+                        <p className="font-medium text-right">
                           {(article.prix * article.quantite).toFixed(2)}€
                         </p>
                       </div>
                     ))}
                   </div>
+                  <div className="border-t border-gray-200 mt-4 pt-4">
+                    <div className="flex justify-between font-bold">
+                      <span>Total:</span>
+                      <span className="text-lg text-[#8B4513]">{selectedCommande.total.toFixed(2)}€</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 space-y-2">
+                  <button className="w-full bg-[#8B4513] text-white px-4 py-2 rounded-lg hover:bg-[#6b3410] transition-colors">
+                    Contacter le service client
+                  </button>
+                  <button className="w-full border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
+                    Télécharger la facture
+                  </button>
                 </div>
               </div>
             ) : (

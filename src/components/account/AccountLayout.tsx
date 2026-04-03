@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { signOut, getUser } from '@/lib/auth'
-import { User, ShoppingBag, MapPin, LogOut, Package, CreditCard } from 'lucide-react'
+import { User, ShoppingBag, MapPin, LogOut, Package, CreditCard, Gift, LayoutDashboard, Crown, ChevronRight } from 'lucide-react'
 
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<any>(null)
@@ -44,6 +44,18 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
 
   const menuItems = [
     {
+      label: 'Mon tableau de bord',
+      href: '/compte/tableau-de-bord',
+      icon: LayoutDashboard,
+      active: pathname === '/compte/tableau-de-bord'
+    },
+    {
+      label: "Mon programme fidélité Jay's Club",
+      href: '/compte/jays-club',
+      icon: Crown,
+      active: pathname === '/compte/jays-club'
+    },
+    {
       label: 'Mon profil',
       href: '/compte/profil',
       icon: User,
@@ -54,6 +66,12 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
       href: '/compte/commandes',
       icon: ShoppingBag,
       active: pathname === '/compte/commandes'
+    },
+    {
+      label: 'Mes réductions',
+      href: '/compte/reductions',
+      icon: Gift,
+      active: pathname === '/compte/reductions'
     },
     {
       label: 'Mes adresses',
@@ -113,9 +131,9 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="lg:w-80 xl:w-96 flex-shrink-0">
             <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
               <nav className="space-y-2">
                 {menuItems.map((item) => {
@@ -130,8 +148,11 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                           : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                       }`}
                     >
-                      <Icon className="h-4 w-4" />
-                      <span>{item.label}</span>
+                      <Icon className="h-4 w-4 flex-shrink-0" />
+                      <span className="whitespace-nowrap flex-1">{item.label}</span>
+                      <ChevronRight className={`h-4 w-4 flex-shrink-0 ${
+                        item.active ? 'text-[#8B4513]' : 'text-gray-600'
+                      }`} />
                     </Link>
                   )
                 })}
@@ -141,8 +162,9 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                     onClick={handleSignOut}
                     className="flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors w-full"
                   >
-                    <LogOut className="h-4 w-4" />
-                    <span>Déconnexion</span>
+                    <LogOut className="h-4 w-4 flex-shrink-0" />
+                    <span className="whitespace-nowrap flex-1">Déconnexion</span>
+                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-red-600" />
                   </button>
                 </div>
               </nav>
@@ -150,7 +172,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
           </div>
 
           {/* Contenu principal */}
-          <div className="lg:col-span-3">
+          <div className="flex-1 min-w-0">
             {children}
           </div>
         </div>
