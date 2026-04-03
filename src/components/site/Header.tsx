@@ -178,18 +178,8 @@ export default function Header() {
 
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const currentUser = await getUser();
-        setUser(currentUser);
-      } catch (error) {
-        // Ne pas lancer d'erreur, simplement définir user à null
-        console.error('Error checking user authentication:', error);
-        setUser(null);
-      }
-    };
-    
-    checkUser();
+    // Temporarily disabled for testing
+    setUser(null);
   }, []);
 
   // Debug pour voir les articles dans la console
@@ -422,12 +412,13 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
-              src="/images/logo/LOGO (2).png"
+              src="/images/logo/logo.png"
               alt="Jay's Creations Design"
               width={60}
               height={60}
               className="object-contain"
               priority
+              style={{ width: 'auto', height: '60px' }}
             />
             <div className="leading-tight hidden sm:block">
               <div className="font-heading text-xl font-bold tracking-wide text-foreground">
