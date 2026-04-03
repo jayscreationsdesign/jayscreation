@@ -32,6 +32,7 @@ export async function signUp(email: string, password: string, metadata: { prenom
       email,
       password,
       options: {
+        emailRedirectTo: undefined,
         data: metadata
       }
     })

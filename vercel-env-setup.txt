@@ -1,0 +1,15 @@
+# Configuration des variables d'environnement Supabase pour Vercel
+
+# Commandes à exécuter dans votre terminal :
+vercel env add NEXT_PUBLIC_SUPABASE_URL
+# Entrez : https://rtttjomxnchffqqaafxa.supabase.co
+
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+# Entrez : sb_publishable_3PozHAlMVkepB1e-Lx-65A_w3emg2HN
+
+# Ou en une seule commande :
+vercel env add NEXT_PUBLIC_SUPABASE_URL --value=https://rtttjomxnchffqqaafxa.supabase.co
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY --value=sb_publishable_3PozHAlMVkepB1e-Lx-65A_w3emg2HN
+
+# Pour vérifier les variables configurées :
+vercel env ls

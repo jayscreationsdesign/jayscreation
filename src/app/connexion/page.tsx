@@ -12,6 +12,7 @@ export default function ConnexionPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
   const router = useRouter()
 
   // États pour le formulaire de connexion
@@ -29,6 +30,7 @@ export default function ConnexionPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    setSuccess('')
 
     const result = await signIn(signinEmail, signinPassword)
     
@@ -63,7 +65,20 @@ export default function ConnexionPage() {
     if (result.error) {
       setError(result.error.message)
     } else {
-      router.push('/compte')
+      // Inscription réussie - connexion immédiate sans confirmation email
+      // Si l'utilisateur est déjà dans la réponse, on le redirige directement
+      if (result.data.user) {
+        router.push('/compte')
+      } else {
+        // Sinon, on tente une connexion automatique
+        const signInResult = await signIn(signupEmail, signupPassword)
+        if (!signInResult.error) {
+          router.push('/compte')
+        } else {
+          setError('Compte créé mais erreur de connexion automatique. Veuillez vous connecter manuellement.')
+          setActiveTab('signin')
+        }
+      }
     }
     
     setLoading(false)
@@ -123,6 +138,13 @@ export default function ConnexionPage() {
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
               {error}
+            </div>
+          )}
+
+          {/* Message de succès */}
+          {success && (
+            <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
+              {success}
             </div>
           )}
 
@@ -290,6 +312,12 @@ export default function ConnexionPage() {
               >
                 {loading ? 'Création...' : 'Créer un compte'}
               </button>
+
+              {/* Message informatif */}
+              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
+                <p className="font-medium mb-1">✅ Inscription immédiate</p>
+                <p>Aucune confirmation par email requise. Vous serez connecté automatiquement après la création de votre compte.</p>
+              </div>
             </form>
           )}
 

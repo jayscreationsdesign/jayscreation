@@ -127,7 +127,7 @@ export default function ProductCard({
           href={`/produit/${product.slug}`}
           className="px-4 py-2 text-sm"
         >
-          Voir →
+          Voir
         </PrimaryCtaButton>
       </div>
     </div>

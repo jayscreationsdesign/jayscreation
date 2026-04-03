@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 
 export default function PanierPage() {
   const { items, removeItem, updateQuantite, clearCart } = useCartStore();
+  const [codePromo, setCodePromo] = useState('');
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoError, setPromoError] = useState('');
   
   const sousTotal = items.reduce(
     (acc, item) => acc + (item.prix * item.quantite), 0
@@ -19,12 +23,36 @@ export default function PanierPage() {
     }).format(price);
   };
 
+  const handleApplyPromo = () => {
+    setPromoError('');
+    
+    if (!codePromo.trim()) {
+      setPromoError('Veuillez entrer un code promo');
+      return;
+    }
+    
+    // Code pour 100% de réduction
+    if (codePromo.toUpperCase() === 'JAYS100') {
+      setPromoApplied(true);
+      setPromoError('');
+    } else {
+      setPromoError('Code promo invalide');
+    }
+  };
+
+  const getRemise = () => {
+    if (!promoApplied || codePromo.toUpperCase() !== 'JAYS100') return 0;
+    return sousTotal; // 100% de réduction
+  };
+
+  const totalAvecRemise = sousTotal - getRemise();
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
         <div className="text-center bg-white rounded-3xl border border-[#E8E4DF] px-10 py-12 shadow-[0_18px_45px_rgba(0,0,0,0.04)] max-w-md">
           <div className="bg-[#FAF7F2] rounded-full p-3 mx-auto mb-4 w-fit">
-            <ShoppingBag size={48} className="text-[#C8A96E]" />
+            <ShoppingBag size={48} className="text-[#8B4513]" />
           </div>
           <h2 className="text-[#2C1A0E] font-semibold text-xl mb-2">
             Votre panier est vide
@@ -51,15 +79,12 @@ export default function PanierPage() {
             <ArrowLeft size={20} />
             <span className="font-medium">Continuer mes achats</span>
           </Link>
-          <h1 className="text-3xl font-bold text-jc-text">
+          <h1 className="text-3xl font-bold text-[#8B4513]">
             Mon Panier ({items.reduce((sum, item) => sum + item.quantite, 0)} articles)
           </h1>
-          <button
-            onClick={clearCart}
-            className="cursor-pointer text-sm text-red-400 hover:text-red-500 border border-red-200 px-4 py-2 rounded-full transition-colors"
-          >
+          <PrimaryCtaButton onClick={clearCart} showArrow={false} className="text-sm">
             Vider le panier
-          </button>
+          </PrimaryCtaButton>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -84,13 +109,13 @@ export default function PanierPage() {
                 <div className="flex-1 min-w-0">
                   <div className="mb-2">
                     <Link href={`/produit/${item.slug}`}
-                      className="cursor-pointer font-semibold text-[#2C2C2C] 
-                      hover:text-[#C8A96E] hover:underline transition-colors 
+                      className="cursor-pointer font-semibold text-[#8B4513] 
+                      hover:text-[#6b3410] hover:underline transition-colors 
                       block truncate">
                       {item.nom}
                     </Link>
                     {item.theme && (
-                      <span className="text-xs text-[#C8A96E] capitalize ml-2">
+                      <span className="text-xs text-[#8B4513] capitalize ml-2">
                         Thème : {item.theme}
                       </span>
                     )}
@@ -100,17 +125,17 @@ export default function PanierPage() {
                     <button
                       onClick={() => updateQuantite(item.id, Math.max(1, item.quantite - 1))}
                       className="cursor-pointer w-8 h-8 rounded-full border border-[#E8E4DF] 
-                      flex items-center justify-center hover:border-[#C8A96E] transition-colors"
+                      flex items-center justify-center hover:border-[#8B4513] transition-colors"
                     >
                       <Minus size={14} />
                     </button>
-                    <span className="w-12 text-center font-medium text-[#2C2C2C]">
+                    <span className="w-12 text-center font-medium text-[#8B4513]">
                       {item.quantite}
                     </span>
                     <button
                       onClick={() => updateQuantite(item.id, item.quantite + 1)}
                       className="cursor-pointer w-8 h-8 rounded-full border border-[#E8E4DF] 
-                      flex items-center justify-center hover:border-[#C8A96E] transition-colors"
+                      flex items-center justify-center hover:border-[#8B4513] transition-colors"
                     >
                       <Plus size={14} />
                     </button>
@@ -119,13 +144,13 @@ export default function PanierPage() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm text-[#6B6B6B]">Prix unitaire</p>
-                      <p className="font-bold text-[#2C2C2C]">
+                      <p className="font-bold text-[#8B4513]">
                         {formatPrice(item.prix)}
                       </p>
                     </div>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="cursor-pointer text-red-400 hover:text-red-500 transition-colors"
+                      className="cursor-pointer text-[#8B4513] hover:text-[#6b3410] transition-colors"
                     >
                       <Trash2 size={18} />
                     </button>
@@ -138,17 +163,98 @@ export default function PanierPage() {
           {/* Récapitulatif */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl p-6 border border-[#E8E4DF] sticky top-8">
-              <h2 className="text-lg font-bold text-[#2C2C2C] mb-6">
+              <h2 className="text-lg font-bold text-[#8B4513] mb-6">
                 Récapitulatif
               </h2>
               
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-[#6B6B6B]">Sous-total</span>
-                  <span className="font-medium text-[#2C2C2C]">
+                  <span className="font-medium text-[#8B4513]">
                     {formatPrice(sousTotal)}
                   </span>
                 </div>
+                
+                {/* Section Coupon */}
+                <div className="border-t border-[#E8E4DF] pt-4">
+                  <div className="bg-gradient-to-r from-[#8B4513] to-[#A0522D] p-4 rounded-xl mb-4 shadow-lg">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="bg-white p-2 rounded-full">
+                        <Tag size={20} className="text-[#8B4513]" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-bold text-lg">Coupon de réduction</h3>
+                        <p className="text-white/90 text-sm">Économisez 100% sur votre commande !</p>
+                      </div>
+                    </div>
+                    
+                    {!promoApplied ? (
+                      <div className="space-y-3">
+                        <input
+                          type="text"
+                          value={codePromo}
+                          onChange={(e) => setCodePromo(e.target.value)}
+                          placeholder="Entrez votre code coupon"
+                          className="w-full px-4 py-3 border-2 border-white/30 rounded-lg text-sm focus:outline-none focus:border-white focus:ring-2 focus:ring-white/20 bg-white/95 placeholder-gray-500 mb-3"
+                        />
+                        <button
+                          onClick={handleApplyPromo}
+                          className="w-full px-4 py-3 bg-white text-[#8B4513] rounded-lg text-sm font-bold hover:bg-gray-100 transition-colors shadow-md"
+                        >
+                          Appliquer le coupon
+                        </button>
+                        {promoError && (
+                          <div className="bg-red-500/20 border border-red-400 p-2 rounded-lg">
+                            <p className="text-red-100 text-xs font-medium">{promoError}</p>
+                          </div>
+                        )}
+                        <div className="bg-white/20 backdrop-blur p-3 rounded-lg">
+                          <p className="text-white text-xs font-medium mb-2">🎉 Code spécial disponible :</p>
+                          <div className="flex items-center justify-between">
+                            <code className="bg-white/30 px-3 py-1 rounded text-white font-bold text-sm">JAYS100</code>
+                            <span className="text-white/90 text-xs">100% de réduction</span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-green-500/20 backdrop-blur border-2 border-green-400 p-4 rounded-lg">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="bg-green-400 p-2 rounded-full">
+                              <span className="text-white text-lg">🎉</span>
+                            </div>
+                            <div>
+                              <span className="text-white font-bold text-sm">
+                                Coupon JAYS100 appliqué !
+                              </span>
+                              <p className="text-white/90 text-xs">Commande gratuite</p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setPromoApplied(false);
+                              setCodePromo('');
+                              setPromoError('');
+                            }}
+                            className="bg-white/20 hover:bg-white/30 text-white px-3 py-1 rounded text-xs font-medium transition-colors"
+                          >
+                            Supprimer
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {getRemise() > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-green-600 font-medium">Réduction (100%)</span>
+                    <span className="text-green-600 font-medium">
+                      -{formatPrice(getRemise())}
+                    </span>
+                  </div>
+                )}
+                
                 <div className="flex justify-between text-sm">
                   <span className="text-[#6B6B6B]">Livraison</span>
                   <span className="text-green-600 font-medium">Gratuite</span>
@@ -162,7 +268,7 @@ export default function PanierPage() {
               <div className="border-t border-[#E8E4DF] pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-xl font-bold text-[#2C2C2C]">Total</span>
-                  <span className="text-2xl font-bold text-[#C8A96E]">
+                  <span className="text-2xl font-bold text-[#8B4513]">
                     {formatPrice(sousTotal)}
                   </span>
                 </div>
@@ -177,20 +283,12 @@ export default function PanierPage() {
               
               {/* Boutons d'action */}
               <div className="space-y-3 mt-6">
-                <Link href="/commande">
-                  <button className="cursor-pointer w-full bg-white text-[#C8A96E] 
-                    text-center py-4 rounded-full font-medium hover:bg-white/90 
-                    transition-colors border border-[#C8A96E]">
-                    Commander
-                  </button>
-                </Link>
-                <Link href="/boutique">
-                  <button className="cursor-pointer w-full bg-white text-[#C8A96E] 
-                    text-center py-4 rounded-full font-medium hover:bg-white/90 
-                    transition-colors border border-[#C8A96E]">
-                    Continuer mes achats
-                  </button>
-                </Link>
+                <PrimaryCtaButton href="/commande" className="w-full">
+                  Commander
+                </PrimaryCtaButton>
+                <PrimaryCtaButton href="/boutique" className="w-full">
+                  Continuer mes achats
+                </PrimaryCtaButton>
               </div>
             </div>
           </div>
