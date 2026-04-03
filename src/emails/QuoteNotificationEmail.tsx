@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Heading, Text, Row, Column } from '@react-email/components';
-import EmailLayout from './EmailLayout';
+import EmailLayout from './components/EmailLayout';
 
 interface QuoteNotificationEmailProps {
   customerName: string;

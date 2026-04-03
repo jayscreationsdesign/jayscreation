@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Heading, Text, Row, Column } from '@react-email/components';
-import EmailLayout from './EmailLayout';
+import { EmailLayout } from './components/EmailLayout';
+import { Button, Text } from '@react-email/components';
 
 interface StockAlertEmailProps {
   productName: string;
@@ -8,66 +8,60 @@ interface StockAlertEmailProps {
 }
 
 export function StockAlertEmail({ productName, productId }: StockAlertEmailProps) {
-  const supabaseUrl = 'https://rtttjmonchffqqaafxh.supabase.co';
-
   return (
-    <EmailLayout preview={`⚠️ Rupture de stock`}>
-      <Heading style={{ color: '#D32F2F', fontSize: '28px', fontFamily: 'Playfair Display, serif' }}>
-        ⚠️ Rupture de stock
-      </Heading>
+    <EmailLayout preview="⚠️ Rupture de stock">
+      <Text style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 'bold', color: '#333333', margin: '0 0 16px 0' }}>
+        Alerte stock ⚠️
+      </Text>
       
-      <Text style={{ color: '#333333', fontSize: '16px', lineHeight: '1.6' }}>
-        Le produit <strong>{productName}</strong> (ID: {productId}) est en rupture de stock.
+      <Text style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: '#333333', lineHeight: '1.6', margin: '0 0 24px 0' }}>
+        Attention, un produit est en rupture de stock sur la boutique :
       </Text>
-
-      {/* Bloc d'alerte */}
-      <div style={{ 
-        backgroundColor: '#FFEBEE', 
-        border: '1px solid #F44336',
-        padding: '16px', 
-        borderRadius: '8px', 
-        marginTop: '24px'
+      
+      <div style={{
+        backgroundColor: '#F5F3EF',
+        padding: '16px',
+        borderRadius: '8px',
+        margin: '16px 0',
+        fontFamily: 'Inter, sans-serif',
+        color: '#333333'
       }}>
-        <Text style={{ color: '#D32F2F', fontSize: '14px', fontWeight: '600', margin: '0 0 8px 0' }}>
-          Action requise :
-        </Text>
-        <Text style={{ color: '#D32F2F', fontSize: '14px', lineHeight: '1.6', margin: 0 }}>
-          Ce produit ne peut plus être vendu tant que le stock n'est pas réapprovisionné. 
-          Veuillez mettre à jour le stock ou désactiver temporairement le produit.
-        </Text>
+        <p style={{ margin: '0 0 8px 0' }}><strong>Produit :</strong> {productName}</p>
+        <p style={{ margin: '0 0 0 0' }}><strong>ID :</strong> {productId}</p>
       </div>
-
-      <Text style={{ color: '#333333', fontSize: '16px', lineHeight: '1.6', marginTop: '24px' }}>
-        Conséquences :
+      
+      <Text style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: '#333333', lineHeight: '1.6', margin: '0 0 24px 0' }}>
+        Ce produit n'est plus disponible à la vente. Les clients ne pourront plus le commander tant que le stock ne sera pas réapprovisionné.
       </Text>
-      <ul style={{ color: '#666666', fontSize: '14px', lineHeight: '1.6', marginTop: '8px' }}>
-        <li>Le produit n'est plus visible sur la boutique</li>
-        <li>Les clients ne peuvent plus l'ajouter au panier</li>
-        <li>Les commandes en cours ne sont pas affectées</li>
+      
+      <Text style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: '#333333', lineHeight: '1.6', margin: '0 0 24px 0' }}>
+        <strong>Actions recommandées :</strong>
+      </Text>
+      
+      <ul style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: '#333333', lineHeight: '1.6', margin: '0 0 32px 0', paddingLeft: '20px' }}>
+        <li style={{ marginBottom: '8px' }}>Réapprovisionner le stock dans Supabase</li>
+        <li style={{ marginBottom: '8px' }}>Ou masquer temporairement le produit de la boutique</li>
+        <li style={{ marginBottom: '0' }}>Vérifier si des commandes en attente sont impactées</li>
       </ul>
-
-      {/* Bouton pour gérer le stock */}
-      <Row style={{ marginTop: '32px', textAlign: 'center' }}>
-        <Column>
-          <Button
-            href={`${supabaseUrl}/project/default/editor`}
-            style={{
-              backgroundColor: '#D32F2F',
-              color: '#FFFFFF',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: '600',
-              fontSize: '16px',
-            }}
-          >
-            Gérer le stock →
-          </Button>
-        </Column>
-      </Row>
-
-      <Text style={{ color: '#666666', fontSize: '14px', marginTop: '24px' }}>
-        Cette alerte est générée automatiquement lorsque le stock d'un produit atteint 0.
+      
+      <Button
+        href="https://supabase.com/dashboard/project/rtttjmonchffqqaafxh/editor"
+        style={{
+          backgroundColor: '#C8A96E',
+          color: '#FFFFFF',
+          padding: '12px 24px',
+          borderRadius: '8px',
+          textDecoration: 'none',
+          fontFamily: 'Inter, sans-serif',
+          fontWeight: '500',
+          display: 'inline-block'
+        }}
+      >
+        Gérer le stock →
+      </Button>
+      
+      <Text style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#999999', lineHeight: '1.5', margin: '32px 0 0 0', borderTop: '1px solid #F5F3EF', paddingTop: '16px' }}>
+        Cet email est une notification automatique du site jayscreationsdesign.fr
       </Text>
     </EmailLayout>
   );
