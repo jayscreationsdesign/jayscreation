@@ -75,16 +75,27 @@ export function getSenderEmail(sender: EmailSender): string {
 
 // Fonction pour vérifier la connexion des transporteurs
 export async function verifyTransporters(): Promise<{ commande: boolean; contact: boolean }> {
+  console.log('🔍 Vérification des transporteurs SMTP...');
+  
   try {
+    console.log('📧 Test transporteur commande...');
     const commandeVerified = await commandeTransporter.verify();
+    console.log(`   ✅ Commande: ${commandeVerified ? 'CONNECTÉ' : 'ÉCHEC'}`);
+    
+    console.log('📧 Test transporteur contact...');
     const contactVerified = await contactTransporter.verify();
+    console.log(`   ✅ Contact: ${contactVerified ? 'CONNECTÉ' : 'ÉCHEC'}`);
     
     return {
       commande: commandeVerified,
       contact: contactVerified,
     };
   } catch (error) {
-    console.error('Erreur vérification transporteurs:', error);
+    console.error('❌ Erreur vérification transporteurs:', error);
+    if (error instanceof Error) {
+      console.error(`   Message: ${error.message}`);
+      console.error(`   Code: ${(error as any).code || 'N/A'}`);
+    }
     return {
       commande: false,
       contact: false,

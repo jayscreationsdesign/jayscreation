@@ -26,10 +26,14 @@ function checkRateLimit(ip: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('📧 Requête API emails reçue');
+    
     // Vérifier le secret API
     const apiSecret = request.headers.get('x-api-secret');
+    console.log('🔑 Vérification secret API:', apiSecret ? 'PRÉSENT' : 'MANQUANT');
+    
     if (apiSecret !== process.env.EMAIL_API_SECRET) {
-      console.error('❌ API Secret invalide');
+      console.error('❌ API Secret invalide. Attendu:', process.env.EMAIL_API_SECRET ? 'CONFIGURÉ' : 'NON CONFIGURÉ');
       return NextResponse.json(
         { success: false, error: 'Non autorisé' },
         { status: 401 }
@@ -37,7 +41,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Rate limiting
-    const ip = request.ip || 'unknown';
+    const forwarded = request.headers.get('x-forwarded-for');
+    const ip = forwarded ? forwarded.split(',')[0] : 'unknown';
     if (!checkRateLimit(ip)) {
       console.error('❌ Rate limit dépassé pour IP:', ip);
       return NextResponse.json(
@@ -48,9 +53,12 @@ export async function POST(request: NextRequest) {
 
     // Parser le body
     const body = await request.json();
+    console.log('📋 Body reçu:', JSON.stringify(body, null, 2));
+    
     const { type, data }: { type: EmailType; data: any } = body;
 
     if (!type || !data) {
+      console.error('❌ Type ou data manquant');
       return NextResponse.json(
         { success: false, error: 'Type et data sont requis' },
         { status: 400 }
@@ -71,6 +79,19 @@ export async function POST(request: NextRequest) {
           subject: 'Bienvenue chez Jay\'s Creations Design ✨',
           from: 'contact',
           react: React.createElement(WelcomeEmail, { prenom, email }),
+        });
+        break;
+      }
+
+      case 'signup-notification': {
+        const { prenom, nom, email, date } = data;
+        const { SignupNotificationEmail } = await import('@/emails/SignupNotificationEmail');
+        result = await sendEmail({
+          type,
+          to: 'contact@jayscreationsdesign.fr', // Envoyer à l'admin
+          subject: `🔔 Nouveau compte client : ${prenom} ${nom}`,
+          from: 'contact',
+          react: React.createElement(SignupNotificationEmail, { prenom, nom, email, date }),
         });
         break;
       }

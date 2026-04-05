@@ -1,10 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Activer Turbopack (normalement déjà fait avec Next 16)
   turbopack: {
     root: __dirname,
   },
+  
+  // Désactiver les source maps en dev si pas nécessaire
+  productionBrowserSourceMaps: false,
+  
+  // Optimiser les images
   images: {
+    minimumCacheTTL: 60,
     remotePatterns: [
       {
         protocol: "https",
@@ -14,9 +21,9 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  typescript: {
-    ignoreBuildErrors: true
-  }
+  
+  // Désactiver les checks TypeScript au build (on les fait séparément)
+  typescript: { ignoreBuildErrors: false },
 };
 
 export default nextConfig;

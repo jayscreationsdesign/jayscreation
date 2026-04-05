@@ -5,6 +5,7 @@ import { getTransporter, getSenderEmail, type EmailSender } from './mailer';
 // Types pour les emails
 export type EmailType = 
   | 'welcome' 
+  | 'signup-notification'
   | 'order-confirmation' 
   | 'order-notification' 
   | 'quote-request' 

@@ -27,21 +27,81 @@ export async function signIn(email: string, password: string) {
 }
 
 export async function signUp(email: string, password: string, metadata: { prenom: string; nom: string }) {
-  try {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: undefined,
-        data: metadata
-      }
-    })
-    
-    if (error) throw error
-    return { data, error: null }
-  } catch (error) {
-    return { data: null, error: error as AuthError }
+  console.log('Tentative création compte:', email)
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { prenom: metadata.prenom, nom: metadata.nom },
+    },
+  })
+
+  if (error) {
+    console.error('SignUp error:', error.message)
+    throw error
   }
+
+  if (!data?.user?.id) {
+    throw new Error('Le compte n\'a pas pu être créé. Veuillez réessayer.')
+  }
+
+  console.log('Compte créé avec succès:', data.user.id)
+
+  // Envoyer notre email de bienvenue avec coupon BIENVENUE10 via Nodemailer/Ionos (NON BLOQUANT)
+  // Cet email est EN PLUS de l'email de confirmation Supabase
+  try {
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
+    await fetch(`${baseUrl}/api/emails/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-secret': process.env.NEXT_PUBLIC_EMAIL_API_SECRET || 'jcd2026secret',
+      },
+      body: JSON.stringify({
+        type: 'welcome',
+        data: { prenom: metadata.prenom, email },
+      }),
+    })
+    console.log('Email bienvenue envoyé')
+  } catch (emailError) {
+    console.error('Email bienvenue non envoyé (non bloquant):', emailError)
+  }
+
+  // Notifier l'admin (NON BLOQUANT)
+  try {
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
+    await fetch(`${baseUrl}/api/emails/send`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-secret': process.env.NEXT_PUBLIC_EMAIL_API_SECRET || 'jcd2026secret',
+      },
+      body: JSON.stringify({
+        type: 'signup-notification',
+        data: {
+          prenom: metadata.prenom,
+          nom: metadata.nom,
+          email,
+          date: new Date().toLocaleDateString('fr-FR', {
+            day: 'numeric', month: 'long', year: 'numeric',
+            hour: '2-digit', minute: '2-digit',
+          }),
+        },
+      }),
+    })
+    console.log('Notification admin envoyée')
+  } catch (emailError) {
+    console.error('Notification admin non envoyée (non bloquant):', emailError)
+  }
+
+  return data
 }
 
 export async function signOut() {

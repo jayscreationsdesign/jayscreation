@@ -4,17 +4,35 @@ import { sendEmail, emailTemplates } from './email-service';
 
 export async function triggerWelcomeEmail(user: { email: string; name?: string }) {
   try {
-    const template = emailTemplates.welcomeCustomer(user.email, user.name || 'Cher client');
-    await sendEmail({
-      to: template.to,
-      subject: template.subject,
-      html: template.html,
-      from: template.from, // Utilise votre adresse IONOS
-      replyTo: 'contact@jayscreationsdesign.fr'
+    console.log('📧 Envoi email de bienvenue via API route...');
+    
+    const response = await fetch('/api/emails/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-secret': process.env.EMAIL_API_SECRET || 'default-secret',
+      },
+      body: JSON.stringify({
+        type: 'welcome',
+        data: {
+          prenom: user.name?.split(' ')[0] || 'Cher client',
+          email: user.email,
+        },
+      }),
     });
-    console.log('✅ Email de bienvenue envoyé depuis commande@jayscreationsdesign.fr à:', user.email);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('❌ Erreur API email:', errorData);
+      throw new Error(errorData.error || 'Erreur envoi email');
+    }
+
+    const result = await response.json();
+    console.log('✅ Email de bienvenue envoyé avec succès:', result);
+    
   } catch (error) {
     console.error('❌ Erreur email bienvenue:', error);
+    throw error; // Propager l'erreur pour le try/catch dans le composant
   }
 }
 

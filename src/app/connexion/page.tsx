@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { signIn, signUp, signInWithGoogle } from '@/lib/auth'
-import { triggerWelcomeEmail } from '@/lib/email-triggers'
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react'
 
 export default function ConnexionPage() {
@@ -61,32 +60,14 @@ export default function ConnexionPage() {
       return
     }
 
-    const result = await signUp(signupEmail, signupPassword, { prenom, nom })
-    
-    if (result.error) {
-      setError(result.error.message)
-    } else {
-      // Inscription réussie - envoyer email de bienvenue
-      await triggerWelcomeEmail({
-        email: signupEmail,
-        name: `${prenom} ${nom}`.trim()
-      });
-      
-      // Connexion immédiate sans confirmation email
-      // Si l'utilisateur est déjà dans la réponse, on le redirige directement
-      if (result.data.user) {
-        router.push('/compte')
-      } else {
-        // Sinon, on tente une connexion automatique
-        const signInResult = await signIn(signupEmail, signupPassword)
-        if (!signInResult.error) {
-          router.push('/compte')
-        } else {
-          setError('Compte créé mais erreur de connexion automatique. Veuillez vous connecter manuellement.')
-        }
-      }
+    try {
+      const data = await signUp(signupEmail, signupPassword, { prenom, nom })
+      // Succès — rediriger vers /compte
+      router.push('/compte')
+    } catch (err: any) {
+      setError(err.message || 'Erreur lors de la création du compte')
     }
-    setActiveTab('signin')
+    
     setLoading(false)
   }
 
@@ -195,6 +176,12 @@ export default function ConnexionPage() {
                   >
                     {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                   </button>
+                </div>
+                
+                <div className="text-right">
+                  <a href="/mot-de-passe-oublie" className="text-sm text-[#C8A96E] hover:underline">
+                    Mot de passe oublié ?
+                  </a>
                 </div>
               </div>
 
@@ -319,12 +306,7 @@ export default function ConnexionPage() {
                 {loading ? 'Création...' : 'Créer un compte'}
               </button>
 
-              {/* Message informatif */}
-              <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
-                <p className="font-medium mb-1">✅ Inscription immédiate</p>
-                <p>Aucune confirmation par email requise. Vous serez connecté automatiquement après la création de votre compte.</p>
-              </div>
-            </form>
+                          </form>
           )}
 
           {/* Séparateur */}
