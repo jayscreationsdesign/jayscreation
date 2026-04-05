@@ -121,14 +121,14 @@ export default function ImageCarousel({
           <button
             onClick={goToPrevious}
             className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200 z-10"
-            aria-label="Previous image"
+            aria-label="Image précédente"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={goToNext}
             className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200 z-10"
-            aria-label="Next image"
+            aria-label="Image suivante"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -147,7 +147,7 @@ export default function ImageCarousel({
                   ? "bg-[#8B4513] w-6"
                   : "bg-white/60 hover:bg-white/80"
               }`}
-              aria-label={`Go to image ${index + 1}`}
+              aria-label={`Aller à l'image ${index + 1}`}
             />
           ))}
         </div>

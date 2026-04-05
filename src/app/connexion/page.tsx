@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { signIn, signUp, signInWithGoogle } from '@/lib/auth'
+import { translateError } from '@/lib/error-messages'
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react'
 
 export default function ConnexionPage() {
@@ -35,7 +36,7 @@ export default function ConnexionPage() {
     const result = await signIn(signinEmail, signinPassword)
     
     if (result.error) {
-      setError(result.error.message)
+      setError(translateError(result.error.message))
     } else {
       router.push('/compte')
     }
@@ -62,10 +63,19 @@ export default function ConnexionPage() {
 
     try {
       const data = await signUp(signupEmail, signupPassword, { prenom, nom })
-      // Succès — rediriger vers /compte
-      router.push('/compte')
+      
+      // Déconnecter immédiatement l'utilisateur pour qu'il ne puisse pas accéder au compte
+      const { createClient } = await import('@supabase/supabase-js')
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      )
+      await supabase.auth.signOut()
+      
+      // Rediriger vers la page de confirmation
+      router.push(`/confirmation-email?email=${encodeURIComponent(signupEmail)}`)
     } catch (err: any) {
-      setError(err.message || 'Erreur lors de la création du compte')
+      setError(translateError(err.message) || 'Erreur lors de la création du compte')
     }
     
     setLoading(false)
@@ -78,7 +88,10 @@ export default function ConnexionPage() {
     const result = await signInWithGoogle()
     
     if (result.error) {
-      setError(result.error.message)
+      setError(translateError(result.error.message) || 'Erreur lors de la connexion avec Google')
+    } else {
+      // Google OAuth fonctionne directement, pas besoin de confirmation email
+      router.push('/compte')
     }
     
     setLoading(false)

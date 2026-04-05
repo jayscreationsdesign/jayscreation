@@ -44,86 +44,30 @@ export default function CommandesPage() {
 
       setUser(currentUser)
 
-      // Données de démonstration pour l'interface
-      const demoCommandes: Commande[] = [
-        {
-          id: '1',
-          numero_commande: 'CMD-2024-001',
-          client_email: currentUser.email || 'client@example.com',
-          date_commande: '2024-03-15',
-          statut: 'payee',
-          total: 125.50,
-          articles: [
-            { nom: 'Faire-part mariage - Floral Blanc Or', quantite: 50, prix: 2.50 },
-            { nom: 'Tableau d\'accueil personnalisé', quantite: 2, prix: 15.00 },
-            { nom: 'Menu de table - Élégant', quantite: 10, prix: 1.20 }
-          ],
-          adresse_livraison: {
-            rue: '15 Quai d\'Asnières',
-            ville: 'Villeneuve-la-Garenne',
-            code_postal: '92390',
-            pays: 'France'
-          }
-        },
-        {
-          id: '2',
-          numero_commande: 'CMD-2024-002',
-          client_email: currentUser.email || 'client@example.com',
-          date_commande: '2024-03-10',
-          statut: 'expediee',
-          total: 89.90,
-          articles: [
-            { nom: 'Marque-place personnalisé', quantite: 100, prix: 0.80 },
-            { nom: 'Cadeaux invités - Sachets lavandes', quantite: 50, prix: 1.50 }
-          ],
-          adresse_livraison: {
-            rue: '15 Quai d\'Asnières',
-            ville: 'Villeneuve-la-Garenne',
-            code_postal: '92390',
-            pays: 'France'
-          }
-        },
-        {
-          id: '3',
-          numero_commande: 'CMD-2024-003',
-          client_email: currentUser.email || 'client@example.com',
-          date_commande: '2024-03-05',
-          statut: 'en_attente',
-          total: 295.00,
-          articles: [
-            { nom: 'Faire-part mariage - Floral Blanc Or', quantite: 100, prix: 2.50 },
-            { nom: 'Tableau d\'accueil personnalisé', quantite: 1, prix: 15.00 },
-            { nom: 'Menu de table - Élégant', quantite: 20, prix: 1.20 },
-            { nom: 'Marque-place personnalisé', quantite: 100, prix: 0.80 },
-            { nom: 'Cadeaux invités - Sachets lavandes', quantite: 100, prix: 1.50 }
-          ],
-          adresse_livraison: {
-            rue: '15 Quai d\'Asnières',
-            ville: 'Villeneuve-la-Garenne',
-            code_postal: '92390',
-            pays: 'France'
-          }
-        },
-        {
-          id: '4',
-          numero_commande: 'CMD-2024-004',
-          client_email: currentUser.email || 'client@example.com',
-          date_commande: '2024-02-28',
-          statut: 'livree',
-          total: 45.00,
-          articles: [
-            { nom: 'Boîte-cadeau personnalisée', quantite: 3, prix: 15.00 }
-          ],
-          adresse_livraison: {
-            rue: '15 Quai d\'Asnières',
-            ville: 'Villeneuve-la-Garenne',
-            code_postal: '92390',
-            pays: 'France'
-          }
-        }
-      ]
+      // Récupérer les vraies commandes depuis Supabase
+      try {
+        const { createClient } = await import('@supabase/supabase-js')
+        const supabase = createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        )
 
-      setCommandes(demoCommandes)
+        const { data: orders, error } = await supabase
+          .from('orders')
+          .select('*')
+          .eq('client_email', currentUser.email)
+          .order('date_commande', { ascending: false })
+
+        if (error) {
+          console.error('Erreur récupération commandes:', error)
+          setCommandes([])
+        } else {
+          setCommandes(orders || [])
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération des commandes:', error)
+        setCommandes([])
+      }
       setLoading(false)
     }
 

@@ -18,7 +18,15 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
         const currentUser = await getUser()
         
         if (!currentUser) {
+          // Pas connecté → rediriger vers /connexion
           router.push('/connexion')
+          return
+        }
+
+        // Vérifier si l'email est confirmé (sauf pour Google OAuth)
+        if (!currentUser.email_confirmed_at && !currentUser.app_metadata?.provider) {
+          // Email pas encore confirmé → rediriger vers /confirmation-email
+          router.push(`/confirmation-email?email=${encodeURIComponent(currentUser.email || '')}`)
           return
         }
 

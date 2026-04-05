@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return NextResponse.json({
-    message: 'API Welcome Email - Jay\'s Creations Design',
+    message: 'API Email de Bienvenue - Jay\'s Creations Design',
     usage: {
       method: 'POST',
       body: {

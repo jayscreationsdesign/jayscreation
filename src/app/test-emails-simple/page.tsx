@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { translateError } from '@/lib/error-messages';
 import { triggerWelcomeEmail, triggerNewOrderEmails, triggerQuoteRequestEmail } from '@/lib/email-triggers';
 
 export default function TestEmailsSimplePage() {
@@ -13,11 +14,11 @@ export default function TestEmailsSimplePage() {
     try {
       await triggerWelcomeEmail({
         email: 'jayscreations.d@gmail.com',
-        name: 'Test User'
+        name: 'Utilisateur Test'
       });
       setResult('✅ Email de bienvenue envoyé avec succès ! Vérifiez : jayscreations.d@gmail.com');
     } catch (error) {
-      setResult(`❌ Erreur: ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
+      setResult(`❌ Erreur: ${translateError(error instanceof Error ? error.message : 'Erreur inconnue')}`);
     }
     setLoading(false);
   };
@@ -36,7 +37,7 @@ export default function TestEmailsSimplePage() {
       });
       setResult('✅ Emails de commande envoyés ! Vérifiez : jayscreations.d@gmail.com et commande@jayscreationsdesign.fr');
     } catch (error) {
-      setResult(`❌ Erreur: ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
+      setResult(`❌ Erreur: ${translateError(error instanceof Error ? error.message : 'Erreur inconnue')}`);
     }
     setLoading(false);
   };
@@ -46,14 +47,14 @@ export default function TestEmailsSimplePage() {
     setResult('');
     try {
       await triggerQuoteRequestEmail({
-        name: 'Test Client',
+        name: 'Client Test',
         email: 'jayscreations.d@gmail.com',
         product: 'Faire-part mariage test',
         message: 'Test de demande de devis'
       });
       setResult('✅ Demande de devis envoyée ! Vérifiez : contact@jayscreationsdesign.fr');
     } catch (error) {
-      setResult(`❌ Erreur: ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
+      setResult(`❌ Erreur: ${translateError(error instanceof Error ? error.message : 'Erreur inconnue')}`);
     }
     setLoading(false);
   };
