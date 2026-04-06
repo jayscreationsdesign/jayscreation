@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { COLORS, FONTS } from '@/components/loyalty/constants';
 
-export default function JaysClubClient() {
+export default function CompteJaysClubPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,30 +25,29 @@ export default function JaysClubClient() {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2]">
-      {/* Header simple */}
-      <header className="bg-white border-b sticky top-0 z-40" style={{ borderColor: COLORS.border }}>
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <nav className="flex items-center justify-between">
-            <a 
-              href="/"
-              className="text-2xl font-bold flex items-center gap-2"
-              style={{ fontFamily: FONTS.playfair, color: COLORS.chocolat }}
-            >
-              <span className="text-3xl">🌸</span>
-              Jay's Creations Design
-            </a>
-            <a
-              href="/compte"
-              className="flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors"
-              style={{ borderColor: COLORS.gold, color: COLORS.chocolat }}
-            >
-              Mon compte
-            </a>
-          </nav>
-        </div>
-      </header>
-      
       <main className="max-w-6xl mx-auto px-6 py-8">
+        {/* Header de la page compte */}
+        <div className="mb-8">
+          <nav className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+            <a href="/compte" className="hover:text-[#3C2415] transition-colors">Mon compte</a>
+            <span>/</span>
+            <span style={{ color: COLORS.chocolat }}>Jay's Club</span>
+          </nav>
+          
+          <h1 
+            className="text-3xl md:text-4xl font-bold mb-4"
+            style={{ fontFamily: FONTS.playfair, color: COLORS.chocolat }}
+          >
+            Jay's Club
+          </h1>
+          <p 
+            className="text-lg text-gray-600 mb-8"
+            style={{ fontFamily: FONTS.inter }}
+          >
+            Votre programme de fidélité exclusif
+          </p>
+        </div>
+
         {/* Hero */}
         <div 
           className="relative py-16 px-6 rounded-2xl overflow-hidden mb-12 text-center"
@@ -72,12 +71,12 @@ export default function JaysClubClient() {
               </span>
             </div>
             
-            <h1 
+            <h2 
               className="text-5xl md:text-6xl font-bold text-white mb-4"
               style={{ fontFamily: FONTS.playfair, fontWeight: 800 }}
             >
               Jay's Club
-            </h1>
+            </h2>
             <p 
               className="text-lg md:text-xl italic mb-6"
               style={{ fontFamily: FONTS.playfair, color: COLORS.gold }}
@@ -114,8 +113,7 @@ export default function JaysClubClient() {
               </p>
               <a
                 href="/connexion"
-                className="inline-block px-6 py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-105"
-                style={{ backgroundColor: COLORS.gold }}
+                className="inline-block bg-[#8B4513] text-white px-8 py-4 rounded-full font-medium hover:bg-[#6B3410] hover:text-[#D4A574] transition-colors"
               >
                 Créer mon compte gratuitement →
               </a>
@@ -132,12 +130,12 @@ export default function JaysClubClient() {
             >
               Comment ça marche
             </p>
-            <h2 
+            <h3 
               className="text-3xl md:text-4xl font-bold mb-4"
               style={{ fontFamily: FONTS.playfair, color: COLORS.chocolat }}
             >
               Un programme simple et généreux
-            </h2>
+            </h3>
           </div>
 
           <div className="flex flex-wrap justify-center gap-6 md:gap-8">
@@ -158,12 +156,12 @@ export default function JaysClubClient() {
                   {step.number}
                 </div>
                 <div className="text-4xl mb-4">{step.icon}</div>
-                <h3 
+                <h4 
                   className="text-lg font-bold mb-3"
                   style={{ fontFamily: FONTS.playfair, color: COLORS.chocolat }}
                 >
                   {step.title}
-                </h3>
+                </h4>
                 <p className="text-sm leading-relaxed" style={{ color: COLORS.textLight }}>
                   {step.desc}
                 </p>
@@ -175,12 +173,12 @@ export default function JaysClubClient() {
         {/* Niveaux */}
         <section className="py-14">
           <div className="text-center mb-12">
-            <h2 
+            <h3 
               className="text-3xl md:text-4xl font-bold mb-4"
               style={{ fontFamily: FONTS.playfair, color: COLORS.chocolat }}
             >
               Les niveaux d'excellence
-            </h2>
+            </h3>
           </div>
 
           <div className="flex flex-wrap justify-center gap-6 mb-12">
@@ -198,12 +196,12 @@ export default function JaysClubClient() {
                   color: tier.textColor
                 }}
               >
-                <h3 
+                <h4 
                   className="text-xl font-bold mb-2"
                   style={{ fontFamily: FONTS.playfair }}
                 >
                   {tier.name}
-                </h3>
+                </h4>
                 <p className="text-sm opacity-75 mb-3">
                   {tier.range}
                 </p>
@@ -212,6 +210,27 @@ export default function JaysClubClient() {
                 </p>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Lien vers la page principale */}
+        <section className="py-14 text-center">
+          <div className="bg-white rounded-2xl p-8 border" style={{ borderColor: COLORS.border }}>
+            <h3 
+              className="text-2xl font-bold mb-4"
+              style={{ fontFamily: FONTS.playfair, color: COLORS.chocolat }}
+            >
+              Découvrez la version complète
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Accédez à toutes les fonctionnalités du Jay's Club : récompenses, historique, et bien plus encore.
+            </p>
+            <a
+              href="/jays-club"
+              className="inline-block bg-[#8B4513] text-white px-8 py-4 rounded-full font-medium hover:bg-[#6B3410] hover:text-[#D4A574] transition-colors"
+            >
+              Voir Jay's Club complet →
+            </a>
           </div>
         </section>
       </main>
