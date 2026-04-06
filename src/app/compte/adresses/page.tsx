@@ -483,7 +483,7 @@ export default function AdressesPage() {
                             <span 
                               className="px-2 py-1 rounded-full text-xs font-medium"
                               style={{ 
-                                backgroundColor: COLORS.gold,
+                                backgroundColor: '#8B4513',
                                 color: COLORS.white
                               }}
                             >
@@ -532,7 +532,7 @@ export default function AdressesPage() {
                     <button
                       onClick={() => handleSetDefault(address.id)}
                       className="text-sm font-medium hover:underline"
-                      style={{ color: COLORS.gold }}
+                      style={{ color: '#8B4513' }}
                     >
                       Définir comme adresse par défaut
                     </button>

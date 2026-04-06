@@ -22,6 +22,11 @@ export const metadata: Metadata = {
   },
   description:
     "Site e-commerce premium de papeterie événementielle : faire-part, invitations, menus et marque-places.",
+  icons: {
+    icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default function RootLayout({

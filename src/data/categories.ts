@@ -101,8 +101,8 @@ export const categories: Category[] = [
     ],
   },
   {
-    name: "Ramadan / Eid 2026",
-    slug: "ramadan-eid-2026",
+    name: "Ramadan / Eid 2027",
+    slug: "ramadan-eid-2027",
   },
   {
     name: "Services",

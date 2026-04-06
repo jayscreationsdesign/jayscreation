@@ -65,7 +65,7 @@ export default function ContactPage() {
 
           <button
             type="button"
-            className="mt-6 inline-flex h-11 w-full items-center justify-center rounded-full bg-accent px-6 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90"
+            className="mt-6 inline-block bg-[#8B4513] text-white px-8 py-4 rounded-full font-medium hover:bg-[#6B3410] hover:text-[#D4A574] transition-colors w-full"
           >
             Envoyer
           </button>
@@ -148,7 +148,7 @@ export default function ContactPage() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 text-sm font-medium text-foreground hover:text-accent transition-colors"
                 >
-                  <Camera className="h-4 w-4 text-accent" />
+                  <span className="text-accent text-sm">📷</span>
                   @jays_creations_design
                 </a>
               </div>

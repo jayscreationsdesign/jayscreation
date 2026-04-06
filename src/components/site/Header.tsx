@@ -38,7 +38,7 @@ function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
   // Première ligne - catégories principales
-  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"];
+  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"];
   
   for (const cat of categories) {
     if (firstLineCategories.includes(cat.slug)) {
@@ -111,7 +111,7 @@ function buildBottomNav(): BottomNavItem[] {
 
 const bottomNav = buildBottomNav();
 
-const line1Slugs = new Set(["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2026", "services"]);
+const line1Slugs = new Set(["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"]);
 const bottomNavRow1 = bottomNav.filter(item => line1Slugs.has(item.categorySlug));
 const bottomNavRow2 = bottomNav.filter(item => !line1Slugs.has(item.categorySlug));
 
