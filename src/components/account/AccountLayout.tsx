@@ -168,11 +168,11 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                 <div className="border-t border-gray-200 pt-2 mt-2">
                   <button
                     onClick={handleSignOut}
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-red-600 hover:bg-red-50 transition-colors w-full"
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg text-[#8B4513] hover:bg-[#8B4513]10 transition-colors w-full"
                   >
                     <LogOut className="h-4 w-4 flex-shrink-0" />
                     <span className="whitespace-nowrap flex-1">Déconnexion</span>
-                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-red-600" />
+                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-[#8B4513]" />
                   </button>
                 </div>
               </nav>
