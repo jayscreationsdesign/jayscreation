@@ -134,7 +134,8 @@ export default function AdminJayLogin() {
               <div style={{ position: 'relative' }}>
                 <div style={{
                   position: 'absolute',
-                  insetY: 0,
+                  top: 0,
+                  bottom: 0,
                   left: 0,
                   paddingLeft: '12px',
                   display: 'flex',
@@ -186,7 +187,8 @@ export default function AdminJayLogin() {
               <div style={{ position: 'relative' }}>
                 <div style={{
                   position: 'absolute',
-                  insetY: 0,
+                  top: 0,
+                  bottom: 0,
                   left: 0,
                   paddingLeft: '12px',
                   display: 'flex',
@@ -227,7 +229,8 @@ export default function AdminJayLogin() {
                   onClick={() => setShowPassword(!showPassword)}
                   style={{
                     position: 'absolute',
-                    insetY: 0,
+                    top: 0,
+                  bottom: 0,
                     right: 0,
                     paddingRight: '12px',
                     display: 'flex',

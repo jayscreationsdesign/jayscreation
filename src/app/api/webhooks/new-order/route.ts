@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail, emailTemplates } from '@/lib/email-service';
+import { getUserPoints, calculatePurchasePoints } from '@/lib/loyalty';
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,6 +26,39 @@ export async function POST(request: NextRequest) {
       total: order.total,
       created_at: order.created_at
     }));
+
+    // Ajouter des points de fidélité (NON BLOQUANT)
+    if (order.user_id) {
+      try {
+        // Obtenir le palier actuel de l'utilisateur
+        const loyaltyData = await getUserPoints(order.user_id);
+        const currentTier = loyaltyData?.tier || 'petale';
+        
+        // Calculer les points selon le montant et le palier
+        const pointsEarned = calculatePurchasePoints(order.total, currentTier);
+        
+        // Ajouter les points
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        await fetch(`${baseUrl}/api/loyalty/add-points`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-secret': process.env.LOYALTY_API_SECRET || 'jcd-loyalty-secret',
+          },
+          body: JSON.stringify({
+            userId: order.user_id,
+            type: 'purchase',
+            points: pointsEarned,
+            description: `Achat de ${order.total}€`,
+            referenceId: order.id
+          }),
+        });
+        
+        console.log(`✅ ${pointsEarned} points de fidélité ajoutés pour la commande ${order.id}`);
+      } catch (loyaltyError) {
+        console.error('❌ Erreur ajout points fidélité (non bloquant):', loyaltyError);
+      }
+    }
 
     return NextResponse.json({ 
       success: true, 

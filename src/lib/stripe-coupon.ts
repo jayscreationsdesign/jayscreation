@@ -17,7 +17,6 @@ export async function ensureWelcomeCoupon() {
     try {
       // Créer le coupon
       await stripe.coupons.create({
-        id: couponId,
         percent_off: 10,
         duration: 'once', // usage unique
         max_redemptions: null, // pas de limite globale

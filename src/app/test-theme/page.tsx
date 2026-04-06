@@ -23,7 +23,7 @@ export default function TestThemePage() {
           <div className="bg-[#FAF7F2] rounded-xl p-8 border border-[#8B4513]">
             <ThemeSelector
               categories={THEME_CATEGORIES}
-              value={selectedTheme}
+              value={selectedTheme || undefined}
               onChange={setSelectedTheme}
               label="Choisissez votre thème"
               placeholder="Sélectionner un thème..."

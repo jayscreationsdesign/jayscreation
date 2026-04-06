@@ -154,7 +154,8 @@ export default function AdminLuxeLogin() {
               <div style={{ position: 'relative' }}>
                 <div style={{
                   position: 'absolute',
-                  insetY: 0,
+                  top: 0,
+                  bottom: 0,
                   left: 0,
                   paddingLeft: '16px',
                   display: 'flex',
@@ -197,7 +198,8 @@ export default function AdminLuxeLogin() {
               <div style={{ position: 'relative' }}>
                 <div style={{
                   position: 'absolute',
-                  insetY: 0,
+                  top: 0,
+                  bottom: 0,
                   left: 0,
                   paddingLeft: '16px',
                   display: 'flex',
@@ -229,7 +231,8 @@ export default function AdminLuxeLogin() {
                   onClick={() => setShowPassword(!showPassword)}
                   style={{
                     position: 'absolute',
-                    insetY: 0,
+                    top: 0,
+                  bottom: 0,
                     right: 0,
                     paddingRight: '16px',
                     display: 'flex',

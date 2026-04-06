@@ -48,6 +48,31 @@ export async function signUp(email: string, password: string, metadata: { prenom
 
   console.log('Compte créé avec succès:', data.user.id)
 
+  // Créer le compte de fidélité (NON BLOQUANT)
+  try {
+    const baseUrl = typeof window !== 'undefined'
+      ? window.location.origin
+      : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+
+    await fetch(`${baseUrl}/api/loyalty/add-points`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-secret': process.env.LOYALTY_API_SECRET || 'jcd-loyalty-secret',
+      },
+      body: JSON.stringify({
+        userId: data.user.id,
+        type: 'signup',
+        points: 20,
+        description: 'Création de compte',
+        referenceId: data.user.id
+      }),
+    })
+    console.log('Compte fidélité créé')
+  } catch (loyaltyError) {
+    console.error('Compte fidélité non créé (non bloquant):', loyaltyError)
+  }
+
   // Envoyer notre email de bienvenue avec coupon BIENVENUE10 via Nodemailer/Ionos (NON BLOQUANT)
   // Cet email est EN PLUS de l'email de confirmation Supabase
   try {

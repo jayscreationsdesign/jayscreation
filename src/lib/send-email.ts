@@ -131,13 +131,13 @@ export async function testEmailSystem(): Promise<void> {
     
     const testEmail = React.createElement(
       EmailLayout,
-      {},
-      React.createElement('div', { style: { padding: '20px', textAlign: 'center' } }, [
+      { children: React.createElement('div', { style: { padding: '20px', textAlign: 'center' } }, [
         React.createElement('h2', {}, '🧪 Test du système d\'emails IONOS'),
         React.createElement('p', {}, 'Ceci est un test pour vérifier que IONOS SMTP fonctionne correctement.'),
-        React.createElement('p', {}, `Date: ${new Date().toLocaleString('fr-FR')}`)
-      ])
-    );
+        React.createElement('p', {}, `Test effectué à : ${new Date().toLocaleString('fr-FR')}`),
+        React.createElement('p', {}, 'Si vous recevez cet email, le système est opérationnel ! 🎉')
+      ]) },
+          );
     
     // Tester avec les deux transporteurs
     const commandeResult = await sendEmail({

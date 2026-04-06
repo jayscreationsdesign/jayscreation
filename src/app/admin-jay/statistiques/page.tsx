@@ -415,12 +415,7 @@ export default function AdminJayStatistiques() {
                     position: 'relative'
                   }}>
                     <div style={{
-                      width: `${(value as number / Object.values(
-                        selectedMetric === 'ventes' ? currentData.categories :
-                        selectedMetric === 'commandes' ? currentData.status :
-                        selectedMetric === 'clients' ? currentData.types :
-                        currentData.top.reduce((acc: any, item: any) => ({ ...acc, [item.nom]: item.ventes }), {})
-                      ).reduce((a: number, b: number) => a + b, 0)) * 100}%`,
+                      width: `${Math.round((value as number) * 100)}%`,
                       height: '100%',
                       backgroundColor: '#6366f1',
                       borderRadius: '12px'
@@ -434,7 +429,7 @@ export default function AdminJayStatistiques() {
                   minWidth: '80px',
                   textAlign: 'right'
                 }}>
-                  {selectedMetric === 'ventes' ? `${(value as number).toLocaleString()}€` : value}
+                  {selectedMetric === 'ventes' ? `${(value as number).toLocaleString()}€` : String(value)}
                 </div>
               </div>
             ))}

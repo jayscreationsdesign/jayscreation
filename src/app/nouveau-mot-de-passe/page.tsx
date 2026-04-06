@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Lock, Eye, EyeOff } from 'lucide-react'
 
-export default function NouveauMotDePassePage() {
+function NouveauMotDePasseContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [newPassword, setNewPassword] = useState('')
@@ -200,5 +200,15 @@ export default function NouveauMotDePassePage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function NouveauMotDePassePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+      <div className="text-[#8B4513]">Chargement...</div>
+    </div>}>
+      <NouveauMotDePasseContent />
+    </Suspense>
   )
 }

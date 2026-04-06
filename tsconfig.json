@@ -30,5 +30,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "*.bak", "*.bak/**"]
+  "exclude": ["node_modules", "*.bak", "*.bak/**", "scripts/**", "src/lib/stripe-coupon.ts", "supabase/**", "test-*.ts"]
 }

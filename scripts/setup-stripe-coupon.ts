@@ -33,7 +33,7 @@ async function setupStripeCoupon() {
   } catch (error) {
     console.error('❌ Erreur lors de la configuration:', error);
     
-    if (error.message.includes('STRIPE_SECRET_KEY')) {
+    if (error instanceof Error && error.message.includes('STRIPE_SECRET_KEY')) {
       console.log('\n💡 Solution :');
       console.log('   1. Vérifiez que STRIPE_SECRET_KEY est dans .env.local');
       console.log('   2. Redémarrez votre serveur après avoir ajouté la clé');

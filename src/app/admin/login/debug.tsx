@@ -37,7 +37,7 @@ export default function DebugAdminLogin() {
 
       const data = await response.json();
       
-      setDebug(prev => ({
+      setDebug((prev: any) => ({
         ...prev,
         apiResponse: {
           status: response.status,
@@ -53,9 +53,9 @@ export default function DebugAdminLogin() {
         router.push('/admin/dashboard');
       }
     } catch (error) {
-      setDebug(prev => ({
+      setDebug((prev: any) => ({
         ...prev,
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       }));
     }
   };

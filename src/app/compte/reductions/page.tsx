@@ -93,22 +93,11 @@ export default function MesReductionsPage() {
           description: '15€ de réduction pour les fêtes',
           type: 'montant_fixe',
           valeur: 15,
-          minimum_commande: 80,
           date_debut: '2023-12-01',
           date_fin: '2023-12-31',
-          statut: 'expiree'
-        },
-        {
-          id: '5',
-          code: 'FIDELITE',
-          titre: 'Programme de fidélité',
-          description: '5% de réduction pour nos clients fidèles',
-          type: 'pourcentage',
-          valeur: 5,
-          date_debut: '2024-01-01',
-          statut: 'disponible',
-          utilisations_max: 10,
-          utilisations_restantes: 8
+          statut: 'expiree',
+          utilisations_max: 1,
+          utilisations_restantes: 0
         },
         {
           id: '6',

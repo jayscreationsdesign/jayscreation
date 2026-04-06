@@ -23,7 +23,11 @@ const nextConfig: NextConfig = {
   },
   
   // Désactiver les checks TypeScript au build (on les fait séparément)
-  typescript: { ignoreBuildErrors: false },
+  typescript: { 
+    ignoreBuildErrors: false,
+    // Ignorer les fichiers de scripts qui ne sont pas dans le build
+    tsconfigPath: './tsconfig.json'
+  },
 };
 
 export default nextConfig;

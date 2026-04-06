@@ -29,11 +29,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         message: 'Email de bienvenue envoyé avec succès',
-        messageId: result.messageId
+        messageId: result.clientEmail.messageId
       });
     } else {
       return NextResponse.json(
-        { error: "Erreur lors de l'envoi de l'email", details: result.error },
+        { error: "Erreur lors de l'envoi de l'email", details: result.clientEmail.error || result.adminNotification.error },
         { status: 500 }
       );
     }

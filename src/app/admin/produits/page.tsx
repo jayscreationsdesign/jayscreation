@@ -169,7 +169,7 @@ export default function Produits() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B4513] focus:border-transparent"
             >
               <option value="all">Toutes les catégories</option>
-              {categories.map(category => (
+              {categories.filter((cat): cat is string => cat !== null).map(category => (
                 <option key={category} value={category}>
                   {category}
                 </option>

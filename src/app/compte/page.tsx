@@ -6,6 +6,7 @@ import { getUser, getUserProfile } from '@/lib/auth'
 import { ShoppingBag, Calendar, TrendingUp, Package, User, CreditCard, MapPin, LogOut, Gift, Settings, MapPin as MapPinIcon } from 'lucide-react'
 import Link from 'next/link'
 import Breadcrumb from '@/components/ui/Breadcrumb'
+import LoyaltySummary from '@/components/loyalty/LoyaltySummary'
 
 export default function ComptePage() {
   const [user, setUser] = useState<any>(null)
@@ -81,6 +82,9 @@ export default function ComptePage() {
 
       {/* Contenu principal */}
       <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Jay's Club Section */}
+        <LoyaltySummary className="mb-8" />
+
         {/* Cards métriques */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div 

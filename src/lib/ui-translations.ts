@@ -114,7 +114,6 @@ export const uiTranslations: Record<string, string> = {
   'Update': 'Mettre à jour',
   'Create': 'Créer',
   'Add item': 'Ajouter',
-  'Delete': 'Supprimer',
   
   // Navigation
   'Home': 'Accueil',

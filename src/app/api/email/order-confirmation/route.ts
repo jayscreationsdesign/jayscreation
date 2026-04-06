@@ -51,11 +51,11 @@ export async function POST(request: NextRequest) {
         success: true,
         message: 'Email de confirmation envoyé avec succès',
         orderId,
-        messageId: result.messageId
+        messageId: result.clientEmail.messageId
       });
     } else {
       return NextResponse.json(
-        { error: "Erreur lors de l'envoi de l'email de confirmation", details: result.error },
+        { error: "Erreur lors de l'envoi de l'email de confirmation", details: result.clientEmail.error || result.adminCopy.error },
         { status: 500 }
       );
     }

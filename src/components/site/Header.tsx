@@ -461,6 +461,15 @@ export default function Header() {
                 </button>
               </div>
 
+              {/* Jay's Club */}
+              <Link
+                href="/jays-club"
+                className="flex items-center gap-2 rounded-full border border-[#C8A96E] bg-[#FAF7F2] px-4 py-2 text-sm font-medium text-[#3C2415] transition-colors hover:bg-[#F5E6D0]"
+              >
+                <span className="text-base">🏆</span>
+                <span className="hidden sm:inline">Jay's Club</span>
+              </Link>
+
               {/* Lien Mon Compte */}
               <Link
                 href={user ? "/compte" : "/connexion"}
