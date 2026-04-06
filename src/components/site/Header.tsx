@@ -178,8 +178,17 @@ export default function Header() {
 
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
-    // Temporarily disabled for testing
-    setUser(null);
+    const checkUser = async () => {
+      try {
+        const currentUser = await getUser();
+        setUser(currentUser);
+      } catch (error) {
+        console.error('Erreur vérification utilisateur:', error);
+        setUser(null);
+      }
+    };
+    
+    checkUser();
   }, []);
 
   // Debug pour voir les articles dans la console

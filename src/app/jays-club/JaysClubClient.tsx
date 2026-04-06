@@ -269,33 +269,6 @@ export default function JaysClubClient() {
         {/* CTA final si non connecté */}
         {!user && <LoyaltyCtaFooter />}
       </main>
-      
-      {/* Footer */}
-      <footer className="bg-white border-t mt-16" style={{ borderColor: COLORS.border }}>
-        <div className="max-w-6xl mx-auto px-6 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🌸</span>
-              <span 
-                className="text-lg font-medium"
-                style={{ fontFamily: FONTS.playfair, color: COLORS.chocolat }}
-              >
-                Jay's Club
-              </span>
-            </div>
-            
-            <div className="flex items-center gap-6 text-sm text-gray-600">
-              <a href="/cgv" className="hover:text-[#3C2415] transition-colors">CGV</a>
-              <a href="/mentions-legales" className="hover:text-[#3C2415] transition-colors">Mentions légales</a>
-              <a href="/contact" className="hover:text-[#3C2415] transition-colors">Contact</a>
-            </div>
-            
-            <div className="text-sm text-gray-600">
-              Programme de fidélité Jay's Creations Design © 2024
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
