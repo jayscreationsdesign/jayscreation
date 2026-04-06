@@ -5,10 +5,24 @@ import { COLORS, FONTS } from '@/components/loyalty/constants';
 
 export default function CompteJaysClubPage() {
   const [loading, setLoading] = useState(true);
+  const [userPoints, setUserPoints] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => {
+      setLoading(false);
+      // Simuler des points utilisateur (peut être remplacé par un appel API réel)
+      setUserPoints(0); // NOUVEAUX COMPTE: 0 points = niveau Pétale
+    }, 1000);
   }, []);
+
+  // Déterminer le niveau actif de l'utilisateur
+  const getActiveTier = () => {
+    if (userPoints >= 500) return 'diamant';
+    if (userPoints >= 150) return 'orchidee';
+    return 'petale';
+  };
+
+  const activeTier = getActiveTier();
 
   if (loading) {
     return (
@@ -183,33 +197,39 @@ export default function CompteJaysClubPage() {
 
           <div className="flex flex-wrap justify-center gap-6 mb-12">
             {[
-              { name: 'Pétale 🌸', range: '0 – 149 pts', color: COLORS.cream, textColor: COLORS.text },
-              { name: 'Orchidée 🌺', range: '150 – 499 pts', color: `linear-gradient(135deg, ${COLORS.gold}, ${COLORS.goldLight})`, textColor: COLORS.white },
-              { name: 'Diamant 💎', range: '500+ pts', color: `linear-gradient(135deg, ${COLORS.chocolat}, ${COLORS.chocolatLight})`, textColor: COLORS.white }
-            ].map((tier, index) => (
-              <div 
-                key={index}
-                className="bg-white rounded-2xl p-6 text-center min-w-[200px] transition-all duration-300 hover:scale-105"
-                style={{ 
-                  border: `2px solid ${COLORS.gold}`,
-                  backgroundColor: tier.color,
-                  color: tier.textColor
-                }}
-              >
-                <h4 
-                  className="text-xl font-bold mb-2"
-                  style={{ fontFamily: FONTS.playfair }}
+              { name: 'Pétale 🌸', range: '0 – 149 pts', tier: 'petale' },
+              { name: 'Orchidée 🌺', range: '150 – 499 pts', tier: 'orchidee' },
+              { name: 'Diamant 💎', range: '500+ pts', tier: 'diamant' }
+            ].map((tier, index) => {
+              const isActive = tier.tier === activeTier;
+              
+              return (
+                <div 
+                  key={index}
+                  className="bg-white rounded-2xl p-6 text-center min-w-[200px] transition-all duration-300 hover:scale-105"
+                  style={{ 
+                    border: `2px solid ${COLORS.gold}`,
+                    backgroundColor: isActive ? '#8B4513' : COLORS.cream,
+                    color: isActive ? COLORS.white : COLORS.text
+                  }}
                 >
-                  {tier.name}
-                </h4>
-                <p className="text-sm opacity-75 mb-3">
-                  {tier.range}
-                </p>
-                <p className="text-sm font-medium">
-                  Voir les avantages →
-                </p>
-              </div>
-            ))}
+                  <h4 
+                    className="text-xl font-bold mb-2"
+                    style={{ fontFamily: FONTS.playfair, color: isActive ? COLORS.white : COLORS.chocolat }}
+                  >
+                    {tier.name}
+                  </h4>
+                  <p className="text-sm opacity-75 mb-3" style={{ color: isActive ? COLORS.white : COLORS.textLight }}>
+                    {tier.range}
+                  </p>
+                  {isActive && (
+                    <p className="text-sm font-medium" style={{ color: COLORS.white }}>
+                      Voir les avantages →
+                    </p>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </section>
 
