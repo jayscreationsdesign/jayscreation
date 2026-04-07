@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
   },
   
   // Optimisations pour le développement
-  swcMinify: true,
   compress: true,
   
   // Désactiver les source maps en dev si pas nécessaire
