@@ -6,6 +6,7 @@ export interface Product {
   category: string;
   categorySlug: string;
   parentCategorySlug?: string;
+  sous_categorie?: string;
   image: string;
   images?: string[]; // Images additionnelles pour la galerie
   rating?: number;
@@ -47,7 +48,8 @@ export const products: Product[] = [
     images: [
       "/images/products/Boîte de Lait Personnalisée4.png",
       "/images/products/Boîte de Lait Personnalisée2.png",
-      "/images/products/Boîte de Lait Personnalisée3.png"
+      "/images/products/Boîte de Lait Personnalisée3.png",
+      "/images/products/Boîte de Lait Personnalisée6.png"
     ],
     slug: "boite-lait-personnalisee",
     themes: ["Classique", "Élégant", "Personnalisé"],
@@ -75,7 +77,8 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîtes de Pop Corn Personnalisées2.png",
     images: [
-      "/images/products/Boîtes de Pop Corn Personnalisées3.png"
+      "/images/products/Boîtes de Pop Corn Personnalisées3.png",
+      "/images/products/Boîtes de Pop Corn Personnalisées4.png"
     ],
     slug: "boites-pop-corn-personnalisees",
     themes: ["Cinéma", "Soirée", "Moderne"],
@@ -187,7 +190,8 @@ export const products: Product[] = [
     themes: ["Pâques", "Printemps", "Lapins"],
     price: "Sur devis",
     category: "Papeterie Saisonnière",
-    categorySlug: "papeterie-saisonniere",
+    categorySlug: "paques",
+    sous_categorie: "Pâques",
     image: "/images/products/placeholder.png",
     description: "Garniture Pâques avec œufs et lapins décoratifs. Ambiance printanière et joyeuse, personnalisable avec vos noms, messages et couleurs. Parfaite pour célébrer la résurrection et le renouveau du printemps.",
     longDescription: "Célébrez Pâques avec notre garniture festive et printanière ! Créez une ambiance joyeuse et colorée avec des décorations entièrement personnalisables featuring œufs décoratifs, lapins symboliques et motifs printaniers. Parfaitement adaptée pour célébrer la résurrection et le renouveau, cette garniture est personnalisable avec vos noms, messages de Pâques et couleurs choisies. Idéale pour décorer votre maison, organiser une chasse aux œufs ou célébrer en famille. Création française artisanale avec matériaux de qualité et finitions soignées. Personnalisation complète et livraison rapide pour des fêtes de Pâques inoubliables et pleines de joie.",
@@ -208,12 +212,13 @@ export const products: Product[] = [
   },
   {
     id: "35",
-    name: "Boîte à Œuf de Pâques Personnalisée",
+    name: "Boîte à Oeuf de Pâques Personnalisée",
     slug: "boite-oeuf-paques-personnalisee",
     themes: ["Pâques", "Stitch", "Printemps"],
     price: "6,90\u20AC",
     category: "Papeterie Saisonnière",
     categorySlug: "paques",
+    sous_categorie: "Pâques",
     image: "/images/products/36.png",
     images: [
       "/images/products/38.png"
@@ -337,9 +342,11 @@ export const products: Product[] = [
     numericPrice: 2.9,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Sac Cadeau Personnalisé3.png",
+    image: "/images/products/Sac Cadeau Personnalisé1.png",
     images: [
-      "/images/products/Sac Cadeau Personnalisé2.png"
+      "/images/products/Sac Cadeau Personnalisé1.png",
+      "/images/products/Sac Cadeau Personnalisé2.png",
+      "/images/products/Sac Cadeau Personnalisé3.png"
     ],
     slug: "sac-cadeau-personnalise",
     themes: ["Emballage", "Élégant", "Cadeau"],
@@ -366,9 +373,12 @@ export const products: Product[] = [
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Smarties2.png",
+    image: "/images/products/Smarties1.png",
     images: [
-      "/images/products/Smarties3.png"
+      "/images/products/Smarties1.png",
+      "/images/products/Smarties2.png",
+      "/images/products/Smarties3.png",
+      "/images/products/Smarties4.png"
     ],
     slug: "smarties",
     themes: ["Coloré", "Enfants", "Festif"],
@@ -467,11 +477,8 @@ export const products: Product[] = [
     price: "Sur devis",
     category: "Flocages",
     categorySlug: "flocage",
-    image: "/images/products/planche-etiquette-thermocollante-tshirt-style.png",
-    images: [
-      "/images/products/faire-part-mariage-elegant-tshirt-style.png",
-      "/images/products/t-shirt-kael-styled.png"
-    ],
+    image: "/images/products/placeholder.png",
+    images: [],
     rating: 5,
     slug: "planche-etiquette-thermocollante",
     themes: ["Textile", "Personnalisé", "Professionnel"],
@@ -504,16 +511,16 @@ export const products: Product[] = [
   // MARIAGE - FAIRE-PARTS
   {
     id: "28",
-    name: "Faire-Part Baptême Élégant",
-    slug: "faire-part-bapteme-elegant",
-    themes: ["Baptême", "Élégant", "Doré"],
+    name: "Faire-Part Mariage Élégant",
+    slug: "faire-part-mariage-elegant",
+    themes: ["Mariage", "Élégant", "Doré"],
     price: "Sur devis",
     category: "Faire-parts",
     categorySlug: "faire-parts",
-    parentCategorySlug: "bapteme",
+    parentCategorySlug: "mariage",
     image: "/images/products/Faire-Part Mariage Élégant.png",
-    description: "Faire-part de baptême élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable avec vos noms, date et informations de cérémonie. Création artisanale française pour un baptême inoubliable.",
-    longDescription: "Annoncez le baptême de votre enfant avec notre faire-part élégant et sophistiqué ! Ce faire-part premium présente un cadre géométrique délicat avec feuillage artistique et finitions dorées luxueuses. Entièrement personnalisable avec le prénom de votre enfant, date de baptême, lieu de cérémonie et informations de réception. Création artisanale française avec papier de qualité et impression haute définition. Design intemporel qui allie modernité et tradition pour un impact mémorable. Idéal pour annoncer ce moment sacré avec classe et élégance. Personnalisation complète, maquette sous 24h et livraison soignée pour des faire-parts dignes de cette journée spéciale.",
+    description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable avec vos noms, date et informations de cérémonie. Création artisanale française pour un mariage inoubliable.",
+    longDescription: "Annoncez votre mariage avec notre faire-part élégant et sophistiqué ! Ce faire-part premium présente un cadre géométrique délicat avec feuillage artistique et finitions dorées luxueuses. Entièrement personnalisable avec vos noms de mariés, date de mariage, lieu de cérémonie et informations de réception. Création artisanale française avec papier de qualité et impression haute définition. Design intemporel qui allie modernité et tradition pour un impact mémorable. Idéal pour annoncer votre union avec classe et élégance. Personnalisation complète, maquette sous 24h et livraison soignée pour des faire-parts dignes de ce jour spécial.",
     rating: 5,
   },
 

@@ -8,6 +8,7 @@ import ImageCarousel from "./ImageCarousel";
 import { getImageSrc, getImageArray } from "@/lib/images";
 import { useState } from "react";
 import PrimaryCtaButton from "./PrimaryCtaButton";
+import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
 
 interface ProductCardProps {
   product: Product;
@@ -58,16 +59,20 @@ export default function ProductCard({
             />
           </div>
         ) : (
-          <div className="product-card-uniform relative h-64 w-full overflow-hidden rounded-t-3xl shadow-lg bg-[#E8D5B7]">
-            <Image
-              src={displayImage}
-              alt={product.name}
-              fill
-              className="object-cover transition-transform duration-300 hover:scale-105 p-4"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              style={{ backgroundColor: '#E8D5B7' }}
-              onError={handleImageError}
-            />
+          <div className="product-card-uniform relative h-64 w-full overflow-hidden rounded-t-3xl shadow-lg">
+            {displayImage.includes('placeholder') ? (
+              <ProductImagePlaceholder productName={product.name} />
+            ) : (
+              <Image
+                src={displayImage}
+                alt={product.name}
+                fill
+                className="object-cover transition-transform duration-300 hover:scale-105 p-4"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                style={{ backgroundColor: '#E8D5B7' }}
+                onError={handleImageError}
+              />
+            )}
           </div>
         )}
       </div>

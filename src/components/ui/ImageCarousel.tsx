@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getImageArray } from "@/lib/images";
+import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
 
 interface ImageCarouselProps {
   images: string[];
@@ -152,13 +153,7 @@ export default function ImageCarousel({
   if (validImages.length === 0) {
     return (
       <div className={`relative ${getAspectRatioClass()} ${className}`}>
-        <Image
-          src="/images/products/placeholder.png"
-          alt={alt}
-          fill
-          className="object-contain"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        <ProductImagePlaceholder productName={alt} />
       </div>
     );
   }
