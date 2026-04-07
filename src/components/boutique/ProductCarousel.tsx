@@ -14,7 +14,7 @@ export default function ProductCarousel({ product, className = "" }: ProductCaro
   // Gestion des erreurs d'images avec fallback
   const [imageError, setImageError] = useState(false);
   const mainImage = getImageSrc(product.image);
-  const fallbackImage = "/images/products/placeholder.svg";
+  const fallbackImage = "/images/products/placeholder.png";
   const images = getImageArray(product.images, mainImage);
 
   const handleImageError = () => {

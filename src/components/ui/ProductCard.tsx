@@ -28,7 +28,7 @@ export default function ProductCard({
   // Gestion des erreurs d'images avec fallback
   const [imageError, setImageError] = useState(false);
   const mainImage = getImageSrc(product.image);
-  const fallbackImage = "/images/products/placeholder.svg";
+  const fallbackImage = "/images/products/placeholder.png";
   const allImages = getImageArray(product.images, mainImage);
   const hasMultipleImages = allImages.length > 1;
 

@@ -569,7 +569,7 @@ export default function Header() {
                       {items.map((item) => (
                         <div key={item.id} className="flex gap-3 items-center">
                           <img
-                            src={item.image || "/images/products/placeholder.svg"}
+                            src={item.image || "/images/products/placeholder.png"}
                             alt={item.nom}
                             className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
                           />

@@ -126,7 +126,7 @@ export default function PanierPage() {
                 {/* Image */}
                 <div className="relative w-24 h-24 flex-shrink-0">
                   <img 
-                    src={item.image || "/images/products/placeholder.svg"}
+                    src={item.image || "/images/products/placeholder.png"}
                     alt={item.nom}
                     className="w-full h-full object-cover rounded-xl"
                   />

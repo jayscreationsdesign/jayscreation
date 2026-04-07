@@ -32,7 +32,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
       nom: product.name,
       prix: prix,
       quantite: qty,
-      image: product.image || "/images/products/placeholder.svg",
+      image: product.image || "/images/products/placeholder.png",
       theme: selectedTheme || undefined,
       slug: product.slug,
     })

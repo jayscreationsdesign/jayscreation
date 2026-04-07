@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Étiquette Mini Canette Coca-Cola - Jay's Creations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #FAF7F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .image-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+        }
+
+        .background {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #F5E6D3 0%, #E8D5B7 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Motif décoratif */
+        .pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #8B4513 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, #C8A96E 1px, transparent 1px);
+            background-size: 35px 35px;
+        }
+
+        /* Canette centrale */
+        .can-container {
+            position: relative;
+            width: 180px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .can {
+            width: 140px;
+            height: 240px;
+            background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+            border-radius: 10px 10px 70px 70px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(231, 76, 60, 0.3);
+            overflow: hidden;
+        }
+
+        .can::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 20px;
+            background: #C0392B;
+            border-radius: 5px 5px 0 0;
+        }
+
+        /* Étiquette personnalisée */
+        .label {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 140px;
+            background: linear-gradient(135deg, #FAF7F2 0%, #F5E6D3 100%);
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 10px;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+            border: 1px solid #8B4513;
+        }
+
+        .label-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .label-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            color: #8B4513;
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .label-decoration {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C8A96E, transparent);
+            margin: 5px 0;
+        }
+
+        /* Logo Coca-Cola style */
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #E74C3C;
+            text-align: center;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* Gouttes */
+        .drop {
+            position: absolute;
+            background: rgba(231, 76, 60, 0.8);
+            border-radius: 50%;
+            animation: drop 3s infinite ease-in-out;
+        }
+
+        .drop:nth-child(1) { width: 6px; height: 8px; bottom: 10%; left: 20%; animation-delay: 0s; }
+        .drop:nth-child(2) { width: 4px; height: 6px; bottom: 5%; right: 30%; animation-delay: 1s; }
+
+        @keyframes drop {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+            50% { transform: translateY(10px) scale(1.1); opacity: 0.4; }
+        }
+
+        /* Textes */
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B4513;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Étoiles décoratives */
+        .star {
+            position: absolute;
+            color: #C8A96E;
+            font-size: 16px;
+            opacity: 0.6;
+        }
+
+        .star:nth-child(1) { top: 10%; left: 15%; }
+        .star:nth-child(2) { top: 15%; right: 20%; }
+        .star:nth-child(3) { bottom: 20%; left: 10%; }
+        .star:nth-child(4) { bottom: 15%; right: 15%; }
+
+        /* Ligne décorative */
+        .decoration-line {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C8A96E, transparent);
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="background">
+            <div class="pattern"></div>
+            
+            <!-- Étoiles décoratives -->
+            <div class="star">+</div>
+            <div class="star">+</div>
+            <div class="star">+</div>
+            <div class="star">+</div>
+            
+            <!-- Canette centrale -->
+            <div class="can-container">
+                <div class="can">
+                    <div class="drop"></div>
+                    <div class="drop"></div>
+                    <div class="label">
+                        <div class="label-title">Coca-Cola</div>
+                        <div class="label-decoration"></div>
+                        <div class="label-subtitle">Événement Spécial</div>
+                        <div class="logo">Coca</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Textes -->
+            <div class="title">Étiquette Canette</div>
+            <div class="subtitle">Rafraîchissant</div>
+            <div class="decoration-line"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -58,7 +58,7 @@ export default function ProductClient({ product }: ProductClientProps) {
       nom: product.nom,
       prix: product.prix,
       quantite: qty,
-      image: getImageSrc(product.image_principale) || "/images/products/placeholder.svg",
+      image: getImageSrc(product.image_principale) || "/images/products/placeholder.png",
       theme: selectedTheme || undefined,
       slug: product.slug,
     };
@@ -86,7 +86,7 @@ export default function ProductClient({ product }: ProductClientProps) {
   // Gestion des erreurs d'images avec fallback
   const [imageError, setImageError] = useState(false);
   const mainImage = getImageSrc(product.image_principale);
-  const fallbackImage = "/images/products/placeholder.svg";
+  const fallbackImage = "/images/products/placeholder.png";
   const productImages = getImageArray(product.images, mainImage);
 
   const handleImageError = () => {
