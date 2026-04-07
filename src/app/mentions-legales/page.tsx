@@ -33,7 +33,7 @@ export default function MentionsLegalesPage() {
                 <p><strong>Forme juridique :</strong> Entrepreneur individuel</p>
                 <p><strong>SIRET :</strong> 898 571 021 00028</p>
                 <p><strong>Adresse :</strong> 15 Quai d'Asnières, 92390 Villeneuve-la-Garenne</p>
-                <p><strong>Email :</strong> jayscreations.d@gmail.com</p>
+                <p><strong>Email :</strong> contact@jayscreationsdesign.fr</p>
                 <p><strong>Téléphone :</strong> 07 49 07 28 61</p>
                 <p><strong>Directrice de publication :</strong> Anaïs</p>
               </div>
@@ -88,7 +88,7 @@ export default function MentionsLegalesPage() {
                   Conformément au RGPD, nous protégeons vos données et respectons vos droits.
                 </p>
                 <p>
-                  Pour exercer vos droits : jayscreations.d@gmail.com
+                  Pour exercer vos droits : contact@jayscreationsdesign.fr
                 </p>
               </div>
             </section>

@@ -2,7 +2,6 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Palette } from "lucide-react"
-import { useEffect, useRef } from "react"
 import type { ThemeCategory } from "@/config/themes"
 
 interface ThemeSelectorProps {
@@ -13,9 +12,8 @@ interface ThemeSelectorProps {
   placeholder?: string
 }
 
-export function ThemeSelector({ value, onChange, categories, label = "Choisissez votre thème", placeholder = "🎨 Sélectionnez un thème..." }: ThemeSelectorProps) {
+export function ThemeSelector({ value, onChange, categories, label = "Choisissez votre thème", placeholder = "Sélectionnez un thème..." }: ThemeSelectorProps) {
   console.log("ThemeSelector rendu", { value, categories: categories.length })
-  const triggerRef = useRef<HTMLButtonElement>(null)
 
   return (
     <div className="space-y-3">
@@ -31,17 +29,15 @@ export function ThemeSelector({ value, onChange, categories, label = "Choisissez
       
       <Select value={value || ""} onValueChange={onChange}>
         <SelectTrigger 
-          ref={triggerRef}
           className="w-full group rounded-2xl border-2 border-[#E8E4DF] bg-white px-5 py-3 text-sm text-[#2C1A0E] hover:border-[#8B4513]/50 focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 transition-all duration-200 shadow-sm hover:shadow-md"
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         
         <SelectContent 
-          className="rounded-2xl border-2 border-[#E8E4DF] shadow-xl max-h-96 overflow-y-auto" 
+          className="rounded-2xl border-2 border-[#E8E4DF] shadow-xl max-h-96 overflow-y-auto w-[320px]" 
           style={{
-            background: "linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%)",
-            width: triggerRef.current ? `${triggerRef.current.offsetWidth}px` : '100%'
+            background: "linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%)"
           }}
         >
           <div className="p-3">

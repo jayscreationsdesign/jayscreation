@@ -9,19 +9,33 @@ export function Testimonials() {
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { name: "Marie L.", event: "Mariage", rating: 5 },
-            { name: "Sophie M.", event: "Baptême", rating: 5 },
-            { name: "Thomas R.", event: "Anniversaire", rating: 5 }
+            { 
+              name: "Amina K.", 
+              event: "Mariage", 
+              rating: 5,
+              text: "Jay's Creations a su capturer exactement l'ambiance que je voulais pour mon mariage. Les faire-parts étaient sublimes, les invités m'ont tous demandé où je les avais trouvés. Un travail minutieux et un service adorable du début à la fin."
+            },
+            { 
+              name: "Émilie R.", 
+              event: "Baptême", 
+              rating: 5,
+              text: "Pour le baptême de ma fille, j'ai commandé les boîtes dragées et les cartes de remerciement. Le rendu est vraiment premium, bien au-dessus de ce qu'on trouve habituellement. La personnalisation était parfaite, livrée dans les délais. Je recommande les yeux fermés !"
+            },
+            { 
+              name: "Nadia B.", 
+              event: "Anniversaire", 
+              rating: 5,
+              text: "J'ai fait appel à Jay's Creations pour les 5 ans de mon fils, thème super-héros. Les boîtes Pom'Potes personnalisées et la papeterie sweet table ont fait sensation ! Les enfants étaient ravis. Rapport qualité-prix excellent, je reviendrai pour le prochain anniversaire."
+            }
           ].map((testimonial, i) => (
             <div key={i} className="bg-jc-surface p-6 rounded-xl border-jc-border">
               <div className="flex mb-4">
                 {[...Array(testimonial.rating)].map((_, j) => (
-                  <span key={j} className="text-[#8B4513]">★</span>
+                  <span key={j} className="text-[#8B4513]">â</span>
                 ))}
               </div>
-              <p className="text-jc-muted mb-4 italic">
-                "Service exceptionnel et créations magnifiques. 
-                Exactement ce que je voulais pour mon {testimonial.event.toLowerCase()} !"
+              <p className="text-jc-muted mb-4 italic text-sm leading-relaxed">
+                "{testimonial.text}"
               </p>
               <div className="font-semibold text-jc-text">
                 {testimonial.name}

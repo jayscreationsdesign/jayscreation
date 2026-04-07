@@ -50,7 +50,7 @@ export default function PolitiqueConfidentialitePage() {
                 <li><strong>Forme juridique :</strong> [À COMPLÉTER]</li>
                 <li><strong>Adresse :</strong> 15 QUAI D'ASNIERES, 92390 VILLENEUVE-LA-GARENNE, France</li>
                 <li><strong>SIRET :</strong> 89857102100028</li>
-                <li><strong>Email de contact :</strong> jayscreations.d@gmail.com</li>
+                <li><strong>Email de contact :</strong> contact@jayscreationsdesign.fr</li>
                 <li><strong>Téléphone :</strong> +33 7 63 92 08 23</li>
               </ul>
             </div>
@@ -267,8 +267,8 @@ export default function PolitiqueConfidentialitePage() {
                 Pour exercer ces droits, contactez-nous par :
               </p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li>Email : jayscreations.d@gmail.com</li>
-                <li>Téléphone : +33 7 63 92 08 23</li>
+                <li>Email : contact@jayscreationsdesign.fr</li>
+                <li>Téléphone : +33 7 49 07 28 61</li>
                 <li>Courrier : 15 QUAI D'ASNIERES, 92390 VILLENEUVE-LA-GARENNE, France</li>
               </ul>
               

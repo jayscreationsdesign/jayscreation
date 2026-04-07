@@ -70,10 +70,10 @@ export default function AnnulationPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="mailto:contact@jayscreations.fr" 
+                href="mailto:contact@jayscreationsdesign.fr" 
                 className="text-[#8B4513] hover:underline"
               >
-                contact@jayscreations.fr
+                contact@jayscreationsdesign.fr
               </a>
               <a 
                 href="tel:+33612345678" 

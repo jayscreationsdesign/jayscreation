@@ -121,9 +121,10 @@ export default function AdressesPage() {
           : addr
       ));
     } else {
+      const { id, ...formDataWithoutId } = formData as Address;
       const newAddress: Address = {
         id: Date.now().toString(),
-        ...formData as Address,
+        ...formDataWithoutId,
       };
       setAddresses([...addresses, newAddress]);
     }
@@ -399,12 +400,12 @@ export default function AdressesPage() {
               <div className="flex items-center">
                 <input
                   type="checkbox"
-                  id="address-isDefault"
+                  id={`address-isDefault-${editingAddress ? 'edit' : 'new'}`}
                   checked={formData.isDefault}
                   onChange={(e) => setFormData({ ...formData, isDefault: e.target.checked })}
                   className="mr-2"
                 />
-                <label htmlFor="address-isDefault" className="text-sm" style={{ color: COLORS.text }}>
+                <label htmlFor={`address-isDefault-${editingAddress ? 'edit' : 'new'}`} className="text-sm" style={{ color: COLORS.text }}>
                   Définir comme adresse par défaut
                 </label>
               </div>

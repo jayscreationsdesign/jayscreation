@@ -340,8 +340,8 @@ export default function PolitiqueCookiesPage() {
                 de vos droits, vous pouvez nous contacter :
               </p>
               <ul className="list-disc list-inside ml-4 space-y-1">
-                <li><strong>Email :</strong> jayscreations.d@gmail.com</li>
-                <li><strong>Téléphone :</strong> +33 7 63 92 08 23</li>
+                <li><strong>Email :</strong> contact@jayscreationsdesign.fr</li>
+                <li><strong>Téléphone :</strong> +33 7 49 07 28 61</li>
                 <li><strong>Adresse :</strong> 15 QUAI D'ASNIERES, 92390 VILLENEUVE-LA-GARENNE, France</li>
               </ul>
               

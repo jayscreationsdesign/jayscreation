@@ -1,7 +1,42 @@
+"use client";
+
 import Link from "next/link";
 import { Camera, Mail, Music2, MapPin, Phone, Clock, Heart } from "lucide-react";
+import { useState } from "react";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/newsletter/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage(data.message);
+        setEmail("");
+      } else {
+        setMessage(data.error || "Erreur lors de l'inscription");
+      }
+    } catch (error) {
+      setMessage("Erreur serveur");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <footer className="mt-auto w-screen bg-[#2C1A0E] border-t border-[#E8E4DF]">
       {/* Section principale - Pleine largeur */}
@@ -43,8 +78,8 @@ export default function Footer() {
                   <div className="h-8 w-8 rounded-full bg-[#8B4513] flex items-center justify-center flex-shrink-0">
                     <Mail className="h-4 w-4 text-white" />
                   </div>
-                  <a href="mailto:jayscreations.d@gmail.com" className="hover:text-[#6b3410] transition-colors font-medium">
-                    jayscreations.d@gmail.com
+                  <a href="mailto:contact@jayscreationsdesign.fr" className="hover:text-[#6b3410] transition-colors font-medium">
+                    contact@jayscreationsdesign.fr
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-white">
@@ -114,19 +149,28 @@ export default function Footer() {
                 Abonnez-vous pour recevoir les nouveautés, offres exclusives et inspirations.
               </p>
               
-              <form className="space-y-3">
+              <form onSubmit={handleNewsletterSubmit} className="space-y-3">
                 <input
                   type="email"
                   name="newsletter"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="Votre adresse email"
+                  required
                   className="w-full h-11 rounded-full border border-[#E8E4DF] bg-white/80 backdrop-blur px-4 text-sm text-foreground placeholder:text-muted-foreground/60 outline-none focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/20 transition-all"
                 />
                 <button
-                  type="button"
-                  className="w-full h-11 rounded-full bg-[#8B4513] text-white font-medium text-sm hover:bg-[#6B3410] hover:text-[#D4A574] transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full h-11 rounded-full bg-[#8B4513] text-white font-medium text-sm hover:bg-[#6B3410] hover:text-[#D4A574] transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  S&apos;abonner
+                  {isSubmitting ? 'Inscription...' : 'S\'abonner'}
                 </button>
+                {message && (
+                  <p className={`text-xs mt-2 ${message.includes('Merci') || message.includes('déjà') ? 'text-green-300' : 'text-red-300'}`}>
+                    {message}
+                  </p>
+                )}
               </form>
 
               <div className="mt-6">

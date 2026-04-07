@@ -376,6 +376,7 @@ function BoutiquePageContentInner() {
   // Debug pour voir le categorySlug et searchQuery
   console.log("categorySlug:", categorySlug);
   console.log("searchQuery:", searchQuery);
+  console.log("Total products loaded:", products.length);
 
   const filteredProducts = useMemo(() => {
     let resultProducts = products;
@@ -383,13 +384,16 @@ function BoutiquePageContentInner() {
     // D'abord filtrer par catégorie si nécessaire
     if (categorySlug) {
       resultProducts = getFilteredProducts(resultProducts, categorySlug);
+      console.log("Products after category filter:", resultProducts.length);
     }
     
     // Ensuite filtrer par recherche textuelle si nécessaire
     if (searchQuery) {
       resultProducts = getSearchFilteredProducts(resultProducts, searchQuery);
+      console.log("Products after search filter:", resultProducts.length);
     }
     
+    console.log("Final filtered products:", resultProducts.length);
     return resultProducts;
   }, [categorySlug, searchQuery]);
 

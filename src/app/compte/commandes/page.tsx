@@ -5,6 +5,7 @@ import { getUser } from '@/lib/auth'
 import { Eye, Package, Truck, CheckCircle, XCircle, Clock, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import Breadcrumb from '@/components/ui/Breadcrumb'
+import { useSearchParams } from 'next/navigation'
 
 interface Commande {
   id: string
@@ -32,6 +33,7 @@ export default function CommandesPage() {
   const [commandes, setCommandes] = useState<Commande[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCommande, setSelectedCommande] = useState<Commande | null>(null)
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,6 +75,17 @@ export default function CommandesPage() {
 
     fetchData()
   }, [])
+
+  // Vérifier si un paramètre order est présent pour afficher une commande spécifique
+  useEffect(() => {
+    const orderId = searchParams.get('order')
+    if (orderId && commandes.length > 0) {
+      const order = commandes.find(c => c.numero_commande === orderId || c.id === orderId)
+      if (order) {
+        setSelectedCommande(order)
+      }
+    }
+  }, [searchParams, commandes])
 
   const getStatutBadge = (statut: string) => {
     switch (statut) {

@@ -153,8 +153,8 @@ function SuccessPageContent() {
           <div className="text-center mt-8 p-4 bg-[#FAF7F2] rounded-lg">
             <p className="text-sm text-[#6B6B6B]">
               Pour toute question concernant votre commande, n'hésitez pas à nous contacter à{' '}
-              <a href="mailto:contact@jayscreations.fr" className="text-[#8B4513] hover:underline">
-                contact@jayscreations.fr
+              <a href="mailto:contact@jayscreationsdesign.fr" className="text-[#8B4513] hover:underline">
+                contact@jayscreationsdesign.fr
               </a>
             </p>
           </div>

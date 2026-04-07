@@ -7,6 +7,10 @@ interface LoyaltySummaryProps {
   className?: string;
 }
 
+// Cache simple pour éviter les appels répétés
+const loyaltyCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 export default function LoyaltySummary({ className = '' }: LoyaltySummaryProps) {
   const [userPoints, setUserPoints] = useState(0);
   const [userTier, setUserTier] = useState<keyof typeof TIERS>('petale');
@@ -19,9 +23,29 @@ export default function LoyaltySummary({ className = '' }: LoyaltySummaryProps) 
   
   const loadLoyaltyData = async () => {
     try {
+      const cacheKey = 'loyalty_data';
+      const cached = loyaltyCache.get(cacheKey);
+      const now = Date.now();
+      
+      // Vérifier si le cache est valide
+      if (cached && (now - cached.timestamp) < CACHE_DURATION) {
+        setUserPoints(cached.data.points);
+        setUserTier(cached.data.tier);
+        setTotalEarned(cached.data.total_earned);
+        setIsLoading(false);
+        return;
+      }
+      
       const response = await fetch('/api/loyalty/points');
       if (response.ok) {
         const data = await response.json();
+        
+        // Mettre en cache
+        loyaltyCache.set(cacheKey, {
+          data,
+          timestamp: now
+        });
+        
         setUserPoints(data.points);
         setUserTier(data.tier);
         setTotalEarned(data.total_earned);

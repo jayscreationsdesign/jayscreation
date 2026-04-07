@@ -31,7 +31,7 @@ export default function PolitiqueConfidentialitePage() {
               <div className="text-sm space-y-2" style={{ fontFamily: 'Inter, sans-serif', color: '#6B6B6B', lineHeight: '1.6' }}>
                 <p><strong>JAY'S CREATIONS DESIGN — Anaïs</strong></p>
                 <p><strong>Adresse :</strong> 15 Quai d'Asnières, 92390 Villeneuve-la-Garenne</p>
-                <p><strong>Email :</strong> jayscreations.d@gmail.com</p>
+                <p><strong>Email :</strong> contact@jayscreationsdesign.fr</p>
                 <p><strong>Téléphone :</strong> 07 49 07 28 61</p>
                 <p><strong>SIRET :</strong> 898 571 021 00028</p>
               </div>
@@ -92,7 +92,7 @@ export default function PolitiqueConfidentialitePage() {
               </h2>
               <div className="text-sm space-y-2" style={{ fontFamily: 'Inter, sans-serif', color: '#6B6B6B', lineHeight: '1.6' }}>
                 <p><strong>Conformément au RGPD, vous disposez des droits d'accès, rectification, suppression et portabilité.</strong></p>
-                <p><strong>Demande à :</strong> jayscreations.d@gmail.com</p>
+                <p><strong>Demande à :</strong> contact@jayscreationsdesign.fr</p>
               </div>
             </section>
 

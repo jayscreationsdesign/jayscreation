@@ -26,7 +26,11 @@ export default function ComptePage() {
 
         setUser(currentUser)
         
-        const userProfile = await getUserProfile(currentUser.id)
+        // Paralléliser les requêtes pour optimiser le chargement
+        const [userProfile] = await Promise.all([
+          getUserProfile(currentUser.id)
+        ])
+        
         setProfile(userProfile)
         setLoading(false)
       } catch (error) {
@@ -144,20 +148,24 @@ export default function ComptePage() {
           
           <div className="space-y-4">
             {[1, 2, 3].map((order) => (
-              <div key={order} className="border border-gray-200 rounded-lg p-4">
+              <Link 
+                key={order}
+                href={`/compte/commandes?order=${1000 + order}`}
+                className="block border border-gray-200 rounded-lg p-4 hover:border-[#8B4513]/30 hover:shadow-sm transition-all group"
+              >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium text-gray-900">Commande #{1000 + order}</p>
+                    <p className="font-medium text-gray-900 group-hover:text-[#8B4513] transition-colors">Commande #{1000 + order}</p>
                     <p className="text-sm text-gray-600">15 Mars 2024</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-gray-900">89,90€</p>
+                    <p className="font-bold text-gray-900">89,90</p>
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                       Payée
                     </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

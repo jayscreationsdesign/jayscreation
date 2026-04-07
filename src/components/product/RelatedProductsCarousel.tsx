@@ -6,7 +6,7 @@ import Image from "next/image";
 import { type Product } from "@/data/products";
 import ImageCarousel from "@/components/ui/ImageCarousel";
 import { getImageSrc, getImageArray } from "@/lib/images";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import { products, type Product as LocalProduct } from "@/data/products";
 import type { Product as SupabaseProduct } from "@/types/product";
@@ -67,6 +67,10 @@ export default function RelatedProductsCarousel({
   subtitle = "Découvrez d'autres créations qui pourraient vous plaire"
 }: RelatedProductsCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
   
   // Responsive: 1 carte sur mobile, 3 sur desktop
   const getVisibleCount = () => {
@@ -85,6 +89,65 @@ export default function RelatedProductsCarousel({
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50; // Minimum swipe distance
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        nextSlide(); // Swipe left - next slide
+      } else {
+        prevSlide(); // Swipe right - previous slide
+      }
+    }
+    
+    setIsDragging(false);
+  };
+
+  // Mouse handlers for desktop drag
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setCurrentX(e.clientX);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50;
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    
+    setIsDragging(false);
+  };
 
   // SIMPLIFICATION : Toujours utiliser les produits disponibles
   const displayProducts = allProducts
@@ -123,28 +186,38 @@ export default function RelatedProductsCarousel({
 
         {/* Carousel des produits */}
         <div className="relative mb-12">
-          {/* Boutons de navigation */}
+          {/* Boutons de navigation - cachés sur mobile */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white text-[#8B4513] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#8B4513] shadow-lg"
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white text-[#8B4513] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#8B4513] shadow-lg"
             aria-label="Produit précédent"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white text-[#8B4513] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#8B4513] shadow-lg"
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white text-[#8B4513] p-3 rounded-full hover:bg-[#FAF7F2] transition-all duration-300 border border-[#8B4513] shadow-lg"
             aria-label="Produit suivant"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
 
-          {/* Grille défilante */}
-          <div className="overflow-hidden">
+          {/* Grille défilante avec touch support */}
+          <div 
+            ref={carouselRef}
+            className="overflow-hidden cursor-grab active:cursor-grabbing"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
             <div 
-              className="flex gap-6 transition-transform duration-500 ease-in-out"
+              className="flex gap-4 md:gap-6 transition-transform duration-500 ease-in-out"
               style={{
-                transform: `translateX(-${currentIndex * 25}%)`
+                transform: `translateX(-${currentIndex * 100}%)`
               }}
             >
               {/* Afficher les produits */}
@@ -153,10 +226,10 @@ export default function RelatedProductsCarousel({
                 return (
                   <div
                     key={`${fields.id}-${index}`}
-                    className="flex-shrink-0 w-full md:w-1/2 lg:w-1/4 px-2"
+                    className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-1 sm:px-2"
                   >
-                    <div className="bg-white rounded-2xl p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] h-full border border-[#E8E4DF] w-[85vw] mx-auto md:w-auto">
-                      <div className="h-56 rounded-xl mb-4 relative overflow-hidden bg-[#E8D5B7]">
+                    <div className="bg-white rounded-2xl p-3 sm:p-4 hover:shadow-lg transition-all duration-300 transform hover:scale-[1.02] h-full border border-[#E8E4DF] w-[90vw] sm:w-auto mx-auto">
+                      <div className="h-48 sm:h-56 rounded-xl mb-3 sm:mb-4 relative overflow-hidden bg-[#E8D5B7]">
                         <Image
                           src={cleanImageUrl(fields.image)}
                           alt={fields.name}
@@ -166,20 +239,20 @@ export default function RelatedProductsCarousel({
                         />
                       </div>
                       
-                      <div className="flex flex-col items-center gap-2">
+                      <div className="flex flex-col items-center gap-2 mb-2">
                         {/* Badge "Sélection du moment" - conditionnel */}
                         {(fields.id === "1" || fields.name?.includes("Sélection")) && (
-                          <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8B4513] mb-2">
+                          <div className="inline-block rounded-full bg-[#E8D4B8] px-2 sm:px-3 py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-[#8B4513]">
                             Sélection du moment
                           </div>
                         )}
                         
-                        <h3 className="font-heading text-base font-semibold text-[#2C2C2C] line-clamp-2">
+                        <h3 className="font-heading text-sm sm:text-base font-semibold text-[#2C2C2C] line-clamp-2 text-center leading-tight">
                           {fields.name}
                         </h3>
                         {fields.rating && (
                           <div className="flex items-center gap-1">
-                            <Star className="h-3 w-3 text-[#8B4513] fill-current" />
+                            <Star className="h-3 w-3 text-[#8B4513] fill-current flex-shrink-0" />
                             <span className="text-xs font-medium text-[#6B6B6B]">
                               {fields.rating}/5
                             </span>
@@ -187,17 +260,17 @@ export default function RelatedProductsCarousel({
                         )}
                       </div>
                       
-                      <p className="text-sm text-[#6B5B45] mb-3 line-clamp-2">
+                      <p className="text-xs sm:text-sm text-[#6B5B45] mb-3 line-clamp-2 text-center leading-relaxed">
                         {fields.description || `Création de la catégorie ${fields.category}`}
                       </p>
                       
-                      <div className="flex items-center justify-between">
-                        <span className="text-base font-bold text-[#2C2C2C]">
+                      <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                        <span className="text-sm sm:text-base font-bold text-[#2C2C2C] text-center sm:text-left">
                           {fields.price}
                         </span>
                         <Link
                           href={`/produit/${fields.slug}`}
-                          className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-[#8B4513] rounded-lg hover:bg-[#A0522D] transition-colors duration-200 shadow-sm"
+                          className="inline-flex items-center justify-center px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white bg-[#8B4513] rounded-lg hover:bg-[#A0522D] transition-colors duration-200 shadow-sm whitespace-nowrap"
                         >
                           Voir
                         </Link>

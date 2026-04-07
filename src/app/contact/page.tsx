@@ -100,10 +100,10 @@ export default function ContactPage() {
                 <div>
                   <div className="text-xs text-muted-foreground">Téléphone</div>
                   <a
-                    href="tel:+33763920823"
+                    href="tel:+33749072861"
                     className="mt-1 block text-sm font-medium text-foreground hover:text-accent transition-colors"
                   >
-                    +33 7 63 92 08 23
+                    +33 7 49 07 28 61
                   </a>
                 </div>
               </div>

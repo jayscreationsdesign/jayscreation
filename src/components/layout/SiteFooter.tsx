@@ -41,16 +41,16 @@ export function SiteFooter({}: SiteFooterProps) {
                   <div className="h-8 w-8 rounded-full bg-[#8B4513] flex items-center justify-center flex-shrink-0">
                     <Phone className="h-4 w-4 text-white" />
                   </div>
-                  <a href="tel:+33763920823" className="hover:text-[#6b3410] transition-colors font-medium">
-                    +33 7 63 92 08 23
+                  <a href="tel:+33749072861" className="hover:text-[#6b3410] transition-colors font-medium">
+                    +33 7 49 07 28 61
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-white">
                   <div className="h-8 w-8 rounded-full bg-[#8B4513] flex items-center justify-center flex-shrink-0">
                     <Mail className="h-4 w-4 text-white" />
                   </div>
-                  <a href="mailto:jayscreations.d@gmail.com" className="hover:text-[#6b3410] transition-colors font-medium">
-                    jayscreations.d@gmail.com
+                  <a href="mailto:contact@jayscreationsdesign.fr" className="hover:text-[#6b3410] transition-colors font-medium">
+                    contact@jayscreationsdesign.fr
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-white">

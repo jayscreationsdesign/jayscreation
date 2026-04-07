@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { products } from "@/data/products";
 import type { Product } from "@/data/products";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // Fonction pour nettoyer les URLs d'images en supprimant les query strings
 function cleanImageUrl(url: string): string {
@@ -22,6 +22,10 @@ export default function TendancesClient() {
     .slice(0, 8);
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % topRatedProducts.length);
@@ -30,6 +34,74 @@ export default function TendancesClient() {
   const prevSlide = () => {
     setCurrentIndex((prev) => (prev - 1 + topRatedProducts.length) % topRatedProducts.length);
   };
+
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50; // Minimum swipe distance
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        nextSlide(); // Swipe left - next slide
+      } else {
+        prevSlide(); // Swipe right - previous slide
+      }
+    }
+    
+    setIsDragging(false);
+  };
+
+  // Mouse handlers for desktop drag
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setCurrentX(e.clientX);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50;
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    
+    setIsDragging(false);
+  };
+
+  // Auto-advance carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000); // Change slide every 5 seconds
+    
+    return () => clearInterval(interval);
+  }, [currentIndex]);
 
   return (
     <section className="py-16 bg-gradient-to-r from-[#8B4513] to-[#D4A574] relative overflow-hidden">
@@ -57,38 +129,48 @@ export default function TendancesClient() {
 
         {/* Carousel des produits tendance */}
         <div className="relative mb-12">
-          {/* Boutons de navigation */}
+          {/* Boutons de navigation - cachés sur mobile */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300 border border-white/30"
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300 border border-white/30"
             aria-label="Produit précédent"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300 border border-white/30"
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 bg-white/20 backdrop-blur-md text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300 border border-white/30"
             aria-label="Produit suivant"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
 
-          {/* Grille défilante */}
-          <div className="overflow-hidden">
+          {/* Grille défilante avec touch support */}
+          <div 
+            ref={carouselRef}
+            className="overflow-hidden cursor-grab active:cursor-grabbing"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
             <div 
-              className="flex gap-6 transition-transform duration-500 ease-in-out"
+              className="flex gap-4 md:gap-6 transition-transform duration-500 ease-in-out"
               style={{
-                transform: `translateX(-${currentIndex * 25}%)`
+                transform: `translateX(-${currentIndex * 100}%)`
               }}
             >
               {/* Dupliquer les produits pour un défilement infini */}
               {[...topRatedProducts, ...topRatedProducts].map((product, index) => (
                 <div
                   key={`${product.id}-${index}`}
-                  className="flex-shrink-0 w-full md:w-1/2 lg:w-1/4 px-2"
+                  className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-1 sm:px-2"
                 >
-                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-[1.02] h-full">
-                    <div className="aspect-square bg-white/20 rounded-xl mb-4 relative overflow-hidden">
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-3 sm:p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-[1.02] h-full">
+                    <div className="aspect-square bg-white/20 rounded-xl mb-3 sm:mb-4 relative overflow-hidden">
                       <Image
                         src={cleanImageUrl(product.image)}
                         alt={product.name}
@@ -97,29 +179,29 @@ export default function TendancesClient() {
                       />
                     </div>
                     
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-heading text-sm font-semibold text-white line-clamp-2">
+                    <div className="flex flex-col gap-2 mb-2">
+                      <h3 className="font-heading text-xs sm:text-sm font-semibold text-white line-clamp-2 leading-tight">
                         {product.name}
                       </h3>
                       <div className="flex items-center gap-1">
-                        <Star className="h-3 w-3 text-yellow-300 fill-current" />
+                        <Star className="h-3 w-3 text-yellow-300 fill-current flex-shrink-0" />
                         <span className="text-xs font-medium text-white">
                           {product.rating}/5
                         </span>
                       </div>
                     </div>
                     
-                    <p className="text-xs text-white/80 mb-3 line-clamp-2">
+                    <p className="text-xs text-white/80 mb-3 line-clamp-2 leading-relaxed">
                       {product.description || `Produit tendance de la catégorie ${product.category}`}
                     </p>
                     
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-bold text-white">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs sm:text-sm font-bold text-white flex-shrink-0">
                         {product.price}
                       </span>
                       <Link
                         href={`/produit/${product.slug}`}
-                        className="inline-flex items-center gap-1 bg-white/20 text-white px-3 py-1 rounded-lg text-xs font-medium hover:bg-white/30 transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1 bg-white/20 text-white px-2 sm:px-3 py-1 rounded-lg text-xs font-medium hover:bg-white/30 transition-colors cursor-pointer whitespace-nowrap"
                       >
                         Voir
                       </Link>
