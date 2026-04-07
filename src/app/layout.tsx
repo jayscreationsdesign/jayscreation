@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import "../styles/mobile-fixes-v2.css";
 
 import Footer from "@/components/site/Footer";
 import Header from "@/components/site/Header";

@@ -34,6 +34,9 @@ export default function ImageCarousel({
   const validImages = getImageArray(images);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Auto-play logic
@@ -72,6 +75,65 @@ export default function ImageCarousel({
     setIsPlaying(!isPlaying);
   }, [isPlaying]);
 
+  // Touch handlers for mobile swipe
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].clientX);
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50; // Minimum swipe distance
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        goToNext(); // Swipe left - next image
+      } else {
+        goToPrevious(); // Swipe right - previous image
+      }
+    }
+    
+    setIsDragging(false);
+  };
+
+  // Mouse handlers for desktop drag
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.clientX);
+    setCurrentX(e.clientX);
+    e.preventDefault();
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setCurrentX(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) return;
+    
+    const diff = startX - currentX;
+    const threshold = 50;
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        goToNext();
+      } else {
+        goToPrevious();
+      }
+    }
+    
+    setIsDragging(false);
+  };
+
   // Get aspect ratio classes
   const getAspectRatioClass = () => {
     switch (aspectRatio) {
@@ -104,7 +166,16 @@ export default function ImageCarousel({
   return (
     <div className={`relative ${className}`}>
       {/* Main Image */}
-      <div className={`relative ${getAspectRatioClass()} overflow-hidden`}>
+      <div 
+        className={`relative ${getAspectRatioClass()} overflow-hidden cursor-grab active:cursor-grabbing`}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
         <Image
           src={validImages[currentIndex]}
           alt={`${alt} - Image ${currentIndex + 1}`}

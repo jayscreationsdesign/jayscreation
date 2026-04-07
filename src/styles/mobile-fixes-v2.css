@@ -1,0 +1,179 @@
+/* Corrections mobile pour carrousels et boutons - FORCÉ avec !important */
+
+/* ===========================================
+   PROBLÈME 1 - CARROUSEL TENDANCES - IMAGES
+   =========================================== */
+@media (max-width: 768px) {
+  /* Conteneur image de la carte Tendances */
+  .aspect-square {
+    height: 220px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px !important;
+    background: #FDFBF7 !important;
+  }
+
+  /* Image produit Tendances */
+  .aspect-square img {
+    max-width: 90% !important;
+    max-height: 90% !important;
+    object-fit: contain !important;
+  }
+
+  /* Alternative sélecteur */
+  div[class*="aspect-square"] {
+    height: 220px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px !important;
+    background: #FDFBF7 !important;
+  }
+
+  div[class*="aspect-square"] img {
+    max-width: 90% !important;
+    max-height: 90% !important;
+    object-fit: contain !important;
+  }
+}
+
+/* ===========================================
+   PROBLÈME 2 - CARROUSEL FICHE PRODUIT - SWIPE
+   =========================================== */
+@media (max-width: 768px) {
+  /* Activer le swipe sur le carrousel produit */
+  .relative {
+    touch-action: pan-y !important;
+  }
+
+  /* Image fiche produit - NE PAS rogner */
+  .relative img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 350px !important;
+    object-fit: contain !important;
+    background: #FDFBF7 !important;
+  }
+
+  /* Conteneur principal du carrousel produit */
+  .relative[class*="aspect-"] {
+    max-height: 350px !important;
+    background: #FDFBF7 !important;
+  }
+
+  /* Forcer les images à ne pas être coupées */
+  img[alt*="Image"] {
+    object-fit: contain !important;
+    max-height: 350px !important;
+  }
+}
+
+/* ===========================================
+   PROBLÈME 3 - BOUTON "VOIR" TROP LARGE
+   =========================================== */
+@media (max-width: 768px) {
+  /* Forcer le bouton "Voir" à être compact */
+  a[href*="/produit/"] {
+    width: auto !important;
+    max-width: 120px !important;
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Zone prix + bouton côte à côte */
+  .flex {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 16px !important;
+  }
+
+  /* Prix visible */
+  .font-bold {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* ===========================================
+   CORRECTIONS SPÉCIFIQUES POUR "VOUS AIMEREZ AUSSI"
+   =========================================== */
+@media (max-width: 768px) {
+  /* Images dans "Vous aimerez aussi" */
+  .h-48 {
+    height: 220px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px !important;
+  }
+
+  .h-48 img {
+    max-width: 90% !important;
+    max-height: 90% !important;
+    object-fit: contain !important;
+  }
+
+  /* Bouton "Voir" dans "Vous aimerez aussi" */
+  .rounded-lg {
+    max-width: 120px !important;
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Layout prix + bouton dans "Vous aimerez aussi" */
+  .flex-col {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 10px 16px !important;
+  }
+}
+
+/* ===========================================
+   AMÉLIORATIONS SWIPE GÉNÉRALES
+   =========================================== */
+@media (max-width: 768px) {
+  /* Activer touch-action sur tous les carrousels */
+  .overflow-hidden {
+    touch-action: pan-y !important;
+  }
+
+  /* Éviter les conflits avec les clics */
+  .cursor-grab {
+    touch-action: pan-y !important;
+    user-select: none !important;
+  }
+
+  /* Améliorer la visibilité des images sur mobile */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* ===========================================
+   SPÉCIFIQUE IPHONE SE (375px) et iPhone 14 (390px)
+   =========================================== */
+@media (max-width: 390px) {
+  /* Images encore plus compactes sur petits écrans */
+  div[class*="aspect-square"] {
+    height: 200px !important;
+    padding: 8px !important;
+  }
+
+  /* Boutons encore plus petits */
+  a[href*="/produit/"] {
+    max-width: 100px !important;
+    padding: 6px 16px !important;
+    font-size: 12px !important;
+  }
+}
