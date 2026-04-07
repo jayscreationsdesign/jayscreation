@@ -168,6 +168,7 @@ export default function ImageCarousel({
       {/* Main Image */}
       <div 
         className={`relative ${getAspectRatioClass()} overflow-hidden cursor-grab active:cursor-grabbing`}
+        style={{ touchAction: 'pan-y' }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}

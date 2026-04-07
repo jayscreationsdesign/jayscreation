@@ -1,0 +1,217 @@
+/* ============================================
+   CORRECTIONS MOBILE UNIQUEMENT (max-width: 768px)
+   NE RIEN CHANGER AU DESKTOP
+   ============================================ */
+
+@media (max-width: 768px) {
+  
+  /* ============================================
+     CARROUSEL TENDANCES - HOMEPAGE
+     ============================================ */
+
+  /* Zone image de la carte Tendances : forcer un carré compact */
+  .aspect-square.bg-white\/20.rounded-xl.mb-3.sm\:mb-4.relative.overflow-hidden,
+  .aspect-square.bg-white\/20.rounded-xl.mb-3.relative.overflow-hidden {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    max-height: 250px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px !important;
+    background: #FDFBF7 !important;
+    overflow: hidden !important;
+  }
+
+  /* Alternative sélecteur plus simple */
+  .aspect-square {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    max-height: 250px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px !important;
+    background: #FDFBF7 !important;
+    overflow: hidden !important;
+  }
+
+  /* Image dans la carte Tendances : CONTAIN, pas cover */
+  .aspect-square.bg-white\/20.rounded-xl.mb-3.sm\:mb-4.relative.overflow-hidden img,
+  .aspect-square.bg-white\/20.rounded-xl.mb-3.relative.overflow-hidden img,
+  .aspect-square img {
+    object-fit: contain !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 85% !important;
+    max-height: 85% !important;
+  }
+
+  /* Bouton "Voir" dans Tendances : compact, pas pleine largeur */
+  .inline-flex.items-center.gap-1.bg-white\/20.text-white.px-2.sm\:px-3.py-1.rounded-lg.text-xs.font-medium.hover\:bg-white\/30.transition-colors.cursor-pointer.whitespace-nowrap,
+  a[href*="/produit/"] {
+    width: auto !important;
+    max-width: 120px !important;
+    min-width: unset !important;
+    flex: 0 0 auto !important;
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+  }
+
+  /* Zone prix + bouton : flex côte à côte */
+  .flex.items-center.justify-between.gap-2 {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  /* Prix : visible, ne se compresse pas */
+  .text-xs.sm\:text-sm.font-bold.text-white.flex-shrink-0 {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+
+  /* ============================================
+     FICHE PRODUIT - PAGE PRODUIT
+     ============================================ */
+
+  /* Image fiche produit : CONTAIN, pas cover - ne jamais rogner */
+  .relative[class*="aspect-"] img,
+  .relative.overflow-hidden img,
+  img[alt*="Image"] {
+    object-fit: contain !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 350px !important;
+    background: #FDFBF7 !important;
+  }
+
+  /* Conteneur image fiche produit */
+  .relative[class*="aspect-"],
+  .relative.overflow-hidden {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #FDFBF7 !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    max-height: 350px !important;
+  }
+
+  /* ============================================
+     CARTE PRODUIT BOUTIQUE ("Vous aimerez aussi")
+     ============================================ */
+
+  /* Zone image carte boutique */
+  .h-48.sm\:h-56.rounded-xl.mb-3.sm\:mb-4.relative.overflow-hidden.bg-\[\#E8D5B7\] {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    max-height: 250px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px !important;
+    background: #FDFBF7 !important;
+    overflow: hidden !important;
+  }
+
+  .h-48.sm\:h-56.rounded-xl.mb-3.sm\:mb-4.relative.overflow-hidden.bg-\[\#E8D5B7\] img {
+    object-fit: contain !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 85% !important;
+    max-height: 85% !important;
+  }
+
+  /* Alternative sélecteur pour images boutique */
+  .h-48 {
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+    max-height: 250px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 12px !important;
+    background: #FDFBF7 !important;
+    overflow: hidden !important;
+  }
+
+  .h-48 img {
+    object-fit: contain !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 85% !important;
+    max-height: 85% !important;
+  }
+
+  /* Bouton "Voir" boutique : même traitement */
+  .inline-flex.items-center.justify-center.px-3.sm\:px-4.py-2.text-xs.sm\:text-sm.font-medium.text-white.bg-\[\#8B4513\].rounded-lg {
+    width: auto !important;
+    max-width: 120px !important;
+    padding: 8px 20px !important;
+    font-size: 13px !important;
+  }
+
+  /* Layout prix + bouton dans "Vous aimerez aussi" */
+  .flex.flex-col.sm\:flex-row.items-center.justify-between.gap-2 {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 12px !important;
+  }
+
+  /* Prix dans "Vous aimerez aussi" */
+  .text-sm.sm\:text-base.font-bold.text-\[\#2C2C2C\] {
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+
+  /* ============================================
+     AMÉLIORATIONS SWIPE GÉNÉRALES
+     ============================================ */
+
+  /* Activer touch-action sur tous les carrousels */
+  .overflow-hidden,
+  .relative {
+    touch-action: pan-y !important;
+  }
+
+  /* Curseur grab pour swipe */
+  .cursor-grab {
+    touch-action: pan-y !important;
+    user-select: none !important;
+  }
+
+  /* ============================================
+     SPÉCIFIQUE PETITS ÉCRANS (375px-390px)
+     ============================================ */
+
+  @media (max-width: 390px) {
+    /* Images encore plus compactes */
+    .aspect-square,
+    .h-48 {
+      max-height: 220px !important;
+      padding: 8px !important;
+    }
+
+    /* Boutons encore plus petits */
+    a[href*="/produit/"],
+    .inline-flex.items-center.justify-center.px-3.sm\:px-4.py-2.text-xs.sm\:text-sm.font-medium.text-white.bg-\[\#8B4513\].rounded-lg {
+      max-width: 100px !important;
+      padding: 6px 16px !important;
+      font-size: 12px !important;
+    }
+
+    /* Prix légèrement plus petit */
+    .text-xs.sm\:text-sm.font-bold.text-white.flex-shrink-0,
+    .text-sm.sm\:text-base.font-bold.text-\[\#2C2C2C\] {
+      font-size: 14px !important;
+    }
+  }
+}
