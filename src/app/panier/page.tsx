@@ -5,11 +5,12 @@ import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
+import { validateCoupon, calculateDiscount, formatDiscountValue, OFFICIAL_COUPONS } from "@/lib/discounts";
 
 export default function PanierPage() {
   const { items, removeItem, updateQuantite, clearCart } = useCartStore();
   const [codePromo, setCodePromo] = useState('');
-  const [promoApplied, setPromoApplied] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
   const [promoError, setPromoError] = useState('');
   const [hydrated, setHydrated] = useState(false);
   
@@ -42,24 +43,32 @@ export default function PanierPage() {
 
   const handleApplyPromo = () => {
     setPromoError('');
+    setAppliedCoupon(null);
     
     if (!codePromo.trim()) {
       setPromoError('Veuillez entrer un code promo');
       return;
     }
     
-    // Code pour 100% de réduction
-    if (codePromo.toUpperCase() === 'JAYS100') {
-      setPromoApplied(true);
+    const coupon = validateCoupon(codePromo, sousTotal);
+    
+    if (coupon) {
+      setAppliedCoupon(coupon);
       setPromoError('');
     } else {
-      setPromoError('Code promo invalide');
+      setPromoError('Code promo invalide ou conditions non remplies');
     }
   };
 
   const getRemise = () => {
-    if (!promoApplied || codePromo.toUpperCase() !== 'JAYS100') return 0;
-    return sousTotal; // 100% de réduction
+    if (!appliedCoupon) return 0;
+    return calculateDiscount(appliedCoupon, sousTotal);
+  };
+
+  const getRemiseLivraison = () => {
+    if (!appliedCoupon || appliedCoupon.type !== 'livraison_gratuite') return 0;
+    // Simulation des frais de livraison (5.90€)
+    return 5.90;
   };
 
   const totalAvecRemise = sousTotal - getRemise();
@@ -202,11 +211,11 @@ export default function PanierPage() {
                       </div>
                       <div>
                         <h3 className="text-white font-bold text-lg">Coupon de réduction</h3>
-                        <p className="text-white/90 text-sm">Économisez 100% sur votre commande !</p>
+                        <p className="text-white/90 text-sm">Profitez de nos offres exclusives !</p>
                       </div>
                     </div>
                     
-                    {!promoApplied ? (
+                    {!appliedCoupon ? (
                       <div className="space-y-3">
                         <input
                           type="text"
@@ -227,10 +236,14 @@ export default function PanierPage() {
                           </div>
                         )}
                         <div className="bg-white/20 backdrop-blur p-3 rounded-lg">
-                          <p className="text-white text-xs font-medium mb-2">🎉 Code spécial disponible :</p>
-                          <div className="flex items-center justify-between">
-                            <code className="bg-white/30 px-3 py-1 rounded text-white font-bold text-sm">JAYS100</code>
-                            <span className="text-white/90 text-xs">100% de réduction</span>
+                          <p className="text-white text-xs font-medium mb-2">?? Codes disponibles :</p>
+                          <div className="space-y-2">
+                            {OFFICIAL_COUPONS.filter(c => c.statut === 'actif').slice(0, 2).map(coupon => (
+                              <div key={coupon.id} className="flex items-center justify-between">
+                                <code className="bg-white/30 px-3 py-1 rounded text-white font-bold text-sm">{coupon.code}</code>
+                                <span className="text-white/90 text-xs">{formatDiscountValue(coupon)}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </div>
@@ -243,14 +256,14 @@ export default function PanierPage() {
                             </div>
                             <div>
                               <span className="text-white font-bold text-sm">
-                                Coupon JAYS100 appliqué !
+                                Coupon {appliedCoupon.code} appliqué !
                               </span>
-                              <p className="text-white/90 text-xs">Commande gratuite</p>
+                              <p className="text-white/90 text-xs">{appliedCoupon.description}</p>
                             </div>
                           </div>
                           <button
                             onClick={() => {
-                              setPromoApplied(false);
+                              setAppliedCoupon(null);
                               setCodePromo('');
                               setPromoError('');
                             }}
@@ -266,7 +279,7 @@ export default function PanierPage() {
                 
                 {getRemise() > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-green-600 font-medium">Réduction (100%)</span>
+                    <span className="text-green-600 font-medium">Réduction ({formatDiscountValue(appliedCoupon)})</span>
                     <span className="text-green-600 font-medium">
                       -{formatPrice(getRemise())}
                     </span>

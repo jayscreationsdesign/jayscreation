@@ -21,7 +21,7 @@ export const products: Product[] = [
   {
     id: "7",
     name: "Boîte Cadeau Personnalisée",
-    price: "Sur devis",
+    price: "5,90\u20AC",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîte Cadeau Personnalisée1.png",
@@ -40,7 +40,7 @@ export const products: Product[] = [
   {
     id: "8",
     name: "Boîte de Lait Personnalisée",
-    price: "Sur devis",
+    price: "4,90\u20AC",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîte de Lait Personnalisée5.png",
@@ -57,7 +57,7 @@ export const products: Product[] = [
   {
     id: "9",
     name: "Boîte Pom'Potes Personnalisée",
-    price: "2,30€",
+    price: "2,30\u20AC",
     numericPrice: 2.3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -70,7 +70,7 @@ export const products: Product[] = [
   {
     id: "10",
     name: "Boîtes de Pop Corn Personnalisées",
-    price: "2,50€ - 5,50€",
+    price: "2,50\u20AC - 5,50\u20AC",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîtes de Pop Corn Personnalisées2.png",
@@ -85,7 +85,7 @@ export const products: Product[] = [
   {
     id: "11",
     name: "Box Pyramide",
-    price: "2,99€",
+    price: "2,99\u20AC",
     numericPrice: 2.99,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -98,7 +98,7 @@ export const products: Product[] = [
   {
     id: "12",
     name: "Cadre Personnalisé",
-    price: "15,00€",
+    price: "15,00\u20AC",
     numericPrice: 15,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -113,7 +113,7 @@ export const products: Product[] = [
     name: "Cône Friandise Personnalisé",
     slug: "cone-friandise-personnalise",
     themes: ["Minnie", "Rose", "Classique"],
-    price: "Sur devis",
+    price: "3,90\u20AC",
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/67.png",
@@ -139,7 +139,7 @@ export const products: Product[] = [
   {
     id: "13",
     name: "Gourde Personnalisée",
-    price: "25,00€",
+    price: "25,00\u20AC",
     numericPrice: 25,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -211,7 +211,7 @@ export const products: Product[] = [
     name: "Boîte à Œuf de Pâques Personnalisée",
     slug: "boite-oeuf-paques-personnalisee",
     themes: ["Pâques", "Stitch", "Printemps"],
-    price: "Sur devis",
+    price: "6,90\u20AC",
     category: "Papeterie Saisonnière",
     categorySlug: "paques",
     image: "/images/products/36.png",
@@ -225,7 +225,7 @@ export const products: Product[] = [
   {
     id: "14",
     name: "Haribo Dragibus",
-    price: "2,80€",
+    price: "2,80\u20AC",
     numericPrice: 2.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -238,7 +238,7 @@ export const products: Product[] = [
   {
     id: "15",
     name: "Kinder Bueno",
-    price: "3,20€",
+    price: "3,20\u20AC",
     numericPrice: 3.2,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -252,7 +252,7 @@ export const products: Product[] = [
   {
     id: "16",
     name: "Kinder Country",
-    price: "2,70€",
+    price: "2,70\u20AC",
     numericPrice: 2.7,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -265,7 +265,7 @@ export const products: Product[] = [
   {
     id: "17",
     name: "Kinder Maxi",
-    price: "2,50€",
+    price: "2,50\u20AC",
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -278,7 +278,7 @@ export const products: Product[] = [
   {
     id: "18",
     name: "M&Ms",
-    price: "3,00€",
+    price: "3,00\u20AC",
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -291,7 +291,7 @@ export const products: Product[] = [
   {
     id: "19",
     name: "Mini Nutella",
-    price: "2,70€",
+    price: "2,70\u20AC",
     numericPrice: 2.7,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -304,7 +304,7 @@ export const products: Product[] = [
   {
     id: "20",
     name: "Paquet de Chips Personnalisé",
-    price: "2,80€",
+    price: "2,80\u20AC",
     numericPrice: 2.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -321,7 +321,7 @@ export const products: Product[] = [
   {
     id: "21",
     name: "Plateau de Confiserie Personnalisé",
-    price: "Sur devis",
+    price: "8,90\u20AC",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Plateau de Confiserie Personnalisé2.png",
@@ -333,7 +333,7 @@ export const products: Product[] = [
   {
     id: "22",
     name: "Sac Cadeau Personnalisé",
-    price: "2,90€",
+    price: "2,90\u20AC",
     numericPrice: 2.9,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -349,7 +349,7 @@ export const products: Product[] = [
   {
     id: "23",
     name: "Sachet de Bonbons Personnalisé",
-    price: "2,50€",
+    price: "2,50\u20AC",
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -362,7 +362,7 @@ export const products: Product[] = [
   {
     id: "24",
     name: "Smarties",
-    price: "3,00€",
+    price: "3,00\u20AC",
     numericPrice: 3,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -390,7 +390,7 @@ export const products: Product[] = [
   {
     id: "25",
     name: "Tasse Personnalisée",
-    price: "20,00€",
+    price: "20,00\u20AC",
     numericPrice: 20,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -403,7 +403,7 @@ export const products: Product[] = [
   {
     id: "1",
     name: "Étiquette Bouteille d'Eau",
-    price: "1,00€",
+    price: "1,00\u20AC",
     numericPrice: 1,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -420,7 +420,7 @@ export const products: Product[] = [
   {
     id: "2",
     name: "Étiquette Capri-Sun",
-    price: "1,50€",
+    price: "1,50\u20AC",
     numericPrice: 1.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -436,7 +436,7 @@ export const products: Product[] = [
   {
     id: "3",
     name: "Étiquette Champomy",
-    price: "2,50€",
+    price: "2,50\u20AC",
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -449,7 +449,7 @@ export const products: Product[] = [
   {
     id: "4",
     name: "Étiquette Mini Canette Coca-Cola",
-    price: "1,80€",
+    price: "1,80\u20AC",
     numericPrice: 1.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
@@ -481,7 +481,7 @@ export const products: Product[] = [
   {
     id: "27",
     name: "T-Shirt Personnalisé",
-    price: "25,00€ - 30,00€",
+    price: "25,00\u20AC - 30,00\u20AC",
     category: "Flocages",
     categorySlug: "flocage",
     image: "/images/products/T-Shirt Personnalisé.png",
@@ -504,16 +504,16 @@ export const products: Product[] = [
   // MARIAGE - FAIRE-PARTS
   {
     id: "28",
-    name: "Faire-Part Mariage Élégant",
-    slug: "faire-part-mariage-elegant",
-    themes: ["Mariage", "Élégant", "Doré"],
+    name: "Faire-Part Baptême Élégant",
+    slug: "faire-part-bapteme-elegant",
+    themes: ["Baptême", "Élégant", "Doré"],
     price: "Sur devis",
     category: "Faire-parts",
     categorySlug: "faire-parts",
-    parentCategorySlug: "mariage",
+    parentCategorySlug: "bapteme",
     image: "/images/products/Faire-Part Mariage Élégant.png",
-    description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable avec vos noms, date et informations de cérémonie. Création artisanale française pour un mariage inoubliable.",
-    longDescription: "Annoncez votre mariage avec notre faire-part élégant et sophistiqué ! Ce faire-part premium présente un cadre géométrique délicat avec feuillage artistique et finitions dorées luxueuses. Entièrement personnalisable avec vos noms, date de mariage, lieu de cérémonie et informations de réception. Création artisanale française avec papier de qualité et impression haute définition. Design intemporel qui allie modernité et tradition pour un impact mémorable. Idéal pour annoncer votre union avec classe et élégance. Personnalisation complète, maquette sous 24h et livraison soignée pour des faire-parts dignes de votre journée parfaite.",
+    description: "Faire-part de baptême élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable avec vos noms, date et informations de cérémonie. Création artisanale française pour un baptême inoubliable.",
+    longDescription: "Annoncez le baptême de votre enfant avec notre faire-part élégant et sophistiqué ! Ce faire-part premium présente un cadre géométrique délicat avec feuillage artistique et finitions dorées luxueuses. Entièrement personnalisable avec le prénom de votre enfant, date de baptême, lieu de cérémonie et informations de réception. Création artisanale française avec papier de qualité et impression haute définition. Design intemporel qui allie modernité et tradition pour un impact mémorable. Idéal pour annoncer ce moment sacré avec classe et élégance. Personnalisation complète, maquette sous 24h et livraison soignée pour des faire-parts dignes de cette journée spéciale.",
     rating: 5,
   },
 

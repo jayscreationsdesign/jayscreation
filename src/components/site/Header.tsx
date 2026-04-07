@@ -7,7 +7,8 @@ import { ShoppingBag, ChevronDown, Menu, X, User, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { categories } from "@/data/categories";
 import { useCartStore } from "@/store/cartStore";
-import { getUser } from "@/lib/auth";
+import { getUser, getUserProfile } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 // ─── Types ────────────────────────────────────────────────────────────
 
@@ -134,6 +135,7 @@ export default function Header() {
   const [cartHover, setCartHover] = useState(false);
   const [cartDropdownHover, setCartDropdownHover] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<any>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLDivElement>(null);
@@ -182,13 +184,52 @@ export default function Header() {
       try {
         const currentUser = await getUser();
         setUser(currentUser);
+        
+        // Récupérer le profil complet si l'utilisateur est connecté
+        if (currentUser) {
+          try {
+            const profile = await getUserProfile(currentUser.id);
+            setUserProfile(profile);
+          } catch (profileError) {
+            console.error('Erreur récupération profil:', profileError);
+            setUserProfile(null);
+          }
+        } else {
+          setUserProfile(null);
+        }
       } catch (error) {
         console.error('Erreur vérification utilisateur:', error);
         setUser(null);
+        setUserProfile(null);
       }
     };
     
     checkUser();
+  }, []);
+
+  // Surveiller les changements d'authentification (connexion/déconnexion)
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event: any, session: any) => {
+        console.log('Auth state changed:', event, session?.user?.email);
+        
+        if (event === 'SIGNED_IN' && session?.user) {
+          setUser(session.user);
+          try {
+            const profile = await getUserProfile(session.user.id);
+            setUserProfile(profile);
+          } catch (profileError) {
+            console.error('Erreur récupération profil après connexion:', profileError);
+            setUserProfile(null);
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+          setUserProfile(null);
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
 
   // Debug pour voir les articles dans la console
@@ -486,7 +527,12 @@ export default function Header() {
               >
                 <User className="h-4 w-4" />
                 <span className="hidden sm:inline">
-                  {user ? (user.user_metadata?.prenom || user.email?.split('@')[0]) : 'Connexion'}
+                  {user ? (
+                    userProfile?.prenom ? 
+                      `${userProfile.prenom} ${userProfile.nom || ''}`.trim() || userProfile.prenom :
+                      user.user_metadata?.prenom || 
+                      user.email?.split('@')[0]
+                  ) : 'Connexion'}
                 </span>
               </Link>
 
