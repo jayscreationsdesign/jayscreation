@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
       baseUrl,
       success_url: successUrl.toString(),
       cancel_url: cancelUrl.toString(),
-      totalAmount: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0)
+      totalAmount: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0)
     });
 
     const session = await stripe.checkout.sessions.create({
@@ -216,7 +216,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('commandes').insert({
         stripe_session_id: session.id,
         statut: 'en_attente',
-        total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+        total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0),
         client_nom: `${client.prenom} ${client.nom}`,
         client_email: client.email,
         client_telephone: client.telephone,
@@ -248,7 +248,7 @@ export async function POST(request: NextRequest) {
             pays: client.pays
           },
           items,
-          total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+          total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0),
           coupon: session.metadata?.coupon || ''
         })
       });
@@ -278,7 +278,7 @@ export async function POST(request: NextRequest) {
               email: client.email
             },
             items,
-            total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+            total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0),
             coupon: session.metadata?.coupon || ''
           }
         })
