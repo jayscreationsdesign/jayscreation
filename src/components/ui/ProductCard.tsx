@@ -75,7 +75,7 @@ export default function ProductCard({
       {/* IMAGE avec carrousel conditionnel et fond #fdf8ec */}
       <div className="relative">
         {hasMultipleImages ? (
-          <div className="product-card-uniform relative h-64 w-full rounded-t-3xl overflow-hidden shadow-lg bg-[#E8D5B7]">
+          <div className="product-card-uniform relative w-full aspect-square bg-[#FDFBF7] rounded-t-2xl overflow-hidden flex items-center justify-center p-3 md:p-4 shadow-lg">
             <ImageCarousel
               images={allImages}
               alt={product.name}
@@ -84,11 +84,11 @@ export default function ProductCard({
               showArrows={true}
               showDots={true}
               showThumbnails={false}
-              className="w-full"
+              className="w-full max-w-[80%] max-h-[80%] md:max-w-full md:max-h-full"
             />
           </div>
         ) : (
-          <div className="product-card-uniform relative h-64 w-full overflow-hidden rounded-t-3xl shadow-lg">
+          <div className="product-card-uniform relative w-full aspect-square bg-[#FDFBF7] rounded-t-2xl overflow-hidden flex items-center justify-center p-3 md:p-4 shadow-lg">
             {displayImage.includes('placeholder') ? (
               <ProductImagePlaceholder productName={product.name} />
             ) : (
@@ -96,9 +96,9 @@ export default function ProductCard({
                 src={displayImage}
                 alt={product.name}
                 fill
-                className="object-cover transition-transform duration-300 hover:scale-105 p-4"
+                className="max-w-[80%] max-h-[80%] md:max-w-full md:max-h-full w-auto h-auto object-contain transition-transform duration-300 hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                style={{ backgroundColor: '#E8D5B7' }}
+                style={{ backgroundColor: '#FDFBF7' }}
                 onError={handleImageError}
               />
             )}
@@ -107,35 +107,35 @@ export default function ProductCard({
       </div>
 
       {/* CONTENU */}
-      <div className="flex flex-1 flex-col items-center justify-between gap-2 p-6 text-center">
-        <div className="flex flex-col items-center gap-2">
+      <div className="flex flex-1 flex-col items-center justify-between gap-2 px-3 py-2 md:px-4 md:py-3 text-center">
+        <div className="flex flex-col items-center gap-2 w-full">
           {/* Badge "Sélection du moment" - conditionnel */}
           {(product.id === "1" || product.name?.includes("Sélection")) && (
-            <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8B4513] mb-2">
+            <div className="inline-block rounded-full bg-[#E8D4B8] px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs font-bold uppercase tracking-widest text-[#8B4513] mb-2">
               Sélection du moment
             </div>
           )}
           
           {/* Catégorie */}
           {showCategory && (
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <p className="text-[10px] md:text-xs font-medium uppercase tracking-wide text-muted-foreground">
               {product.category}
             </p>
           )}
 
           {/* Nom du produit */}
-          <h3 className="font-heading text-base font-semibold text-foreground line-clamp-2">
+          <h3 className="font-heading text-xs md:text-sm font-bold text-[#333] line-clamp-1 px-3 md:px-4 w-full">
             {product.name}
           </h3>
 
           {/* Prix adapté selon le pricing_type */}
           <div className="flex flex-col items-center gap-1">
-            <p className="text-base font-bold text-jc-accent">
+            <p className="text-xs md:text-sm font-bold text-[#333] whitespace-nowrap">
               {formatPrice(product)}
             </p>
             {/* Indication de quantité minimum si applicable */}
             {product.pricing_type === 'unit_with_minimum' && (product.min_quantity && product.min_quantity > 1) && (
-              <span className="text-xs text-muted-foreground">
+              <span className="text-[10px] md:text-xs text-muted-foreground">
                 min. {product.min_quantity} unités
               </span>
             )}
@@ -148,7 +148,7 @@ export default function ProductCard({
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    size={14}
+                    size={10}
                     className={
                       i < Math.floor(product.rating!)
                         ? "fill-yellow-400 text-yellow-400"
@@ -157,7 +157,7 @@ export default function ProductCard({
                   />
                 ))}
               </div>
-              <span className="text-sm text-muted-foreground">
+              <span className="text-[10px] md:text-xs text-muted-foreground">
                 {product.rating}
               </span>
             </div>
@@ -167,7 +167,7 @@ export default function ProductCard({
         {/* Bouton standardisé */}
         <PrimaryCtaButton 
           href={`/produit/${product.slug}`}
-          className="px-4 py-2 text-sm"
+          className="px-4 py-2 md:px-6 md:py-2.5 text-xs md:text-sm bg-[#8B6F47] text-white rounded-full whitespace-nowrap w-auto"
         >
           Voir
         </PrimaryCtaButton>

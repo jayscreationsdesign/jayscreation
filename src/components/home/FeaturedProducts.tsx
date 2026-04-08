@@ -67,49 +67,57 @@ export function FeaturedProducts() {
           <div className="flex md:grid md:grid-cols-4 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-4">
             {featured.slice(current, current + visibleCount).map((product) => (
               <div key={product.id}
-                className="snap-start shrink-0 w-[80vw] md:w-auto bg-white rounded-2xl p-4 flex flex-col gap-2">
+                className="snap-start shrink-0 w-[75vw] md:w-full bg-white rounded-2xl p-3 md:p-4 flex flex-col gap-2">
                 
                 {/* Image */}
-                <div className="relative h-48 w-full bg-[#E8D5B7] rounded-xl overflow-hidden">
+                <div className="relative w-full aspect-square bg-[#FDFBF7] rounded-xl overflow-hidden flex items-center justify-center p-2 md:p-3">
                   {product.image ? (
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="w-full h-full object-contain"
-                      style={{ backgroundColor: '#E8D5B7' }}
+                      className="max-w-[85%] max-h-[85%] md:max-w-full md:max-h-full w-auto h-auto object-contain"
+                      style={{ backgroundColor: '#FDFBF7' }}
                     />
                   ) : (
-                    <div className="w-full h-full rounded-xl bg-[#E8D5B7]" />
+                    <div className="w-full h-full rounded-xl bg-[#FDFBF7]" />
                   )}
                 </div>
 
                 {/* Infos */}
-                <div>
+                <div className="flex flex-col gap-2 flex-1">
                   {/* Badge "Sélection du moment" - conditionnel */}
                   {(product.id === "1" || product.name?.includes("Sélection")) && (
-                    <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8B4513] mb-2">
+                    <div className="inline-block rounded-full bg-[#E8D4B8] px-2 py-0.5 md:px-3 md:py-1 text-[10px] md:text-xs font-bold uppercase tracking-widest text-[#8B4513]">
                       Sélection du moment
                     </div>
                   )}
                   
-                  <div className="flex items-center gap-1 mb-1">
-                    <p className="text-sm font-semibold line-clamp-2">
-                      {product.name}
-                    </p>
-                    <div className="flex items-center gap-0.5 flex-shrink-0">
-                      <Star size={10} className="fill-yellow-500 text-yellow-500" />
-                      <span className="text-[#8B4513] text-xs">5/5</span>
-                    </div>
+                  {/* Nom du produit */}
+                  <h3 className="text-xs md:text-sm font-bold text-[#333] line-clamp-1">
+                    {product.name}
+                  </h3>
+
+                  {/* Rating */}
+                  <div className="flex items-center gap-1">
+                    <Star size={8} className="fill-yellow-500 text-yellow-500" />
+                    <span className="text-[#8B4513] text-[10px] md:text-xs">5/5</span>
                   </div>
-                  <p className="text-[#6B5B45] text-sm line-clamp-2 mb-3">
+
+                  {/* Description */}
+                  <p className="text-[#6B5B45] text-[10px] md:text-xs line-clamp-2 flex-1">
                     {product.description || 
                       `${product.name} personnalisé pour vos événements spéciaux. Design unique...`}
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-bold text-[#2C2C2C]">
+
+                  {/* Prix + Bouton */}
+                  <div className="flex items-center justify-between gap-2 mt-auto">
+                    <span className="text-xs md:text-sm font-bold text-[#333] whitespace-nowrap">
                       {product.price}
                     </span>
-                    <PrimaryCtaButton href={`/produit/${product.slug}`} className="w-full py-2 text-sm mt-auto">
+                    <PrimaryCtaButton 
+                      href={`/produit/${product.slug}`} 
+                      className="px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs bg-[#8B6F47] text-white rounded-full whitespace-nowrap w-auto"
+                    >
                       Voir
                     </PrimaryCtaButton>
                   </div>
