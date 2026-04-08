@@ -6,8 +6,7 @@ import { Minus, Plus, ShoppingBag, Check, Star } from "lucide-react";
 import { type Product } from "@/data/products";
 import ProductAccordions from "./ProductAccordions";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
-import ThemeSelector from "@/components/product/ThemeSelector";
-import { THEME_CATEGORIES } from "@/config/themes";
+import ThemeDropdown from "@/components/products/ThemeDropdown";
 
 interface ProductInfoProps {
   product: any;
@@ -29,12 +28,12 @@ const THEMES = [
 
 // ── Avantages (boîte mise en valeur) ─────────────────────────────────────────
 const AVANTAGES = [
-  "Livraison Gratuite",
-  "Garantie De 30 Jours",
-  "Modifications Illimitées",
-  "Maquette Sous 24h",
-  "Bénéficiez D'offres Exclusives",
-  "Remises Sur Volume",
+  "Livraison gratuite",
+  "Garantie de 30 jours",
+  "Modifications illimitées",
+  "Maquette sous 24h",
+  "Offres exclusives",
+  "Remises sur volume",
 ];
 
 function parsePrice(product: Product): { display: string; isSurDevis: boolean } {
@@ -43,6 +42,11 @@ function parsePrice(product: Product): { display: string; isSurDevis: boolean } 
     return { display: `À partir de ${product.price.split(" - ")[0]}`, isSurDevis: false };
   }
   return { display: product.price, isSurDevis: false };
+}
+
+function getThemeLabel(themeId: string): string {
+  // Retourner une version capitalisée du thème
+  return themeId.charAt(0).toUpperCase() + themeId.slice(1).replace(/-/g, ' ');
 }
 
 function CheckBadge({ label }: { label: string }) {
@@ -130,16 +134,19 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
       {/* ── 6. Section thème ─────────────────────────────────────── */}
       {product.themes && product.themes.length > 0 && (
         <div className="mt-8">
-          <ThemeSelector
-            value={selectedTheme}
-            onChange={(value) => onThemeChange?.(value || "")}
-            categories={THEME_CATEGORIES}
-            label="Choisissez votre thème"
-            placeholder="🎨 Sélectionnez un thème..."
+          <div className="text-base font-semibold text-[#2C2C2C] flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-4 bg-[#8B4513] rounded-full" />
+            </div>
+            Choisissez votre thème
+          </div>
+          <ThemeDropdown
+            selected={selectedTheme || null}
+            onSelect={(value: string) => onThemeChange?.(value)}
           />
           {!selectedTheme && (
             <p className="text-sm text-amber-700 mt-1">
-              ✨ Veuillez sélectionner un thème pour continuer
+              Veuillez sélectionner un thème pour continuer
             </p>
           )}
         </div>
@@ -150,7 +157,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         <div className="mt-8">
           <div className="p-4 bg-white rounded-lg border border-[#8B4513]/30">
             <p className="text-sm text-[#2C2C2C]">
-              <span className="font-medium">Thème sélectionné :</span> {selectedTheme}
+              <span className="font-medium">Thème sélectionné :</span> {getThemeLabel(selectedTheme)}
             </p>
             <p className="text-xs text-[#6B6B6B] mt-1">
               Ce thème sera appliqué à votre "{product.name}" personnalisé.
@@ -159,14 +166,14 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </div>
       )}
 
-      {/* ── 7. Boîte offre mise en valeur ─────────────────────── */}
+      {/*  7. Boîte offre mise en valeur */}
       <div className="mt-6 rounded-2xl border-2 border-[#8B4513] bg-[#FAF7F2] p-5">
         {/* Badge "LES PLUS POPULAIRES" */}
         <div className="mb-4 flex items-center justify-between">
           <span className="inline-block rounded-full bg-[#8B4513] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
             Les plus populaires
           </span>
-          <span className="text-xs font-medium text-[#8B4513]">✦ Sur-mesure</span>
+          <span className="text-xs font-medium text-[#8B4513"> Sur-mesure</span>
         </div>
 
         {/* Titre offre */}
@@ -199,7 +206,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </div>
       </div>
 
-      {/* ── 7. Option d'achat (radio) ─────────────────────────── */}
+      {/*  7. Option d'achat (radio) */}
       <div className="mt-3">
         <label
           className={`flex cursor-pointer items-center justify-between rounded-2xl border-2 px-5 py-4 transition-all ${
@@ -237,7 +244,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </label>
       </div>
 
-      {/* ── 8. Quantité + CTA côte à côte ─────────────────────── */}
+      {/*  8. Quantité + CTA côte à côte */}
       {!isSurDevis ? (
         <div className="mt-6 flex items-center gap-3">
           {/* Pill quantité (fond sombre) */}

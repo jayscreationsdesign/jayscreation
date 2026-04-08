@@ -15,6 +15,21 @@ interface ThemeSelectorProps {
 export function ThemeSelector({ value, onChange, categories, label = "Choisissez votre thème", placeholder = "Sélectionnez un thème..." }: ThemeSelectorProps) {
   console.log("ThemeSelector rendu", { value, categories: categories.length })
 
+  // Fonction pour trouver le label du thème sélectionné
+  const getSelectedThemeLabel = (themeId: string): string => {
+    if (!themeId) return ""
+    
+    for (const category of categories) {
+      const theme = category.themes.find(t => t.id === themeId)
+      if (theme) {
+        return theme.label
+      }
+    }
+    
+    // Fallback: capitaliser l'ID
+    return themeId.charAt(0).toUpperCase() + themeId.slice(1).replace(/-/g, ' ')
+  }
+
   return (
     <div className="space-y-3">
       {label && (
@@ -31,13 +46,18 @@ export function ThemeSelector({ value, onChange, categories, label = "Choisissez
         <SelectTrigger 
           className="w-full group rounded-2xl border-2 border-[#E8E4DF] bg-white px-5 py-3 text-sm text-[#2C1A0E] hover:border-[#8B4513]/50 focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/10 transition-all duration-200 shadow-sm hover:shadow-md"
         >
-          <SelectValue placeholder={placeholder} />
+          <SelectValue placeholder={placeholder}>
+            {value ? getSelectedThemeLabel(value) : placeholder}
+          </SelectValue>
         </SelectTrigger>
         
         <SelectContent 
-          className="rounded-2xl border-2 border-[#E8E4DF] shadow-xl max-h-96 overflow-y-auto w-[320px]" 
+          className="rounded-2xl border-2 border-[#E8E4DF] shadow-xl max-h-96 overflow-y-auto" 
           style={{
-            background: "linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%)"
+            background: "linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%)",
+            width: "100%",
+            minWidth: "100%",
+            maxWidth: "100%"
           }}
         >
           <div className="p-3">

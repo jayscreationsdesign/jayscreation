@@ -121,7 +121,11 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/67.png",
     images: [
-      "/images/products/68.png"
+      "/images/products/68.png",
+      "/images/products/Site internet (3).png",
+      "/images/products/Site internet (1).png",
+      "/images/products/Site internet (2).png",
+      "/images/products/Site internet (7).png"
     ],
     description: "Cône friandise personnalisé pour mariage, baptême et anniversaire. Design pratique et élégant, personnalisable avec vos noms, dates et thème. Idéal pour distribuer bonbons et confiseries lors de vos célébrations.",
     longDescription: "Ajoutez une touche d'élégance pratique à vos événements avec notre cône friandise personnalisé ! Parfait pour mariage, baptême, anniversaire et toutes vos célébrations, ce cône pratique et élégant est entièrement personnalisable avec vos noms, dates de l'événement et thème choisi. Format idéal pour distribuer bonbons, confiseries, dragées ou petites friandises à vos invités. Création française de qualité avec matériaux résistants et finitions soignées. Design stable et facile à manipuler pour vos invités. Personnalisation sur-mesure et livraison rapide pour des événements mémorables et pratiques.",

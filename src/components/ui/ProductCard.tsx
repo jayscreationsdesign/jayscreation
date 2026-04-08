@@ -11,11 +11,40 @@ import PrimaryCtaButton from "./PrimaryCtaButton";
 import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
 
 interface ProductCardProps {
-  product: Product;
+  product: Product & {
+    pricing_type?: 'unit_with_minimum' | 'lot_pricing' | 'quote';
+    unit_price?: number;
+    min_quantity?: number;
+    lots?: Array<{
+      lot_price: number;
+    }>;
+  };
   className?: string;
   showCategory?: boolean;
   showRating?: boolean;
   aspectRatio?: "square" | "video" | "portrait" | "landscape";
+}
+
+function formatPrice(product: Product & {
+  pricing_type?: 'unit_with_minimum' | 'lot_pricing' | 'quote';
+  unit_price?: number;
+  min_quantity?: number;
+  lots?: Array<{
+    lot_price: number;
+  }>;
+}) {
+  switch (product.pricing_type) {
+    case 'unit_with_minimum':
+      return `À partir de ${product.unit_price?.toFixed(2)}$`
+    case 'lot_pricing':
+      // Afficher le prix du lot le moins cher
+      const cheapestLot = product.lots?.sort((a, b) => a.lot_price - b.lot_price)[0]
+      return cheapestLot ? `Dès ${cheapestLot.lot_price.toFixed(2)}$` : 'Sur devis'
+    case 'quote':
+      return 'Sur devis'
+    default:
+      return product.price || 'Sur devis'
+  }
 }
 
 export default function ProductCard({ 
@@ -99,10 +128,18 @@ export default function ProductCard({
             {product.name}
           </h3>
 
-          {/* Prix */}
-          <p className="text-base font-bold text-jc-accent">
-            {product.price}
-          </p>
+          {/* Prix adapté selon le pricing_type */}
+          <div className="flex flex-col items-center gap-1">
+            <p className="text-base font-bold text-jc-accent">
+              {formatPrice(product)}
+            </p>
+            {/* Indication de quantité minimum si applicable */}
+            {product.pricing_type === 'unit_with_minimum' && (product.min_quantity && product.min_quantity > 1) && (
+              <span className="text-xs text-muted-foreground">
+                min. {product.min_quantity} unités
+              </span>
+            )}
+          </div>
 
           {/* Rating */}
           {showRating && product.rating && (
