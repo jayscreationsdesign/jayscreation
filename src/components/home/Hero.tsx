@@ -31,31 +31,31 @@ export function Hero() {
               célébrations.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <PrimaryCtaButton href="/boutique">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center w-full">
+              <PrimaryCtaButton href="/boutique" className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
                 Découvrir la boutique
               </PrimaryCtaButton>
-              <PrimaryCtaButton href="/contact" showArrow={false}>
+              <PrimaryCtaButton href="/contact" showArrow={false} className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
                 Demander un devis
               </PrimaryCtaButton>
             </div>
 
-            <div className="mt-10 flex flex-col gap-4 sm:grid sm:grid-cols-3">
-              <div className="rounded-2xl border-jc-accent bg-jc-surface px-4 py-4">
-                <div className="text-2xl font-heading text-jc-accent font-bold">24h</div>
-                <div className="mt-1 text-xs text-jc-accent/70">
+            <div className="mt-10 grid grid-cols-3 gap-2 sm:gap-4 w-full">
+              <div className="rounded-xl sm:rounded-2xl border-jc-accent bg-jc-surface px-2 py-2 sm:px-4 sm:py-4 text-center">
+                <div className="text-lg sm:text-2xl font-heading text-jc-accent font-bold">24h</div>
+                <div className="mt-1 text-[10px] sm:text-xs text-jc-accent/70">
                   Aperçu maquette
                 </div>
               </div>
-              <div className="rounded-2xl border-jc-accent bg-jc-surface px-4 py-4">
-                <div className="text-2xl font-heading text-jc-accent font-bold">100%</div>
-                <div className="mt-1 text-xs text-jc-accent/70">
+              <div className="rounded-xl sm:rounded-2xl border-jc-accent bg-jc-surface px-2 py-2 sm:px-4 sm:py-4 text-center">
+                <div className="text-lg sm:text-2xl font-heading text-jc-accent font-bold">100%</div>
+                <div className="mt-1 text-[10px] sm:text-xs text-jc-accent/70">
                   Personnalisé
                 </div>
               </div>
-              <div className="rounded-2xl border-jc-accent bg-jc-surface px-4 py-4">
-                <div className="text-2xl font-heading text-jc-accent font-bold">Premium</div>
-                <div className="mt-1 text-xs text-jc-accent/70">
+              <div className="rounded-xl sm:rounded-2xl border-jc-accent bg-jc-surface px-2 py-2 sm:px-4 sm:py-4 text-center">
+                <div className="text-lg sm:text-2xl font-heading text-jc-accent font-bold">Premium</div>
+                <div className="mt-1 text-[10px] sm:text-xs text-jc-accent/70">
                   Finitions & dorures
                 </div>
               </div>
@@ -73,7 +73,7 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="mt-5 grid grid-cols-2 gap-4">
+              <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-4">
                 {[
                   { title: "Mariage", desc: "Faire-part & menus" },
                   { title: "Naissance", desc: "Cartes & souvenirs" },
@@ -82,15 +82,15 @@ export function Hero() {
                 ].map((card) => (
                   <div
                     key={card.title}
-                    className="group rounded-2xl border border-border bg-[radial-gradient(circle_at_top,rgba(200,169,110,0.22),transparent_60%)] p-4 transition-transform hover:-translate-y-0.5"
+                    className="group rounded-xl sm:rounded-2xl border border-border bg-[radial-gradient(circle_at_top,rgba(200,169,110,0.22),transparent_60%)] p-3 sm:p-4 transition-transform hover:-translate-y-0.5"
                   >
-                    <div className="text-sm font-heading text-foreground">
+                    <div className="text-xs sm:text-sm font-heading text-foreground text-center">
                       {card.title}
                     </div>
-                    <div className="mt-1 text-xs leading-5 text-muted-foreground text-center" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
+                    <div className="mt-1 text-[10px] sm:text-xs leading-4 sm:leading-5 text-muted-foreground text-center" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
                       {card.desc}
                     </div>
-                    <div className="mt-4 h-1 w-10 rounded-full bg-accent/70" />
+                    <div className="mt-2 sm:mt-4 h-1 w-6 sm:w-10 rounded-full bg-accent/70 mx-auto" />
                   </div>
                 ))}
               </div>
