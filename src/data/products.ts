@@ -1,3 +1,5 @@
+import type { ProductPricing } from '@/types/pricing'
+
 export interface Product {
   id: string;
   name: string;
@@ -15,6 +17,7 @@ export interface Product {
   longDescription?: string;
   reviewCount?: number;
   themes?: string[]; // Thèmes disponibles pour ce produit
+  pricing?: ProductPricing; // Système de prix par quantité
 }
 
 export const products: Product[] = [
@@ -23,6 +26,7 @@ export const products: Product[] = [
     id: "7",
     name: "Boîte Cadeau Personnalisée",
     price: "5,90\u20AC",
+    numericPrice: 5.90,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîte Cadeau Personnalisée1.png",
@@ -36,7 +40,14 @@ export const products: Product[] = [
     slug: "boite-cadeau-personnalisee",
     themes: ["Minnie", "Classique", "Rose"],
     description: "Boîte cadeau personnalisée premium pour mariage, anniversaire et baby-shower. Design élégant avec finitions dorées, personnalisable avec vos noms, dates et thème. Qualité artisanale garantie pour sublimer vos événements spéciaux. Emballage parfait pour vos cadeaux et souvenirs.",
-    longDescription: "Créez une boîte cadeau unique et personnalisée pour vos événements les plus précieux. Notre boîte cadeau premium est entièrement personnalisable avec vos couleurs, thème, noms et dates. Idéale pour mariage, anniversaire, baby-shower ou toute célébration spéciale. Finitions artisanales de qualité avec détails dorés pour un rendu élégant et sophistiqué. Parfaite pour présenter vos cadeaux, friandises personnalisées ou souvenirs mémorables. Livraison offerte et personnalisation illimitée jusqu'à validation."
+    longDescription: "Créez une boîte cadeau unique et personnalisée pour vos événements les plus précieux. Notre boîte cadeau premium est entièrement personnalisable avec vos couleurs, thème, noms et dates. Idéale pour mariage, anniversaire, baby-shower ou toute célébration spéciale. Finitions artisanales de qualité avec détails dorés pour un rendu élégant et sophistiqué. Parfaite pour présenter vos cadeaux, friandises personnalisées ou souvenirs mémorables. Livraison offerte et personnalisation illimitée jusqu'à validation.",
+    pricing: {
+      unitPrice: 5.90,
+      minQuantity: 1,
+      tiers: [
+        { min: 10, pricePerUnit: 5.49 } // 10 pour 54,90\u20AC
+      ]
+    }
   },
   {
     id: "8",
@@ -71,19 +82,24 @@ export const products: Product[] = [
   },
   {
     id: "10",
-    name: "Boîtes de Pop Corn Personnalisées",
+    name: "Pots à Pop Corn Personnalisé",
     price: "2,50\u20AC - 5,50\u20AC",
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Boîtes de Pop Corn Personnalisées2.png",
     images: [
-      "/images/products/Boîtes de Pop Corn Personnalisées3.png",
+      "/images/products/Boîtes de Pop Corn Personnalisées2.png",
       "/images/products/Boîtes de Pop Corn Personnalisées4.png"
     ],
     slug: "boites-pop-corn-personnalisees",
     themes: ["Cinéma", "Soirée", "Moderne"],
-    description: "Boîtes de pop corn personnalisées pour cinéma maison, soirée film et événements. Design moderne et amusant, personnalisable avec vos noms, date et thème. Parfait pour vos soirées cinéma entre amis ou en famille.",
-    longDescription: "Transformez vos soirées cinéma avec nos boîtes de pop corn personnalisées ! Idéales pour cinéma maison, soirée film, événements corporatifs ou fêtes entre amis, ces boîtes au design moderne sont entièrement personnalisables avec vos noms, date de l'événement et thème choisi. Format pratique et hygiénique pour servir du pop corn chaud ou des snacks. Création française de qualité avec matériaux résistants et finitions soignées. Parfaites pour mariage, anniversaire, baby-shower ou toute célébration cinématographique. Livraison rapide et personnalisation sur-mesure."
+    description: "Pots à pop corn personnalisé pour cinéma maison, soirée film et événements. Design moderne et amusant, personnalisable avec vos noms, date et thème. Parfait pour vos soirées cinéma entre amis ou en famille.",
+    longDescription: "Transformez vos soirées cinéma en moments inoubliables avec nos pots à pop corn personnalisés ! Design moderne et élégant adapté à tous vos événements : mariage, anniversaire, soirée film, baby-shower. Personnalisation complète avec vos noms, dates, messages et thème choisi. Pots de qualité supérieure avec fond renforcé pour éviter les fuites. Facile à assembler et à remplir avec votre pop corn préféré. Format individuel parfait pour chaque invité. Création française avec matériaux recyclables et encres alimentaires. Livraison rapide et personnalisation illimitée jusqu'à validation. L'accessoire indispensable pour vos soirées cinéma personnalisées !",
+    pricing: {
+      unitPrice: 2.50,
+      minQuantity: 6
+    },
+    rating: 5,
   },
   {
     id: "11",
@@ -319,6 +335,8 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Paquet de Chips Personnalisé2.png",
     images: [
+      "/images/products/Paquet de Chips Personnalisé5.png",
+      "/images/products/Paquet de Chips Personnalisé2.png",
       "/images/products/Paquet de Chips Personnalisé4.png",
       "/images/products/Paquet de Chips Personnalisé3.png"
     ],
@@ -348,7 +366,6 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Sac Cadeau Personnalisé1.png",
     images: [
-      "/images/products/Sac Cadeau Personnalisé1.png",
       "/images/products/Sac Cadeau Personnalisé2.png",
       "/images/products/Sac Cadeau Personnalisé3.png"
     ],
@@ -379,7 +396,6 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Smarties1.png",
     images: [
-      "/images/products/Smarties1.png",
       "/images/products/Smarties2.png",
       "/images/products/Smarties3.png",
       "/images/products/Smarties4.png"
@@ -424,7 +440,8 @@ export const products: Product[] = [
     image: "/images/products/Étiquette Bouteille d'Eau.png",
     images: [
       "/images/products/Étiquette Bouteille d'Eau1.png",
-      "/images/products/Étiquette Bouteille d'Eau2.png"
+      "/images/products/Étiquette Bouteille d'Eau2.png",
+      "/images/products/Étiquette Bouteille d'Eau3.png"
     ],
     slug: "etiquette-bouteille-eau",
     themes: ["Élégant", "Rafraîchissant", "Moderne"],
@@ -438,9 +455,10 @@ export const products: Product[] = [
     numericPrice: 1.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Étiquette Capri-Sun2.png",
+    image: "/images/products/Étiquette CapriSun2.png",
     images: [
-      "/images/products/Étiquette Capri-Sun3.png"
+      "/images/products/Étiquette CapriSun2.png",
+      "/images/products/Étiquette CapriSun4.png"
     ],
     slug: "etiquette-capri-sun",
     themes: ["Enfants", "Jus", "Coloré"],
@@ -545,6 +563,312 @@ export const products: Product[] = [
     ],
     description: "Éventail programme de mariage élégant et pratique pour vos invités. Design personnalisable avec programme détaillé, noms, date et thème de mariage. Accessoire utile et décoratif pour votre cérémonie.",
     longDescription: "Guidez vos invités avec style grâce à notre éventail programme de mariage élégant et fonctionnel ! Cet accessoire pratique présente le déroulement complet de votre cérémonie avec horaires, lieux et informations importantes. Entièrement personnalisable avec vos noms, date de mariage, programme détaillé et thème choisi. Design raffiné avec matériaux de qualité et finitions soignées. Format compact et facile à manipuler pour vos invités. Double fonction : programme informatif et éventail rafraîchissant. Création artisanale française avec impression de qualité. Personnalisation complète et livraison soignée pour un mariage parfaitement orchestré.",
+    rating: 5,
+  },
+
+  // PRODUITS PERSONNALISÉS - SYSTÈME DE PRIX PAR QUANTITÉ
+  {
+    id: "30",
+    name: "Boîte à Pop Corn Personnalisée",
+    price: "Sur devis",
+    numericPrice: 2.50,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/boite-pop-corn.png",
+    slug: "boite-pop-corn-personnalisee",
+    themes: ["Anniversaire", "Cinéma", "Fête"],
+    description: "Boîte à pop corn personnalisée pour vos événements. Design original et personnalisable avec vos couleurs, thème et texte.",
+    pricing: {
+      unitPrice: 2.50,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "31",
+    name: "Kinder Maxi Personnalisé",
+    price: "Sur devis",
+    numericPrice: 3.50,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/kinder-maxi.png",
+    slug: "kinder-maxi-personnalise",
+    themes: ["Anniversaire", "Enfant", "Chocolat"],
+    description: "Kinder Maxi personnalisé avec votre design. Idéal pour anniversaires et fêtes d'enfants.",
+    pricing: {
+      unitPrice: 3.50,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "32",
+    name: "Capri-Sun Personnalisé",
+    price: "Sur devis",
+    numericPrice: 2.00,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/capri-sun.png",
+    slug: "capri-sun-personnalise",
+    themes: ["Anniversaire", "Été", "Enfant"],
+    description: "Capri-Sun personnalisé avec étiquette sur mesure. Rafraîchissement personnalisé pour vos événements.",
+    pricing: {
+      unitPrice: 2.00,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "33",
+    name: "Carte de Remerciement",
+    price: "1,80\u20AC",
+    numericPrice: 1.80,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/carte-remerciement.png",
+    slug: "carte-remerciement",
+    themes: ["Mariage", "Anniversaire", "Remerciement"],
+    description: "Carte de remerciement personnalisée pour vos événements. Design élégant et message personnalisé.",
+    pricing: {
+      unitPrice: 1.80,
+      minQuantity: 20
+    }
+  },
+  {
+    id: "34",
+    name: "Étiquette Bouteille d'Eau",
+    price: "Sur devis",
+    numericPrice: 1.50,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/etiquette-bouteille-eau.png",
+    slug: "etiquette-bouteille-eau",
+    themes: ["Mariage", "Anniversaire", "Événement"],
+    description: "Étiquette personnalisée pour bouteilles d'eau. Design personnalisable pour vos événements.",
+    pricing: {
+      unitPrice: 1.50,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "35",
+    name: "Flacon Bulle de Savon",
+    price: "Sur devis",
+    numericPrice: 2.80,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/flacon-bulle-savon.png",
+    slug: "flacon-bulle-savon",
+    themes: ["Mariage", "Anniversaire", "Enfant"],
+    description: "Flacon bulle de savon personnalisé. Idéal pour mariages et fêtes d'enfants.",
+    pricing: {
+      unitPrice: 2.80,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "36",
+    name: "Paquet de Chips Personnalisé",
+    price: "Sur devis",
+    numericPrice: 2.20,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/paquet-chips.png",
+    slug: "paquet-chips-personnalise",
+    themes: ["Anniversaire", "Fête", "Snack"],
+    description: "Paquet de chips personnalisé avec votre design. Snack original pour vos événements.",
+    pricing: {
+      unitPrice: 2.20,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "37",
+    name: "Pringles Personnalisé",
+    price: "Sur devis",
+    numericPrice: 3.00,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/pringles.png",
+    slug: "pringles-personnalise",
+    themes: ["Anniversaire", "Fête", "Snack"],
+    description: "Pringles personnalisé avec étiquette sur mesure. Snack iconique personnalisé pour vos événements.",
+    pricing: {
+      unitPrice: 3.00,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "38",
+    name: "Sac Cadeau Personnalisé",
+    price: "Sur devis",
+    numericPrice: 4.50,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/sac-cadeau.png",
+    slug: "sac-cadeau-personnalise",
+    themes: ["Mariage", "Anniversaire", "Cadeau"],
+    description: "Sac cadeau personnalisé avec délai de fabrication. Design élégant et personnalisé.",
+    pricing: {
+      unitPrice: 4.50,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "39",
+    name: "Sachet de Bonbon Personnalisé",
+    price: "4,00\u20AC",
+    numericPrice: 4.00,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/sachet-bonbon.png",
+    slug: "sachet-bonbon-personnalise",
+    themes: ["Anniversaire", "Fête", "Bonbon"],
+    description: "Sachet de bonbon personnalisé avec vos couleurs et thème. Friandise personnalisée pour vos événements.",
+    pricing: {
+      unitPrice: 4.00,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "40",
+    name: "Haribo Dragibus",
+    price: "Sur devis",
+    numericPrice: 3.50,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/haribo-dragibus.png",
+    slug: "haribo-dragibus",
+    themes: ["Anniversaire", "Enfant", "Bonbon"],
+    description: "Haribo Dragibus personnalisé. Bonbons iconiques personnalisés pour vos événements.",
+    pricing: {
+      unitPrice: 3.50,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "41",
+    name: "M&M's Personnalisé",
+    price: "Sur devis",
+    numericPrice: 4.00,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/mms.png",
+    slug: "mms-personnalise",
+    themes: ["Anniversaire", "Fête", "Chocolat"],
+    description: "M&M's personnalisé avec votre design. Chocolats iconiques personnalisés pour vos événements.",
+    pricing: {
+      unitPrice: 4.00,
+      minQuantity: 6
+    }
+  },
+  {
+    id: "42",
+    name: "Cône Pyramide",
+    price: "1,90\u20AC",
+    numericPrice: 1.90,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/cone-pyramide.png",
+    slug: "cone-pyramide",
+    themes: ["Mariage", "Anniversaire", "Décoration"],
+    description: "Cône pyramide personnalisé pour vos événements. Décoration élégante et pratique.",
+    pricing: {
+      unitPrice: 1.90,
+      minQuantity: 10
+    }
+  },
+  {
+    id: "43",
+    name: "Cône Friandise Personnalisée",
+    price: "3,90\u20AC",
+    numericPrice: 3.90,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/cone-friandise.png",
+    slug: "cone-friandise-personnalisee",
+    themes: ["Mariage", "Anniversaire", "Friandise"],
+    description: "Cône friandise personnalisée avec votre design. Présentation élégante pour vos bonbons.",
+    pricing: {
+      unitPrice: 3.90,
+      minQuantity: 6,
+      tiers: [
+        { min: 10, pricePerUnit: 3.49 } // 10 pour 34,90\u20AC
+      ]
+    }
+  },
+  {
+    id: "44",
+    name: "Boîte à Oeufs Personnalisée",
+    price: "6,90\u20AC",
+    numericPrice: 6.90,
+    category: "Sweet Tables & Décoration",
+    categorySlug: "sweet-tables-decoration",
+    image: "/images/products/boite-oeufs.png",
+    slug: "boite-oeufs-personnalisee",
+    themes: ["Pâques", "Anniversaire", "Cadeau"],
+    description: "Boîte à oeufs personnalisée pour vos événements. Design original et personnalisable.",
+    pricing: {
+      unitPrice: 6.90,
+      minQuantity: 1,
+      tiers: [
+        { min: 5, pricePerUnit: 6.38 } // 5 pour 31,90\u20AC
+      ]
+    }
+  },
+  {
+    id: "29",
+    name: "Éventail Programme de Mariage",
+    slug: "eventail-programme-mariage",
+    themes: ["Mariage", "Élégant", "Programme"],
+    price: "Sur devis",
+    category: "Marque-places",
+    categorySlug: "marque-places",
+    parentCategorySlug: "mariage",
+    image: "/images/products/Eventail programme mariage4.png",
+    images: [
+      "/images/products/Eventail programme mariage2.png",
+      "/images/products/Eventail programme mariage5.png"
+    ],
+    description: "Éventail programme de mariage élégant et pratique pour vos invités. Design personnalisable avec programme détaillé, noms, date et thème de mariage. Accessoire utile et décoratif pour votre cérémonie.",
+    longDescription: "Guidez vos invités avec style grâce à notre éventail programme de mariage élégant et fonctionnel ! Cet accessoire pratique présente le déroulement complet de votre cérémonie avec horaires, lieux et informations importantes. Entièrement personnalisable avec vos noms, date de mariage, programme détaillé et thème choisi. Design raffiné avec matériaux de qualité et finitions soignées. Format compact et facile à manipuler pour vos invités. Double fonction : programme informatif et éventail rafraîchissant. Création artisanale française avec impression de qualité. Personnalisation complète et livraison soignée pour un mariage parfaitement orchestré.",
+    rating: 5,
+  },
+
+  // TUBE BULLES DE SAVON PERSONNALISÉ
+  {
+    id: "45",
+    name: "Tube bulles de savon personnalisé",
+    price: "1,80\u20AC",
+    numericPrice: 1.80,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/placeholder.png",
+    slug: "tube-bulles-savon-personnalise",
+    themes: ["Mariage", "Anniversaire", "Enfant", "Fête"],
+    description: "Tube bulles de savon personnalisé pour vos événements. Design amusant et original, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et fêtes d'enfants.",
+    longDescription: "Créez des souvenirs magiques avec notre tube bulles de savon personnalisé ! Ce produit ludique et original est parfait pour animer vos événements et faire plaisir à vos invités. Tube de bulles de savon de qualité supérieure avec liquide non toxique et sûr pour les enfants. Personnalisation complète avec vos noms, dates, messages et thème choisi. Design élégant et moderne adapté à tous types d'événements : mariage, anniversaire, baptême, baby-shower, fêtes d'enfants. Emballage individuel parfait pour cadeaux d'invités ou souvenirs à emporter. Fabriqué en France avec matériaux de qualité. Livraison rapide et personnalisation illimitée jusqu'à validation.",
+    pricing: {
+      unitPrice: 1.80,
+      minQuantity: 6
+    },
+    rating: 5,
+  },
+
+  // PRINGLES PERSONNALISÉ
+  {
+    id: "46",
+    name: "Pringles Personnalisé",
+    price: "2,99\u20AC",
+    numericPrice: 2.99,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/placeholder.png",
+    slug: "pringles-personnalise",
+    themes: ["Mariage", "Anniversaire", "Fête", "Gourmand"],
+    description: "Pringles personnalisé pour vos événements. Chips de qualité supérieure avec emballage personnalisé à vos couleurs, thème et texte. Parfait pour apéritifs, mariages et fêtes.",
+    longDescription: "Surprenez vos invités avec nos Pringles personnalisés ! Chips de qualité supérieure dans leur emballage iconique entièrement personnalisé. Design moderne et amusant adapté à tous vos événements : mariage, anniversaire, baby-shower, fêtes d'entreprise. Personnalisation complète avec vos noms, dates, messages, logo et thème choisi. Chips croustillantes et savoureuses pour ravir tous vos convives. Format individuel parfait pour cadeaux d'invités ou souvenirs à emporter. Emballage de qualité avec impression haute définition. Fabriqué en France avec matériaux alimentaires sûrs. Livraison rapide et personnalisation illimitée jusqu'à validation. L'alternative parfaite aux traditionnelles dragées de mariage !",
+    pricing: {
+      unitPrice: 2.99,
+      minQuantity: 5
+    },
     rating: 5,
   },
 ];

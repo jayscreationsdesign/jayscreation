@@ -39,6 +39,15 @@ export const categories: Category[] = [
     ],
   },
   {
+    name: "Toniebox",
+    slug: "toniebox",
+    children: [
+      { name: "Figurines Tonies", slug: "figurines-tonies" },
+      { name: "Accessoires Toniebox", slug: "accessoires-toniebox" },
+      { name: "Personnalisations", slug: "personnalisations-toniebox" },
+    ],
+  },
+  {
     name: "Baptême",
     slug: "bapteme",
     children: [

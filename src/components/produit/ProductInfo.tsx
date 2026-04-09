@@ -7,6 +7,7 @@ import { type Product } from "@/data/products";
 import ProductAccordions from "./ProductAccordions";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import ThemeDropdown from "@/components/products/ThemeDropdown";
+import { getUnitPrice, type PricingTier } from "@/types/pricing";
 
 interface ProductInfoProps {
   product: any;
@@ -61,9 +62,80 @@ function CheckBadge({ label }: { label: string }) {
 }
 
 export default function ProductInfo({ product, selectedTheme, canAddToCart = true, onAddToCart, onThemeChange, qty, onQtyChange }: ProductInfoProps) {
-  const [purchaseType, setPurchaseType] = useState<"commande">("commande");
+  const [purchaseType, setPurchaseType] = useState<"commande" | "devis">("commande");
+
   const { display, isSurDevis } = parsePrice(product);
 
+  // Fonction utilitaire pour les quantités minimales basée sur les slugs
+  function getMinQuantityForSlug(slug: string): number {
+    switch (slug) {
+      case 'boites-pop-corn-personnalisees':
+        return 6
+      case 'kinder-maxi-personnalise':
+        return 6
+      case 'capri-sun-personnalise':
+        return 6
+      case 'carte-de-remmerciement-personnalisee':
+        return 20
+      case 'etiquette-bouteille-eau-personnalisee':
+        return 6
+      case 'flacon-bulle-savon-personnalise':
+        return 6
+      case 'paquet-chips-personnalise':
+        return 6
+      case 'pringles-personnalise':
+        return 6
+      case 'sac-cadeau-personnalise':
+        return 6
+      case 'sachet-bonbon-personnalise':
+        return 6
+      case 'haribo-dragibus-personnalise':
+        return 6
+      case 'mms-personnalise':
+        return 6
+      case 'box-pyramide':
+        return 10
+      case 'cone-friandise-personnalise':
+        return 6
+      default:
+        return 1
+    }
+  }
+
+  // Utiliser la fonction pour obtenir le minimum, avec fallback sur le nom pour Kinder Maxi
+  let minQuantity = getMinQuantityForSlug(product.slug)
+  
+  // Forcer certains produits à leur minimum spécifique
+  if (product.name.includes('Kinder Maxi') || product.name.includes('Capri-Sun') || product.name.includes('Étiquette Capri-Sun') || product.name.includes('Étiquette Bouteille d\'Eau') || product.name.includes('Tube bulles de savon personnalisé') || product.name.includes('Sachet de Bonbons Personnalisé') || product.name.includes('Haribo Dragibus') || product.name.includes('M&Ms')) {
+    minQuantity = 6
+  } else if (product.name.includes('Pringles Personnalisé')) {
+    minQuantity = 5
+  } else if (product.name.includes('Carte de Remerciement')) {
+    minQuantity = 20
+  }
+  
+  const [quantity, setQuantity] = useState<number>(minQuantity)
+
+  // Debug temporaire pour vérifier
+  console.log('DEBUG - Slug:', product.slug, 'Name:', product.name, 'MinQuantity:', minQuantity, 'Quantity:', quantity)
+  console.log('DEBUG - Input value should be:', String(quantity || minQuantity))
+  
+  const handleDecrement = () => {
+    setQuantity(q => (q <= minQuantity ? minQuantity : q - 1))
+  }
+  
+  const handleIncrement = () => {
+    setQuantity(q => q + 1)
+  }
+
+  // Calculer le prix unitaire en fonction de la quantité et des paliers
+  const unitPrice = product.pricing 
+    ? getUnitPrice(quantity, product.pricing)
+    : (product.numericPrice || parseFloat(product.price.replace(/[^\d,]/g, "").replace(",", ".")) || 0);
+
+  const total = unitPrice * quantity;
+
+  
   return (
     <div>
       {/* ── 1. Titre ───────────────────────────────────── */}
@@ -244,47 +316,86 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </label>
       </div>
 
-      {/*  8. Quantité + CTA côte à côte */}
+      {/*  8. Informations de quantité et prix */}
       {!isSurDevis ? (
-        <div className="mt-6 flex items-center gap-3">
-          {/* Pill quantité (fond sombre) */}
-          <div className="flex items-center overflow-hidden rounded-full bg-[#2C2C2C] flex-shrink-0">
-            <button
-              onClick={() => onQtyChange(Math.max(1, qty - 1))}
-              className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
-              aria-label="Diminuer la quantité"
-            >
-              <Minus size={16} />
-            </button>
-            <input
-              type="number"
-              min="1"
-              value={qty}
-              onChange={(e) => {
-                const value = parseInt(e.target.value) || 1;
-                onQtyChange(value);
-              }}
-              className="flex h-14 w-16 bg-transparent text-center font-medium text-white border-0 outline-none focus:ring-0 text-lg [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-              aria-label="Quantité"
-            />
-            <button
-              onClick={() => onQtyChange(qty + 1)}
-              className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
-              aria-label="Augmenter la quantité"
-            >
-              <Plus size={16} />
-            </button>
+        <div className="mt-6 space-y-4">
+          {/* Quantité avec minimum */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span>Quantité (min. {minQuantity})</span>
+            </div>
+            <div className="flex items-center gap-3">
+              {/* Pill quantité (fond sombre) */}
+              <div className="flex items-center overflow-hidden rounded-full bg-[#2C2C2C] flex-shrink-0">
+                <button
+                  onClick={quantity === minQuantity ? undefined : handleDecrement}
+                  className={`flex h-14 w-12 items-center justify-center text-white transition-colors ${
+                    quantity === minQuantity 
+                      ? "bg-gray-400 cursor-not-allowed opacity-50" 
+                      : "bg-[#2C2C2C] hover:bg-[#3E3E3E] hover:text-[#D4A574]"
+                  }`}
+                  aria-label="Diminuer la quantité"
+                  disabled={quantity === minQuantity}
+                >
+                  <Minus size={16} />
+                </button>
+                <input
+                  type="number"
+                  min={minQuantity}
+                  value={String(quantity || minQuantity)}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || minQuantity;
+                    setQuantity(Math.max(minQuantity, value));
+                  }}
+                  className="flex h-14 w-16 bg-transparent text-center font-medium text-white border-0 outline-none focus:ring-0 text-lg [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  aria-label="Quantité"
+                />
+                <button
+                  onClick={handleIncrement}
+                  className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
+                  aria-label="Augmenter la quantité"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Bouton CTA standardisé - largeur adaptative */}
-          <PrimaryCtaButton 
-            onClick={() => onAddToCart?.(qty)} 
-            className="flex-1 min-w-[200px] disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={(product.requires_theme ?? true) && !selectedTheme}
-          >
-            <ShoppingBag size={18} className="flex-shrink-0" />
-            Ajouter au panier
-          </PrimaryCtaButton>
+          {/* Informations de prix */}
+          <div className="bg-[#FAF7F2] rounded-lg p-4 space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-[#6B6B6B]">Prix actuel :</span>
+              <span className="font-semibold text-[#2C2C2C]">{unitPrice.toFixed(2)} / unité</span>
+            </div>
+            <div className="flex justify-between items-center border-t border-[#8B4513]/20 pt-2">
+              <span className="text-sm text-[#6B6B6B]">Total :</span>
+              <span className="font-bold text-[#8B4513]">{qty} × {unitPrice.toFixed(2)} = {total.toFixed(2)}</span>
+            </div>
+            {product.pricing?.tiers && product.pricing.tiers.length > 0 && (
+              <div className="bg-[#FAF7F2] rounded-lg p-3 mt-3">
+                <div className="text-sm font-medium text-[#8B4513] mb-2">Prix dégressifs</div>
+                <ul className="space-y-1">
+                  {product.pricing.tiers.map((tier: PricingTier, index: number) => (
+                    <li key={index} className="text-xs text-[#6B6B6B]">
+                      Dès {tier.min} unités : {tier.pricePerUnit.toFixed(2)} / unité ({tier.min} = {(tier.min * tier.pricePerUnit).toFixed(2)} )
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Bouton CTA */}
+          <div className="flex items-center gap-3">
+            <PrimaryCtaButton 
+              onClick={() => onAddToCart?.()} 
+              className="flex-1 min-w-[200px] disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={(product.requires_theme ?? true) && !selectedTheme}
+            >
+              <ShoppingBag size={18} className="flex-shrink-0" />
+              Ajouter au panier
+            </PrimaryCtaButton>
+          </div>
         </div>
       ) : (
         <div className="mt-6">

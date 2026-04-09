@@ -7,7 +7,7 @@ import { ShoppingBag, ChevronDown, Menu, X, User, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { categories } from "@/data/categories";
 import { useCartStore } from "@/store/cartStore";
-import { getUser, getUserProfile } from "@/lib/auth";
+import { getCurrentUser, getUserProfile } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
 
 // ─── Types ────────────────────────────────────────────────────────────
@@ -39,7 +39,7 @@ function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
   // Première ligne - catégories principales
-  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"];
+  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "toniebox", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"];
   
   for (const cat of categories) {
     if (firstLineCategories.includes(cat.slug)) {
@@ -180,32 +180,16 @@ export default function Header() {
 
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
-    const checkUser = async () => {
+    async function checkUser() {
       try {
-        const currentUser = await getUser();
-        setUser(currentUser);
-        
-        // Récupérer le profil complet si l'utilisateur est connecté
-        if (currentUser) {
-          try {
-            const profile = await getUserProfile(currentUser.id);
-            setUserProfile(profile);
-          } catch (profileError) {
-            console.error('Erreur récupération profil:', profileError);
-            setUserProfile(null);
-          }
-        } else {
-          setUserProfile(null);
-        }
-      } catch (error) {
-        console.error('Erreur vérification utilisateur:', error);
-        setUser(null);
-        setUserProfile(null);
+        const { data: { user } } = await supabase.auth.getUser()
+        setUser(user)
+      } catch {
+        setUser(null)
       }
-    };
-    
-    checkUser();
-  }, []);
+    }
+    checkUser()
+  }, [])
 
   // Surveiller les changements d'authentification (connexion/déconnexion)
   useEffect(() => {
@@ -375,10 +359,10 @@ export default function Header() {
       >
         <Link
           href={item.href}
-          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 hover:text-[#6b3410] ${
+          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
             isActive
               ? "text-[#2C1A0E] border-b-[1.5px] border-[#2C1A0E] pb-[7px]"
-              : "text-[#2C1A0E]"
+              : "text-[#2C1A0E] hover:text-[#6b3410]"
           }`}
         >
           {item.label}
@@ -411,7 +395,7 @@ export default function Header() {
                 >
                   <Link
                     href={child.href}
-                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#FAF7F2] hover:text-[#6b3410] transition-all duration-500 rounded-lg mx-2"
+                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2"
                     onClick={() => {
                       if (child.children?.length) {
                         const categorySlug = child.href.split('category=')[1];
@@ -430,7 +414,7 @@ export default function Header() {
                         <Link
                           key={grand.href}
                           href={grand.href}
-                          className="block px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#FAF7F2] hover:text-[#6b3410] transition-all duration-500 rounded-lg mx-2"
+                          className="block px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2"
                         >
                           {grand.name}
                         </Link>

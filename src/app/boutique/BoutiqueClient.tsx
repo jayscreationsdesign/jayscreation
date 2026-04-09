@@ -246,14 +246,14 @@ function CategoryItemComponent({
       <button
         onClick={() => {
           onSelectCategory(category.slug);
-          // Ouvrir le dropdown quand on clique sur la catégorie
-          if (hasChildren) setIsOpen(true);
+          // Toggle du dropdown quand on clique sur la catégorie
+          if (hasChildren) setIsOpen(!isOpen);
         }}
         aria-current={isActive ? "page" : undefined}
         className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all flex items-center justify-between ${
           isActive
             ? "bg-[#F5F0EB] border-l-4 border-accent text-accent font-semibold"
-            : "text-foreground hover:bg-gray-50"
+            : "text-foreground hover:bg-[#6b3410] hover:text-[#D4A574]"
         }`}
         style={{ paddingLeft: `${16 + level * 16}px` }}
       >
@@ -287,9 +287,9 @@ function CategoryItemComponent({
       {/* Sous-catégories */}
       {hasChildren && isOpen && (
         <div className="space-y-1">
-          {children.map((child) => (
+          {children.map((child, index) => (
             <CategoryItemComponent
-              key={child.slug}
+              key={`${child.slug ?? 'noslug'}-${index}`}
               category={child}
               children={child.children || []}
               activeSlug={activeSlug}
@@ -459,9 +459,9 @@ function BoutiquePageContentInner() {
               {/* Hiérarchie des catégories */}
               <nav className="space-y-1">
                 <SidebarSyncContext.Provider value={sidebarContextValue}>
-                  {categories.map((category) => (
+                  {categories.map((category, index) => (
                     <CategoryItemComponent
-                      key={category.slug}
+                      key={`${category.slug ?? 'noslug'}-${index}`}
                       category={category}
                       children={category.children || []}
                       activeSlug={categorySlug}
@@ -546,9 +546,9 @@ function BoutiquePageContentInner() {
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {sortedProducts.map((product) => (
+                {sortedProducts.map((product, index) => (
                   <ProductCard
-                    key={product.id}
+                    key={`${product.id ?? 'noid'}-${product.slug ?? 'noslug'}-${index}`}
                     product={product}
                     showCategory={true}
                     showRating={true}
