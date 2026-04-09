@@ -448,17 +448,17 @@ export default function Header() {
             <Image
               src="/images/logo/logo.png"
               alt="Jay's Creations Design"
-              width={40}
-              height={40}
+              width={32}
+              height={32}
               className="object-contain"
               priority
-              style={{ width: 'auto', height: '40px sm:60px' }}
+              style={{ width: 'auto', height: '32px sm:48px' }}
             />
-            <div className="leading-tight hidden xs:block">
-              <div className="font-heading text-sm sm:text-xl font-bold tracking-wide text-foreground">
+            <div className="leading-tight hidden sm:block">
+              <div className="font-heading text-sm sm:text-lg font-bold tracking-wide text-foreground">
                 Jay&apos;s Creations Design
               </div>
-              <div className="text-[10px] sm:text-xs text-muted-foreground hidden sm:block">
+              <div className="text-[10px] sm:text-xs text-muted-foreground hidden lg:block">
                 Pour Sublimer Vos Événements
               </div>
             </div>
@@ -479,52 +479,39 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex flex-col items-end gap-2">
-            {/* Première ligne : Recherche, Connexion et Panier */}
-            <div className="flex items-center gap-1 sm:gap-2">
-              {/* Recherche */}
+          <div className="flex flex-col items-end gap-1 sm:gap-2">
+            {/* Première ligne : Recherche, Connexion et Panier - optimisé pour mobile */}
+            <div className="flex items-center gap-1">
+              {/* Recherche - taille réduite sur mobile */}
               <div className="relative flex items-center">
                 <button
                   type="button"
                   onClick={handleSearchClick}
                   data-search-trigger
-                  className="inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-[#8B4513] text-white shadow-sm hover:bg-[#8B4513]/90 hover:text-[#D4A574] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8B4513] transition-colors"
+                  className="inline-flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-[#8B4513] text-white shadow-sm hover:bg-[#8B4513]/90 hover:text-[#D4A574] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8B4513] transition-colors"
                   aria-label={isSearchOpen ? "Fermer la recherche" : "Ouvrir la recherche"}
                 >
-                  <Search className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <Search className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
                 </button>
               </div>
 
-              {/* Jay's Club - caché sur très petits écrans */}
-              <Link
-                href="/jays-club"
-                className="hidden xs:flex items-center gap-1 sm:gap-2 rounded-full border border-[#C8A96E] bg-[#FAF7F2] px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-[#3C2415] transition-colors hover:bg-[#F5E6D0]"
-              >
-                <span className="text-sm sm:text-base"> </span>
-                <span className="hidden sm:inline">Jay's Club</span>
-                <span className="xs:inline sm:hidden">JC</span>
-              </Link>
-
-              {/* Lien Mon Compte */}
+              {/* Lien Mon Compte - version mobile ultra compacte */}
               <Link
                 href={user ? "/compte" : "/connexion"}
-                className="flex items-center gap-1 sm:gap-2 rounded-full border border-border bg-background px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                className="flex items-center justify-center rounded-full border border-border bg-background p-1.5 sm:p-2 text-xs sm:text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
                 <User className="h-3 w-3 sm:h-4 sm:w-4" />
-                <span className="hidden sm:inline">
+                <span className="hidden sm:inline ml-1">
                   {user ? (
                     userProfile?.prenom ? 
-                      `${userProfile.prenom} ${userProfile.nom || ''}`.trim() || userProfile.prenom :
+                      userProfile.prenom :
                       user.user_metadata?.prenom || 
                       user.email?.split('@')[0]
                   ) : 'Connexion'}
                 </span>
-                <span className="sm:hidden">
-                  {user ? 'Compte' : 'Connexion'}
-                </span>
               </Link>
 
-              {/* Panier */}
+              {/* Panier - version mobile compacte */}
               <div
                 className="relative"
                 onMouseEnter={handleCartMouseEnter}
@@ -532,13 +519,11 @@ export default function Header() {
               >
                 <Link
                   href="/panier"
-                  className="relative inline-flex items-center justify-center gap-1 sm:gap-2 rounded-full border border-border bg-background px-2 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  className="relative inline-flex items-center justify-center rounded-full border border-border bg-background p-1.5 sm:p-2 text-xs sm:text-sm font-medium text-foreground transition-colors hover:bg-muted"
                 >
                   <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4 text-[#8B4513]" />
-                  <span className="hidden sm:inline">Panier</span>
-                  <span className="sm:hidden">Pan</span>
                   {items.reduce((acc, item) => acc + item.quantite, 0) > 0 && (
-                    <span className="absolute -right-1 sm:-right-2 -top-1 sm:-top-2 inline-flex h-4 w-4 sm:h-5 sm:min-w-5 items-center justify-center rounded-full bg-[#8B4513] px-0.5 sm:px-1 text-[9px] sm:text-[11px] font-semibold text-white">
+                    <span className="absolute -right-1 -top-1 inline-flex h-3 w-3 items-center justify-center rounded-full bg-[#8B4513] text-[8px] font-semibold text-white">
                       {items.reduce((acc, item) => acc + item.quantite, 0)}
                     </span>
                   )}

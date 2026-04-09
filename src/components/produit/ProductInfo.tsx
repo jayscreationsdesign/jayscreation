@@ -152,12 +152,12 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
 
       {/* ── 3. Étoiles + avis ──────────────────────────── */}
       {product.rating && (
-        <div className="mt-4 flex items-center gap-2">
+        <div className="mt-3 flex items-center gap-1.5">
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
-                size={17}
+                size={14}
                 strokeWidth={1.5}
                 className={
                   i < Math.round(product.rating!)
@@ -167,36 +167,36 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
               />
             ))}
           </div>
-          <span className="text-sm font-semibold text-[#2C2C2C]">
+          <span className="text-xs font-semibold text-[#2C2C2C]">
             {(product.reviewCount ?? 124).toLocaleString("fr-FR")} avis
           </span>
         </div>
       )}
 
       {/* ── 4. Badges de confiance ───────────────────────────── */}
-      <div className="mt-5 flex flex-col gap-2.5">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
-            <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
+      <div className="mt-4 flex flex-col gap-2">
+        <div className="flex items-center gap-2">
+          <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+            <Check size={8} className="text-[#8B4513]" strokeWidth={3} />
           </div>
-          <span className="text-sm text-[#6B6B6B]">À partir de 1€ seulement par pièce</span>
+          <span className="text-xs text-[#6B6B6B]">À partir de 1€/pièce</span>
         </div>
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
-            <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
+        <div className="flex items-center gap-2">
+          <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+            <Check size={8} className="text-[#8B4513]" strokeWidth={3} />
           </div>
-          <span className="text-sm text-[#6B6B6B]">Livraison offerte dès 50€ d'achat</span>
+          <span className="text-xs text-[#6B6B6B]">Livraison offerte dès 50€</span>
         </div>
-        <div className="grid grid-cols-2 gap-x-4">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
-              <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="flex items-center gap-2">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+              <Check size={8} className="text-[#8B4513]" strokeWidth={3} />
             </div>
-            <span className="text-sm text-[#6B6B6B]">Modifications jusqu'à validation</span>
+            <span className="text-xs text-[#6B6B6B]">Modifications jusqu'à validation</span>
           </div>
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
-              <Check size={10} className="text-[#8B4513]" strokeWidth={3} />
+          <div className="flex items-center gap-2">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
+              <Check size={8} className="text-[#8B4513]" strokeWidth={3} />
             </div>
             <span className="text-sm text-[#6B6B6B]">Personnalisation incluse</span>
           </div>
@@ -318,18 +318,18 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
 
       {/*  8. Informations de quantité et prix */}
       {!isSurDevis ? (
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 space-y-3">
           {/* Quantité avec minimum */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <span>Quantité (min. {minQuantity})</span>
+              <span className="text-xs">Quantité (min. {minQuantity})</span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {/* Pill quantité (fond sombre) */}
               <div className="flex items-center overflow-hidden rounded-full bg-[#2C2C2C] flex-shrink-0">
                 <button
                   onClick={quantity === minQuantity ? undefined : handleDecrement}
-                  className={`flex h-14 w-12 items-center justify-center text-white transition-colors ${
+                  className={`flex h-10 w-8 items-center justify-center text-white transition-colors ${
                     quantity === minQuantity 
                       ? "bg-gray-400 cursor-not-allowed opacity-50" 
                       : "bg-[#2C2C2C] hover:bg-[#3E3E3E] hover:text-[#D4A574]"
@@ -337,7 +337,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
                   aria-label="Diminuer la quantité"
                   disabled={quantity === minQuantity}
                 >
-                  <Minus size={16} />
+                  <Minus size={12} />
                 </button>
                 <input
                   type="number"
@@ -347,37 +347,37 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
                     const value = parseInt(e.target.value) || minQuantity;
                     setQuantity(Math.max(minQuantity, value));
                   }}
-                  className="flex h-14 w-16 bg-transparent text-center font-medium text-white border-0 outline-none focus:ring-0 text-lg [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  className="flex h-10 w-12 bg-transparent text-center font-medium text-white border-0 outline-none focus:ring-0 text-sm [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                   aria-label="Quantité"
                 />
                 <button
                   onClick={handleIncrement}
-                  className="flex h-14 w-12 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
+                  className="flex h-10 w-8 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
                   aria-label="Augmenter la quantité"
                 >
-                  <Plus size={16} />
+                  <Plus size={12} />
                 </button>
               </div>
             </div>
           </div>
 
           {/* Informations de prix */}
-          <div className="bg-[#FAF7F2] rounded-lg p-4 space-y-2">
+          <div className="bg-[#FAF7F2] rounded-lg p-3 space-y-1.5">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#6B6B6B]">Prix actuel :</span>
-              <span className="font-semibold text-[#2C2C2C]">{unitPrice.toFixed(2)} / unité</span>
+              <span className="text-xs text-[#6B6B6B]">Prix/unité :</span>
+              <span className="text-sm font-semibold text-[#2C2C2C]">{unitPrice.toFixed(2)}\u20ac</span>
             </div>
-            <div className="flex justify-between items-center border-t border-[#8B4513]/20 pt-2">
-              <span className="text-sm text-[#6B6B6B]">Total :</span>
-              <span className="font-bold text-[#8B4513]">{qty} × {unitPrice.toFixed(2)} = {total.toFixed(2)}</span>
+            <div className="flex justify-between items-center border-t border-[#8B4513]/20 pt-1.5">
+              <span className="text-xs text-[#6B6B6B]">Total :</span>
+              <span className="text-sm font-bold text-[#8B4513]">{total.toFixed(2)}\u20ac</span>
             </div>
             {product.pricing?.tiers && product.pricing.tiers.length > 0 && (
-              <div className="bg-[#FAF7F2] rounded-lg p-3 mt-3">
-                <div className="text-sm font-medium text-[#8B4513] mb-2">Prix dégressifs</div>
-                <ul className="space-y-1">
+              <div className="bg-[#FAF7F2] rounded-lg p-2 mt-2">
+                <div className="text-xs font-medium text-[#8B4513] mb-1">Prix dégressifs</div>
+                <ul className="space-y-0.5">
                   {product.pricing.tiers.map((tier: PricingTier, index: number) => (
-                    <li key={index} className="text-xs text-[#6B6B6B]">
-                      Dès {tier.min} unités : {tier.pricePerUnit.toFixed(2)} / unité ({tier.min} = {(tier.min * tier.pricePerUnit).toFixed(2)} )
+                    <li key={index} className="text-[10px] text-[#6B6B6B]">
+                      Dès {tier.min} : {tier.pricePerUnit.toFixed(2)}\u20ac/u
                     </li>
                   ))}
                 </ul>
@@ -386,13 +386,13 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
           </div>
 
           {/* Bouton CTA */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <PrimaryCtaButton 
               onClick={() => onAddToCart?.()} 
-              className="flex-1 min-w-[200px] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 text-xs py-2 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={(product.requires_theme ?? true) && !selectedTheme}
             >
-              <ShoppingBag size={18} className="flex-shrink-0" />
+              <ShoppingBag size={14} className="flex-shrink-0" />
               Ajouter au panier
             </PrimaryCtaButton>
           </div>

@@ -10,87 +10,87 @@ export function Hero() {
       <div className="absolute -right-40 -top-32 -z-10 h-80 w-80 rounded-full border border-accent/30" />
       <div className="absolute -left-44 -bottom-44 -z-10 h-[28rem] w-[28rem] rounded-full border border-accent/20" />
 
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-24">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#8B4513] px-4 py-2 text-sm text-white">
-              <Sparkles className="h-4 w-4 text-white" />
-              Édition premium, personnalisation sur-mesure
+            <div className="inline-flex items-center gap-1 rounded-full bg-[#8B4513] px-3 py-1.5 text-xs text-white">
+              <Sparkles className="h-3 w-3 text-white" />
+              <span className="hidden xs:inline">Édition premium</span>
+              <span className="xs:hidden">Premium</span>
             </div>
 
-            <h1 className="mt-6 font-heading text-4xl leading-[1.05] text-jc-text sm:text-5xl">
-              Faire-parts, invitations et menus
+            <h1 className="mt-4 font-heading text-2xl leading-[1.1] text-jc-text sm:text-4xl lg:text-5xl">
+              Faire-parts, invitations
               <span className="block text-jc-accent">
-                qui signent votre événement
+                et menus personnalisés
               </span>
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-jc-muted sm:text-lg text-center">
+            <p className="mt-3 text-sm leading-6 text-jc-muted sm:text-base sm:leading-7">
               Une identité élégante et artisanale, des finitions dorées et une
-              typographie soignée pour créer des pièces uniques, du mariage aux
-              célébrations.
+              typographie soignée pour créer des pièces uniques.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center w-full">
-              <PrimaryCtaButton href="/boutique" className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
+            <div className="mt-6 flex flex-col gap-2 w-full max-w-xs">
+              <PrimaryCtaButton href="/boutique" className="w-full text-xs sm:text-sm px-3 py-2 sm:px-4 sm:py-2.5">
                 Découvrir la boutique
               </PrimaryCtaButton>
-              <PrimaryCtaButton href="/contact" showArrow={false} className="w-full sm:w-auto text-sm sm:text-base px-4 py-2 sm:px-6 sm:py-3">
+              <PrimaryCtaButton href="/contact" showArrow={false} className="w-full text-xs sm:text-sm px-3 py-2 sm:px-4 sm:py-2.5">
                 Demander un devis
               </PrimaryCtaButton>
             </div>
 
-            <div className="mt-10 grid grid-cols-3 gap-2 sm:gap-4 w-full">
-              <div className="rounded-xl sm:rounded-2xl border-jc-accent bg-jc-surface px-2 py-2 sm:px-4 sm:py-4 text-center">
-                <div className="text-lg sm:text-2xl font-heading text-jc-accent font-bold">24h</div>
-                <div className="mt-1 text-[10px] sm:text-xs text-jc-accent/70">
-                  Aperçu maquette
+            <div className="mt-8 grid grid-cols-3 gap-1 w-full">
+              <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center">
+                <div className="text-sm font-heading text-jc-accent font-bold">24h</div>
+                <div className="text-[9px] text-jc-accent/70 leading-tight">
+                  Aperçu
                 </div>
               </div>
-              <div className="rounded-xl sm:rounded-2xl border-jc-accent bg-jc-surface px-2 py-2 sm:px-4 sm:py-4 text-center">
-                <div className="text-lg sm:text-2xl font-heading text-jc-accent font-bold">100%</div>
-                <div className="mt-1 text-[10px] sm:text-xs text-jc-accent/70">
+              <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center">
+                <div className="text-sm font-heading text-jc-accent font-bold">100%</div>
+                <div className="text-[9px] text-jc-accent/70 leading-tight">
                   Personnalisé
                 </div>
               </div>
-              <div className="rounded-xl sm:rounded-2xl border-jc-accent bg-jc-surface px-2 py-2 sm:px-4 sm:py-4 text-center">
-                <div className="text-lg sm:text-2xl font-heading text-jc-accent font-bold">Premium</div>
-                <div className="mt-1 text-[10px] sm:text-xs text-jc-accent/70">
-                  Finitions & dorures
+              <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center">
+                <div className="text-sm font-heading text-jc-accent font-bold">Premium</div>
+                <div className="text-[9px] text-jc-accent/70 leading-tight">
+                  Qualité
                 </div>
               </div>
             </div>
           </div>
 
           <div className="relative">
-            <div className="relative rounded-3xl border border-border bg-background/60 p-4 shadow-sm backdrop-blur">
-              <div className="flex items-center justify-between gap-3 border-b border-border px-2 py-3">
-                <div className="text-sm font-medium text-foreground">
+            <div className="relative rounded-2xl border border-border bg-background/60 p-3 shadow-sm backdrop-blur">
+              <div className="flex items-center justify-between gap-2 border-b border-border px-2 py-2">
+                <div className="text-xs font-medium text-foreground">
                   Collections
                 </div>
-                <div className="text-xs text-muted-foreground">
-                  Sélection du moment
+                <div className="text-[10px] text-muted-foreground">
+                  Sélection
                 </div>
               </div>
 
-              <div className="mt-5 grid grid-cols-2 gap-2 sm:gap-4">
+              <div className="mt-3 grid grid-cols-2 gap-1.5">
                 {[
-                  { title: "Mariage", desc: "Faire-part & menus" },
-                  { title: "Naissance", desc: "Cartes & souvenirs" },
-                  { title: "Événements", desc: "Invitations premium" },
-                  { title: "Marque-places", desc: "Touche finale" },
+                  { title: "Mariage", desc: "Faire-part" },
+                  { title: "Naissance", desc: "Cartes" },
+                  { title: "Événements", desc: "Invitations" },
+                  { title: "Marque-places", desc: "Final" },
                 ].map((card) => (
                   <div
                     key={card.title}
-                    className="group rounded-xl sm:rounded-2xl border border-border bg-[radial-gradient(circle_at_top,rgba(200,169,110,0.22),transparent_60%)] p-3 sm:p-4 transition-transform hover:-translate-y-0.5"
+                    className="group rounded-lg border border-border bg-[radial-gradient(circle_at_top,rgba(200,169,110,0.22),transparent_60%)] p-2 transition-transform"
                   >
-                    <div className="text-xs sm:text-sm font-heading text-foreground text-center">
+                    <div className="text-xs font-heading text-foreground text-center">
                       {card.title}
                     </div>
-                    <div className="mt-1 text-[10px] sm:text-xs leading-4 sm:leading-5 text-muted-foreground text-center" style={{ textAlign: 'justify', textJustify: 'inter-word', wordSpacing: '0.1em', letterSpacing: '0.02em' }}>
+                    <div className="mt-0.5 text-[9px] text-muted-foreground text-center leading-tight">
                       {card.desc}
                     </div>
-                    <div className="mt-2 sm:mt-4 h-1 w-6 sm:w-10 rounded-full bg-accent/70 mx-auto" />
+                    <div className="mt-1.5 h-0.5 w-4 rounded-full bg-accent/70 mx-auto" />
                   </div>
                 ))}
               </div>
