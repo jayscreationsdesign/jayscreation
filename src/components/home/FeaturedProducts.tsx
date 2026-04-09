@@ -34,18 +34,18 @@ export function FeaturedProducts() {
     Math.min(featured.length - visibleCount, c + 1))
 
   return (
-    <section className="py-16" style={{
+    <section className="py-8 sm:py-16" style={{
       background: "linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%)"
     }}>
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
         
         {/* Titre */}
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold text-[#8B4513] mb-3">
-            ✦ Tendances ✦
+        <div className="text-center mb-6 sm:mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-[#8B4513] mb-2 sm:mb-3">
+            Tendances
           </h2>
-          <p className="text-[#6B4423]/80 text-sm">
-            Découvrez les créations les plus populaires du moment
+          <p className="text-[#6B4423]/80 text-xs sm:text-sm">
+            Découvrez les créations les plus populaires
           </p>
         </div>
 
