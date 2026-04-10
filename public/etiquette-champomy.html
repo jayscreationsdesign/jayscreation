@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Étiquette Champomy - Jay's Creations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #FAF7F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .image-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+        }
+
+        .background {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #F5E6D3 0%, #E8D5B7 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Motif décoratif */
+        .pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #8B4513 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, #C8A96E 1px, transparent 1px);
+            background-size: 35px 35px;
+        }
+
+        /* Bouteille centrale */
+        .bottle-container {
+            position: relative;
+            width: 200px;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .bottle {
+            width: 120px;
+            height: 320px;
+            background: linear-gradient(135deg, #FAF7F2 0%, #E8D5B7 100%);
+            border-radius: 60px 60px 10px 10px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.25);
+            border: 2px solid #8B4513;
+            overflow: hidden;
+        }
+
+        .bottle::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 40px;
+            background: #8B4513;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .bottle::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #C8A96E;
+            border-radius: 50%;
+        }
+
+        /* Étiquette personnalisée */
+        .label {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 150px;
+            background: linear-gradient(135deg, #8B4513 0%, #C8A96E 100%);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .label-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #FAF7F2;
+            text-align: center;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .label-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 600;
+            color: #FAF7F2;
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Liquide dans la bouteille */
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, #E8D5B7 0%, #F5E6D3 100%);
+            border-radius: 0 0 8px 8px;
+            opacity: 0.7;
+        }
+
+        /* Bulles */
+        .bubble {
+            position: absolute;
+            background: rgba(250, 247, 242, 0.8);
+            border-radius: 50%;
+            animation: bubble 4s infinite ease-in-out;
+        }
+
+        .bubble:nth-child(1) { width: 8px; height: 8px; bottom: 20%; left: 30%; animation-delay: 0s; }
+        .bubble:nth-child(2) { width: 6px; height: 6px; bottom: 40%; right: 25%; animation-delay: 1s; }
+        .bubble:nth-child(3) { width: 10px; height: 10px; bottom: 30%; left: 60%; animation-delay: 2s; }
+
+        @keyframes bubble {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+            50% { transform: translateY(-20px) scale(1.1); opacity: 0.4; }
+        }
+
+        /* Textes */
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B4513;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Étoiles décoratives */
+        .star {
+            position: absolute;
+            color: #C8A96E;
+            font-size: 16px;
+            opacity: 0.6;
+        }
+
+        .star:nth-child(1) { top: 10%; left: 15%; }
+        .star:nth-child(2) { top: 15%; right: 20%; }
+        .star:nth-child(3) { bottom: 20%; left: 10%; }
+        .star:nth-child(4) { bottom: 15%; right: 15%; }
+
+        /* Ligne décorative */
+        .decoration-line {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C8A96E, transparent);
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="background">
+            <div class="pattern"></div>
+            
+            <!-- Étoiles décoratives -->
+            <div class="star">+</div>
+            <div class="star">+</div>
+            <div class="star">+</div>
+            <div class="star">+</div>
+            
+            <!-- Bouteille centrale -->
+            <div class="bottle-container">
+                <div class="bottle">
+                    <div class="liquid"></div>
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                    <div class="label">
+                        <div class="label-title">Champomy</div>
+                        <div class="label-subtitle">Fête Élégante</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Textes -->
+            <div class="title">Étiquette Champomy</div>
+            <div class="subtitle">Sans Alcool</div>
+            <div class="decoration-line"></div>
+        </div>
+    </div>
+</body>
+</html>

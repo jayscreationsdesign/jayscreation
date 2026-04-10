@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Élégante Jay's Creations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #FAF7F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .image-container {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+        }
+
+        .background-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(139, 69, 19, 0.7) 0%,
+                rgba(139, 69, 19, 0.3) 50%,
+                rgba(212, 165, 116, 0.2) 100%
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .content {
+            text-align: center;
+            color: #FAF7F2;
+            max-width: 600px;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #D4A574;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.8),
+                0px 0px 8px rgba(212, 165, 116, 0.4);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(18px, 3vw, 24px);
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #FAF7F2;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.3px;
+        }
+
+        .description {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-weight: 400;
+            line-height: 1.6;
+            color: #FAF7F2;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            margin-bottom: 24px;
+            background: rgba(44, 44, 44, 0.6);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 165, 116, 0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #8B4513;
+            color: #FAF7F2;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border: 2px solid #D4A574;
+            box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+        }
+
+        .cta-button:hover {
+            background: #D4A574;
+            color: #8B4513;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 116, 0.4);
+        }
+
+        .decorative-element {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 2px solid #D4A574;
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        .decorative-element.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .decorative-element.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .overlay {
+                padding: 20px;
+            }
+
+            .description {
+                padding: 16px;
+            }
+
+            .cta-button {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <!-- Remplacez "votre-image.jpg" par le chemin de votre image uploadée -->
+        <img src="votre-image.jpg" alt="Image élégante Jay's Creations" class="background-image">
+        
+        <div class="overlay">
+            <div class="decorative-element top-left"></div>
+            <div class="decorative-element bottom-right"></div>
+            
+            <div class="content">
+                <h1 class="title">Jay's Creations Design</h1>
+                <h2 class="subtitle">Élégance & Créativité</h2>
+                <p class="description">
+                    Transformez vos événements en moments inoubliables avec nos créations personnalisées. 
+                    Design artisanal, qualité premium et service sur-mesure pour sublimer vos célébrations.
+                </p>
+                <a href="#" class="cta-button">Découvrir nos créations</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

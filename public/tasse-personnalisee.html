@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasse Personnalisée - Jay's Creations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #FAF7F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .image-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+        }
+
+        .background {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #F5E6D3 0%, #E8D5B7 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Motif décoratif */
+        .pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #8B4513 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, #C8A96E 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Tasse centrale */
+        .mug-container {
+            position: relative;
+            width: 250px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .mug {
+            width: 180px;
+            height: 200px;
+            background: linear-gradient(135deg, #FAF7F2 0%, #E8D5B7 100%);
+            border-radius: 0 0 90px 90px;
+            position: relative;
+            box-shadow: 0 15px 35px rgba(139, 69, 19, 0.25);
+            border: 2px solid #8B4513;
+            overflow: hidden;
+        }
+
+        .mug::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: #8B4513;
+        }
+
+        /* Anse de la tasse */
+        .handle {
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 60px;
+            border: 3px solid #8B4513;
+            border-left: none;
+            border-radius: 0 30px 30px 0;
+            background: linear-gradient(90deg, transparent, #E8D5B7 50%, transparent);
+        }
+
+        /* Vapeur */
+        .steam {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 40px;
+            opacity: 0.6;
+        }
+
+        .steam-line {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: linear-gradient(to top, transparent, #C8A96E);
+            border-radius: 50%;
+            animation: steam 3s infinite ease-in-out;
+        }
+
+        .steam-line:nth-child(1) { left: 0; animation-delay: 0s; }
+        .steam-line:nth-child(2) { left: 20px; animation-delay: 0.5s; }
+        .steam-line:nth-child(3) { left: 40px; animation-delay: 1s; }
+
+        @keyframes steam {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-10px) scale(1.1); opacity: 0.3; }
+        }
+
+        /* Personnalisation sur la tasse */
+        .customization {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .monogram {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #8B4513;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(245, 230, 211, 0.8);
+        }
+
+        .monogram-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8B4513;
+        }
+
+        /* Textes */
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B4513;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Étoiles décoratives */
+        .star {
+            position: absolute;
+            color: #C8A96E;
+            font-size: 16px;
+            opacity: 0.6;
+        }
+
+        .star:nth-child(1) { top: 10%; left: 15%; }
+        .star:nth-child(2) { top: 15%; right: 20%; }
+        .star:nth-child(3) { bottom: 20%; left: 10%; }
+        .star:nth-child(4) { bottom: 15%; right: 15%; }
+
+        /* Ligne décorative */
+        .decoration-line {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C8A96E, transparent);
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="background">
+            <div class="pattern"></div>
+            
+            <!-- Étoiles décoratives -->
+            <div class="star">+</div>
+            <div class="star">+</div>
+            <div class="star">+</div>
+            <div class="star">+</div>
+            
+            <!-- Tasse centrale -->
+            <div class="mug-container">
+                <div class="mug">
+                    <div class="handle"></div>
+                    <div class="steam">
+                        <div class="steam-line"></div>
+                        <div class="steam-line"></div>
+                        <div class="steam-line"></div>
+                    </div>
+                    <div class="customization">
+                        <div class="monogram">
+                            <div class="monogram-text">JC</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Textes -->
+            <div class="title">Tasse Personnalisée</div>
+            <div class="subtitle">Style Quotidien</div>
+            <div class="decoration-line"></div>
+        </div>
+    </div>
+</body>
+</html>

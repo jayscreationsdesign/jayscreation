@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garniture Pâques - Jay's Creations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #FAF7F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .image-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+        }
+
+        .background {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #F5E6D3 0%, #E8D5B7 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Motif décoratif printemps */
+        .pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.05;
+            background-image: 
+                radial-gradient(circle at 30% 20%, #8B4513 2px, transparent 2px),
+                radial-gradient(circle at 70% 30%, #C8A96E 1px, transparent 1px),
+                radial-gradient(circle at 40% 70%, #8B4513 1.5px, transparent 1.5px),
+                radial-gradient(circle at 60% 80%, #C8A96E 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* Panier central */
+        .basket-container {
+            position: relative;
+            width: 250px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .basket {
+            width: 200px;
+            height: 180px;
+            background: linear-gradient(135deg, #8B4513 0%, #C8A96E 100%);
+            border-radius: 0 0 100px 100px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(139, 69, 19, 0.3);
+        }
+
+        .basket::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            height: 40px;
+            background: linear-gradient(90deg, #8B4513 0%, #C8A96E 50%, #8B4513 100%);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(139, 69, 19, 0.2);
+        }
+
+        /* Oeufs décoratifs */
+        .egg {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(135deg, #FAF7F2 0%, #E8D5B7 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 3px 10px rgba(139, 69, 19, 0.2);
+        }
+
+        .egg:nth-child(1) { top: 20px; left: 40px; transform: rotate(-10deg); }
+        .egg:nth-child(2) { top: 15px; right: 50px; transform: rotate(15deg); }
+        .egg:nth-child(3) { top: 40px; left: 80px; transform: rotate(-5deg); }
+        .egg:nth-child(4) { top: 35px; right: 30px; transform: rotate(10deg); }
+
+        /* Lapin décoratif */
+        .rabbit {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 50px;
+        }
+
+        .rabbit-head {
+            width: 30px;
+            height: 30px;
+            background: #8B4513;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .rabbit-ears {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 25px;
+        }
+
+        .rabbit-ear {
+            position: absolute;
+            width: 6px;
+            height: 20px;
+            background: #8B4513;
+            border-radius: 50%;
+            top: 0;
+        }
+
+        .rabbit-ear:first-child { left: 2px; transform: rotate(-10deg); }
+        .rabbit-ear:last-child { right: 2px; transform: rotate(10deg); }
+
+        /* Textes */
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #8B4513;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B4513;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* Fleurs décoratives */
+        .flower {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            color: #C8A96E;
+            font-size: 18px;
+            opacity: 0.6;
+        }
+
+        .flower:nth-child(1) { top: 10%; left: 15%; }
+        .flower:nth-child(2) { top: 15%; right: 20%; }
+        .flower:nth-child(3) { bottom: 20%; left: 10%; }
+        .flower:nth-child(4) { bottom: 15%; right: 15%; }
+
+        /* Ligne décorative */
+        .decoration-line {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C8A96E, transparent);
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="background">
+            <div class="pattern"></div>
+            
+            <!-- Fleurs décoratives -->
+            <div class="flower">+</div>
+            <div class="flower">+</div>
+            <div class="flower">+</div>
+            <div class="flower">+</div>
+            
+            <!-- Panier central avec oeufs -->
+            <div class="basket-container">
+                <div class="basket">
+                    <div class="rabbit">
+                        <div class="rabbit-ears">
+                            <div class="rabbit-ear"></div>
+                            <div class="rabbit-ear"></div>
+                        </div>
+                        <div class="rabbit-head"></div>
+                    </div>
+                    <div class="egg"></div>
+                    <div class="egg"></div>
+                    <div class="egg"></div>
+                    <div class="egg"></div>
+                </div>
+            </div>
+            
+            <!-- Textes -->
+            <div class="title">Garniture Pâques</div>
+            <div class="subtitle">Fête Printanière</div>
+            <div class="decoration-line"></div>
+        </div>
+    </div>
+</body>
+</html>

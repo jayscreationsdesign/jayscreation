@@ -4,21 +4,17 @@ import { useState } from "react";
 import { type Product } from "@/data/products";
 import ImageCarousel from "@/components/ui/ImageCarousel";
 import { getImageSrc, getImageArray } from "@/lib/images";
+import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
 
 export default function ProductGallery({ product }: { product: Product }) {
-  // Gestion des erreurs d'images avec fallback
-  const [imageError, setImageError] = useState(false);
+  // Vérifier si le produit utilise un placeholder
   const mainImage = getImageSrc(product.image);
-  const fallbackImage = "/images/products/placeholder.svg";
+  const isPlaceholder = mainImage.includes('placeholder');
   const images = getImageArray(product.images, mainImage);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [thumbnailStart, setThumbnailStart] = useState(0);
 
-  const handleImageError = () => {
-    setImageError(true);
-  };
-
-  const displayImages = imageError ? [fallbackImage] : images;
+  const displayImages = images;
 
   // Limiter à 3 thumbnails visibles
   const maxVisibleThumbnails = 3;
@@ -40,14 +36,17 @@ export default function ProductGallery({ product }: { product: Product }) {
     <div className="space-y-6">
       {/* Carrousel principal */}
       <div className="product-gallery-uniform relative rounded-xl overflow-hidden shadow-md max-w-md mx-auto">
-        <div className="relative aspect-[3/4] bg-[#E8D5B7]">
-          <img
-            src={displayImages[currentImageIndex]}
-            alt={`${product.name} - vue ${currentImageIndex + 1}`}
-            className="w-full h-full object-cover"
-            style={{ backgroundColor: '#E8D5B7' }}
-            onError={handleImageError}
-          />
+        <div className="relative aspect-[3/4]">
+          {isPlaceholder ? (
+            <ProductImagePlaceholder productName={product.name} />
+          ) : (
+            <img
+              src={displayImages[currentImageIndex]}
+              alt={`${product.name} - vue ${currentImageIndex + 1}`}
+              className="w-full h-full object-cover"
+              style={{ backgroundColor: '#E8D5B7' }}
+            />
+          )}
           
           {/* Navigation flèches */}
           {displayImages.length > 1 && (
@@ -74,7 +73,7 @@ export default function ProductGallery({ product }: { product: Product }) {
       </div>
       
       {/* Carrousel de thumbnails - Style comme page d'accueil */}
-      {displayImages.length > 1 && (
+      {!isPlaceholder && displayImages.length > 1 && (
         <div className="flex items-center justify-center gap-2">
           {/* Flèche gauche */}
           {thumbnailStart > 0 && (

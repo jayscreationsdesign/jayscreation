@@ -5,11 +5,12 @@ import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
+import { validateCoupon, calculateDiscount, formatDiscountValue, OFFICIAL_COUPONS } from "@/lib/discounts";
 
 export default function PanierPage() {
   const { items, removeItem, updateQuantite, clearCart } = useCartStore();
   const [codePromo, setCodePromo] = useState('');
-  const [promoApplied, setPromoApplied] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
   const [promoError, setPromoError] = useState('');
   const [hydrated, setHydrated] = useState(false);
   
@@ -42,24 +43,32 @@ export default function PanierPage() {
 
   const handleApplyPromo = () => {
     setPromoError('');
+    setAppliedCoupon(null);
     
     if (!codePromo.trim()) {
       setPromoError('Veuillez entrer un code promo');
       return;
     }
     
-    // Code pour 100% de réduction
-    if (codePromo.toUpperCase() === 'JAYS100') {
-      setPromoApplied(true);
+    const coupon = validateCoupon(codePromo, sousTotal);
+    
+    if (coupon) {
+      setAppliedCoupon(coupon);
       setPromoError('');
     } else {
-      setPromoError('Code promo invalide');
+      setPromoError('Code promo invalide ou conditions non remplies');
     }
   };
 
   const getRemise = () => {
-    if (!promoApplied || codePromo.toUpperCase() !== 'JAYS100') return 0;
-    return sousTotal; // 100% de réduction
+    if (!appliedCoupon) return 0;
+    return calculateDiscount(appliedCoupon, sousTotal);
+  };
+
+  const getRemiseLivraison = () => {
+    if (!appliedCoupon || appliedCoupon.type !== 'livraison_gratuite') return 0;
+    // Simulation des frais de livraison (5.90€)
+    return 5.90;
   };
 
   const totalAvecRemise = sousTotal - getRemise();
@@ -88,38 +97,38 @@ export default function PanierPage() {
 
   return (
     <div className="min-h-screen bg-jc-bg">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-3 py-4 sm:px-4 sm:py-8">
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <Link href="/boutique"
-            className="cursor-pointer flex items-center gap-3 text-jc-accent hover:text-jc-accent-dark transition-colors">
-            <ArrowLeft size={20} />
-            <span className="font-medium">Continuer mes achats</span>
+            className="cursor-pointer flex items-center gap-2 text-jc-accent hover:text-jc-accent-dark transition-colors">
+            <ArrowLeft size={16} />
+            <span className="text-sm font-medium">Retour boutique</span>
           </Link>
-          <h1 className="text-3xl font-bold text-[#8B4513]">
-            Mon Panier ({items.reduce((sum, item) => sum + item.quantite, 0)} articles)
+          <h1 className="text-xl font-bold text-[#8B4513] text-center">
+            Panier ({items.reduce((sum, item) => sum + item.quantite, 0)} art.)
           </h1>
-          <PrimaryCtaButton onClick={clearCart} showArrow={false} className="text-sm">
-            Vider le panier
+          <PrimaryCtaButton onClick={clearCart} showArrow={false} className="text-xs py-1.5">
+            Vider
           </PrimaryCtaButton>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
           
           {/* Articles */}
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-3">
             {items.map((item) => (
               <div key={item.id} 
-                className="bg-white rounded-2xl p-6 border border-[#E8E4DF] 
-                flex gap-6 items-center">
+                className="bg-white rounded-lg p-3 sm:p-4 border border-[#E8E4DF] 
+                flex flex-col sm:flex-row gap-3 sm:gap-4">
                 
                 {/* Image */}
-                <div className="relative w-24 h-24 flex-shrink-0">
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0">
                   <img 
-                    src={item.image || "/images/products/placeholder.svg"}
+                    src={item.image || "/images/products/placeholder.png"}
                     alt={item.nom}
-                    className="w-full h-full object-cover rounded-xl"
+                    className="w-full h-full object-cover rounded-lg"
                   />
                 </div>
                 
@@ -127,32 +136,32 @@ export default function PanierPage() {
                 <div className="flex-1 min-w-0">
                   <div className="mb-2">
                     <Link href={`/produit/${item.slug}`}
-                      className="cursor-pointer font-semibold text-[#8B4513] 
+                      className="cursor-pointer font-semibold text-[#8B4513] text-sm sm:text-base
                       hover:text-[#6b3410] hover:underline transition-colors 
                       block truncate">
                       {item.nom}
                     </Link>
                     {item.theme && (
-                      <span className="text-xs text-[#8B4513] capitalize ml-2">
-                        Thème : {item.theme}
+                      <span className="text-xs text-[#8B4513] capitalize block mt-1">
+                        {item.theme}
                       </span>
                     )}
                   </div>
                   
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
                     <button
                       onClick={() => updateQuantite(item.id, Math.max(1, item.quantite - 1))}
-                      className="cursor-pointer w-8 h-8 rounded-full border border-[#E8E4DF] 
+                      className="cursor-pointer w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-[#E8E4DF] 
                       flex items-center justify-center hover:border-[#8B4513] transition-colors"
                     >
                       <Minus size={14} />
                     </button>
-                    <span className="w-12 text-center font-medium text-[#8B4513]">
+                    <span className="w-8 text-center font-medium text-[#8B4513] text-sm">
                       {item.quantite}
                     </span>
                     <button
                       onClick={() => updateQuantite(item.id, item.quantite + 1)}
-                      className="cursor-pointer w-8 h-8 rounded-full border border-[#E8E4DF] 
+                      className="cursor-pointer w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-[#E8E4DF] 
                       flex items-center justify-center hover:border-[#8B4513] transition-colors"
                     >
                       <Plus size={14} />
@@ -161,8 +170,8 @@ export default function PanierPage() {
                   
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-[#6B6B6B]">Prix unitaire</p>
-                      <p className="font-bold text-[#8B4513]">
+                      <p className="text-xs text-[#6B6B6B]">Prix/u</p>
+                      <p className="font-bold text-[#8B4513] text-sm">
                         {formatPrice(item.prix)}
                       </p>
                     </div>
@@ -170,7 +179,7 @@ export default function PanierPage() {
                       onClick={() => removeItem(item.id)}
                       className="cursor-pointer text-[#8B4513] hover:text-[#6b3410] transition-colors"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 </div>
@@ -180,13 +189,13 @@ export default function PanierPage() {
 
           {/* Récapitulatif */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-6 border border-[#E8E4DF] sticky top-8">
-              <h2 className="text-lg font-bold text-[#8B4513] mb-6">
+            <div className="bg-white rounded-lg p-4 sm:p-6 border border-[#E8E4DF] sticky top-4 sm:top-8">
+              <h2 className="text-base sm:text-lg font-bold text-[#8B4513] mb-4 sm:mb-6">
                 Récapitulatif
               </h2>
               
-              <div className="space-y-4 mb-6">
-                <div className="flex justify-between text-sm">
+              <div className="space-y-3 mb-4 sm:mb-6">
+                <div className="flex justify-between text-xs sm:text-sm">
                   <span className="text-[#6B6B6B]">Sous-total</span>
                   <span className="font-medium text-[#8B4513]">
                     {formatPrice(sousTotal)}
@@ -202,11 +211,11 @@ export default function PanierPage() {
                       </div>
                       <div>
                         <h3 className="text-white font-bold text-lg">Coupon de réduction</h3>
-                        <p className="text-white/90 text-sm">Économisez 100% sur votre commande !</p>
+                        <p className="text-white/90 text-sm">Profitez de nos offres exclusives !</p>
                       </div>
                     </div>
                     
-                    {!promoApplied ? (
+                    {!appliedCoupon ? (
                       <div className="space-y-3">
                         <input
                           type="text"
@@ -227,10 +236,14 @@ export default function PanierPage() {
                           </div>
                         )}
                         <div className="bg-white/20 backdrop-blur p-3 rounded-lg">
-                          <p className="text-white text-xs font-medium mb-2">🎉 Code spécial disponible :</p>
-                          <div className="flex items-center justify-between">
-                            <code className="bg-white/30 px-3 py-1 rounded text-white font-bold text-sm">JAYS100</code>
-                            <span className="text-white/90 text-xs">100% de réduction</span>
+                          <p className="text-white text-xs font-medium mb-2">?? Codes disponibles :</p>
+                          <div className="space-y-2">
+                            {OFFICIAL_COUPONS.filter(c => c.statut === 'actif').slice(0, 2).map(coupon => (
+                              <div key={coupon.id} className="flex items-center justify-between">
+                                <code className="bg-white/30 px-3 py-1 rounded text-white font-bold text-sm">{coupon.code}</code>
+                                <span className="text-white/90 text-xs">{formatDiscountValue(coupon)}</span>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </div>
@@ -243,14 +256,14 @@ export default function PanierPage() {
                             </div>
                             <div>
                               <span className="text-white font-bold text-sm">
-                                Coupon JAYS100 appliqué !
+                                Coupon {appliedCoupon.code} appliqué !
                               </span>
-                              <p className="text-white/90 text-xs">Commande gratuite</p>
+                              <p className="text-white/90 text-xs">{appliedCoupon.description}</p>
                             </div>
                           </div>
                           <button
                             onClick={() => {
-                              setPromoApplied(false);
+                              setAppliedCoupon(null);
                               setCodePromo('');
                               setPromoError('');
                             }}
@@ -266,7 +279,7 @@ export default function PanierPage() {
                 
                 {getRemise() > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-green-600 font-medium">Réduction (100%)</span>
+                    <span className="text-green-600 font-medium">Réduction ({formatDiscountValue(appliedCoupon)})</span>
                     <span className="text-green-600 font-medium">
                       -{formatPrice(getRemise())}
                     </span>

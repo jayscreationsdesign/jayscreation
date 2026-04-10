@@ -11,6 +11,7 @@ import LoyaltySummary from '@/components/loyalty/LoyaltySummary'
 export default function ComptePage() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
+  const [orders, setOrders] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -25,6 +26,18 @@ export default function ComptePage() {
         }
 
         setUser(currentUser)
+        
+        // Récupérer les commandes du client
+        try {
+          const ordersResponse = await fetch('/api/admin/commandes?userId=' + currentUser.id)
+          if (ordersResponse.ok) {
+            const ordersData = await ordersResponse.json()
+            setOrders(ordersData.orders || [])
+          }
+        } catch (error) {
+          console.log('Erreur récupération commandes:', error)
+          setOrders([])
+        }
         
         // Paralléliser les requêtes pour optimiser le chargement
         const [userProfile] = await Promise.all([
@@ -41,6 +54,23 @@ export default function ComptePage() {
 
     checkAuth()
   }, [router])
+
+  // Calculer les statistiques réelles
+  const totalOrders = orders.length
+  const lastOrderDate = orders.length > 0 
+    ? new Date(Math.max(...orders.map(order => new Date(order.createdAt).getTime()))).toLocaleDateString('fr-FR', { 
+        day: 'numeric', 
+        month: 'long', 
+        year: 'numeric' 
+      })
+    : 'Aucune commande'
+  
+  const totalSpent = orders.reduce((sum, order) => {
+    const orderTotal = typeof order.total === 'number' ? order.total : parseFloat(order.total) || 0
+    return sum + orderTotal
+  }, 0)
+
+  const recentOrders = orders.slice(0, 3)
 
   if (loading) {
     return (
@@ -104,7 +134,7 @@ export default function ComptePage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm text-gray-600 group-hover:text-[#8B4513] transition-colors">Commandes totales</p>
-                <p className="text-2xl font-bold text-gray-900">12</p>
+                <p className="text-2xl font-bold text-gray-900">{totalOrders}</p>
               </div>
             </div>
           </div>
@@ -116,7 +146,7 @@ export default function ComptePage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm text-gray-600">Dernière commande</p>
-                <p className="text-lg font-bold text-gray-900">15 Mars 2024</p>
+                <p className="text-lg font-bold text-gray-900">{lastOrderDate}</p>
               </div>
             </div>
           </div>
@@ -128,7 +158,7 @@ export default function ComptePage() {
               </div>
               <div className="ml-4">
                 <p className="text-sm text-gray-600">Total dépensé</p>
-                <p className="text-2xl font-bold text-gray-900">1,245€</p>
+                <p className="text-2xl font-bold text-gray-900">{totalSpent.toFixed(2)}</p>
               </div>
             </div>
           </div>
@@ -147,26 +177,50 @@ export default function ComptePage() {
           </div>
           
           <div className="space-y-4">
-            {[1, 2, 3].map((order) => (
-              <Link 
-                key={order}
-                href={`/compte/commandes?order=${1000 + order}`}
-                className="block border border-gray-200 rounded-lg p-4 hover:border-[#8B4513]/30 hover:shadow-sm transition-all group"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium text-gray-900 group-hover:text-[#8B4513] transition-colors">Commande #{1000 + order}</p>
-                    <p className="text-sm text-gray-600">15 Mars 2024</p>
+            {recentOrders.length > 0 ? (
+              recentOrders.map((order) => (
+                <Link 
+                  key={order.id}
+                  href={`/compte/commandes?order=${order.id}`}
+                  className="block border border-gray-200 rounded-lg p-4 hover:border-[#8B4513]/30 hover:shadow-sm transition-all group"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-gray-900 group-hover:text-[#8B4513] transition-colors">
+                        Commande #{order.id || order.orderId}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {new Date(order.createdAt).toLocaleDateString('fr-FR', { 
+                          day: 'numeric', 
+                          month: 'long', 
+                          year: 'numeric' 
+                        })}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-gray-900">
+                        {typeof order.total === 'number' ? order.total.toFixed(2) : parseFloat(order.total || '0').toFixed(2)}$
+                      </p>
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        {order.status || 'Payée'}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="font-bold text-gray-900">89,90</p>
-                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      Payée
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))
+            ) : (
+              <div className="text-center py-8">
+                <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 mb-2">Aucune commande pour le moment</p>
+                <Link 
+                  href="/boutique" 
+                  className="text-[#8B4513] hover:text-[#8B4513] font-medium transition-colors inline-flex items-center gap-2"
+                >
+                  <ShoppingBag className="h-4 w-4" />
+                  Commencer vos achats
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 

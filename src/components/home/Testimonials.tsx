@@ -2,12 +2,12 @@
 
 export function Testimonials() {
   return (
-    <section className="py-16 bg-[#F5F0EB]">
-      <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-jc-text text-center mb-12">
+    <section className="py-8 sm:py-12 lg:py-16 bg-[#F5F0EB]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-jc-text text-center mb-8 sm:mb-12">
           Témoignages Clients
         </h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {[
             { 
               name: "Amina K.", 
@@ -28,19 +28,19 @@ export function Testimonials() {
               text: "J'ai fait appel à Jay's Creations pour les 5 ans de mon fils, thème super-héros. Les boîtes Pom'Potes personnalisées et la papeterie sweet table ont fait sensation ! Les enfants étaient ravis. Rapport qualité-prix excellent, je reviendrai pour le prochain anniversaire."
             }
           ].map((testimonial, i) => (
-            <div key={i} className="bg-jc-surface p-6 rounded-xl border-jc-border">
-              <div className="flex mb-4">
+            <div key={i} className="bg-jc-surface p-4 sm:p-6 rounded-lg sm:rounded-xl border-jc-border">
+              <div className="flex mb-3 sm:mb-4">
                 {[...Array(testimonial.rating)].map((_, j) => (
-                  <span key={j} className="text-[#8B4513]">â</span>
+                  <span key={j} className="text-[#8B4513] text-sm sm:text-base">â</span>
                 ))}
               </div>
-              <p className="text-jc-muted mb-4 italic text-sm leading-relaxed">
+              <p className="text-jc-muted mb-3 sm:mb-4 italic text-xs sm:text-sm leading-relaxed line-clamp-4 sm:line-clamp-none">
                 "{testimonial.text}"
               </p>
-              <div className="font-semibold text-jc-text">
+              <div className="font-semibold text-jc-text text-sm sm:text-base">
                 {testimonial.name}
               </div>
-              <div className="text-sm text-jc-muted">
+              <div className="text-xs sm:text-sm text-jc-muted">
                 {testimonial.event}
               </div>
             </div>

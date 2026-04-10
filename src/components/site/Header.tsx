@@ -7,7 +7,8 @@ import { ShoppingBag, ChevronDown, Menu, X, User, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { categories } from "@/data/categories";
 import { useCartStore } from "@/store/cartStore";
-import { getUser } from "@/lib/auth";
+import { getCurrentUser, getUserProfile } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 // ─── Types ────────────────────────────────────────────────────────────
 
@@ -38,7 +39,7 @@ function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
   // Première ligne - catégories principales
-  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"];
+  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "toniebox", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"];
   
   for (const cat of categories) {
     if (firstLineCategories.includes(cat.slug)) {
@@ -134,6 +135,7 @@ export default function Header() {
   const [cartHover, setCartHover] = useState(false);
   const [cartDropdownHover, setCartDropdownHover] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<any>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLDivElement>(null);
@@ -178,17 +180,40 @@ export default function Header() {
 
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
-    const checkUser = async () => {
+    async function checkUser() {
       try {
-        const currentUser = await getUser();
-        setUser(currentUser);
-      } catch (error) {
-        console.error('Erreur vérification utilisateur:', error);
-        setUser(null);
+        const { data: { user } } = await supabase.auth.getUser()
+        setUser(user)
+      } catch {
+        setUser(null)
       }
-    };
-    
-    checkUser();
+    }
+    checkUser()
+  }, [])
+
+  // Surveiller les changements d'authentification (connexion/déconnexion)
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event: any, session: any) => {
+        console.log('Auth state changed:', event, session?.user?.email);
+        
+        if (event === 'SIGNED_IN' && session?.user) {
+          setUser(session.user);
+          try {
+            const profile = await getUserProfile(session.user.id);
+            setUserProfile(profile);
+          } catch (profileError) {
+            console.error('Erreur récupération profil après connexion:', profileError);
+            setUserProfile(null);
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+          setUserProfile(null);
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
   }, []);
 
   // Debug pour voir les articles dans la console
@@ -334,10 +359,10 @@ export default function Header() {
       >
         <Link
           href={item.href}
-          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 hover:text-[#6b3410] ${
+          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
             isActive
               ? "text-[#2C1A0E] border-b-[1.5px] border-[#2C1A0E] pb-[7px]"
-              : "text-[#2C1A0E]"
+              : "text-[#2C1A0E] hover:text-[#6b3410]"
           }`}
         >
           {item.label}
@@ -370,7 +395,7 @@ export default function Header() {
                 >
                   <Link
                     href={child.href}
-                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#FAF7F2] hover:text-[#6b3410] transition-all duration-500 rounded-lg mx-2"
+                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2"
                     onClick={() => {
                       if (child.children?.length) {
                         const categorySlug = child.href.split('category=')[1];
@@ -389,7 +414,7 @@ export default function Header() {
                         <Link
                           key={grand.href}
                           href={grand.href}
-                          className="block px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#FAF7F2] hover:text-[#6b3410] transition-all duration-500 rounded-lg mx-2"
+                          className="block px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2"
                         >
                           {grand.name}
                         </Link>
@@ -419,21 +444,21 @@ export default function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Link href="/" className="flex items-center gap-1 sm:gap-2 shrink-0">
             <Image
               src="/images/logo/logo.png"
               alt="Jay's Creations Design"
-              width={60}
-              height={60}
+              width={32}
+              height={32}
               className="object-contain"
               priority
-              style={{ width: 'auto', height: '60px' }}
+              style={{ width: 'auto', height: '32px sm:48px' }}
             />
             <div className="leading-tight hidden sm:block">
-              <div className="font-heading text-xl font-bold tracking-wide text-foreground">
+              <div className="font-heading text-sm sm:text-lg font-bold tracking-wide text-foreground">
                 Jay&apos;s Creations Design
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-[10px] sm:text-xs text-muted-foreground hidden lg:block">
                 Pour Sublimer Vos Événements
               </div>
             </div>
@@ -454,43 +479,39 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex flex-col items-end gap-2">
-            {/* Première ligne : Recherche, Connexion et Panier */}
-            <div className="flex items-center gap-2">
-              {/* Recherche */}
+          <div className="flex flex-col items-end gap-1 sm:gap-2">
+            {/* Première ligne : Recherche, Connexion et Panier - optimisé pour mobile */}
+            <div className="flex items-center gap-1">
+              {/* Recherche - taille réduite sur mobile */}
               <div className="relative flex items-center">
                 <button
                   type="button"
                   onClick={handleSearchClick}
                   data-search-trigger
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#8B4513] text-white shadow-sm hover:bg-[#8B4513]/90 hover:text-[#D4A574] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8B4513] transition-colors"
+                  className="inline-flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-[#8B4513] text-white shadow-sm hover:bg-[#8B4513]/90 hover:text-[#D4A574] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8B4513] transition-colors"
                   aria-label={isSearchOpen ? "Fermer la recherche" : "Ouvrir la recherche"}
                 >
-                  <Search className="h-4 w-4" />
+                  <Search className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
                 </button>
               </div>
 
-              {/* Jay's Club */}
-              <Link
-                href="/jays-club"
-                className="flex items-center gap-2 rounded-full border border-[#C8A96E] bg-[#FAF7F2] px-4 py-2 text-sm font-medium text-[#3C2415] transition-colors hover:bg-[#F5E6D0]"
-              >
-                <span className="text-base">🏆</span>
-                <span className="hidden sm:inline">Jay's Club</span>
-              </Link>
-
-              {/* Lien Mon Compte */}
+              {/* Lien Mon Compte - version mobile ultra compacte */}
               <Link
                 href={user ? "/compte" : "/connexion"}
-                className="flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                className="flex items-center justify-center rounded-full border border-border bg-background p-1.5 sm:p-2 text-xs sm:text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
-                <User className="h-4 w-4" />
-                <span className="hidden sm:inline">
-                  {user ? (user.user_metadata?.prenom || user.email?.split('@')[0]) : 'Connexion'}
+                <User className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline ml-1">
+                  {user ? (
+                    userProfile?.prenom ? 
+                      userProfile.prenom :
+                      user.user_metadata?.prenom || 
+                      user.email?.split('@')[0]
+                  ) : 'Connexion'}
                 </span>
               </Link>
 
-              {/* Panier */}
+              {/* Panier - version mobile compacte */}
               <div
                 className="relative"
                 onMouseEnter={handleCartMouseEnter}
@@ -498,12 +519,11 @@ export default function Header() {
               >
                 <Link
                   href="/panier"
-                  className="relative inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                  className="relative inline-flex items-center justify-center rounded-full border border-border bg-background p-1.5 sm:p-2 text-xs sm:text-sm font-medium text-foreground transition-colors hover:bg-muted"
                 >
-                  <ShoppingBag className="h-4 w-4 text-[#8B4513]" />
-                  <span className="hidden sm:inline">Panier</span>
+                  <ShoppingBag className="h-3 w-3 sm:h-4 sm:w-4 text-[#8B4513]" />
                   {items.reduce((acc, item) => acc + item.quantite, 0) > 0 && (
-                    <span className="absolute -right-2 -top-2 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#8B4513] px-1 text-[11px] font-semibold text-white">
+                    <span className="absolute -right-1 -top-1 inline-flex h-3 w-3 items-center justify-center rounded-full bg-[#8B4513] text-[8px] font-semibold text-white">
                       {items.reduce((acc, item) => acc + item.quantite, 0)}
                     </span>
                   )}
@@ -523,7 +543,7 @@ export default function Header() {
                       {items.map((item) => (
                         <div key={item.id} className="flex gap-3 items-center">
                           <img
-                            src={item.image || "/images/products/placeholder.svg"}
+                            src={item.image || "/images/products/placeholder.png"}
                             alt={item.nom}
                             className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
                           />

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { validateCartMiddleware } from '@/lib/pricing-validation';
 
 // Vérification de la clé Stripe avec fallback pour le déploiement
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -39,12 +40,10 @@ export async function POST(request: NextRequest) {
 
     const { items, client } = body;
 
-    // Validation du panier
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return NextResponse.json(
-        { error: 'Panier invalide ou vide' },
-        { status: 400 }
-      );
+    // Validation du panier avec le middleware de pricing hybride
+    const validationResult = await validateCartMiddleware(request);
+    if (validationResult) {
+      return validationResult; // Retourne l'erreur si validation échoue
     }
 
     // Validation des données client
@@ -118,10 +117,36 @@ export async function POST(request: NextRequest) {
         isFreeOrder: true
       });
     }
-    // Validation et construction des line_items
+    // Validation et construction des line_items pour le système de pricing hybride
     const line_items = items.map((item: any, index: number) => {
-      const unitPrice = Number(item.prix);
-      const quantity = Number(item.quantite);
+      let unitPrice: number;
+      let quantity: number;
+      let productName: string;
+      let description: string | undefined;
+
+      // Adapter selon le type de pricing
+      switch (item.type) {
+        case 'unit':
+          unitPrice = Number(item.unitPrice);
+          quantity = Number(item.quantity);
+          productName = item.productName || 'Produit sans nom';
+          description = item.theme ? `Thème: ${item.theme} | Quantité: ${quantity}` : undefined;
+          break;
+        
+        case 'lot':
+          unitPrice = Number(item.unitPrice);
+          quantity = 1; // Un lot = 1 unité pour Stripe
+          productName = item.lotName ? `${item.productName} - ${item.lotName}` : item.productName || 'Produit sans nom';
+          description = item.theme ? `Thème: ${item.theme} | Lot: ${item.lotName} (${item.quantity} unités)` : undefined;
+          break;
+        
+        default:
+          // Fallback pour l'ancien format
+          unitPrice = Number(item.prix);
+          quantity = Number(item.quantite);
+          productName = item.nom || 'Produit sans nom';
+          description = item.theme ? `Thème: ${item.theme}` : undefined;
+      }
       
       if (!unitPrice || unitPrice <= 0) {
         throw new Error(`Prix invalide pour l'article ${index}: ${unitPrice}`);
@@ -135,8 +160,8 @@ export async function POST(request: NextRequest) {
         price_data: {
           currency: 'eur',
           product_data: {
-            name: item.nom || 'Produit sans nom',
-            description: item.theme ? `Thème: ${item.theme}` : undefined,
+            name: productName,
+            description: description,
             images: item.image ? [item.image] : undefined,
           },
           unit_amount: Math.round(unitPrice * 100),
@@ -159,7 +184,7 @@ export async function POST(request: NextRequest) {
       baseUrl,
       success_url: successUrl.toString(),
       cancel_url: cancelUrl.toString(),
-      totalAmount: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0)
+      totalAmount: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0)
     });
 
     const session = await stripe.checkout.sessions.create({
@@ -191,7 +216,7 @@ export async function POST(request: NextRequest) {
       await supabase.from('commandes').insert({
         stripe_session_id: session.id,
         statut: 'en_attente',
-        total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+        total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0),
         client_nom: `${client.prenom} ${client.nom}`,
         client_email: client.email,
         client_telephone: client.telephone,
@@ -223,7 +248,7 @@ export async function POST(request: NextRequest) {
             pays: client.pays
           },
           items,
-          total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+          total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0),
           coupon: session.metadata?.coupon || ''
         })
       });
@@ -253,7 +278,7 @@ export async function POST(request: NextRequest) {
               email: client.email
             },
             items,
-            total: items.reduce((sum, item) => sum + Number(item.prix) * Number(item.quantite), 0),
+            total: items.reduce((sum: number, item: any) => sum + Number(item.prix) * Number(item.quantite), 0),
             coupon: session.metadata?.coupon || ''
           }
         })

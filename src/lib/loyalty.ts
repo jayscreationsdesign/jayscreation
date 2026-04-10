@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { validateCoupon, calculateDiscount, formatDiscountValue } from './discounts';
 
 // Paliers
 export const TIERS = {
@@ -154,10 +155,10 @@ export async function redeemReward(userId: string, rewardId: RewardId) {
     throw new Error('Points insuffisants');
   }
   
-  // Générer un code de coupon
-  const couponCode = `JAY-${rewardId.toUpperCase()}-${Date.now()}`;
+  // Générer un code de coupon unifié
+  const couponCode = `LOYALTY-${rewardId.toUpperCase()}-${Date.now()}`;
   
-  // Créer la récompense
+  // Créer la récompense avec le nouveau système unifié
   const { error: rewardError } = await supabase
     .from('loyalty_rewards')
     .insert({
@@ -166,7 +167,24 @@ export async function redeemReward(userId: string, rewardId: RewardId) {
       points_spent: reward.points,
       status: 'active',
       coupon_code: couponCode,
-      expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() // 1 an
+      expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 an
+      coupon_details: {
+        code: couponCode,
+        titre: reward.name,
+        description: `Récompense fidélité : ${reward.name}`,
+        type: rewardId.includes('discount_5') ? 'montant_fixe' : 
+              rewardId.includes('discount_15') ? 'montant_fixe' : 
+              rewardId.includes('free_shipping') ? 'livraison_gratuite' : 'special',
+        valeur: rewardId.includes('discount_5') ? 5 : 
+                rewardId.includes('discount_15') ? 15 : 0,
+        minimum_commande: rewardId.includes('discount_5') ? 30 : 
+                          rewardId.includes('discount_15') ? 50 : 0,
+        date_debut: new Date().toISOString().split('T')[0],
+        date_fin: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        statut: 'actif',
+        utilisations_max: 1,
+        utilisations_restantes: 1
+      }
     });
     
   if (rewardError) throw rewardError;

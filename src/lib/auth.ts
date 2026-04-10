@@ -48,6 +48,27 @@ export async function signUp(email: string, password: string, metadata: { prenom
 
   console.log('Compte créé avec succès:', data.user.id)
 
+  // Créer le profil utilisateur (NON BLOQUANT)
+  try {
+    const { error: profileError } = await supabase
+      .from('profils')
+      .upsert({
+        id: data.user.id,
+        prenom: metadata.prenom,
+        nom: metadata.nom,
+        email: email,
+        created_at: new Date().toISOString(),
+      })
+
+    if (profileError) {
+      console.error('Profil non créé (non bloquant):', profileError.message)
+    } else {
+      console.log('Profil utilisateur créé')
+    }
+  } catch (profileError) {
+    console.error('Profil non créé (non bloquant):', profileError)
+  }
+
   // Créer le compte de fidélité (NON BLOQUANT)
   try {
     const baseUrl = typeof window !== 'undefined'
@@ -177,16 +198,27 @@ export async function getUser(): Promise<User | null> {
 
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
   try {
+    // Vérifier d'abord si l'utilisateur est authentifié
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return null // Pas connecté, pas d'erreur
+
     const { data, error } = await supabase
       .from('profils')
       .select('*')
       .eq('id', userId)
       .single()
-    
-    if (error) throw error
+
+    if (error) {
+      // Si le profil n'existe pas, ne pas logger d'erreur
+      if (error.code === 'PGRST116') return null
+      // Ne logger que les erreurs réelles, pas les erreurs attendues
+      console.error('Error getting user profile:', error.message)
+      return null
+    }
+
     return data
   } catch (error) {
-    console.error('Error getting user profile:', error)
+    // Erreur silencieuse - ne pas polluer la console
     return null
   }
 }

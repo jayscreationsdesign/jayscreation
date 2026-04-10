@@ -5,6 +5,7 @@ import { getUser } from '@/lib/auth'
 import { Gift, Tag, Calendar, CheckCircle, XCircle, Clock, Percent, ArrowLeft, Home } from 'lucide-react'
 import Link from 'next/link'
 import Breadcrumb from '@/components/ui/Breadcrumb'
+import { OFFICIAL_COUPONS, formatDiscountValue } from '@/lib/discounts'
 
 interface Reduction {
   id: string
@@ -40,10 +41,27 @@ export default function MesReductionsPage() {
 
       setUser(currentUser)
 
-      // Données de démonstration pour l'interface
+      // Convertir les coupons officiels en format Reduction pour l'interface
+      const convertedReductions: Reduction[] = OFFICIAL_COUPONS.map(coupon => ({
+        id: coupon.id,
+        code: coupon.code,
+        titre: coupon.titre,
+        description: coupon.description,
+        type: coupon.type,
+        valeur: coupon.valeur,
+        minimum_commande: coupon.minimum_commande,
+        date_debut: coupon.date_debut,
+        date_fin: coupon.date_fin,
+        statut: coupon.statut === 'actif' ? 'disponible' : 'expiree',
+        utilisations_max: coupon.utilisations_max,
+        utilisations_restantes: coupon.utilisations_restantes
+      }));
+
+      // Ajouter quelques réductions utilisées pour la démo
       const demoReductions: Reduction[] = [
+        ...convertedReductions,
         {
-          id: '1',
+          id: 'utilisee-1',
           code: 'BIENVENUE10',
           titre: 'Offre de bienvenue',
           description: '10% de réduction sur votre première commande',
@@ -57,63 +75,8 @@ export default function MesReductionsPage() {
           commande_utilisation: 'CMD-2024-001',
           utilisations_max: 1,
           utilisations_restantes: 0
-        },
-        {
-          id: '2',
-          code: 'SOLDES2024',
-          titre: 'Soldes d\'été',
-          description: '20% de réduction sur toute la boutique',
-          type: 'pourcentage',
-          valeur: 20,
-          minimum_commande: 100,
-          date_debut: '2024-06-01',
-          date_fin: '2024-08-31',
-          statut: 'disponible',
-          utilisations_max: 3,
-          utilisations_restantes: 2
-        },
-        {
-          id: '3',
-          code: 'LIVRAISONGRAT',
-          titre: 'Livraison offerte',
-          description: 'Frais de livraison offerts pour toute commande',
-          type: 'livraison_gratuite',
-          valeur: 0,
-          minimum_commande: 75,
-          date_debut: '2024-03-01',
-          date_fin: '2024-12-31',
-          statut: 'disponible',
-          utilisations_max: 5,
-          utilisations_restantes: 4
-        },
-        {
-          id: '4',
-          code: 'NOEL2023',
-          titre: 'Spécial Noël',
-          description: '15€ de réduction pour les fêtes',
-          type: 'montant_fixe',
-          valeur: 15,
-          date_debut: '2023-12-01',
-          date_fin: '2023-12-31',
-          statut: 'expiree',
-          utilisations_max: 1,
-          utilisations_restantes: 0
-        },
-        {
-          id: '6',
-          code: 'ANNIVERSAIRE',
-          titre: 'Cadeau d\'anniversaire',
-          description: '25% de réduction pour votre anniversaire',
-          type: 'pourcentage',
-          valeur: 25,
-          minimum_commande: 60,
-          date_debut: '2024-03-10',
-          date_fin: '2024-03-31',
-          statut: 'disponible',
-          utilisations_max: 1,
-          utilisations_restantes: 1
         }
-      ]
+      ];
 
       setReductions(demoReductions)
       setLoading(false)
@@ -181,16 +144,12 @@ export default function MesReductionsPage() {
   }
 
   const getValeurAffichee = (reduction: Reduction) => {
-    switch (reduction.type) {
-      case 'pourcentage':
-        return `-${reduction.valeur}%`
-      case 'montant_fixe':
-        return `-${reduction.valeur}€`
-      case 'livraison_gratuite':
-        return 'Livraison offerte'
-      default:
-        return '-'
-    }
+    // Convertir Reduction en format compatible avec formatDiscountValue
+    const couponFormat = {
+      type: reduction.type,
+      valeur: reduction.valeur
+    };
+    return formatDiscountValue(couponFormat as any)
   }
 
   const filteredReductions = reductions.filter(reduction => {

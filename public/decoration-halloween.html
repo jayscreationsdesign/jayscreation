@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Décoration Halloween - Jay's Creations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #FAF7F2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .image-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(139, 69, 19, 0.15);
+        }
+
+        .background {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #2C2C2C 0%, #1A1A1A 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Motif décoratif Halloween */
+        .pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.08;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #C8A96E 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, #8B4513 1px, transparent 1px),
+                radial-gradient(circle at 50% 50%, #C8A96E 1.5px, transparent 1.5px);
+            background-size: 45px 45px;
+        }
+
+        /* Citrouille centrale */
+        .pumpkin-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .pumpkin {
+            width: 180px;
+            height: 160px;
+            background: linear-gradient(135deg, #8B4513 0%, #C8A96E 100%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(139, 69, 19, 0.4);
+        }
+
+        .pumpkin::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 25px;
+            height: 20px;
+            background: #2C2C2C;
+            border-radius: 50% 50% 0 0;
+        }
+
+        /* Yeux de la citrouille */
+        .eye {
+            position: absolute;
+            width: 30px;
+            height: 35px;
+            background: #2C2C2C;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            top: 50px;
+        }
+
+        .eye.left { left: 40px; }
+        .eye.right { right: 40px; }
+
+        /* Bouche de la citrouille */
+        .mouth {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            background: #2C2C2C;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 0 0 40px 40px;
+        }
+
+        /* Textes */
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #FAF7F2;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #C8A96E;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Éléments décoratifs Halloween */
+        .halloween-element {
+            position: absolute;
+            color: #C8A96E;
+            font-size: 18px;
+            opacity: 0.7;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .halloween-element:nth-child(1) { top: 10%; left: 15%; transform: rotate(-15deg); }
+        .halloween-element:nth-child(2) { top: 15%; right: 20%; transform: rotate(10deg); }
+        .halloween-element:nth-child(3) { bottom: 20%; left: 10%; transform: rotate(5deg); }
+        .halloween-element:nth-child(4) { bottom: 15%; right: 15%; transform: rotate(-10deg); }
+
+        /* Ligne décorative */
+        .decoration-line {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C8A96E, transparent);
+            box-shadow: 0 0 10px rgba(200, 169, 110, 0.5);
+        }
+
+        /* Fantômes décoratifs */
+        .ghost {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background: rgba(250, 247, 242, 0.9);
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .ghost::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: rgba(250, 247, 242, 0.9);
+            clip-path: polygon(0 0, 25% 100%, 50% 0, 75% 100%, 100% 0);
+        }
+
+        .ghost:nth-child(5) { top: 20%; right: 25%; transform: scale(0.8); }
+        .ghost:nth-child(6) { bottom: 25%; left: 20%; transform: scale(0.7); }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="background">
+            <div class="pattern"></div>
+            
+            <!-- Éléments décoratifs Halloween -->
+            <div class="halloween-element">+</div>
+            <div class="halloween-element">+</div>
+            <div class="halloween-element">+</div>
+            <div class="halloween-element">+</div>
+            
+            <!-- Fantômes décoratifs -->
+            <div class="ghost"></div>
+            <div class="ghost"></div>
+            
+            <!-- Citrouille centrale -->
+            <div class="pumpkin-container">
+                <div class="pumpkin">
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+                    <div class="mouth"></div>
+                </div>
+            </div>
+            
+            <!-- Textes -->
+            <div class="title">Halloween</div>
+            <div class="subtitle">Soirée Effrayante</div>
+            <div class="decoration-line"></div>
+        </div>
+    </div>
+</body>
+</html>

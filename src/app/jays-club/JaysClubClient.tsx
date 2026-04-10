@@ -114,10 +114,9 @@ export default function JaysClubClient() {
               </p>
               <a
                 href="/connexion"
-                className="inline-block px-6 py-3 rounded-full text-white font-medium transition-all hover:opacity-90 hover:scale-105"
-                style={{ backgroundColor: COLORS.gold }}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-6 py-4 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02]"
               >
-                Créer mon compte gratuitement →
+                Créer mon compte gratuitement &rarr;
               </a>
             </div>
           </div>

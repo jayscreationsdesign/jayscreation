@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { Star, Ruler, HelpCircle, Heart, Truck, RotateCcw, MessageCircle } from 'lucide-react';
 import { type Product } from "@/data/products";
 
 interface AccordionItem {
   id: string;
   title: string;
   content: string;
+  icon: any;
 }
 
 function AccordionRow({
@@ -18,6 +20,8 @@ function AccordionRow({
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const Icon = item.icon;
+  
   return (
     <div className="border-b border-[#8B4513]">
       <button
@@ -25,11 +29,14 @@ function AccordionRow({
         aria-expanded={isOpen}
         className="flex w-full items-center justify-between py-5 text-left"
       >
-        <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#2C2C2C]">
-          {item.title}
-        </span>
+        <div className="flex items-center gap-2.5">
+          <Icon size={18} color="#C8A96E" strokeWidth={1.5} />
+          <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#2C2C2C]">
+            {item.title}
+          </span>
+        </div>
         <span className="text-base font-light text-[#2C2C2C]">
-          {isOpen ? "−" : "+"}
+          {isOpen ? "â" : "+"}
         </span>
       </button>
 
@@ -48,32 +55,51 @@ export default function ProductAccordions({ product }: { product: Product }) {
   const items: AccordionItem[] = [
     {
       id: "avantages",
-      title: "Avantages",
+      title: "AVANTAGES",
+      icon: Star,
       content:
         product.longDescription ||
-        `• Création artisanale 100% faite à la main\n• Matériaux premium et finitions dorées soignées\n• Personnalisation complète : couleurs, texte, police, thème\n• Aperçu maquette envoyé sous 24h après commande\n• Modifications illimitées jusqu'à votre validation finale\n• Livraison suivie en France métropolitaine\n• Service client réactif, disponible par email et téléphone`,
+        `â Création artisanale 100% faite à la main\nâ Matériaux premium et finitions dorées soignées\nâ Personnalisation complète : couleurs, texte, police, thème\nâ Aperçu maquette envoyé sous 24h après commande\nâ Modifications illimitées jusqu'à votre validation finale\nâ Livraison suivie en France métropolitaine\nâ Service client réactif, disponible par email et téléphone`,
     },
     {
       id: "personnalisation",
-      title: "Personnalisation",
+      title: "PERSONNALISATION",
+      icon: Ruler,
       content:
-        "Chaque produit est entièrement personnalisable :\n\n• Choix du thème (mariage, baptême, anniversaire...)\n• Choix des couleurs\n• Texte personnalisé (prénoms, date, message)\n• Choix de la police d'écriture\n\nAprès commande, vous recevrez un aperçu maquette sous 24h pour validation avant réalisation.",
+        "Chaque produit est entièrement personnalisable :\n\nâ Choix du thème (mariage, baptême, anniversaire...)\nâ Choix des couleurs\nâ Texte personnalisé (prénoms, date, message)\nâ Choix de la police d'écriture\n\nAprès commande, vous recevrez un aperçu maquette sous 24h pour validation avant réalisation.",
+    },
+    {
+      id: "materiaux",
+      title: "MATÉRIAUX",
+      icon: HelpCircle,
+      content:
+        "Nos créations sont réalisées avec des matériaux soigneusement sélectionnés : papier premium 300g, impressions haute définition, finitions brillantes ou mates selon le produit, et dorures à chaud pour les collections premium. Nous privilégions des matériaux durables et résistants pour que vos souvenirs traversent le temps.",
+    },
+    {
+      id: "creation",
+      title: "CRÉATION",
+      icon: Heart,
+      content:
+        "Chaque commande est une création unique, pensée et réalisée avec passion. Après validation de votre commande, nous concevons un visuel personnalisé selon votre thème, vos couleurs et vos envies. Un aperçu maquette vous est envoyé sous 24h pour validation. Aucune impression n'est lancée sans votre accord.",
     },
     {
       id: "livraison",
-      title: "Livraison & Délais",
+      title: "LIVRAISON & DÉLAIS",
+      icon: Truck,
       content:
         "Délai de réalisation : 15 à 25 jours ouvrés selon la date de votre événement. Nous traitons les commandes par date d'événement pour vous garantir une livraison à temps.\n\nLivraison en France métropolitaine. Vous recevrez un email avec votre numéro de suivi dès l'expédition.",
     },
     {
       id: "retours",
-      title: "Retours & Conditions",
+      title: "RETOURS & CONDITIONS",
+      icon: RotateCcw,
       content:
         "Chaque produit étant personnalisé et réalisé sur-mesure, les retours et échanges ne sont pas acceptés sauf en cas de défaut de fabrication avéré.\n\nContactez-nous dans les 48h suivant la réception à jayscreations.d@gmail.com ou au 07 49 07 28 61.",
     },
     {
       id: "faq-inline",
-      title: "Questions Fréquentes",
+      title: "QUESTIONS FRÉQUENTES",
+      icon: MessageCircle,
       content:
         "Comment se passe la personnalisation ?\nAprès votre commande, nous vous envoyons un aperçu maquette sous 24h. Vous pouvez demander des modifications jusqu'à validation finale.\n\nPuis-je commander pour un événement proche ?\nContactez-nous directement pour vérifier la disponibilité. Nous faisons notre maximum pour les urgences.",
     },

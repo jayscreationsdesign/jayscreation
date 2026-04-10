@@ -246,14 +246,14 @@ function CategoryItemComponent({
       <button
         onClick={() => {
           onSelectCategory(category.slug);
-          // Ouvrir le dropdown quand on clique sur la catégorie
-          if (hasChildren) setIsOpen(true);
+          // Toggle du dropdown quand on clique sur la catégorie
+          if (hasChildren) setIsOpen(!isOpen);
         }}
         aria-current={isActive ? "page" : undefined}
         className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all flex items-center justify-between ${
           isActive
             ? "bg-[#F5F0EB] border-l-4 border-accent text-accent font-semibold"
-            : "text-foreground hover:bg-gray-50"
+            : "text-foreground hover:bg-[#6b3410] hover:text-[#D4A574]"
         }`}
         style={{ paddingLeft: `${16 + level * 16}px` }}
       >
@@ -287,9 +287,9 @@ function CategoryItemComponent({
       {/* Sous-catégories */}
       {hasChildren && isOpen && (
         <div className="space-y-1">
-          {children.map((child) => (
+          {children.map((child, index) => (
             <CategoryItemComponent
-              key={child.slug}
+              key={`${child.slug ?? 'noslug'}-${index}`}
               category={child}
               children={child.children || []}
               activeSlug={activeSlug}
@@ -420,24 +420,24 @@ function BoutiquePageContentInner() {
 
   return (
     <div className="min-h-screen bg-jc-bg">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8">
         {/* Grille principale : Sidebar + Contenu */}
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
           {/* SIDEBAR GAUCHE - Catégories */}
           <aside className="lg:col-span-1 order-2 lg:order-1">
-            <div className="space-y-4 sticky top-8">
+            <div className="space-y-3 sticky top-4">
               {/* Titre */}
               <div>
-                <h2 className="text-lg font-heading font-semibold text-jc-text">
+                <h2 className="text-base font-heading font-semibold text-jc-text">
                   Catégories
                 </h2>
                 {categorySlug && (
-                  <p className="text-xs text-jc-muted mt-2">
+                  <p className="text-xs text-jc-muted mt-1">
                     <button
                       onClick={handleRemoveFilter}
                       className="text-jc-accent hover:underline font-medium"
                     >
-                      ✕ Réinitialiser
+                      × Réinitialiser
                     </button>
                   </p>
                 )}
@@ -446,7 +446,7 @@ function BoutiquePageContentInner() {
               {/* Lien "Tous les produits" */}
               <button
                 onClick={() => handleCategorySelect(null)}
-                className={`w-full text-left px-4 py-3 rounded-lg text-sm transition-all ${
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${
                   !categorySlug
                     ? "bg-[#F5F0EB] border-l-4 border-accent text-accent font-semibold"
                     : "text-foreground hover:bg-gray-50"
@@ -459,9 +459,9 @@ function BoutiquePageContentInner() {
               {/* Hiérarchie des catégories */}
               <nav className="space-y-1">
                 <SidebarSyncContext.Provider value={sidebarContextValue}>
-                  {categories.map((category) => (
+                  {categories.map((category, index) => (
                     <CategoryItemComponent
-                      key={category.slug}
+                      key={`${category.slug ?? 'noslug'}-${index}`}
                       category={category}
                       children={category.children || []}
                       activeSlug={categorySlug}
@@ -479,46 +479,33 @@ function BoutiquePageContentInner() {
           {/* CONTENU PRINCIPAL - Droite */}
           <main className="lg:col-span-4 order-1 lg:order-2">
             {/* HEADER avec compteur et menus déroulants */}
-            <div className="mb-8 space-y-4 border-b border-gray-200 pb-6">
+            <div className="mb-6 space-y-3 border-b border-gray-200 pb-4">
               {/* Message de recherche si applicable */}
               {searchQuery && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                  <p className="text-sm text-blue-800">
-                    🔍 Recherche pour "<span className="font-semibold">{searchQuery}</span>" - {totalResults} résultat{totalResults > 1 ? "s" : ""} trouvé{totalResults > 1 ? "s" : ""}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-2 mb-3">
+                  <p className="text-xs text-blue-800">
+                    : Recherche "<span className="font-semibold">{searchQuery}</span>" - {totalResults} résultat{totalResults > 1 ? "s" : ""}
                   </p>
                 </div>
               )}
 
               {/* Ligne 1 : Compteur */}
-              <div className="text-sm text-muted-foreground">
-                Affichage de{" "}
-                <span className="font-semibold text-foreground">
-                  {startIndex}
-                </span>
-                –
-                <span className="font-semibold text-foreground">
-                  {endIndex}
-                </span>{" "}
-                sur{" "}
-                <span className="font-semibold text-foreground">
-                  {totalResults}
-                </span>{" "}
-                résultats
+              <div className="text-xs text-muted-foreground">
+                {startIndex}-{endIndex} sur {totalResults} résultats
               </div>
 
               {/* Ligne 2 : Select pour le tri */}
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex-1" />
-                <div className="flex items-center gap-3">
-                  <label htmlFor="sort-select" className="text-sm font-medium">
-                    Trier par :
+              <div className="flex justify-end">
+                <div className="flex items-center gap-2">
+                  <label htmlFor="sort-select" className="text-xs font-medium">
+                    Trier :
                   </label>
                   <Select
                     value={sortBy}
                     onValueChange={(val) => setSortBy(val as SortOption)}
                   >
-                    <SelectTrigger id="sort-select" className="w-48">
-                      <SelectValue placeholder="Tri par défaut" />
+                    <SelectTrigger id="sort-select" className="w-32 text-xs">
+                      <SelectValue placeholder="Tri" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="default">Tri par défaut</SelectItem>
@@ -546,9 +533,9 @@ function BoutiquePageContentInner() {
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {sortedProducts.map((product) => (
+                {sortedProducts.map((product, index) => (
                   <ProductCard
-                    key={product.id}
+                    key={`${product.id ?? 'noid'}-${product.slug ?? 'noslug'}-${index}`}
                     product={product}
                     showCategory={true}
                     showRating={true}
