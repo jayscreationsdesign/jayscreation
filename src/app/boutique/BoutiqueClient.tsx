@@ -3,12 +3,13 @@
 export const dynamic = "force-dynamic";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { useState, useMemo, Suspense, useEffect, createContext, useContext } from "react";
+import { useState, useMemo, Suspense, useEffect, createContext, useContext, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { products, type Product } from "@/data/products";
 import { categories } from "@/data/categories";
 import ProductCard from "@/components/ui/ProductCard";
+import FilterBarSimple from "@/components/catalog/FilterBarSimple";
 import {
   Select,
   SelectContent,
@@ -322,6 +323,7 @@ function BoutiquePageContentInner() {
   const [sortBy, setSortBy] = useState<SortOption>("default");
   const [sidebarOpenCategory, setSidebarOpenCategory] = useState<string | null>(null);
   const [openCategories, setOpenCategories] = useState<string[]>([]);
+  const [filteredByBarProducts, setFilteredByBarProducts] = useState<Product[]>([]);
 
   // Fournir le contexte aux composants enfants
   const sidebarContextValue = {
@@ -418,6 +420,22 @@ function BoutiquePageContentInner() {
     router.push("/boutique");
   };
 
+  const handleFilterBar = useCallback((filtered: any[]) => {
+    setFilteredByBarProducts(filtered);
+  }, []);
+
+  // Adapter les produits pour FilterBar
+  const adaptedProducts = useMemo(() => {
+    return filteredProducts.map(product => ({
+      ...product,
+      in_stock: true, // Par défaut, tous les produits sont en stock
+      unit_price: product.numericPrice || 0,
+      created_at: new Date().toISOString(),
+      sales_count: Math.floor(Math.random() * 100), // Simulation de ventes
+      featured: Math.random() > 0.8 // 20% de chance d'être featured
+    }));
+  }, [filteredProducts]);
+
   return (
     <div className="min-h-screen bg-jc-bg">
       <div className="mx-auto max-w-7xl px-8 py-8">
@@ -494,27 +512,14 @@ function BoutiquePageContentInner() {
                 {startIndex}-{endIndex} sur {totalResults} résultats
               </div>
 
-              {/* Ligne 2 : Select pour le tri */}
+              {/* Ligne 2 : FilterBarSimple */}
               <div className="flex justify-end">
-                <div className="flex items-center gap-2">
-                  <label htmlFor="sort-select" className="text-xs font-medium">
-                    Trier :
-                  </label>
-                  <Select
-                    value={sortBy}
-                    onValueChange={(val) => setSortBy(val as SortOption)}
-                  >
-                    <SelectTrigger id="sort-select" className="w-32 text-xs">
-                      <SelectValue placeholder="Tri" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="default">Tri par défaut</SelectItem>
-                      <SelectItem value="price-asc">Prix croissant</SelectItem>
-                      <SelectItem value="price-desc">Prix décroissant</SelectItem>
-                      <SelectItem value="rating">Les mieux notés</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                {adaptedProducts.length > 0 && (
+                  <FilterBarSimple 
+                    products={adaptedProducts}
+                    onFilter={handleFilterBar}
+                  />
+                )}
               </div>
             </div>
 
@@ -533,7 +538,7 @@ function BoutiquePageContentInner() {
               </div>
             ) : (
               <div className="grid grid-cols-3 gap-6">
-                {sortedProducts.map((product, index) => (
+                {(filteredByBarProducts.length > 0 ? filteredByBarProducts : sortedProducts).map((product, index) => (
                   <ProductCard
                     key={`${product.id ?? 'noid'}-${product.slug ?? 'noslug'}-${index}`}
                     product={product as Product & {
