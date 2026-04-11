@@ -114,6 +114,10 @@ export const categories: Category[] = [
     slug: "ramadan-eid-2027",
   },
   {
+    name: "Étiquettes Personnalisées",
+    slug: "etiquettes-personnalisees",
+  },
+  {
     name: "Services",
     slug: "services",
     children: [

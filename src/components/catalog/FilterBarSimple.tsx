@@ -53,13 +53,18 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
   // Fermer les dropdowns au clic extérieur
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (availabilityRef.current && !availabilityRef.current.contains(event.target as Node)) {
+      // Vérifier si le clic est à l'extérieur de tous les dropdowns
+      const clickedOutsideAvailability = availabilityRef.current && !availabilityRef.current.contains(event.target as Node);
+      const clickedOutsidePrice = priceRef.current && !priceRef.current.contains(event.target as Node);
+      const clickedOutsideSort = sortRef.current && !sortRef.current.contains(event.target as Node);
+
+      if (clickedOutsideAvailability) {
         setAvailabilityOpen(false);
       }
-      if (priceRef.current && !priceRef.current.contains(event.target as Node)) {
+      if (clickedOutsidePrice) {
         setPriceOpen(false);
       }
-      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+      if (clickedOutsideSort) {
         setSortOpen(false);
       }
     };
@@ -384,7 +389,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
 
           {availabilityOpen && (
             <div 
-              className="absolute top-full left-0 mt-1 bg-white border-2 border-[#E8E4DF] rounded-lg shadow-xl z-50"
+              className="absolute top-full left-0 mt-1 bg-white border-2 border-[#8B4513] rounded-lg shadow-xl z-50"
               style={{ 
                 padding: '16px',
                 minWidth: '220px'
@@ -462,7 +467,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
 
           {priceOpen && (
             <div 
-              className="absolute top-full left-0 mt-1 bg-white border-2 border-[#E8E4DF] rounded-lg shadow-xl z-50"
+              className="absolute top-full left-0 mt-1 bg-white border-2 border-[#8B4513] rounded-lg shadow-xl z-50"
               style={{ 
                 padding: '16px',
                 minWidth: '280px'
@@ -474,28 +479,28 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
                   style={{ 
                     borderBottom: '1px solid #f0ebe4',
                     paddingBottom: '8px',
-                    marginBottom: '12px'
+                    marginBottom: '12px',
+                    gap: '16px'
                   }}
                 >
-                  <span className="text-[12px] text-[#6b6b6b]">
+                  <span className="text-[12px] text-[#6b6b6b]" style={{ whiteSpace: 'nowrap' }}>
                     Le prix le plus élevé est de {maxPrice.toFixed(2)}EUR
                   </span>
                   <button
                     onClick={resetPrice}
-                    className="text-[12px]"
-                    style={{ 
-                      color: '#C8A96E', 
-                      background: '#f5ede0', 
-                      border: 'none', 
-                      padding: '4px 8px',
-                      borderRadius: '0'
-                    }}
+                    className="inline-flex items-center justify-center rounded-full bg-[#8b4513] px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] min-w-fit whitespace-nowrap"
                   >
                     Réinitialiser
                   </button>
                 </div>
               </div>
-              <div className="space-y-3">
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: '12px',
+                marginTop: '12px'
+              }}>
                 <div className="flex items-center gap-2">
                   <span style={{ fontSize: '13px', color: '#6b6b6b' }}>{"\u20ac"}</span>
                   <input
@@ -554,8 +559,8 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
               onClick={() => setSortOpen(!sortOpen)}
               style={{
                 background: 'white',
-                border: '1px solid #C8A96E',
-                color: '#C8A96E',
+                border: '1px solid #8B4513',
+                color: '#8B4513',
                 padding: '6px 14px',
                 fontSize: '13px',
                 cursor: 'pointer',
@@ -566,7 +571,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
               }}
             >
               <span>Alphabétique, de A à Z</span>
-              <span style={{ fontSize: '10px' }}>{"\u25bc"}</span>
+              <span style={{ fontSize: '10px', color: '#8B4513' }}>{"\u25bc"}</span>
             </div>
             {sortOpen && (
               <div 

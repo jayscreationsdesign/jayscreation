@@ -31,6 +31,7 @@ interface BottomNavItem {
 const SHORT_LABELS: Record<string, string> = {
   "papeterie-telechargeable": "PAPETERIE TÉLÉCHARGEABLE",
   "sweet-tables-decoration": "SWEET TABLES & DÉCORATION",
+  "etiquettes-personnalisees": "ÉTIQUETTES PERSONNALISÉES",
 };
 
 // ─── Build nav from categories ────────────────────────────────────────────────
@@ -39,7 +40,7 @@ function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
 
   // Première ligne - catégories principales
-  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "toniebox", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"];
+  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "toniebox", "chocolat", "papeterie-telechargeable", "etiquettes-personnalisees", "ramadan-eid-2027", "services"];
   
   for (const cat of categories) {
     if (firstLineCategories.includes(cat.slug)) {

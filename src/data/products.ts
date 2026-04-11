@@ -979,4 +979,83 @@ export const products: Product[] = [
     ],
     rating: 5,
   },
+  // ÉTIQUETTES PERSONNALISÉES
+  {
+    id: "49",
+    name: "Étiquette Champomy",
+    price: "1,50\u20AC",
+    numericPrice: 1.50,
+    category: "Étiquettes Personnalisées",
+    categorySlug: "etiquettes-personnalisees",
+    image: "/images/products/Étiquette Capri-Sun2.png",
+    images: [
+      "/images/products/Étiquette Capri-Sun2.png",
+      "/images/products/Étiquette Capri-Sun3.png"
+    ],
+    slug: "etiquette-champomy",
+    themes: ["Anniversaire", "Enfants", "Fête", "Personnalisé"],
+    description: "Étiquette personnalisée pour bouteille Champomy. Design adapté avec prénom, âge et thème. Parfait pour anniversaires et célébrations d'enfants.",
+    longDescription: "Personnalisez vos bouteilles Champomy avec nos étiquettes uniques ! Idéales pour les anniversaires, baby-showers et fêtes d'enfants. Chaque étiquette est entièrement personnalisée avec le prénom de l'enfant, âge, date et thème choisi. Qualité d'impression supérieure avec papier adhésif résistant à l'humidité. Facile à appliquer et à retirer sans laisser de traces. Design élégant qui sublimera votre table de fête. Parfait pour cadeaux d'invités et souvenirs personnalisés. Création française avec matériaux écologiques. Livraison rapide et personnalisation sur-mesure pour des moments inoubliables !",
+    pricing: {
+      unitPrice: 1.50,
+      minQuantity: 10,
+      tiers: [
+        { min: 20, pricePerUnit: 1.35 }, // 20 pour 27,00\u20AC
+        { min: 50, pricePerUnit: 1.25 }  // 50 pour 62,50\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+  {
+    id: "50",
+    name: "Étiquette Mini Canette Coca-Cola",
+    price: "1,20\u20AC",
+    numericPrice: 1.20,
+    category: "Étiquettes Personnalisées",
+    categorySlug: "etiquettes-personnalisees",
+    image: "/images/products/placeholder.png",
+    slug: "etiquette-mini-canette-coca-cola",
+    themes: ["Anniversaire", "Enfants", "Fête", "Coca-Cola", "Personnalisé"],
+    description: "Étiquette personnalisée pour mini canette Coca-Cola. Design adapté avec prénom, âge et thème. Parfait pour anniversaires et fêtes d'enfants.",
+    longDescription: "Transformez vos mini canettes Coca-Cola en objets de décoration personnalisés ! Nos étiquettes sont spécialement conçues pour s'adapter parfaitement aux mini canettes. Personnalisez avec prénom, âge, date et thème pour une touche unique à votre événement. Qualité d'impression professionnelle avec papier adhésif résistant. Facile à appliquer et résistant à l'humidité. Design moderne qui plaira aux enfants et adultes. Idéal pour anniversaires, baby-showers et fêtes thématiques. Parfait pour cadeaux d'invités et décoration de table. Création française avec matériaux de qualité. Livraison rapide et personnalisation sur-mesure !",
+    pricing: {
+      unitPrice: 1.20,
+      minQuantity: 12,
+      tiers: [
+        { min: 24, pricePerUnit: 1.10 }, // 24 pour 26,40\u20AC
+        { min: 60, pricePerUnit: 1.00 }  // 60 pour 60,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+  {
+    id: "51",
+    name: "Étiquette Bouteille d'Eau",
+    price: "1,00\u20AC",
+    numericPrice: 1.00,
+    category: "Étiquettes Personnalisées",
+    categorySlug: "etiquettes-personnalisees",
+    image: "/images/products/Étiquette Bouteille d'Eau.png",
+    images: [
+      "/images/products/Étiquette Bouteille d'Eau1.png",
+      "/images/products/Étiquette Bouteille d'Eau2.png",
+      "/images/products/Étiquette Bouteille d'Eau3.png"
+    ],
+    slug: "etiquette-bouteille-eau",
+    themes: ["Anniversaire", "Mariage", "Baptême", "Personnalisé", "Événement"],
+    description: "Étiquette personnalisée pour bouteille d'eau. Design élégant avec prénom, date et thème. Parfait pour tous types d'événements.",
+    longDescription: "Ajoutez une touche personnalisée à vos bouteilles d'eau avec nos étiquettes élégantes ! Convient parfaitement pour tous types d'événements : mariages, baptêmes, anniversaires, entreprises et fêtes. Personnalisation complète avec noms, dates, messages et thème choisi. Qualité d'impression supérieure avec papier adhésif waterproof et résistant. Facile à appliquer sur toutes les bouteilles standards. Design minimaliste et chic qui s'intègre parfaitement à votre décoration. Idéal pour cadeaux d'invités, tables de réception et bureaux. Création française avec matériaux écologiques et encres alimentaires. Livraison rapide et personnalisation sur-mesure pour des événements mémorables !",
+    pricing: {
+      unitPrice: 1.00,
+      minQuantity: 15,
+      tiers: [
+        { min: 30, pricePerUnit: 0.90 }, // 30 pour 27,00\u20AC
+        { min: 75, pricePerUnit: 0.80 }  // 75 pour 60,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
 ];
