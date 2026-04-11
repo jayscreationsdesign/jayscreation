@@ -544,10 +544,7 @@ function BoutiquePageContentInner() {
                         lot_price: number;
                       }>;
                     }}
-                    showCategory={true}
-                    showRating={true}
-                    aspectRatio="square"
-                  />
+                    />
                 ))}
               </div>
             )}
