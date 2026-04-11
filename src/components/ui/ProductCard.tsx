@@ -86,14 +86,14 @@ export default function ProductCard({
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#E8E0D4]/50 flex flex-col">
       
       {/* Zone image - fond beige, image centrée */}
-      <Link href={`/produit/${product.slug}`} className="block relative bg-[#E8DFD3] aspect-square flex items-center justify-center p-4 rounded-t-2xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
+      <Link href={`/produit/${product.slug}`} className="block relative bg-[#E8DFD3] aspect-square flex items-center justify-center p-3 rounded-t-2xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
         {isPlaceholder ? (
           <ProductImagePlaceholder productName={product.name} />
         ) : (
           <img
             src={currentImage}
             alt={product.name}
-            className="max-w-[85%] max-h-[85%] w-auto h-auto object-contain pointer-events-none"
+            className="max-w-[95%] max-h-[95%] w-auto h-auto object-contain pointer-events-none"
           />
         )}
         
