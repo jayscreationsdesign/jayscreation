@@ -8,8 +8,10 @@ import ProductAccordions from "./ProductAccordions";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import { ThemeSelector } from '@/components/product/ThemeSelector';
 import ProductPricing from "@/components/products/pricing/ProductPricing";
+import SizeSelector from "@/components/products/SizeSelector";
 import { THEME_CATEGORIES } from '@/config/themes';
 import { getUnitPrice, type PricingTier } from "@/types/pricing";
+import { formatPriceEUR } from "@/lib/formatPrice";
 
 interface ProductInfoProps {
   product: any;
@@ -308,7 +310,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         {/* Prix */}
         <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-baseline sm:gap-3 gap-1">
           <span className="text-lg sm:text-2xl font-bold text-[#2C2C2C]">
-            2,50€ / unité
+            {formatPriceEUR(productUnitPrice)} / unité
           </span>
           <span className="text-xs sm:text-sm text-[#6B6B6B]">min. {minQuantity} pièces</span>
         </div>
@@ -356,7 +358,22 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
 
       {/*  8. Section Prix */}
       <div className="mt-8">
-        <ProductPricing
+        {/* Afficher SizeSelector si le produit a des tailles configurées */}
+        {product.sizes && product.sizes.length > 0 ? (
+          <SizeSelector
+            sizes={product.sizes}
+            minQuantity={minQuantity}
+            onSizeChange={(sizeIndex, size) => {
+              console.log('Taille sélectionnée:', sizeIndex, size);
+            }}
+            onQuantityChange={(quantity) => {
+              setQuantity(quantity);
+              onQtyChange?.(quantity);
+            }}
+            className="mb-8"
+          />
+        ) : (
+          <ProductPricing
           product={{
             name: product.name,
             slug: product.slug,
@@ -386,6 +403,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
             console.log('Ajout au panier:', item)
           }}
         />
+        )}
       </div>
 
       
@@ -395,7 +413,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
           className={`flex cursor-pointer items-center justify-between rounded-2xl border-2 px-5 py-4 transition-all ${
             purchaseType === "commande"
               ? "border-[#8B4513] bg-white"
-              : "border-[#E8E4DF] bg-white hover:border-[#8B4513]/50"
+              : "border-[#8B4513] bg-white hover:border-[#8B4513]/50"
           }`}
         >
           <div className="flex items-center gap-3">
@@ -403,7 +421,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
               className={`flex h-5 w-5 items-center justify-center rounded-full border-2 ${
                 purchaseType === "commande"
                   ? "border-[#8B4513]"
-                  : "border-[#E8E4DF]"
+                  : "border-[#8B4513]"
               }`}
             >
               {purchaseType === "commande" && (
@@ -434,7 +452,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
       </p>
 
       {/* ── Séparateur ─────────────────────────────────────────── */}
-      <div className="my-8 border-b border-[#E8E4DF]" />
+      <div className="my-8 border-b border-[#8B4513]" />
 
       {/* ── 10. Accordéons ─────────────────────────────────────── */}
       <ProductAccordions product={product} />

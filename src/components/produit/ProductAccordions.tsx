@@ -30,7 +30,7 @@ function AccordionRow({
         className="flex w-full items-center justify-between py-5 text-left"
       >
         <div className="flex items-center gap-2.5">
-          <Icon size={18} color="#C8A96E" strokeWidth={1.5} />
+          <Icon size={18} color="#8B4513" strokeWidth={1.5} />
           <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#2C2C2C]">
             {item.title}
           </span>

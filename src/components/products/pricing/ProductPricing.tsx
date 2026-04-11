@@ -32,6 +32,16 @@ export default function ProductPricing({ product, selectedTheme, onAddToCart }: 
 
   switch (product.pricingType) {
     case 'unit_with_minimum':
+      if (!selectedTheme && themeRequired) {
+        return (
+          <div className="bg-white rounded-2xl p-7 border-2 border-[#8B4513] max-w-md">
+            <div className="text-center py-8">
+              <span className="text-2xl mb-3"> Sélectionnez un thème</span>
+              <p className="text-sm text-[#666]">Veuillez d'abord choisir un thème pour voir les options de prix</p>
+            </div>
+          </div>
+        )
+      }
       return (
         <UnitPricing
           unitPrice={product.unitPrice || 0}
@@ -53,10 +63,21 @@ export default function ProductPricing({ product, selectedTheme, onAddToCart }: 
       )
 
     case 'lot_pricing':
+      if (!selectedTheme && themeRequired) {
+        return (
+          <div className="bg-white rounded-2xl p-7 border-2 border-[#8B4513] max-w-md">
+            <div className="text-center py-8">
+              <span className="text-2xl mb-3"> Sélectionnez un thème</span>
+              <p className="text-sm text-[#666]">Veuillez d'abord choisir un thème pour voir les options de prix</p>
+            </div>
+          </div>
+        )
+      }
       return (
         <LotPricing
           lots={product.lots || []}
           referenceUnitPrice={product.unitPrice}
+          minQuantity={product.minQuantity || 1}
           onAddToCart={(lot) => {
             onAddToCart({
               productId: product.slug,

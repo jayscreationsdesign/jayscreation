@@ -1,5 +1,8 @@
 'use client'
 import { useState } from 'react'
+import { Check, ShoppingBag } from 'lucide-react'
+import { formatPriceEUR } from '@/lib/formatPrice'
+import PrimaryCtaButton from '@/components/ui/PrimaryCtaButton'
 
 interface UnitPricingProps {
   unitPrice: number
@@ -24,68 +27,49 @@ export default function UnitPricing({ unitPrice, minQuantity, maxQuantity, quant
   }
 
   return (
-    <div>
-      {/* Prix unitaire */}
+    <div className="bg-white rounded-2xl p-7 border-2 border-[#8B4513] max-w-md">
+      {/* Sélecteur quantité */}
       <div className="mb-4">
-        <span className="text-2xl font-bold text-[#333]" style={{ fontFamily: "'Playfair Display', serif" }}>
-          {unitPrice.toFixed(2)}$
-        </span>
-        <span className="text-sm text-[#999] ml-2">/ unité</span>
-      </div>
-
-      {/* Alerte quantité minimum */}
-      <div className="flex items-center gap-2 px-4 py-3 bg-[#FAF7F2] rounded-xl mb-4 border border-[#E8E0D4]">
-        <span className="text-[#C8A96E] text-lg">i</span>
-        <span className="text-sm text-[#666]">
-          Quantité minimum : <strong className="text-[#333]">{minQuantity} unités</strong>
-        </span>
-      </div>
-
-      {/* Sélecteur de quantité */}
-      <div className="flex items-center gap-4 mb-4">
-        <span className="text-sm font-semibold text-[#333]">Quantité :</span>
-        <div className="flex items-center border border-[#E8E0D4] rounded-full overflow-hidden">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-sm font-semibold text-[#333]"> Quantité</p>
+          <span className="text-xs text-[#8B4513] font-medium">min. {minQuantity} unités</span>
+        </div>
+        <div className="flex items-center border-2 border-[#8B4513] rounded-full overflow-hidden w-fit">
           <button
             onClick={decrease}
             disabled={quantity <= minQuantity}
-            className="w-10 h-10 flex items-center justify-center text-lg text-[#666] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="w-11 h-11 border-none bg-transparent text-lg text-[#666] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
             -
           </button>
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => {
-              const val = parseInt(e.target.value) || minQuantity
-              setQuantity(Math.max(minQuantity, Math.min(maxQuantity, val)))
-            }}
-            className="w-16 h-10 text-center text-sm font-bold border-x border-[#E8E0D4] outline-none bg-white"
-          />
+          <span className="w-14 h-11 flex items-center justify-center text-sm font-bold text-[#333] border-x border-[#8B4513]">
+            {quantity}
+          </span>
           <button
             onClick={increase}
-            disabled={quantity >= maxQuantity}
-            className="w-10 h-10 flex items-center justify-center text-lg text-[#666] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="w-11 h-11 border-none bg-transparent text-lg text-[#666] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
           >
             +
           </button>
         </div>
       </div>
 
-      {/* Total */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#FAF7F2] rounded-xl mb-6 border border-[#E8E0D4]">
-        <span className="text-sm text-[#666]">Total pour {quantity} unités :</span>
-        <span className="text-xl font-bold text-[#3C2415]" style={{ fontFamily: "'Playfair Display', serif" }}>
-          {total.toFixed(2)}$
+      {/* Total dynamique */}
+      <div className="flex items-center justify-between bg-[#FAF7F2] rounded-xl p-3 mb-5 border border-[#8B4513]">
+        <span className="text-sm text-[#666]">{quantity} × {formatPriceEUR(unitPrice)}</span>
+        <span className="text-xl font-bold text-[#8B4513]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          {formatPriceEUR(total)}
         </span>
       </div>
 
-      {/* Bouton ajouter au panier */}
-      <button
+      {/* Bouton */}
+      <PrimaryCtaButton 
         onClick={() => onAddToCart(quantity, total)}
-        className="w-full py-4 bg-[#C8A96E] hover:bg-[#B89A5E] text-white font-bold rounded-full text-sm transition-colors shadow-md"
+        className="w-full text-sm py-3.5"
       >
-        Ajouter au panier - {total.toFixed(2)}$
-      </button>
+        <ShoppingBag size={14} className="flex-shrink-0" />
+        Ajouter au panier - {formatPriceEUR(total)}
+      </PrimaryCtaButton>
     </div>
   )
 }
