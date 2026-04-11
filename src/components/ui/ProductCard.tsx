@@ -86,14 +86,14 @@ export default function ProductCard({
     <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#E8E0D4]/50 flex flex-col">
       
       {/* Zone image - fond beige, image centrée */}
-      <div className="relative bg-[#E8DFD3] aspect-square flex items-center justify-center p-4 rounded-t-2xl overflow-hidden">
+      <Link href={`/produit/${product.slug}`} className="block relative bg-[#E8DFD3] aspect-square flex items-center justify-center p-4 rounded-t-2xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
         {isPlaceholder ? (
           <ProductImagePlaceholder productName={product.name} />
         ) : (
-          <img 
-            src={currentImage} 
+          <img
+            src={currentImage}
             alt={product.name}
-            className="max-w-[85%] max-h-[85%] w-auto h-auto object-contain"
+            className="max-w-[85%] max-h-[85%] w-auto h-auto object-contain pointer-events-none"
           />
         )}
         
@@ -101,32 +101,42 @@ export default function ProductCard({
         {hasMultipleImages && (
           <>
             <button 
-              onClick={handlePrevImage}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-sm text-[#666] text-sm hover:bg-white transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handlePrevImage();
+              }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-sm text-[#666] text-sm hover:bg-white transition-colors z-10"
             >
               &#8249;
             </button>
             <button 
-              onClick={handleNextImage}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-sm text-[#666] text-sm hover:bg-white transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleNextImage();
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center shadow-sm text-[#666] text-sm hover:bg-white transition-colors z-10"
             >
               &#8250;
             </button>
           </>
         )}
-        
-        {/* Points pagination */}
+
+        {/* Indicateurs de pagination */}
         {hasMultipleImages && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-            {images.map((_: any, i: number) => (
-              <div 
-                key={i} 
-                className={`w-2 h-2 rounded-full ${i === currentImageIndex ? 'bg-[#8B6F47]' : 'bg-[#D4C5A9]'}`} 
-              />
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex space-x-1 pointer-events-none">
+            {images.map((_, index) => (
+              <span
+                key={index}
+                className={`block w-2 h-2 rounded-full ${
+                  currentImageIndex === index ? 'bg-[#8B6F47]' : 'bg-white/60'
+                }`}
+              ></span>
             ))}
           </div>
         )}
-      </div>
+      </Link>
 
       {/* Zone info - fond blanc */}
       <div className="p-4 flex flex-col items-center text-center flex-1">
@@ -137,9 +147,9 @@ export default function ProductCard({
         </span>
         
         {/* Nom du produit - Playfair italique */}
-        <h3 className="text-sm font-semibold text-[#333] mb-1.5" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
+        <Link href={`/produit/${product.slug}`} className="block text-sm font-semibold text-[#333] mb-1.5 hover:text-[#8B4513] transition-colors cursor-pointer" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
           {product.name}
-        </h3>
+        </Link>
         
         {/* Prix */}
         <p className="text-sm font-bold text-[#333] mb-3">
