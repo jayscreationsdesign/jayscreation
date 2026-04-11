@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Minus, Plus, ShoppingBag, Check, Star } from "lucide-react";
 import { type Product } from "@/data/products";
 import ProductAccordions from "./ProductAccordions";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import { ThemeSelector } from '@/components/product/ThemeSelector';
+import ProductPricing from "@/components/products/pricing/ProductPricing";
 import { THEME_CATEGORIES } from '@/config/themes';
 import { getUnitPrice, type PricingTier } from "@/types/pricing";
 
@@ -81,10 +82,35 @@ function CheckBadge({ label }: { label: string }) {
   );
 }
 
+// Fonction pour extraire le prix unitaire du produit
+function getUnitPriceFromProduct(product: any): number {
+  if (typeof product.price === 'number') {
+    return product.price;
+  }
+  
+  if (typeof product.price === 'string') {
+    // Extraire le prix numérique d'une chaîne comme "3,90" ou "3.90"
+    const priceMatch = product.price.match(/[\d,.]+/);
+    if (priceMatch) {
+      return parseFloat(priceMatch[0].replace(',', '.'));
+    }
+  }
+  
+  // Fallback sur numericPrice si disponible
+  if (product.numericPrice) {
+    return product.numericPrice;
+  }
+  
+  return 0;
+}
+
 export default function ProductInfo({ product, selectedTheme, canAddToCart = true, onAddToCart, onThemeChange, qty, onQtyChange }: ProductInfoProps) {
   const [purchaseType, setPurchaseType] = useState<"commande" | "devis">("commande");
 
   const { display, isSurDevis } = parsePrice(product);
+  
+  // Extraire le prix unitaire correct
+  const productUnitPrice = getUnitPriceFromProduct(product);
 
   // Fonction utilitaire pour les quantités minimales basée sur les slugs
   function getMinQuantityForSlug(slug: string): number {
@@ -261,150 +287,108 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </div>
       )}
 
-      {/*  7. Quantité et Prix total */}
-      {selectedTheme && (
-        <div className="mt-8">
-          <div className="text-base font-semibold text-[#2C2C2C] flex items-center gap-2 mb-3">
-            <div className="flex items-center gap-2">
-              <div className="w-1 h-4 bg-[#8B4513] rounded-full" />
-            </div>
-            Quantité
-          </div>
-          
-          {/* Vérifier si le produit est vendu par lots */}
-          {product.pricing_type === 'lot_pricing' ? (
-            /* Mode VENTE PAR LOTS - Dropdown avec quantités prédéfinies */
-            <div className="mb-4">
-              <div className="mb-3">
-                <span className="text-sm text-[#8B4513] font-medium">Choisissez votre lot</span>
-              </div>
-              <div className="space-y-2">
-                {[
-                  { qty: 10, label: "10 unités", popular: false },
-                  { qty: 20, label: "20 unités", popular: true },
-                  { qty: 50, label: "50 unités", popular: false }
-                ].map((lot) => (
-                  <button
-                    key={lot.qty}
-                    onClick={() => onQtyChange(lot.qty)}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg border-2 transition-all ${
-                      qty === lot.qty
-                        ? "border-[#8B4513] bg-[#FAF7F2]"
-                        : "border-[#E8E4DF] bg-white hover:border-[#8B4513]/50"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-4 h-4 rounded-full border-2 ${
-                          qty === lot.qty
-                            ? "border-[#8B4513] bg-[#8B4513]"
-                            : "border-[#E8E4DF] bg-white"
-                        }`}
-                      >
-                        {qty === lot.qty && (
-                          <div className="w-2 h-2 rounded-full bg-white mx-auto mt-0.5" />
-                        )}
-                      </div>
-                      <span className="text-sm font-medium text-[#2C2C2C]">{lot.label}</span>
-                      {lot.popular && (
-                        <span className="text-xs bg-[#8B4513] text-white px-2 py-1 rounded-full">
-                          Populaire
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-sm font-bold text-[#8B4513]">
-                      {calculateTotalPrice(product, lot.qty)}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            /* Mode NORMAL - Compteur de quantité */
-            <div className="flex items-center gap-4 mb-4">
-              <button
-                onClick={() => onQtyChange(Math.max(product.minQuantity || 1, qty - 1))}
-                disabled={qty <= (product.minQuantity || 1)}
-                className="w-10 h-10 rounded-full border-2 border-[#8B4513] bg-white flex items-center justify-center hover:bg-[#8B4513] hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Minus size={16} />
-              </button>
-              <span className="text-xl font-semibold text-[#2C2C2C] w-16 text-center">
-                {qty}
-              </span>
-              <button
-                onClick={() => onQtyChange(qty + 1)}
-                className="w-10 h-10 rounded-full border-2 border-[#8B4513] bg-white flex items-center justify-center hover:bg-[#8B4513] hover:text-white transition-colors"
-              >
-                <Plus size={16} />
-              </button>
-            </div>
-          )}
-          
-          {/* Prix total */}
-          <div className="bg-white rounded-lg border border-[#8B4513]/30 p-4">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-[#6B6B6B]">
-                {product.pricing_type === 'lot_pricing' ? "Prix du lot :" : "Prix/unité :"}
-              </span>
-              <span className="text-sm font-medium text-[#2C2C2C]">
-                {product.price === "Sur devis" ? "Sur devis" : 
-                 product.pricing_type === 'lot_pricing' ? calculateTotalPrice(product, qty) : 
-                 `${product.price} TTC`}
-              </span>
-            </div>
-            {product.pricing_type !== 'lot_pricing' && (
-              <div className="flex justify-between items-center mt-2 pt-2 border-t border-[#8B4513]/20">
-                <span className="text-lg font-semibold text-[#2C2C2C]">Total :</span>
-                <span className="text-xl font-bold text-[#8B4513]">
-                  {calculateTotalPrice(product, qty)}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/*  8. Boîte offre mise en valeur */}
-      <div className="mt-6 rounded-2xl border-2 border-[#8B4513] bg-[#FAF7F2] p-5">
+      {/*  7. Badge Les plus populaires */}
+      <div className="mt-8 rounded-2xl border-2 border-[#8B4513] bg-[#FAF7F2] p-4 sm:p-5">
         {/* Badge "LES PLUS POPULAIRES" */}
-        <div className="mb-4 flex items-center justify-between">
-          <span className="inline-block rounded-full bg-[#8B4513] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+        <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <span className="inline-block rounded-full bg-[#8B4513] px-2 sm:px-3 py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-white">
             Les plus populaires
           </span>
-          <span className="text-sm font-medium text-[#8B4513]"> Sur-mesure</span>
+          <span className="text-xs sm:text-sm font-medium text-[#8B4513]">Sur-mesure</span>
         </div>
 
         {/* Titre offre */}
-        <div className="mb-1 flex items-center gap-3">
-          <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-[#8B4513]">
-            <div className="h-2 w-2 rounded-full bg-[#8B4513]" />
+        <div className="mb-1 flex items-center gap-2 sm:gap-3">
+          <div className="flex h-3 w-3 sm:h-4 sm:w-4 items-center justify-center rounded-full border-2 border-[#8B4513]">
+            <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#8B4513]" />
           </div>
-          <p className="text-base font-bold text-[#2C2C2C]">Personnalisez et économisez</p>
+          <p className="text-sm sm:text-base font-bold text-[#2C2C2C]">Personnalisez et économisez</p>
         </div>
 
         {/* Prix */}
-        <div className="mb-4 flex items-baseline gap-3">
-          <span
-            className={`text-2xl font-bold ${
-              isSurDevis ? "text-[#8B4513]" : "text-[#2C2C2C]"
-            }`}
-          >
-            {display}
+        <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-baseline sm:gap-3 gap-1">
+          <span className="text-lg sm:text-2xl font-bold text-[#2C2C2C]">
+            2,50€ / unité
           </span>
-          {!isSurDevis && (
-            <span className="text-sm text-[#6B6B6B]">par unité</span>
-          )}
+          <span className="text-xs sm:text-sm text-[#6B6B6B]">min. {minQuantity} pièces</span>
         </div>
 
-        {/* 6 avantages en 2 colonnes */}
-        <div className="grid grid-cols-2 gap-x-3 gap-y-2.5">
-          {AVANTAGES.map((a) => (
-            <CheckBadge key={a} label={a} />
-          ))}
+        {/* Avantages */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+              <Check size={8} className="text-white" strokeWidth={3} />
+            </div>
+            <span className="text-xs sm:text-base text-[#6B6B6B]">Livraison gratuite</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+              <Check size={8} className="text-white" strokeWidth={3} />
+            </div>
+            <span className="text-xs sm:text-base text-[#6B6B6B]">Garantie de 30 jours</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+              <Check size={8} className="text-white" strokeWidth={3} />
+            </div>
+            <span className="text-xs sm:text-base text-[#6B6B6B]">Modifications illimitées</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+              <Check size={8} className="text-white" strokeWidth={3} />
+            </div>
+            <span className="text-xs sm:text-base text-[#6B6B6B]">Maquette sous 24h</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+              <Check size={8} className="text-white" strokeWidth={3} />
+            </div>
+            <span className="text-xs sm:text-base text-[#6B6B6B]">Offres exclusives</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+              <Check size={8} className="text-white" strokeWidth={3} />
+            </div>
+            <span className="text-xs sm:text-base text-[#6B6B6B]">Remises sur volume</span>
+          </div>
         </div>
       </div>
 
+      {/*  8. Section Prix */}
+      <div className="mt-8">
+        <ProductPricing
+          product={{
+            name: product.name,
+            slug: product.slug,
+            pricingType: product.pricing_type === 'lot_pricing' ? 'lot_pricing' : 
+                        product.price === "Sur devis" ? 'quote' : 'unit_with_minimum',
+            unitPrice: productUnitPrice,
+            minQuantity: minQuantity,
+            maxQuantity: product.maxQuantity || 999,
+            quantityStep: 1,
+            lots: product.pricing?.tiers && product.pricing.tiers.length > 0 ? product.pricing.tiers.map((tier: any, index: number) => {
+              const savingsPercent = Math.round(((productUnitPrice - tier.pricePerUnit) / productUnitPrice) * 100);
+              
+              return {
+                id: `tier-${tier.min}`,
+                lotName: `${tier.min} unités`,
+                quantity: tier.min,
+                lotPrice: tier.pricePerUnit * tier.min,
+                unitPriceInLot: tier.pricePerUnit,
+                savingsPercent: savingsPercent,
+                isPopular: index === 1 // Le deuxième palier est populaire
+              };
+            }) : undefined
+          }}
+          selectedTheme={selectedTheme}
+          onAddToCart={(item: any) => {
+            // Logique d'ajout au panier
+            console.log('Ajout au panier:', item)
+          }}
+        />
+      </div>
+
+      
       {/*  7. Option d'achat (radio) */}
       <div className="mt-3">
         <label
@@ -443,100 +427,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </label>
       </div>
 
-      {/*  8. Informations de quantité et prix */}
-      {!isSurDevis ? (
-        <div className="mt-4 space-y-3">
-          {/* Quantité avec minimum */}
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Quantité (min. {minQuantity})</span>
-            </div>
-            <div className="flex items-center gap-2">
-              {/* Pill quantité (fond sombre) */}
-              <div className="flex items-center overflow-hidden rounded-full bg-[#2C2C2C] flex-shrink-0">
-                <button
-                  onClick={quantity === minQuantity ? undefined : handleDecrement}
-                  className={`flex h-10 w-8 items-center justify-center text-white transition-colors ${
-                    quantity === minQuantity 
-                      ? "bg-gray-400 cursor-not-allowed opacity-50" 
-                      : "bg-[#2C2C2C] hover:bg-[#3E3E3E] hover:text-[#D4A574]"
-                  }`}
-                  aria-label="Diminuer la quantité"
-                  disabled={quantity === minQuantity}
-                >
-                  <Minus size={12} />
-                </button>
-                <input
-                  type="number"
-                  min={minQuantity}
-                  value={String(quantity || minQuantity)}
-                  onChange={(e) => {
-                    const value = parseInt(e.target.value) || minQuantity;
-                    setQuantity(Math.max(minQuantity, value));
-                  }}
-                  className="flex h-10 w-12 bg-transparent text-center font-medium text-white border-0 outline-none focus:ring-0 text-sm [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  aria-label="Quantité"
-                />
-                <button
-                  onClick={handleIncrement}
-                  className="flex h-10 w-8 items-center justify-center text-white transition-colors hover:bg-[#3E3E3E] hover:text-[#D4A574]"
-                  aria-label="Augmenter la quantité"
-                >
-                  <Plus size={12} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Informations de prix */}
-          <div className="bg-[#FAF7F2] rounded-lg p-3 space-y-1.5">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-[#6B6B6B]">Prix/unité :</span>
-              <span className="text-sm font-semibold text-[#2C2C2C]">{unitPrice.toFixed(2)}\u20ac</span>
-            </div>
-            <div className="flex justify-between items-center border-t border-[#8B4513]/20 pt-1.5">
-              <span className="text-sm text-[#6B6B6B]">Total :</span>
-              <span className="text-sm font-bold text-[#8B4513]">{total.toFixed(2)}\u20ac</span>
-            </div>
-            {product.pricing?.tiers && product.pricing.tiers.length > 0 && (
-              <div className="bg-[#FAF7F2] rounded-lg p-2 mt-2">
-                <div className="text-xs font-medium text-[#8B4513] mb-1">Prix dégressifs</div>
-                <ul className="space-y-0.5">
-                  {product.pricing.tiers.map((tier: PricingTier, index: number) => (
-                    <li key={index} className="text-[10px] text-[#6B6B6B]">
-                      Dès {tier.min} : {tier.pricePerUnit.toFixed(2)}\u20ac/u
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Bouton CTA */}
-          <div className="flex items-center gap-2">
-            <PrimaryCtaButton 
-              onClick={() => onAddToCart?.()} 
-              className="flex-1 text-sm py-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={(product.requires_theme ?? true) && !selectedTheme}
-            >
-              <ShoppingBag size={14} className="flex-shrink-0" />
-              Ajouter au panier
-            </PrimaryCtaButton>
-          </div>
-        </div>
-      ) : (
-        <div className="mt-6">
-          <PrimaryCtaButton 
-            href="/contact" 
-            showArrow={false}
-            className="min-w-[200px]"
-          >
-            <ShoppingBag size={18} className="flex-shrink-0" />
-            Demander un devis
-          </PrimaryCtaButton>
-        </div>
-      )}
-
+      
       {/* ── 9. Réassurance ─────────────────────────────────────── */}
       <p className="mt-3 text-center text-sm text-[#6B6B6B]">
         Livraison en 15-25 jours ouvrés * Paiement sécurisé

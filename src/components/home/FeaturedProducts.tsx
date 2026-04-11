@@ -6,6 +6,34 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import { products } from "@/data/products"
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton"
 
+function formatPrice(product: any) {
+  // Cas 1 : prix min ET max -> fourchette
+  if (product.price_min && product.price_max) {
+    return `${product.price_min.toFixed(2).replace('.', ',')}\u20AC - ${product.price_max.toFixed(2).replace('.', ',')}\u20AC`;
+  }
+  
+  // Cas 2 : prix unitaire simple
+  if (product.unit_price) {
+    return `${product.unit_price.toFixed(2).replace('.', ',')}\u20AC`;
+  }
+  
+  // Cas 3 : prix simple (ancien champ)
+  if (product.price) {
+    const defaultPrice = product.price || 'Sur devis';
+    const priceInEuros = defaultPrice.replace('$', '\u20AC');
+    
+    // Si c'est une fourchette de prix, l'afficher telle quelle
+    if (priceInEuros.includes(' - ')) {
+      return priceInEuros;
+    }
+    
+    return priceInEuros;
+  }
+  
+  // Cas 4 : pas de prix
+  return 'Sur devis';
+}
+
 export function FeaturedProducts() {
   const [current, setCurrent] = useState(0)
   const featured = products.slice(0, 8)
@@ -112,11 +140,11 @@ export function FeaturedProducts() {
                   {/* Prix + Bouton */}
                   <div className="flex items-center justify-between gap-1.5 md:gap-2 mt-auto">
                     <span className="text-[10px] xs:text-xs md:text-sm font-bold text-[#333] whitespace-nowrap leading-tight">
-                      {product.price}
+                      {formatPrice(product)}
                     </span>
                     <PrimaryCtaButton 
                       href={`/produit/${product.slug}`} 
-                      className="px-2 py-1 xs:px-3 py-1.5 md:px-4 md:py-2 text-[9px] xs:text-[10px] md:text-xs bg-[#8B6F47] text-white rounded-full whitespace-nowrap w-auto flex-shrink-0"
+                      className="px-2 py-1 xs:px-3 py-1.5 md:px-4 md:py-2 text-[9px] xs:text-[10px] md:text-xs whitespace-nowrap w-auto flex-shrink-0"
                     >
                       Voir
                     </PrimaryCtaButton>

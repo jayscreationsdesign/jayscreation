@@ -18,6 +18,7 @@ export interface Product {
   reviewCount?: number;
   themes?: string[]; // Thèmes disponibles pour ce produit
   pricing?: ProductPricing; // Système de prix par quantité
+  pricing_type?: string; // Type de pricing : 'unit_pricing', 'lot_pricing', 'quote'
 }
 
 export const products: Product[] = [
@@ -43,11 +44,12 @@ export const products: Product[] = [
     longDescription: "Créez une boîte cadeau unique et personnalisée pour vos événements les plus précieux. Notre boîte cadeau premium est entièrement personnalisable avec vos couleurs, thème, noms et dates. Idéale pour mariage, anniversaire, baby-shower ou toute célébration spéciale. Finitions artisanales de qualité avec détails dorés pour un rendu élégant et sophistiqué. Parfaite pour présenter vos cadeaux, friandises personnalisées ou souvenirs mémorables. Livraison offerte et personnalisation illimitée jusqu'à validation.",
     pricing: {
       unitPrice: 5.90,
-      minQuantity: 1,
+      minQuantity: 10,
       tiers: [
         { min: 10, pricePerUnit: 5.49 } // 10 pour 54,90\u20AC
       ]
-    }
+    },
+    pricing_type: "lot_pricing"
   },
   {
     id: "8",
@@ -65,7 +67,15 @@ export const products: Product[] = [
     slug: "boite-lait-personnalisee",
     themes: ["Classique", "Élégant", "Personnalisé"],
     description: "Boîte de lait personnalisée pour baptême, naissance et communion. Design charmant avec motifs délicats et personnalisable avec prénom, date et thème. Création artisanale française pour célébrer les moments précieux de votre enfant.",
-    longDescription: "Célébrez les grands moments de votre enfant avec notre boîte de lait personnalisée artisanale. Parfaitement adaptée pour baptême, naissance et communion, cette boîte charmante est entièrement personnalisable avec le prénom de votre enfant, date de célébration et thème choisi. Design délicat avec motifs enfantins et finitions soignées. Création française 100% personnalisable, idéale pour contenir des friandises, petits cadeaux ou souvenirs de la cérémonie. Qualité premium et livraison offerte pour sublimer ces instants inoubliables."
+    longDescription: "Célébrez les grands moments de votre enfant avec notre boîte de lait personnalisée artisanale. Parfaitement adaptée pour baptême, naissance et communion, cette boîte charmante est entièrement personnalisable avec le prénom de votre enfant, date de célébration et thème choisi. Design délicat avec motifs enfantins et finitions soignées. Création française 100% personnalisable, idéale pour contenir des friandises, petits cadeaux ou souvenirs de la cérémonie. Qualité premium et livraison offerte pour sublimer ces instants inoubliables.",
+    pricing: {
+      unitPrice: 4.90,
+      minQuantity: 10,
+      tiers: [
+        { min: 10, pricePerUnit: 4.49 } // 10 pour 44,90\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
   },
   {
     id: "9",
@@ -78,7 +88,15 @@ export const products: Product[] = [
     slug: "boite-pompotes-personnalisee",
     themes: ["Enfants", "Coloré", "Ludique"],
     description: "Boîte Pom'Potes personnalisée pour anniversaire, baby-shower et Noël. Design ludique et coloré, personnalisable avec prénom, âge et thème. Parfaite pour distribuer aux enfants lors de vos célébrations.",
-    longDescription: "Ravissez les enfants avec notre boîte Pom'Potes personnalisée ! Idéale pour anniversaire, baby-shower et Noël, cette boîte ludique et colorée est entièrement personnalisable avec le prénom de l'enfant, âge et thème de la fête. Design attrayant avec motifs joyeux et couleurs vives qui plairont aux petits comme aux grands. Parfaite pour contenir des bonbons, petits jouets ou surprises. Création française de qualité, livraison rapide et personnalisation sur-mesure pour des moments de fête inoubliables."
+    longDescription: "Ravissez les enfants avec notre boîte Pom'Potes personnalisée ! Idéale pour anniversaire, baby-shower et Noël, cette boîte ludique et colorée est entièrement personnalisable avec le prénom de l'enfant, âge et thème de la fête. Design attrayant avec motifs joyeux et couleurs vives qui plairont aux petits comme aux grands. Parfaite pour contenir des bonbons, petits jouets ou surprises. Création française de qualité, livraison rapide et personnalisation sur-mesure pour des moments de fête inoubliables.",
+    pricing: {
+      unitPrice: 2.30,
+      minQuantity: 6,
+      tiers: [
+        { min: 10, pricePerUnit: 1.99 } // 10 pour 19,90\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
   },
   {
     id: "10",
@@ -97,8 +115,12 @@ export const products: Product[] = [
     longDescription: "Transformez vos soirées cinéma en moments inoubliables avec nos pots à pop corn personnalisés ! Design moderne et élégant adapté à tous vos événements : mariage, anniversaire, soirée film, baby-shower. Personnalisation complète avec vos noms, dates, messages et thème choisi. Pots de qualité supérieure avec fond renforcé pour éviter les fuites. Facile à assembler et à remplir avec votre pop corn préféré. Format individuel parfait pour chaque invité. Création française avec matériaux recyclables et encres alimentaires. Livraison rapide et personnalisation illimitée jusqu'à validation. L'accessoire indispensable pour vos soirées cinéma personnalisées !",
     pricing: {
       unitPrice: 2.50,
-      minQuantity: 6
+      minQuantity: 6,
+      tiers: [
+        { min: 10, pricePerUnit: 2.19 } // 10 pour 21,90\u20AC
+      ]
     },
+    pricing_type: "lot_pricing",
     rating: 5,
   },
   {
@@ -112,7 +134,15 @@ export const products: Product[] = [
     slug: "box-pyramide",
     themes: ["Original", "Élégant", "Moderne"],
     description: "Box pyramide personnalisée pour événements et fêtes. Design élégant et original en forme de pyramide, personnalisable avec vos couleurs, texte et logo. Idéale pour mariage, anniversaire et événements d'entreprise.",
-    longDescription: "Surprenez vos invités avec notre box pyramide personnalisée au design unique et élégant ! Cette boîte originale en forme de pyramide est entièrement personnalisable avec vos couleurs, texte, logo ou thème. Parfaite pour mariage, anniversaire, événements d'entreprise ou lancements de produits. Format innovant qui attire l'attention et laisse une impression durable. Création française de qualité avec matériaux premium et finitions soignées. Idéale pour contenir des confiseries, produits cosmétiques ou cadeaux d'entreprise. Personnalisation illimitée et livraison offerte pour un impact mémorable."
+    longDescription: "Surprenez vos invités avec notre box pyramide personnalisée au design unique et élégant ! Cette boîte originale en forme de pyramide est entièrement personnalisable avec vos couleurs, texte, logo ou thème. Parfaite pour mariage, anniversaire, événements d'entreprise ou lancements de produits. Format innovant qui attire l'attention et laisse une impression durable. Création française de qualité avec matériaux premium et finitions soignées. Idéale pour contenir des confiseries, produits cosmétiques ou cadeaux d'entreprise. Personnalisation illimitée et livraison offerte pour un impact mémorable.",
+    pricing: {
+      unitPrice: 2.99,
+      minQuantity: 6,
+      tiers: [
+        { min: 10, pricePerUnit: 2.59 } // 10 pour 25,90\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
   },
   {
     id: "12",
@@ -125,14 +155,24 @@ export const products: Product[] = [
     slug: "cadre-personnalise",
     themes: ["Photo", "Souvenir", "Personnalisé"],
     description: "Cadre personnalisé pour photos et souvenirs. Design élégant et moderne, personnalisable avec vos noms, dates et messages. Parfait pour mariage, anniversaire, naissance et tous vos moments précieux.",
-    longDescription: "Mettez en valeur vos plus beaux souvenirs avec notre cadre personnalisé artisanal ! Ce cadre élégant et moderne est entièrement personnalisable avec vos noms, dates, messages ou citations spéciales. Parfait pour encadrer vos photos de mariage, anniversaire, naissance, diplôme ou tout moment précieux. Création française de qualité avec matériaux premium et finitions soignées. Disponible en plusieurs tailles et couleurs pour s'adapter à votre décoration. Idéal comme cadeau personnalisé ou pour votre propre décoration intérieure. Personnalisation sur-mesure et livraison soignée."
+    longDescription: "Mettez en valeur vos plus beaux souvenirs avec notre cadre personnalisé artisanal ! Ce cadre élégant et moderne est entièrement personnalisable avec vos noms, dates, messages ou citations spéciales. Parfait pour encadrer vos photos de mariage, anniversaire, naissance, diplôme ou tout moment précieux. Création française de qualité avec matériaux premium et finitions soignées. Disponible en plusieurs tailles et couleurs pour s'adapter à votre décoration. Idéal comme cadeau personnalisé ou pour votre propre décoration intérieure. Personnalisation sur-mesure et livraison soignée.",
+    pricing: {
+      unitPrice: 15.00,
+      minQuantity: 3,
+      tiers: [
+        { min: 5, pricePerUnit: 13.90 } // 5 pour 69,50\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
   },
   {
     id: "30",
     name: "Cône Friandise Personnalisé",
     slug: "cone-friandise-personnalise",
     themes: ["Minnie", "Rose", "Classique"],
-    price: "3,90\u20AC",
+    price: "34,90\u20AC",
+    numericPrice: 34.90,
+    pricing_type: "lot_pricing",
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/67.png",
@@ -146,6 +186,13 @@ export const products: Product[] = [
     description: "Cône friandise personnalisé pour mariage, baptême et anniversaire. Design pratique et élégant, personnalisable avec vos noms, dates et thème. Idéal pour distribuer bonbons et confiseries lors de vos célébrations.",
     longDescription: "Ajoutez une touche d'élégance pratique à vos événements avec notre cône friandise personnalisé ! Parfait pour mariage, baptême, anniversaire et toutes vos célébrations, ce cône pratique et élégant est entièrement personnalisable avec vos noms, dates de l'événement et thème choisi. Format idéal pour distribuer bonbons, confiseries, dragées ou petites friandises à vos invités. Création française de qualité avec matériaux résistants et finitions soignées. Design stable et facile à manipuler pour vos invités. Personnalisation sur-mesure et livraison rapide pour des événements mémorables et pratiques.",
     rating: 5,
+    pricing: {
+      unitPrice: 3.90,
+      minQuantity: 10,
+      tiers: [
+        { min: 10, pricePerUnit: 3.49 } // 10 pour 34,90\u20AC
+      ]
+    }
   },
   {
     id: "6",
@@ -246,6 +293,14 @@ export const products: Product[] = [
     description: "Boîte à œuf de Pâques personnalisée pour vos célébrations printanières. Design unique et coloré avec motifs de Pâques, personnalisable avec vos noms, messages et couleurs. Parfaite pour chasse aux œufs et cadeaux de Pâques.",
     longDescription: "Rendez votre chasse aux œufs inoubliable avec notre boîte à œuf de Pâques personnalisée ! Design unique et coloré avec motifs traditionnels de Pâques, cette boîte est entièrement personnalisable avec vos noms, messages de Pâques, couleurs choisies et thématiques printanières. Parfaite pour organiser une chasse aux œufs mémorable, distribuer des œufs en chocolat ou offrir des cadeaux de Pâques personnalisés. Création française artisanale avec matériaux résistants et finitions soignées. Format adapté pour contenir plusieurs œufs et facile à manipuler par les enfants. Personnalisation complète et livraison rapide pour des célébrations de Pâques joyeuses et mémorables.",
     rating: 5,
+    pricing: {
+      unitPrice: 6.38,
+      minQuantity: 5,
+      tiers: [
+        { min: 5, pricePerUnit: 6.38 } // 5 pour 31,90\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
   },
   {
     id: "14",
@@ -812,24 +867,6 @@ export const products: Product[] = [
         { min: 5, pricePerUnit: 6.38 } // 5 pour 31,90\u20AC
       ]
     }
-  },
-  {
-    id: "29",
-    name: "Éventail Programme de Mariage",
-    slug: "eventail-programme-mariage",
-    themes: ["Mariage", "Élégant", "Programme"],
-    price: "Sur devis",
-    category: "Marque-places",
-    categorySlug: "marque-places",
-    parentCategorySlug: "mariage",
-    image: "/images/products/Eventail programme mariage4.png",
-    images: [
-      "/images/products/Eventail programme mariage2.png",
-      "/images/products/Eventail programme mariage5.png"
-    ],
-    description: "Éventail programme de mariage élégant et pratique pour vos invités. Design personnalisable avec programme détaillé, noms, date et thème de mariage. Accessoire utile et décoratif pour votre cérémonie.",
-    longDescription: "Guidez vos invités avec style grâce à notre éventail programme de mariage élégant et fonctionnel ! Cet accessoire pratique présente le déroulement complet de votre cérémonie avec horaires, lieux et informations importantes. Entièrement personnalisable avec vos noms, date de mariage, programme détaillé et thème choisi. Design raffiné avec matériaux de qualité et finitions soignées. Format compact et facile à manipuler pour vos invités. Double fonction : programme informatif et éventail rafraîchissant. Création artisanale française avec impression de qualité. Personnalisation complète et livraison soignée pour un mariage parfaitement orchestré.",
-    rating: 5,
   },
 
   // TUBE BULLES DE SAVON PERSONNALISÉ
