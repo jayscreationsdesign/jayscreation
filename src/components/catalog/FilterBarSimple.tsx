@@ -33,10 +33,12 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
   // États pour les dropdowns
   const [availabilityOpen, setAvailabilityOpen] = useState(false);
   const [priceOpen, setPriceOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
   
   // Refs pour détecter les clics extérieurs
   const availabilityRef = useRef<HTMLDivElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
+  const sortRef = useRef<HTMLDivElement>(null);
 
   // Calculer le prix maximum dynamique
   const maxPrice = products.length > 0 
@@ -57,6 +59,9 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
       if (priceRef.current && !priceRef.current.contains(event.target as Node)) {
         setPriceOpen(false);
       }
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+        setSortOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -75,6 +80,9 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
       [type]: !availabilityFilters[type]
     };
     setAvailabilityFilters(newFilters);
+    // Fermer les autres dropdowns
+    setPriceOpen(false);
+    setSortOpen(false);
     
     // Appliquer le filtrage directement
     let filtered = [...products];
@@ -143,6 +151,9 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
       [type]: numValue
     };
     setPriceRange(newRange);
+    // Fermer les autres dropdowns
+    setAvailabilityOpen(false);
+    setSortOpen(false);
     
     // Appliquer le filtrage directement
     let filtered = [...products];
@@ -206,6 +217,9 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
   const resetPrice = () => {
     const newRange = { min: 0, max: maxPrice };
     setPriceRange(newRange);
+    // Fermer les autres dropdowns
+    setAvailabilityOpen(false);
+    setSortOpen(false);
     
     // Appliquer le filtrage directement
     let filtered = [...products];
@@ -263,8 +277,10 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
 
   const handleSortChange = (value: string) => {
     setSortBy(value);
-    
-    // Appliquer le filtrage directement
+    setSortOpen(false); // Fermer le dropdown après sélection
+    // Fermer les autres dropdowns
+    setAvailabilityOpen(false);
+    setPriceOpen(false);
     let filtered = [...products];
 
     // Filtre de disponibilité
@@ -336,7 +352,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
     >
       {/* Filtres à gauche */}
       <div className="flex items-center gap-2">
-        <span className="text-[13px] text-[#6b6b6b]" style={{ fontFamily: 'Inter' }}>
+        <span className="text-[15px] text-[#6b6b6b]" style={{ fontFamily: 'Inter' }}>
           Filtre :
         </span>
         
@@ -350,7 +366,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
                 : "border border-transparent"
             }`}
             style={{ 
-              fontSize: '13px', 
+              fontSize: '15px', 
               color: '#3d3d3d',
               fontFamily: 'Inter',
               borderRadius: '0',
@@ -358,7 +374,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
             }}
           >
             <span>Disponibilité</span>
-            <span style={{ fontSize: '10px' }}>{"\u2303"}</span>
+            <span style={{ fontSize: '10px' }}>{"\u25bc"}</span>
             {selectedAvailabilityCount > 0 && (
               <span className="text-xs bg-[#C8A96E] text-white px-2 py-1">
                 {selectedAvailabilityCount}
@@ -368,9 +384,8 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
 
           {availabilityOpen && (
             <div 
-              className="absolute top-full left-0 mt-1 bg-white border border-[#e8e0d8 z-50"
+              className="absolute top-full left-0 mt-1 bg-white border-2 border-[#E8E4DF] rounded-lg shadow-xl z-50"
               style={{ 
-                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                 padding: '16px',
                 minWidth: '220px'
               }}
@@ -429,7 +444,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
                 : "border border-transparent"
             }`}
             style={{ 
-              fontSize: '13px', 
+              fontSize: '15px', 
               color: '#3d3d3d',
               fontFamily: 'Inter',
               borderRadius: '0',
@@ -437,7 +452,7 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
             }}
           >
             <span>Prix</span>
-            <span style={{ fontSize: '10px' }}>{"\u2303"}</span>
+            <span style={{ fontSize: '10px' }}>{"\u25bc"}</span>
             {(priceRange.min > 0 || priceRange.max < maxPrice) && (
               <span className="text-xs bg-[#C8A96E] text-white px-2 py-1">
                 1
@@ -447,9 +462,8 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
 
           {priceOpen && (
             <div 
-              className="absolute top-full left-0 mt-1 bg-white border border-[#e8e0d8 z-50"
+              className="absolute top-full left-0 mt-1 bg-white border-2 border-[#E8E4DF] rounded-lg shadow-xl z-50"
               style={{ 
-                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                 padding: '16px',
                 minWidth: '280px'
               }}
@@ -532,35 +546,106 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
       <div className="flex items-center gap-2">
         {/* Trier par */}
         <div className="flex items-center gap-2">
-          <span className="text-[13px] text-[#6b6b6b]" style={{ fontFamily: 'Inter' }}>
+          <span className="text-[15px] text-[#6b6b6b]" style={{ fontFamily: 'Inter' }}>
             Trier par :
           </span>
-          <select
-            value={sortBy}
-            onChange={(e) => handleSortChange(e.target.value)}
-            className="cursor-pointer"
-            style={{ 
-              fontSize: '13px', 
-              color: '#3d3d3d', 
-              border: 'none', 
-              background: 'transparent',
-              fontFamily: 'Inter'
-            }}
-          >
-            <option value="featured">En vedette</option>
-            <option value="bestsellers">Meilleures ventes</option>
-            <option value="name-asc">Alphabétique, de A à Z</option>
-            <option value="name-desc">Alphabétique, de Z à A</option>
-            <option value="price-asc">Prix : faible à élevé</option>
-            <option value="price-desc">Prix : élevé à faible</option>
-            <option value="date-asc">Date, de la plus ancienne à la plus récente</option>
-            <option value="date-desc">Date, de la plus récente à la plus ancienne</option>
-          </select>
-          <span style={{ fontSize: '10px', color: '#C8A96E' }}>{"\u2303"}</span>
+          <div className="relative" ref={sortRef}>
+            <div
+              onClick={() => setSortOpen(!sortOpen)}
+              style={{
+                background: 'white',
+                border: '1px solid #C8A96E',
+                color: '#C8A96E',
+                padding: '6px 14px',
+                fontSize: '13px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                borderRadius: '2px'
+              }}
+            >
+              <span>Alphabétique, de A à Z</span>
+              <span style={{ fontSize: '10px' }}>{"\u25bc"}</span>
+            </div>
+            {sortOpen && (
+              <div 
+                className="absolute top-full right-0 mt-1 rounded-xl bg-[#FAF7F2] shadow-xl py-3 z-50 border border-[#8B4513]"
+                style={{ 
+                  minWidth: '280px'
+                }}
+              >
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('featured')}
+                    className="w-full text-left"
+                  >
+                    En vedette
+                  </button>
+                </div>
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('bestsellers')}
+                    className="w-full text-left"
+                  >
+                    Meilleures ventes
+                  </button>
+                </div>
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('name-asc')}
+                    className="w-full text-left"
+                  >
+                    Alphabétique, de A à Z
+                  </button>
+                </div>
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('name-desc')}
+                    className="w-full text-left"
+                  >
+                    Alphabétique, de Z à A
+                  </button>
+                </div>
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('price-asc')}
+                    className="w-full text-left"
+                  >
+                    Prix : faible à élevé
+                  </button>
+                </div>
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('price-desc')}
+                    className="w-full text-left"
+                  >
+                    Prix : élevé à faible
+                  </button>
+                </div>
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('date-asc')}
+                    className="w-full text-left"
+                  >
+                    Date, de la plus ancienne à la plus récente
+                  </button>
+                </div>
+                <div className="px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2 cursor-pointer">
+                  <button
+                    onClick={() => handleSortChange('date-desc')}
+                    className="w-full text-left"
+                  >
+                    Date, de la plus récente à la plus ancienne
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Compteur de produits */}
-        <div className="text-[13px] text-[#3d3d3d]" style={{ marginLeft: '16px' }}>
+        <div className="text-[15px] text-[#3d3d3d]" style={{ marginLeft: '16px' }}>
           {products.length} produits
         </div>
       </div>

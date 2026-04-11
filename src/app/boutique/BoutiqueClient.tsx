@@ -496,7 +496,7 @@ function BoutiquePageContentInner() {
 
           {/* CONTENU PRINCIPAL - Droite */}
           <main className="col-span-4">
-            {/* HEADER avec compteur et menus déroulants */}
+            {/* HEADER avec message de recherche et FilterBar */}
             <div className="mb-6 space-y-3 border-b border-gray-200 pb-4">
               {/* Message de recherche si applicable */}
               {searchQuery && (
@@ -507,20 +507,13 @@ function BoutiquePageContentInner() {
                 </div>
               )}
 
-              {/* Ligne 1 : Compteur */}
-              <div className="text-xs text-muted-foreground">
-                {startIndex}-{endIndex} sur {totalResults} résultats
-              </div>
-
-              {/* Ligne 2 : FilterBarSimple */}
-              <div className="flex justify-end">
-                {adaptedProducts.length > 0 && (
-                  <FilterBarSimple 
-                    products={adaptedProducts}
-                    onFilter={handleFilterBar}
-                  />
-                )}
-              </div>
+              {/* FilterBarSimple - à la place du compteur */}
+              {adaptedProducts.length > 0 && (
+                <FilterBarSimple 
+                  products={adaptedProducts}
+                  onFilter={handleFilterBar}
+                />
+              )}
             </div>
 
             {/* ZONE PRODUITS */}
