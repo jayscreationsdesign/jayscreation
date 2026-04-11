@@ -159,7 +159,7 @@ export default function ProductCard({
         {/* Bouton Voir */}
         <PrimaryCtaButton 
           href={`/produit/${product.slug}`} 
-          className="px-2 py-1 xs:px-3 py-1.5 md:px-4 md:py-2 text-[9px] xs:text-[10px] md:text-xs whitespace-nowrap w-auto flex-shrink-0"
+          className="px-4 py-2 text-xs whitespace-nowrap w-auto flex-shrink-0"
         >
           Voir
         </PrimaryCtaButton>

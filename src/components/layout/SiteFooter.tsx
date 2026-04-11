@@ -12,11 +12,11 @@ export function SiteFooter({}: SiteFooterProps) {
     <footer className="mt-auto w-screen bg-[#2C1A0E] border-t border-[#E8E4DF]">
       {/* Section principale - Pleine largeur */}
       <div className="w-full">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid gap-8 lg:grid-cols-5">
+        <div className="mx-auto max-w-7xl px-8 py-12">
+          <div className="grid gap-8 grid-cols-5">
             
             {/* Colonne 1 : Brand - Plus large */}
-            <div className="lg:col-span-2">
+            <div className="col-span-2">
               <Link href="/" className="inline-flex items-center gap-3 mb-4">
                 <div className="h-12 w-12 rounded-full bg-[#8B4513] flex items-center justify-center">
                   <span className="font-heading text-lg font-bold text-white">J</span>
@@ -167,7 +167,7 @@ export function SiteFooter({}: SiteFooterProps) {
 
       {/* Section icônes - Connexion, Recherche, Panier */}
       <div className="w-full bg-[#2C1A0E] border-t border-[#E8E4DF]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mx-auto max-w-7xl px-8 py-6">
           <div className="flex items-center justify-center gap-8">
             {/* Connexion */}
             <Link
@@ -177,7 +177,7 @@ export function SiteFooter({}: SiteFooterProps) {
               <div className="h-5 w-5 rounded-full bg-[#8B4513] flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-[#D4A574]"></div>
               </div>
-              <span className="hidden sm:inline">Connexion</span>
+              <span className="inline">Connexion</span>
             </Link>
 
             {/* Recherche */}
@@ -189,7 +189,7 @@ export function SiteFooter({}: SiteFooterProps) {
               <div className="h-5 w-5 rounded-full bg-[#8B4513] flex items-center justify-center">
                 <Search className="h-3 w-3 text-[#D4A574]" />
               </div>
-              <span className="hidden sm:inline">Recherche</span>
+              <span className="inline">Recherche</span>
             </button>
 
             {/* Panier */}
@@ -200,7 +200,7 @@ export function SiteFooter({}: SiteFooterProps) {
               <div className="h-5 w-5 rounded-full bg-[#8B4513] flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-[#D4A574]"></div>
               </div>
-              <span className="hidden sm:inline">Panier</span>
+              <span className="inline">Panier</span>
             </Link>
           </div>
         </div>
@@ -208,8 +208,8 @@ export function SiteFooter({}: SiteFooterProps) {
 
       {/* Bottom bar - Pleine largeur avec fond */}
       <div className="w-full bg-[#2C1A0E] border-t border-[#E8E4DF]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mx-auto max-w-7xl px-8 py-6">
+          <div className="flex items-center justify-between gap-4">
             <div className="text-xs text-white flex items-center gap-1">
               © 2026 Jay&apos;s Creations Design. Tous droits réservés.
               <span className="text-[#D4A574]">Fabriqué en France</span>

@@ -420,11 +420,11 @@ function BoutiquePageContentInner() {
 
   return (
     <div className="min-h-screen bg-jc-bg">
-      <div className="mx-auto max-w-7xl px-3 py-4 sm:px-6 sm:py-8 lg:px-8">
+      <div className="mx-auto max-w-7xl px-8 py-8">
         {/* Grille principale : Sidebar + Contenu */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <div className="grid grid-cols-5 gap-6">
           {/* SIDEBAR GAUCHE - Catégories */}
-          <aside className="lg:col-span-1 order-2 lg:order-1">
+          <aside className="col-span-1">
             <div className="space-y-3 sticky top-4">
               {/* Titre */}
               <div>
@@ -477,7 +477,7 @@ function BoutiquePageContentInner() {
           </aside>
 
           {/* CONTENU PRINCIPAL - Droite */}
-          <main className="lg:col-span-4 order-1 lg:order-2">
+          <main className="col-span-4">
             {/* HEADER avec compteur et menus déroulants */}
             <div className="mb-6 space-y-3 border-b border-gray-200 pb-4">
               {/* Message de recherche si applicable */}
@@ -532,7 +532,7 @@ function BoutiquePageContentInner() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-3 gap-6">
                 {sortedProducts.map((product, index) => (
                   <ProductCard
                     key={`${product.id ?? 'noid'}-${product.slug ?? 'noslug'}-${index}`}
