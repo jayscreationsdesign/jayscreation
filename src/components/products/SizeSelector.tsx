@@ -65,7 +65,7 @@ export default function SizeSelector({
       {/* Titre section */}
       <p style={{ fontSize: 13, fontWeight: 600, color: TEXT, margin: "0 0 10px 0" }}>
         <span style={{ marginRight: 4 }}>Taille</span>
-        <span style={{ fontSize: 11, color: GOLD, fontWeight: 500 }}>(min. {minQuantity} unités)</span>
+        <span style={{ fontSize: 11, color: "#8B4513", fontWeight: 500 }}>(min. {minQuantity} unités)</span>
       </p>
 
       {/* Pills S / M / L */}
@@ -175,7 +175,7 @@ export default function SizeSelector({
       <div style={{ marginBottom: 16 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
           <p style={{ fontSize: 13, fontWeight: 600, color: TEXT, margin: 0 }}>Quantité</p>
-          <span style={{ fontSize: 11, color: GOLD, fontWeight: 500 }}>min. {minQuantity} unités</span>
+          <span style={{ fontSize: 11, color: "#8B4513", fontWeight: 500 }}>min. {minQuantity} unités</span>
         </div>
         <div style={{ 
           display: "flex", 

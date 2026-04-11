@@ -5,16 +5,17 @@ import Image from "next/image"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import { products } from "@/data/products"
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton"
+import { formatPriceEUR } from "@/lib/formatPrice"
 
 function formatPrice(product: any) {
   // Cas 1 : prix min ET max -> fourchette
   if (product.price_min && product.price_max) {
-    return `${product.price_min.toFixed(2).replace('.', ',')}\u20AC - ${product.price_max.toFixed(2).replace('.', ',')}\u20AC`;
+    return `${formatPriceEUR(product.price_min)} - ${formatPriceEUR(product.price_max)}`;
   }
   
   // Cas 2 : prix unitaire simple
   if (product.unit_price) {
-    return `${product.unit_price.toFixed(2).replace('.', ',')}\u20AC`;
+    return formatPriceEUR(product.unit_price);
   }
   
   // Cas 3 : prix simple (ancien champ)

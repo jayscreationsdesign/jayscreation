@@ -73,12 +73,13 @@ export default function Tendances() {
                 <span className="text-sm font-bold text-white">
                   {product.price}
                 </span>
-                <Link
+                <PrimaryCtaButton
                   href={`/produit/${product.slug}`}
-                  className="inline-flex items-center gap-1 bg-white/10 text-white/90 px-1.5 py-0.5 rounded-sm text-xs font-light hover:bg-white/20 transition-all duration-300"
+                  showArrow={false}
+                  className="text-xs px-2 py-1"
                 >
                   Voir
-                </Link>
+                </PrimaryCtaButton>
               </div>
             </div>
           ))}

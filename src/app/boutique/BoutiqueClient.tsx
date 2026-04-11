@@ -536,7 +536,14 @@ function BoutiquePageContentInner() {
                 {sortedProducts.map((product, index) => (
                   <ProductCard
                     key={`${product.id ?? 'noid'}-${product.slug ?? 'noslug'}-${index}`}
-                    product={product}
+                    product={product as Product & {
+                      pricing_type?: 'unit_with_minimum' | 'lot_pricing' | 'quote';
+                      unit_price?: number;
+                      min_quantity?: number;
+                      lots?: Array<{
+                        lot_price: number;
+                      }>;
+                    }}
                     showCategory={true}
                     showRating={true}
                     aspectRatio="square"

@@ -19,6 +19,12 @@ export interface Product {
   themes?: string[]; // Thèmes disponibles pour ce produit
   pricing?: ProductPricing; // Système de prix par quantité
   pricing_type?: string; // Type de pricing : 'unit_pricing', 'lot_pricing', 'quote'
+  sizes?: Array<{
+    id: string;
+    label: string;
+    dimension: string;
+    price: number;
+  }>; // Tailles disponibles avec prix
 }
 
 export const products: Product[] = [
@@ -122,6 +128,11 @@ export const products: Product[] = [
     },
     pricing_type: "lot_pricing",
     rating: 5,
+    sizes: [
+      { id: "S", label: "Petit", dimension: "10 cm", price: 2.50 },
+      { id: "M", label: "Moyen", dimension: "15 cm", price: 3.90 },
+      { id: "L", label: "Grand", dimension: "20 cm", price: 5.50 }
+    ],
   },
   {
     id: "11",
@@ -170,8 +181,8 @@ export const products: Product[] = [
     name: "Cône Friandise Personnalisé",
     slug: "cone-friandise-personnalise",
     themes: ["Minnie", "Rose", "Classique"],
-    price: "34,90\u20AC",
-    numericPrice: 34.90,
+    price: "3,90\u20AC",
+    numericPrice: 3.90,
     pricing_type: "lot_pricing",
     category: "Papeterie Personnalisée",
     categorySlug: "papeterie-sweet-tables",
@@ -188,9 +199,9 @@ export const products: Product[] = [
     rating: 5,
     pricing: {
       unitPrice: 3.90,
-      minQuantity: 10,
+      minQuantity: 6,
       tiers: [
-        { min: 10, pricePerUnit: 3.49 } // 10 pour 34,90\u20AC
+        { min: 6, pricePerUnit: 3.49 } // 6 pour 20,94\u20AC
       ]
     }
   },
@@ -677,7 +688,7 @@ export const products: Product[] = [
     numericPrice: 1.80,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/carte-remerciement.png",
+    image: "",
     slug: "carte-remerciement",
     themes: ["Mariage", "Anniversaire", "Remerciement"],
     description: "Carte de remerciement personnalisée pour vos événements. Design élégant et message personnalisé.",
@@ -845,7 +856,7 @@ export const products: Product[] = [
       unitPrice: 3.90,
       minQuantity: 6,
       tiers: [
-        { min: 10, pricePerUnit: 3.49 } // 10 pour 34,90\u20AC
+        { min: 6, pricePerUnit: 3.49 } // 6 pour 20,94\u20AC
       ]
     }
   },
@@ -906,6 +917,66 @@ export const products: Product[] = [
       unitPrice: 2.99,
       minQuantity: 5
     },
+    rating: 5,
+  },
+
+  // ÉTIQUETTE POM'POTES PERSONNALISÉE
+  {
+    id: "47",
+    name: "Étiquette Pom'Potes Personnalisée",
+    price: "2,50\u20AC",
+    numericPrice: 2.50,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/Pom Potes2.png",
+    images: [
+      "/images/products/Pom Potes2.png"
+    ],
+    slug: "etiquette-pompotes-personnalisee",
+    themes: ["Enfants", "Coloré", "Ludique", "École"],
+    description: "Étiquette Pom'Potes personnalisée pour anniversaire, goûter d'école et fêtes. Design ludique et coloré, personnalisable avec prénom, âge et thème. Parfaite pour identifier les gourdes des enfants.",
+    longDescription: "Personnalisez les gourdes de vos enfants avec nos étiquettes Pom'Potes personnalisées ! Idéales pour l'école, les goûters d'anniversaire, les colonies de vacances et les activités sportives. Design attrayant et résistant avec couleurs vives qui plaisent aux enfants. Personnalisation complète avec le prénom de l'enfant, classe, numéro de téléphone et motif choisi. Étiquettes auto-adhésives de qualité supérieure, résistantes à l'eau et aux frottements. Faciles à appliquer et à retirer sans laisser de traces. Dimensions optimales pour tous les types de gourdes et bouteilles. Création française avec matériaux non toxiques et encres alimentaires. Livraison rapide et personnalisation sur-mesure pour des objets uniques et pratiques !",
+    pricing: {
+      unitPrice: 2.50,
+      minQuantity: 6,
+      tiers: [
+        { min: 10, pricePerUnit: 2.19 } // 10 pour 21,90\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  // CAHIER DE COLORIAGE PERSONNALISÉ
+  {
+    id: "48",
+    name: "Cahier de coloriage personnalisé",
+    price: "2,90\u20AC",
+    numericPrice: 2.90,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/CAhier2.png",
+    images: [
+      "/images/products/CAhier2.png",
+      "/images/products/Cahier3.png"
+    ],
+    slug: "cahier-coloriage-personnalise",
+    themes: ["Enfants", "Coloriage", "Activités", "Fête"],
+    description: "Cahier de coloriage personnalisé pour anniversaire, activités et loisirs. Design adapté avec prénom, thème et illustrations personnalisées. Parfait pour occuper les enfants lors d'événements.",
+    longDescription: "Offrez aux enfants un moment de créativité avec nos cahiers de coloriage personnalisés ! Idéaux pour les anniversaires, activités d'animation, colonies de vacances et loisirs créatifs. Chaque cahier est entièrement personnalisé avec le prénom de l'enfant, thème choisi et illustrations adaptées à l'âge et aux préférences. Format pratique avec pages de qualité supérieure, papier épais adapté aux feutres et crayons de couleur. Couverture personnalisée avec design unique et photo si souhaité. Création française avec matériaux écologiques et encres non toxiques. Option crayons de couleurs disponibles pour un kit complet. Parfait pour cadeaux d'invités, activités d'animation et occupation créative. Livraison rapide et personnalisation sur-mesure pour des moments inoubliables !",
+    pricing: {
+      unitPrice: 2.90,
+      minQuantity: 6,
+      tiers: [
+        { min: 12, pricePerUnit: 2.69 }, // 12 pour 32,28\u20AC
+        { min: 24, pricePerUnit: 2.49 }  // 24 pour 59,76\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    sizes: [
+      { id: "Cahier", label: "Cahier seul", dimension: "A5", price: 2.90 },
+      { id: "Cahier+Crayons", label: "Avec crayons", dimension: "A5 + 12 crayons", price: 5.00 }
+    ],
     rating: 5,
   },
 ];

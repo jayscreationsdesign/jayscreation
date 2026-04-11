@@ -7,9 +7,9 @@ import { getImageSrc, getImageArray } from "@/lib/images";
 import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
 
 export default function ProductGallery({ product }: { product: Product }) {
-  // Vérifier si le produit utilise un placeholder
+  // Vérifier si le produit utilise un placeholder (utiliser l'image originale non traitée)
+  const isPlaceholder = !product.image || product.image.includes('placeholder') || product.image.trim() === '';
   const mainImage = getImageSrc(product.image);
-  const isPlaceholder = mainImage.includes('placeholder');
   const images = getImageArray(product.images, mainImage);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [thumbnailStart, setThumbnailStart] = useState(0);

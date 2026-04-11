@@ -178,6 +178,24 @@ export async function getSession() {
   }
 }
 
+export async function getCurrentUser(): Promise<User | null> {
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser()
+    if (error) {
+      // Ne pas lancer d'erreur, simplement retourner null si pas de session
+      if (error.message?.includes('Auth session missing') || error.message?.includes('No session')) {
+        return null
+      }
+      console.error('Error getting current user:', error)
+      return null
+    }
+    return user
+  } catch (error) {
+    console.error('Error getting current user:', error)
+    return null
+  }
+}
+
 export async function getUser(): Promise<User | null> {
   try {
     const { data: { user }, error } = await supabase.auth.getUser()

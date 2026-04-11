@@ -29,6 +29,13 @@ const config = {
           accent: "#8B4513",
           "accent-dark": "#6b3410",
         },
+        // Couleurs JC individuelles pour compatibilité
+        "jc-text": "#2C1A0E",
+        "jc-accent": "#8B4513",
+        "jc-surface": "#FFFFFF",
+        "jc-muted": "#6B6B6B",
+        "jc-bg": "#FAF7F2",
+        "jc-border": "#E8E4DF",
       },
       fontFamily: {
         heading: ["var(--font-heading)", "Playfair Display", "serif"],

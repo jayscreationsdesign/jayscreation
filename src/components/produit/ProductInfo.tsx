@@ -86,6 +86,11 @@ function CheckBadge({ label }: { label: string }) {
 
 // Fonction pour extraire le prix unitaire du produit
 function getUnitPriceFromProduct(product: any): number {
+  // Priorité au prix unitaire du système de pricing
+  if (product.pricing && product.pricing.unitPrice) {
+    return product.pricing.unitPrice;
+  }
+  
   if (typeof product.price === 'number') {
     return product.price;
   }
@@ -143,6 +148,12 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         return 6
       case 'box-pyramide':
         return 10
+      case 'boite-pompotes-personnalisee':
+        return 6
+      case 'etiquette-pompotes-personnalisee':
+        return 6
+      case 'cahier-coloriage-personnalise':
+        return 6
       case 'cone-friandise-personnalise':
         return 6
       default:
@@ -227,7 +238,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
           <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
             <Check size={8} className="text-[#8B4513]" strokeWidth={3} />
           </div>
-          <span className="text-base text-[#6B6B6B]">À partir de 1€/pièce</span>
+          <span className="text-base text-[#6B6B6B]">{formatPriceEUR(productUnitPrice)}/pièce</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#8B4513]">
