@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -348,14 +348,89 @@ export default function Header() {
     });
   };
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
+  const renderNavItem = (item: BottomNavItem) => {
+    const isActive = pathname.startsWith("/boutique") && activeCategory === item.categorySlug;
+    const isOpen = openDropdown === item.href;
+    return (
+      <div
+        key={item.href}
+        className="relative"
+        onMouseEnter={() => item.children && handleMouseEnter(item.href)}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Link
+          href={item.href}
+          className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
+            isActive
+              ? "text-[#2C1A0E] border-b-[1.5px] border-[#2C1A0E] pb-[7px]"
+              : "text-[#2C1A0E] hover:text-[#6b3410]"
+          }`}
+        >
+          {item.label}
+          {item.children && (
+            <ChevronDown
+              size={12}
+              className={`ml-0.5 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+            />
+          )}
+        </Link>
+        {item.children && (
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter(item.href)}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div
+              className={`absolute left-1/2 -translate-x-1/2 top-full z-50 min-w-[220px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 transition-all duration-200 border border-[#8B4513] ${
+                isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+              }`}
+            >
+            <div className="absolute -top-[6px] left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#8B4513]" />
+            <div className="relative">
+              {item.children.map((child) => (
+                <div
+                  key={child.href}
+                  className="relative"
+                  onMouseEnter={() => child.children?.length ? setOpenSubMenu(child.href) : setOpenSubMenu(null)}
+                  onMouseLeave={() => setOpenSubMenu(null)}
+                >
+                  <Link
+                    href={child.href}
+                    className="flex items-center justify-between px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2"
+                    onClick={() => {
+                      if (child.children?.length) {
+                        const categorySlug = child.href.split('category=')[1];
+                        const event = new CustomEvent('openSidebarCategory', { detail: { categorySlug, force: true } });
+                        window.dispatchEvent(event);
+                      }
+                    }}
+                  >
+                    {child.name}
+                    {child.children?.length ? <ChevronDown size={12} className="-rotate-90 text-[#2C1A0E]" /> : null}
+                  </Link>
+                  {child.children?.length && openSubMenu === child.href && (
+                    <div className="absolute left-full top-0 min-w-[180px] rounded-xl bg-[#FAF7F2] shadow-xl py-3 z-50 border border-[#8B4513]">
+                      <div className="absolute -left-[6px] top-3 w-3 h-3 rotate-45 bg-[#FAF7F2] border-l border-t border-[#8B4513]" />
+                      {child.children.map((grand) => (
+                        <Link
+                          key={grand.href}
+                          href={grand.href}
+                          className="block px-5 py-2.5 text-sm font-normal text-[#2C1A0E] hover:bg-[#6b3410] hover:text-[#D4A574] transition-all duration-500 rounded-lg mx-2"
+                        >
+                          {grand.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
   };
-
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-  };
-
 
   return (
     <header
@@ -367,7 +442,7 @@ export default function Header() {
           BARRE SUPÉRIEURE — logo · nav · panier
       ══════════════════════════════════════════ */}
       <div className="border-b border-border bg-[#FAF7F2]">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8 lg:py-4 h-[60px] sm:h-auto">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-8 py-4">
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
@@ -378,10 +453,10 @@ export default function Header() {
               height={32}
               className="object-contain"
               priority
-              style={{ width: 'auto', height: '40px' }}
+              style={{ width: 'auto', height: '48px' }}
             />
-            <div className="leading-tight hidden sm:block">
-              <div className="font-heading text-base sm:text-lg font-bold tracking-wide text-foreground">
+            <div className="leading-tight">
+              <div className="font-heading text-lg font-bold tracking-wide text-foreground">
                 Jay&apos;s Creations Design
               </div>
               <div className="text-xs text-muted-foreground">
@@ -390,8 +465,8 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Nav desktop - masqué sur mobile/tablet */}
-          <nav className="hidden lg:flex items-center gap-6">
+          {/* Nav desktop */}
+          <nav className="flex items-center gap-6">
             {topNavLinks.map((link) => (
               <Link
                 key={link.href}
@@ -405,8 +480,8 @@ export default function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            {/* Icônes mobile/tablet - Recherche, Connexion, Panier, Menu Burger */}
+          <div className="flex flex-col items-end gap-2">
+            {/* Première ligne : Recherche, Connexion et Panier - optimisé pour mobile */}
             <div className="flex items-center gap-1">
               {/* Recherche - taille réduite sur mobile */}
               <div className="relative flex items-center">
@@ -512,20 +587,6 @@ export default function Header() {
                   </div>
                 )}
               </div>
-
-              {/* Menu Burger - visible sur mobile/tablet uniquement */}
-              <button
-                type="button"
-                className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full border border-border bg-background p-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-                onClick={toggleMobileMenu}
-                aria-label="Menu"
-              >
-                {mobileMenuOpen ? (
-                  <X className="h-5 w-5" />
-                ) : (
-                  <Menu className="h-5 w-5" />
-                )}
-              </button>
             </div>
 
           </div>
@@ -536,95 +597,18 @@ export default function Header() {
           BARRE CATÉGORIES — desktop uniquement
       ══════════════════════════════════════════ */}
       <nav
-        className="mx-auto max-w-7xl hidden lg:block"
-        aria-label="Catégories principales"
+className="block bg-white border-b border-[#8B4513] py-1.5"
+        aria-label="Menu catégories"
       >
-        {/* Première ligne */}
-        <div className="flex justify-center gap-4 py-2 border-b border-[#8B4513]">
-          {bottomNavRow1.map((item) => (
-            <div
-              key={item.href}
-              className="relative"
-              onMouseEnter={() => item.children && handleMouseEnter(item.href)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Link
-                href={item.href}
-                className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
-                  pathname.startsWith("/boutique") && activeCategory === item.categorySlug
-                    ? "text-[#2C1A0E] border-b-[1.5px] border-[#2C1A0E] pb-[7px]"
-                    : "text-[#2C1A0E] hover:text-[#6b3410]"
-                }`}
-              >
-                {item.label}
-                {item.children && (
-                  <ChevronDown
-                    size={12}
-                    className={`ml-0.5 shrink-0 transition-transform duration-200 ${
-                      openDropdown === item.href ? "rotate-180" : ""
-                    }`}
-                  />
-                )}
-              </Link>
-              {item.children && openDropdown === item.href && (
-                <div className="absolute top-full left-0 z-50 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 p-4 min-w-[200px]">
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
-                    >
-                      {child.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Deuxième ligne */}
-        <div className="flex justify-center gap-4 py-2">
-          {bottomNavRow2.map((item) => (
-            <div
-              key={item.href}
-              className="relative"
-              onMouseEnter={() => item.children && handleMouseEnter(item.href)}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Link
-                href={item.href}
-                className={`inline-flex items-center gap-[3px] px-2 py-2 flex-shrink-0 text-[11px] font-medium uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-200 ${
-                  pathname.startsWith("/boutique") && activeCategory === item.categorySlug
-                    ? "text-[#2C1A0E] border-b-[1.5px] border-[#2C1A0E] pb-[7px]"
-                    : "text-[#2C1A0E] hover:text-[#6b3410]"
-                }`}
-              >
-                {item.label}
-                {item.children && (
-                  <ChevronDown
-                    size={12}
-                    className={`ml-0.5 shrink-0 transition-transform duration-200 ${
-                      openDropdown === item.href ? "rotate-180" : ""
-                    }`}
-                  />
-                )}
-              </Link>
-              {item.children && openDropdown === item.href && (
-                <div className="absolute top-full left-0 z-50 mt-2 bg-white rounded-lg shadow-lg border border-gray-200 p-4 min-w-[200px]">
-                  {item.children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      className="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded transition-colors"
-                    >
-                      {child.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="mx-auto max-w-7xl px-8">
+          {/* Ligne 1 — Catégories produits */}
+          <div className="flex items-center justify-center gap-4">
+            {bottomNavRow1.map(renderNavItem)}
+          </div>
+          {/* Ligne 2 — Catégories événements */}
+          <div className="flex items-center justify-center gap-8 mt-1 pt-1 border-t border-[#8B4513]/50">
+            {bottomNavRow2.map(renderNavItem)}
+          </div>
         </div>
       </nav>
 
@@ -656,108 +640,84 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Menu Mobile Drawer */}
       {mobileMenuOpen && (
-        <>
-          {/* Overlay */}
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-            onClick={closeMobileMenu}
-          />
-          
-          {/* Drawer latéral */}
-          <div className="fixed top-0 left-0 h-full w-80 max-w-full bg-white shadow-xl z-50 lg:hidden overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-900">Menu</h2>
-              <button
-                onClick={closeMobileMenu}
-                className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
-              >
-                <X className="h-6 w-6" />
-              </button>
+        <div className="lg:hidden border-t border-[#8B4513] bg-white">
+          <nav
+            aria-label="Menu mobile"
+          >
+            {/* Liens principaux */}
+            <div className="space-y-0.5 pb-3 border-b border-[#8B4513]">
+              {topNavLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors hover:text-[#6b3410] ${
+                    pathname === link.href
+                      ? "text-[#2C1A0E]"
+                      : "text-[#2C1A0E] hover:bg-[#FAF7F2]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
-            
-            <nav className="p-4" aria-label="Menu mobile">
-              {/* Liens principaux */}
-              <div className="space-y-1 mb-6">
-                {topNavLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={closeMobileMenu}
-                    className={`block px-3 py-3 text-base font-medium rounded-lg transition-colors ${
-                      pathname === link.href
-                        ? "text-[#2C1A0E] bg-[#FAF7F2]"
-                        : "text-[#2C1A0E] hover:bg-[#FAF7F2]"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
 
-              {/* Catégories en accordéon */}
-              <div className="space-y-1">
-                <h3 className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                  Catégories
-                </h3>
-                {bottomNav.map((item) =>
-                  item.children ? (
-                    <div key={item.href}>
-                      <button
-                        className="flex w-full items-center justify-between px-3 py-3 text-sm font-medium text-[#2C1A0E] hover:bg-[#FAF7F2] rounded-lg transition-colors"
-                        onClick={() => toggleMobileItem(item.href)}
-                        aria-expanded={mobileOpenItems.has(item.href)}
-                      >
-                        <span>{item.label}</span>
-                        <ChevronDown
-                          size={16}
-                          className={`shrink-0 transition-transform duration-200 ${
-                            mobileOpenItems.has(item.href) ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
+            {/* Catégories en accordéon */}
+            <div className="space-y-0.5 pt-3">
+              {bottomNav.map((item) =>
+                item.children ? (
+                  <div key={item.href}>
+                    <button
+                      className="flex w-full items-center justify-between px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-[#2C1A0E] hover:text-[#6b3410] rounded-lg hover:bg-[#FAF7F2] transition-colors"
+                      onClick={() => toggleMobileItem(item.href)}
+                      aria-expanded={mobileOpenItems.has(item.href)}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown
+                        size={14}
+                        className={`shrink-0 transition-transform duration-200 ${
+                          mobileOpenItems.has(item.href) ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
 
-                      {mobileOpenItems.has(item.href) && (
-                        <div className="pl-3 pb-2 space-y-1">
-                          {item.children.map((child) => (
-                            <div key={child.href}>
+                    {mobileOpenItems.has(item.href) && (
+                      <div className="pl-4 pb-1 space-y-0.5">
+                        {item.children.map((child) => (
+                          <div key={child.href}>
+                            <Link
+                              href={child.href}
+                              className="block px-4 py-2 text-sm text-[#2C1A0E] hover:text-[#6b3410] transition-colors rounded-lg hover:bg-[#FAF7F2]"
+                            >
+                              {child.name}
+                            </Link>
+                            {child.children?.map((grand) => (
                               <Link
-                                href={child.href}
-                                onClick={closeMobileMenu}
-                                className="block px-4 py-2 text-sm text-[#2C1A0E] hover:text-[#6b3410] transition-colors rounded-lg hover:bg-[#FAF7F2]"
+                                key={grand.href}
+                                href={grand.href}
+                                className="block pl-8 py-1.5 text-xs text-[#2C1A0E] hover:text-[#6b3410] transition-colors rounded-lg hover:bg-[#FAF7F2]"
                               >
-                                {child.name}
+                                ↳ {grand.name}
                               </Link>
-                              {child.children?.map((grand) => (
-                                <Link
-                                  key={grand.href}
-                                  href={grand.href}
-                                  onClick={closeMobileMenu}
-                                  className="block pl-8 py-1.5 text-xs text-[#2C1A0E] hover:text-[#6b3410] transition-colors rounded-lg hover:bg-[#FAF7F2]"
-                                >
-                                  {grand.name}
-                                </Link>
-                              ))}
-                            </div>
-                          ))}
-                        </div>
+                            ))}
+                          </div>
+                        ))}
                       </div>
-                    ) : (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={closeMobileMenu}
-                        className="block px-4 py-2 text-sm text-[#2C1A0E] hover:text-[#6b3410] transition-colors rounded-lg hover:bg-[#FAF7F2]"
-                      >
-                        {item.label}
-                      </Link>
-                    )
-                )}
-              </div>
-            </nav>
-          </div>
-        </>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-[#2C1A0E] hover:text-[#6b3410] rounded-lg hover:bg-[#FAF7F2] transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
+            </div>
+          </nav>
+        </div>
       )}
     </header>
   );
