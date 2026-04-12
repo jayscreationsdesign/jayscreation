@@ -113,7 +113,9 @@ export const products: Product[] = [
     image: "/images/products/Boîtes de Pop Corn Personnalisées2.png",
     images: [
       "/images/products/Boîtes de Pop Corn Personnalisées2.png",
-      "/images/products/Boîtes de Pop Corn Personnalisées4.png"
+      "/images/products/Boîtes de Pop Corn Personnalisées3.png",
+      "/images/products/pop corn1.png",
+      "/images/products/pop corn2.png"
     ],
     slug: "boites-pop-corn-personnalisees",
     themes: ["Cinéma", "Soirée", "Moderne"],
