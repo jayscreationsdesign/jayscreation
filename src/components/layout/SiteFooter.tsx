@@ -12,12 +12,12 @@ export function SiteFooter({}: SiteFooterProps) {
     <footer className="mt-auto w-screen bg-[#2C1A0E] border-t border-[#E8E4DF]">
       {/* Section principale - Pleine largeur */}
       <div className="w-full">
-        <div className="mx-auto max-w-7xl px-8 py-12">
-          <div className="grid gap-8 grid-cols-5">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
             
-            {/* Colonne 1 : Brand - Plus large */}
-            <div className="col-span-2">
-              <Link href="/" className="inline-flex items-center gap-3 mb-4">
+            {/* Colonne 1 : Brand - Centré sur mobile */}
+            <div className="col-span-1 sm:col-span-2 lg:col-span-2 text-center sm:text-left lg:text-left">
+              <Link href="/" className="inline-flex items-center gap-3 mb-4 justify-center sm:justify-start lg:justify-start">
                 <div className="h-12 w-12 rounded-full bg-[#8B4513] flex items-center justify-center">
                   <span className="font-heading text-lg font-bold text-white">J</span>
                 </div>

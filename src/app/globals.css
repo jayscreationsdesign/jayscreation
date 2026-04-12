@@ -2,6 +2,31 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Règles globales mobile-first */
+body {
+  overflow-x: hidden;
+}
+
+/* Touch targets minimum 44px de hauteur */
+@media (max-width: 640px) {
+  button, a, input, select, textarea {
+    min-height: 44px;
+  }
+}
+
+/* Font-size minimum 14px sur mobile */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+/* Images : object-fit cover, width 100% */
+img {
+  object-fit: cover;
+  width: 100%;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

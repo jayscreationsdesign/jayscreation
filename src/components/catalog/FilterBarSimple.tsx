@@ -355,11 +355,12 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
       className="flex items-center justify-between bg-white border-b border-[#e8e0d8]"
       style={{ height: '48px', padding: '0 16px' }}
     >
-      {/* Filtres à gauche */}
-      <div className="flex items-center gap-2">
-        <span className="text-[15px] text-[#6b6b6b]" style={{ fontFamily: 'Inter' }}>
-          Filtre :
-        </span>
+      {/* Filtres à gauche - scroll horizontal sur mobile */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto sm:overflow-x-visible whitespace-nowrap pb-2 sm:pb-0">
+          <span className="text-[15px] text-[#6b6b6b] whitespace-nowrap" style={{ fontFamily: 'Inter' }}>
+            Filtre :
+          </span>
         
         {/* Filtre disponibilité */}
         <div className="relative" ref={availabilityRef}>
@@ -545,13 +546,14 @@ export default function FilterBar({ products, onFilter }: FilterBarProps) {
             </div>
           )}
         </div>
+        </div>
       </div>
 
       {/* Tri et compteur à droite */}
-      <div className="flex items-center gap-2">
-        {/* Trier par */}
-        <div className="flex items-center gap-2">
-          <span className="text-[15px] text-[#6b6b6b]" style={{ fontFamily: 'Inter' }}>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        {/* Trier par - scroll horizontal sur mobile */}
+        <div className="flex items-center gap-2 overflow-x-auto sm:overflow-x-visible whitespace-nowrap pb-2 sm:pb-0">
+          <span className="text-[15px] text-[#6b6b6b] whitespace-nowrap" style={{ fontFamily: 'Inter' }}>
             Trier par :
           </span>
           <div className="relative" ref={sortRef}>

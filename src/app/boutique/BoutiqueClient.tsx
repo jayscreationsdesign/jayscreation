@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Star, ChevronDown } from "lucide-react";
+import { Star, ChevronDown, Filter, X } from "lucide-react";
 
 // Contexte pour synchroniser l'ouverture des catégories entre header et sidebar
 const SidebarSyncContext = createContext<{
@@ -315,12 +315,14 @@ function BoutiquePageContent() {
   );
 }
 
-// Contenu principal
 function BoutiquePageContentInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [categorySlug, setCategorySlug] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<SortOption>("default");
+  const [sortOption, setSortOption] = useState<SortOption>("default");
+  const [selectedPriceRange, setSelectedPriceRange] = useState<[number, number]>([0, 100]);
+  const [inStockOnly, setInStockOnly] = useState(false);
+  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [sidebarOpenCategory, setSidebarOpenCategory] = useState<string | null>(null);
   const [openCategories, setOpenCategories] = useState<string[]>([]);
   const [filteredByBarProducts, setFilteredByBarProducts] = useState<Product[]>([]);
@@ -400,8 +402,8 @@ function BoutiquePageContentInner() {
   }, [categorySlug, searchQuery]);
 
   const sortedProducts = useMemo(
-    () => getSortedProducts(filteredProducts, sortBy),
-    [filteredProducts, sortBy]
+    () => getSortedProducts(filteredProducts, sortOption),
+    [filteredProducts, sortOption]
   );
 
   const totalResults = sortedProducts.length;
@@ -438,12 +440,23 @@ function BoutiquePageContentInner() {
 
   return (
     <div className="min-h-screen bg-jc-bg">
-      <div className="mx-auto max-w-7xl px-8 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
         {/* Grille principale : Sidebar + Contenu */}
-        <div className="grid grid-cols-5 gap-6">
-          {/* SIDEBAR GAUCHE - Catégories */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          {/* Bouton Filtre mobile/tablet */}
+          <div className="lg:hidden col-span-1 mb-4">
+            <button
+              onClick={() => setMobileFilterOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-[#8B4513] text-white rounded-lg w-full justify-center hover:bg-[#A0522D] transition-colors"
+            >
+              <Filter className="h-4 w-4" />
+              <span className="text-sm font-medium">Filtrer par catégorie</span>
+            </button>
+          </div>
+
+          {/* SIDEBAR GAUCHE - Catégories - masqué sur mobile/tablet */}
           <aside 
-            className="col-span-1"
+            className="hidden lg:block col-span-1"
             style={{
               width: 'fit-content',
               minWidth: 'max-content',
@@ -537,8 +550,8 @@ function BoutiquePageContentInner() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-3 gap-6">
-                {(filteredByBarProducts.length > 0 ? filteredByBarProducts : sortedProducts).map((product, index) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {(filteredByBarProducts.length > 0 ? filteredByBarProducts : sortedProducts).map((product: Product, index: number) => (
                   <ProductCard
                     key={`${product.id ?? 'noid'}-${product.slug ?? 'noslug'}-${index}`}
                     product={product as Product & {
@@ -557,6 +570,89 @@ function BoutiquePageContentInner() {
           </main>
         </div>
       </div>
+
+      {/* Drawer Mobile pour les catégories */}
+      {mobileFilterOpen && (
+        <>
+          {/* Overlay */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            onClick={() => setMobileFilterOpen(false)}
+          />
+          
+          {/* Drawer depuis le bas (bottom sheet) */}
+          <div className="fixed bottom-0 left-0 right-0 h-[70vh] max-h-[500px] bg-white shadow-xl z-50 lg:hidden rounded-t-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h2 className="text-lg font-semibold text-gray-900">Catégories</h2>
+              <button
+                onClick={() => setMobileFilterOpen(false)}
+                className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            
+            <div className="p-4 overflow-y-auto h-full pb-20">
+              {/* Titre */}
+              <div className="mb-4">
+                <h3 className="text-base font-heading font-semibold text-jc-text">
+                  Catégories
+                </h3>
+                {categorySlug && (
+                  <p className="text-xs text-jc-muted mt-1">
+                    <button
+                      onClick={() => {
+                        handleCategorySelect(null);
+                        setMobileFilterOpen(false);
+                      }}
+                      className="text-jc-accent hover:underline font-medium"
+                    >
+                      × Réinitialiser
+                    </button>
+                  </p>
+                )}
+              </div>
+
+              {/* Lien "Tous les produits" */}
+              <button
+                onClick={() => {
+                  handleCategorySelect(null);
+                  setMobileFilterOpen(false);
+                }}
+                className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all mb-3 ${
+                  !categorySlug
+                    ? "bg-[#F5F0EB] border-l-4 border-accent text-accent font-semibold"
+                    : "text-foreground hover:bg-gray-50"
+                }`}
+                aria-current={!categorySlug ? "page" : undefined}
+              >
+                Tous les produits
+              </button>
+
+              {/* Hiérarchie des catégories */}
+              <nav className="space-y-1">
+                <SidebarSyncContext.Provider value={sidebarContextValue}>
+                  {categories.map((category, index) => (
+                    <CategoryItemComponent
+                      key={`${category.slug ?? 'noslug'}-${index}`}
+                      category={category}
+                      children={category.children || []}
+                      activeSlug={categorySlug}
+                      onSelectCategory={(slug) => {
+                        handleCategorySelect(slug);
+                        setMobileFilterOpen(false);
+                      }}
+                      level={0}
+                      openCategories={openCategories}
+                      setOpenCategories={setOpenCategories}
+                    />
+                  ))}
+                </SidebarSyncContext.Provider>
+              </nav>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

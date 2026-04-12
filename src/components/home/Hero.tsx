@@ -10,15 +10,15 @@ export function Hero() {
       <div className="absolute -right-40 -top-32 -z-10 h-80 w-80 rounded-full border border-accent/30" />
       <div className="absolute -left-44 -bottom-44 -z-10 h-[28rem] w-[28rem] rounded-full border border-accent/20" />
 
-      <div className="mx-auto max-w-6xl px-6 py-24">
-        <div className="grid items-center gap-8 grid-cols-2">
-          <div className="text-left">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-24">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
+          <div className="text-center lg:text-left">
             <div className="inline-flex items-center gap-1 rounded-full bg-[#8B4513] px-2 py-1 text-xs text-white">
               <Sparkles className="h-2.5 w-2.5 text-white" />
               <span className="inline">Édition premium</span>
             </div>
 
-            <h1 className="mt-3 font-heading text-5xl leading-[1.1] text-jc-text">
+            <h1 className="mt-3 font-heading text-2xl sm:text-3xl lg:text-5xl leading-[1.1] text-jc-text">
               Faire-parts & invitations
               <span className="block text-jc-accent">
                 personnalisées
@@ -29,7 +29,7 @@ export function Hero() {
               Créations artisanales uniques avec finitions dorées pour sublimer vos événements.
             </p>
 
-            <div className="mt-4 flex flex-col gap-2 w-full max-w-xs mx-0">
+            <div className="mt-4 flex flex-col gap-2 w-full max-w-xs mx-auto lg:mx-0">
               <PrimaryCtaButton href="/boutique" className="w-full text-sm py-2.5">
                 Découvrir la boutique
               </PrimaryCtaButton>
@@ -61,8 +61,8 @@ export function Hero() {
                 </div>
               </div>
               
-              {/* Version desktop - grille normale */}
-              <div className="grid grid-cols-3 gap-1 w-full">
+              {/* Badges responsive - grid 2x1 sur mobile, 3x1 sur desktop */}
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-1 w-full">
                 <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center">
                   <div className="text-sm font-heading text-jc-accent font-bold">24h</div>
                   <div className="text-[9px] text-jc-accent/70 leading-tight">
@@ -75,7 +75,7 @@ export function Hero() {
                     Personnalisé
                   </div>
                 </div>
-                <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center">
+                <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center lg:col-span-1">
                   <div className="text-sm font-heading text-jc-accent font-bold">Premium</div>
                   <div className="text-[9px] text-jc-accent/70 leading-tight">
                     Qualité

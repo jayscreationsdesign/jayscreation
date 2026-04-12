@@ -42,24 +42,33 @@ export default function ProductClient({ slug }: ProductClientProps) {
   }
 
   return (
-    <div className="bg-white">
+    <div className="bg-white pb-20 lg:pb-0">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-5 lg:gap-16">
           <div className="lg:col-span-3">
             <ProductGallery product={product} />
           </div>
           <div className="lg:col-span-2">
-            <ProductInfo
-              product={product}
+            <ProductInfo 
+              product={product} 
               selectedTheme={selectedTheme}
-              canAddToCart={true}
-              onAddToCart={handleAddToCart}
-              onThemeChange={setSelectedTheme}
+              setSelectedTheme={setSelectedTheme}
               qty={qty}
-              onQtyChange={setQty}
+              setQty={setQty}
+              onAddToCart={handleAddToCart}
             />
           </div>
         </div>
+      </div>
+      
+      {/* Bouton sticky "Ajouter au panier" pour mobile */}
+      <div className="fixed bottom-0 left-0 right-0 bg-[#6B3A2A] text-white p-4 z-50 lg:hidden">
+        <button
+          onClick={handleAddToCart}
+          className="w-full bg-white text-[#6B3A2A] py-4 px-6 rounded-lg font-semibold text-base hover:bg-gray-100 transition-colors"
+        >
+          Ajouter au panier
+        </button>
       </div>
     </div>
   )
