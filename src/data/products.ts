@@ -564,8 +564,13 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
-    images: [],
+    image: "/images/products/champomy1.png",
+    images: [
+      "/images/products/champomy1.png",
+      "/images/products/champomy2.png",
+      "/images/products/champomy3.png",
+      "/images/products/champomy4.png"
+    ],
     slug: "etiquette-champomy",
     themes: ["Fête", "Élégant", "Sans Alcool"],
     description: "Étiquette Champomy personnalisée pour événements enfants. Design festif et élégant, personnalisable avec vos noms, dates et thème. Parfait pour baptême, anniversaire et célébrations sans alcool.",
