@@ -52,9 +52,8 @@ export default function ProductClient({ slug }: ProductClientProps) {
             <ProductInfo 
               product={product} 
               selectedTheme={selectedTheme}
-              setSelectedTheme={setSelectedTheme}
               qty={qty}
-              setQty={setQty}
+              onQtyChange={setQty}
               onAddToCart={handleAddToCart}
             />
           </div>
