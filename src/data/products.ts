@@ -228,8 +228,10 @@ export const products: Product[] = [
     numericPrice: 25,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Gourde Personnalisée2.png",
+    image: "/images/products/Gourde Personnalisée4.png",
     images: [
+      "/images/products/Gourde Personnalisée4.png",
+      "/images/products/Gourde Personnalisée5.png",
       "/images/products/Gourde Personnalisée2.png",
       "/images/products/Gourde Personnalisée3.png"
     ],
