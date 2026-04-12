@@ -355,7 +355,10 @@ export const products: Product[] = [
     numericPrice: 2.7,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/country1.png",
+    images: [
+      "/images/products/country1.png"
+    ],
     slug: "kinder-country",
     themes: ["Lait", "Céréales", "Doux"],
     description: "Kinder Country personnalisé pour événements doux. Lait et céréales croquantes, personnalisable avec vos noms, dates et thème. Parfait pour mariage, baptême et célébrations familiales.",
@@ -368,7 +371,10 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/maxi1.png",
+    images: [
+      "/images/products/maxi1.png"
+    ],
     slug: "kinder-maxi",
     themes: ["Chocolat", "Gourmand", "Classique"],
     description: "Kinder Maxi personnalisé pour événements généreux. Lait et cacao intenses, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et grandes célébrations.",
@@ -407,8 +413,9 @@ export const products: Product[] = [
     numericPrice: 2.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Paquet de Chips Personnalisé2.png",
+    image: "/images/products/chips1.png",
     images: [
+      "/images/products/chips1.png",
       "/images/products/Paquet de Chips Personnalisé5.png",
       "/images/products/Paquet de Chips Personnalisé2.png",
       "/images/products/Paquet de Chips Personnalisé4.png",
@@ -458,7 +465,8 @@ export const products: Product[] = [
     image: "/images/products/bonbon4.png",
     images: [
       "/images/products/bonbon4.png",
-      "/images/products/Sachet de Bonbons Personnalisé2.png"
+      "/images/products/Sachet de Bonbons Personnalisé2.png",
+      "/images/products/bonbon3.png"
     ],
     slug: "sachet-bonbons-personnalise",
     themes: ["Bonbons", "Distribution", "Festif"],
@@ -538,10 +546,11 @@ export const products: Product[] = [
     numericPrice: 1.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Étiquette CapriSun2.png",
+    image: "/images/products/capri sun1.png",
     images: [
-      "/images/products/Étiquette CapriSun2.png",
-      "/images/products/Étiquette CapriSun4.png"
+      "/images/products/capri sun1.png",
+      "/images/products/capri sun2.png",
+      "/images/products/capri sun3.png"
     ],
     slug: "etiquette-capri-sun",
     themes: ["Enfants", "Jus", "Coloré"],
@@ -569,7 +578,11 @@ export const products: Product[] = [
     numericPrice: 1.8,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/etiquette coca1.png",
+    images: [
+      "/images/products/etiquette coca1.png",
+      "/images/products/etiquette coca2.png"
+    ],
     slug: "etiquette-mini-canette-coca",
     themes: ["Moderne", "Rafraîchissant", "Coca-Cola"],
     description: "Étiquette mini canette Coca-Cola personnalisée pour événements. Design moderne et rafraîchissant, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et boissons personnalisées.",
@@ -1040,7 +1053,11 @@ export const products: Product[] = [
     numericPrice: 1.20,
     category: "Étiquettes Personnalisées",
     categorySlug: "etiquettes-personnalisees",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/etiquette coca1.png",
+    images: [
+      "/images/products/etiquette coca1.png",
+      "/images/products/etiquette coca2.png"
+    ],
     slug: "etiquette-mini-canette-coca-cola",
     themes: ["Anniversaire", "Enfants", "Fête", "Coca-Cola", "Personnalisé"],
     description: "Étiquette personnalisée pour mini canette Coca-Cola. Design adapté avec prénom, âge et thème. Parfait pour anniversaires et fêtes d'enfants.",
