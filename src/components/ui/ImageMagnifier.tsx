@@ -108,90 +108,106 @@ export default function ImageMagnifier({
         <div
           className="absolute pointer-events-none z-10 flex items-center justify-center"
           style={{
-            left: `${position.x - 18}px`,
-            top: `${position.y - 18}px`,
-            width: '36px',
-            height: '36px'
+            left: `${position.x - 16}px`,
+            top: `${position.y - 16}px`,
+            width: '32px',
+            height: '32px'
           }}
         >
           <div className="relative">
-            {/* Cercle élégant avec dégradé */}
-            <svg 
-              width="36" 
-              height="36" 
-              viewBox="0 0 36 36" 
-              className="absolute drop-shadow-xl"
-              style={{ filter: 'drop-shadow(0 4px 8px rgba(139, 69, 19, 0.4))' }}
-            >
-              <defs>
-                <linearGradient id="magnifierGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#D4A574" />
-                  <stop offset="100%" stopColor="#8B4513" />
-                </linearGradient>
-              </defs>
-              <circle 
-                cx="18" 
-                cy="18" 
-                r="16" 
-                fill="url(#magnifierGradient)" 
-                stroke="#ffffff" 
-                strokeWidth="1"
-                opacity="0.95"
-              />
-            </svg>
-            
-            {/* Icône loupe personnalisée */}
-            <svg 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              className="absolute"
+            {/* Icône loupe professionnelle - couleur ultra forcée */}
+            <div 
+              className="relative z-10"
               style={{
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)'
+                filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4))'
               }}
             >
-              {/* Corps de la loupe */}
-              <circle 
-                cx="9" 
-                cy="9" 
-                r="7" 
-                stroke="white" 
-                strokeWidth="2.5" 
-                strokeLinecap="round"
-              />
-              {/* Manche de la loupe */}
-              <line 
-                x1="14" 
-                y1="14" 
-                x2="20" 
-                y2="20" 
-                stroke="white" 
-                strokeWidth="2.5" 
-                strokeLinecap="round"
-              />
-              {/* Plus au centre */}
-              <line 
-                x1="9" 
-                y1="6" 
-                x2="9" 
-                y2="12" 
-                stroke="white" 
-                strokeWidth="2" 
-                strokeLinecap="round"
-              />
-              <line 
-                x1="6" 
-                y1="9" 
-                x2="12" 
-                y2="9" 
-                stroke="white" 
-                strokeWidth="2" 
-                strokeLinecap="round"
-              />
-            </svg>
+              <style jsx>{`
+                .magnifier-icon {
+                  stroke: #8B4513 !important;
+                  fill: none !important;
+                }
+                .magnifier-icon circle,
+                .magnifier-icon line {
+                  stroke: #8B4513 !important;
+                  fill: none !important;
+                }
+                svg * {
+                  stroke: #8B4513 !important;
+                  fill: none !important;
+                  color: #8B4513 !important;
+                }
+              `}</style>
+              <svg 
+                width="20" 
+                height="20" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                className="magnifier-icon"
+                style={{ 
+                  stroke: '#8B4513 !important',
+                  fill: 'none !important',
+                  color: '#8B4513 !important'
+                }}
+              >
+                {/* Corps de la loupe */}
+                <circle 
+                  cx="9" 
+                  cy="9" 
+                  r="6.5" 
+                  stroke="#8B4513" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round"
+                  fill="none"
+                  style={{ 
+                    stroke: '#8B4513 !important',
+                    fill: 'none !important'
+                  }}
+                />
+                {/* Manche de la loupe */}
+                <line 
+                  x1="13.5" 
+                  y1="13.5" 
+                  x2="19" 
+                  y2="19" 
+                  stroke="#8B4513" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round"
+                  style={{ 
+                    stroke: '#8B4513 !important',
+                    fill: 'none !important'
+                  }}
+                />
+                {/* Plus au centre - horizontal */}
+                <line 
+                  x1="9" 
+                  y1="6.5" 
+                  x2="9" 
+                  y2="11.5" 
+                  stroke="#8B4513" 
+                  strokeWidth="2" 
+                  strokeLinecap="round"
+                  style={{ 
+                    stroke: '#8B4513 !important',
+                    fill: 'none !important'
+                  }}
+                />
+                {/* Plus au centre - vertical */}
+                <line 
+                  x1="6.5" 
+                  y1="9" 
+                  x2="11.5" 
+                  y2="9" 
+                  stroke="#8B4513" 
+                  strokeWidth="2" 
+                  strokeLinecap="round"
+                  style={{ 
+                    stroke: '#8B4513 !important',
+                    fill: 'none !important'
+                  }}
+                />
+              </svg>
+            </div>
           </div>
         </div>
       )}

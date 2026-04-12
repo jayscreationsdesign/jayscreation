@@ -110,6 +110,7 @@ export default function CategoryPage() {
               <ProductCard
                 key={product.id}
                 product={product}
+                enableMagnifier={false}
               />
             ))}
           </div>

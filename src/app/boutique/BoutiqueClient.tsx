@@ -549,7 +549,8 @@ function BoutiquePageContentInner() {
                         lot_price: number;
                       }>;
                     }}
-                    />
+                    enableMagnifier={false}
+                  />
                 ))}
               </div>
             )}

@@ -111,6 +111,7 @@ export default function SubcategoryPage() {
               <ProductCard
                 key={product.id}
                 product={product}
+                enableMagnifier={false}
               />
             ))}
           </div>

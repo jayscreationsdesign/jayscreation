@@ -22,6 +22,7 @@ interface ProductCardProps {
     price_max?: number;
   };
   className?: string;
+  enableMagnifier?: boolean;
 }
 
 function formatPrice(product: Product & {
@@ -63,7 +64,8 @@ function formatPrice(product: Product & {
 
 export default function ProductCard({ 
   product, 
-  className = ""
+  className = "",
+  enableMagnifier = true
 }: ProductCardProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
@@ -90,7 +92,7 @@ export default function ProductCard({
       <Link href={`/produit/${product.slug}`} className="block relative bg-[#E8DFD3] aspect-square flex items-center justify-center p-3 rounded-t-2xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity">
         {isPlaceholder ? (
           <ProductImagePlaceholder productName={product.name} />
-        ) : (
+        ) : enableMagnifier ? (
           <ImageMagnifier
             src={currentImage}
             alt={product.name}
@@ -98,6 +100,13 @@ export default function ProductCard({
             maxZoom={2.5}
             minZoom={1}
             zoomStep={0.3}
+          />
+        ) : (
+          <img
+            src={currentImage}
+            alt={product.name}
+            className="max-w-[95%] max-h-[95%] w-auto h-auto object-cover pointer-events-none"
+            draggable={false}
           />
         )}
         
