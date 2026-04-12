@@ -589,19 +589,6 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Hamburger — mobile uniquement */}
-            <button
-className="hidden inline-flex items-center justify-center rounded-lg p-2 text-foreground hover:bg-muted hover:text-[#D4A574] transition-colors"
-              aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
-              aria-expanded={mobileMenuOpen}
-              onClick={() => setMobileMenuOpen((v) => !v)}
-            >
-              {mobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </button>
           </div>
         </div>
       </div>

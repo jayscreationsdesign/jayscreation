@@ -752,7 +752,10 @@ export const products: Product[] = [
     numericPrice: 3.00,
     category: "Sweet Tables & Décoration",
     categorySlug: "sweet-tables-decoration",
-    image: "/images/products/pringles.png",
+    image: "/images/products/Pringles2.png",
+    images: [
+      "/images/products/Pringles2.png"
+    ],
     slug: "pringles-personnalise",
     themes: ["Anniversaire", "Fête", "Snack"],
     description: "Pringles personnalisé avec étiquette sur mesure. Snack iconique personnalisé pour vos événements.",
@@ -908,7 +911,10 @@ export const products: Product[] = [
     numericPrice: 2.99,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Pringles2.png",
+    images: [
+      "/images/products/Pringles2.png"
+    ],
     slug: "pringles-personnalise",
     themes: ["Mariage", "Anniversaire", "Fête", "Gourmand"],
     description: "Pringles personnalisé pour vos événements. Chips de qualité supérieure avec emballage personnalisé à vos couleurs, thème et texte. Parfait pour apéritifs, mariages et fêtes.",
