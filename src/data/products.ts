@@ -502,7 +502,12 @@ export const products: Product[] = [
     numericPrice: 20,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Tasse personnalisée1.png",
+    images: [
+      "/images/products/Tasse personnalisée1.png",
+      "/images/products/Tasse personnalisée2.png",
+      "/images/products/Tasse personnalisée3.png"
+    ],
     slug: "tasse-personnalisee",
     themes: ["Boisson", "Personnalisé", "Quotidien"],
     description: "Tasse personnalisée pour bureau et événements. Design élégant et pratique, personnalisable avec vos noms, logos et messages. Parfait pour mariage, entreprise et usage quotidien.",
