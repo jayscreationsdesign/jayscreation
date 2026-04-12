@@ -230,6 +230,7 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Gourde Personnalisée2.png",
     images: [
+      "/images/products/Gourde Personnalisée2.png",
       "/images/products/Gourde Personnalisée3.png"
     ],
     slug: "gourde-personnalisee",
@@ -303,6 +304,7 @@ export const products: Product[] = [
     sous_categorie: "Pâques",
     image: "/images/products/36.png",
     images: [
+      "/images/products/36.png",
       "/images/products/38.png"
     ],
     description: "Boîte à œuf de Pâques personnalisée pour vos célébrations printanières. Design unique et coloré avec motifs de Pâques, personnalisable avec vos noms, messages et couleurs. Parfaite pour chasse aux œufs et cadeaux de Pâques.",
@@ -471,7 +473,7 @@ export const products: Product[] = [
     image: "/images/products/Smarties1.png",
     images: [
       "/images/products/Smarties2.png",
-      "/images/products/Smarties3.png",
+      "/images/products/Smarties1.png",
       "/images/products/Smarties4.png"
     ],
     slug: "smarties",
@@ -547,6 +549,7 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/placeholder.png",
+    images: [],
     slug: "etiquette-champomy",
     themes: ["Fête", "Élégant", "Sans Alcool"],
     description: "Étiquette Champomy personnalisée pour événements enfants. Design festif et élégant, personnalisable avec vos noms, dates et thème. Parfait pour baptême, anniversaire et célébrations sans alcool.",
