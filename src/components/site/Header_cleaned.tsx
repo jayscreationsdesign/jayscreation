@@ -1,5 +1,4 @@
-"use client";
-
+﻿"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -9,39 +8,30 @@ import { categories } from "@/data/categories";
 import { useCartStore } from "@/store/cartStore";
 import { getCurrentUser, getUserProfile } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
-
 // ─── Types ────────────────────────────────────────────────────────────
-
 interface DropdownChild {
   name: string;
   href: string;
   children?: Array<{ name: string; href: string }>;
 }
-
 interface BottomNavItem {
   label: string;
   href: string;
   categorySlug: string;
   children?: DropdownChild[];
 }
-
 // ─── Config ───────────────────────────────────────────────────────────
-
 // Labels raccourcis pour tenir sur une ligne
 const SHORT_LABELS: Record<string, string> = {
   "papeterie-telechargeable": "PAPETERIE TÉLÉCHARGEABLE",
   "sweet-tables-decoration": "SWEET TABLES & DÉCORATION",
   "etiquettes-personnalisees": "ÉTIQUETTES PERSONNALISÉES",
 };
-
 // ─── Build nav from categories ────────────────────────────────────────────────
-
 function buildBottomNav(): BottomNavItem[] {
   const nav: BottomNavItem[] = [];
-
   // Première ligne - catégories principales
   const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "toniebox", "chocolat", "papeterie-telechargeable", "etiquettes-personnalisees", "ramadan-eid-2027", "services"];
-  
   for (const cat of categories) {
     if (firstLineCategories.includes(cat.slug)) {
       nav.push({
@@ -59,7 +49,6 @@ function buildBottomNav(): BottomNavItem[] {
       });
     }
   }
-
   // Deuxième ligne - mariage, baptême et papeterie saisonnière
   const mariageCat = categories.find(cat => cat.slug === "mariage");
   if (mariageCat) {
@@ -77,7 +66,6 @@ function buildBottomNav(): BottomNavItem[] {
       })),
     });
   }
-
   const baptemeCat = categories.find(cat => cat.slug === "bapteme");
   if (baptemeCat) {
     nav.push({
@@ -94,7 +82,6 @@ function buildBottomNav(): BottomNavItem[] {
       })),
     });
   }
-
   const papeterieSaisonniereCat = categories.find(cat => cat.slug === "papeterie-saisonniere");
   if (papeterieSaisonniereCat) {
     nav.push({
@@ -107,25 +94,19 @@ function buildBottomNav(): BottomNavItem[] {
       })),
     });
   }
-
   return nav;
 }
-
 const bottomNav = buildBottomNav();
-
 const line1Slugs = new Set(["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "chocolat", "papeterie-telechargeable", "ramadan-eid-2027", "services"]);
 const bottomNavRow1 = bottomNav.filter(item => line1Slugs.has(item.categorySlug));
 const bottomNavRow2 = bottomNav.filter(item => !line1Slugs.has(item.categorySlug));
-
 const topNavLinks = [
   { href: "/", label: "Accueil" },
   { href: "/boutique", label: "Boutique" },
   { href: "/contact", label: "Contact" },
   { href: "/a-propos", label: "À propos" },
 ] as const;
-
 // ─── Component ────────────────────────────────────────────────────────────────
-
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
@@ -145,13 +126,11 @@ export default function Header() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cartCloseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  
   // Panier states
   const items = useCartStore((state) => state.items);
   const totalItems = useCartStore((state) => state.count);
   const sousTotal = useCartStore((state) => state.total);
   const [hydrated, setHydrated] = useState(false);
-
   // Debug pour voir l'état du panier
   useEffect(() => {
     console.log('🛒 Header - Panier items:', items);
@@ -159,7 +138,6 @@ export default function Header() {
     console.log('🛒 Header - Sous-total:', sousTotal);
     console.log('🛒 Header - Badge doit afficher:', totalItems);
   }, [items, totalItems, sousTotal]);
-
   // Forcer la mise à jour du badge
   useEffect(() => {
     const itemCount = items.reduce((acc, item) => acc + item.quantite, 0);
@@ -168,7 +146,6 @@ export default function Header() {
       console.log('🛒 Header - Décalage détecté, forcer mise à jour');
     }
   }, [items, totalItems]);
-
   // Hydrater le store côté client
   useEffect(() => {
     // Forcer l'hydratation du store
@@ -178,7 +155,6 @@ export default function Header() {
     }
     setHydrated(true);
   }, []);
-
   // Vérifier si l'utilisateur est connecté
   useEffect(() => {
     async function checkUser() {
@@ -191,13 +167,11 @@ export default function Header() {
     }
     checkUser()
   }, [])
-
   // Surveiller les changements d'authentification (connexion/déconnexion)
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event: any, session: any) => {
         console.log('Auth state changed:', event, session?.user?.email);
-        
         if (event === 'SIGNED_IN' && session?.user) {
           setUser(session.user);
           try {
@@ -213,35 +187,29 @@ export default function Header() {
         }
       }
     );
-
     return () => subscription.unsubscribe();
   }, []);
-
   // Debug pour voir les articles dans la console
   useEffect(() => {
     console.log('🛒 Articles dans le Header:', items);
     console.log('🛒 TotalItems:', totalItems);
     console.log('🛒 IDs des articles:', items.map(item => ({ id: item.id, nom: item.nom, quantite: item.quantite })));
   }, [items, totalItems]);
-
   // Scroll shadow
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 0);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
-
   // Read active category from URL (client-side only, no useSearchParams)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setActiveCategory(params.get("category"));
   }, [pathname]);
-
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
-
   // Close search when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -250,13 +218,11 @@ export default function Header() {
         setIsSearchOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isSearchOpen]);
-
   // Handle search submission
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -267,7 +233,6 @@ export default function Header() {
       setSearchQuery("");
     }
   };
-
   // Handle search button click
   const handleSearchClick = () => {
     if (!isSearchOpen) {
@@ -278,7 +243,6 @@ export default function Header() {
       }, 100);
     }
   };
-
   // Handle input blur
   const handleInputBlur = () => {
     // Fermer seulement si l'input est vide
@@ -286,7 +250,6 @@ export default function Header() {
       setTimeout(() => setIsSearchOpen(false), 150);
     }
   };
-
   // Handle key down
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -300,24 +263,20 @@ export default function Header() {
       }
     }
   };
-
   // Dropdown open/close with a small delay on leave to avoid flickering
   const handleMouseEnter = (href: string) => {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
     setOpenDropdown(href);
   };
-
   const handleMouseLeave = () => {
     closeTimerRef.current = setTimeout(() => setOpenDropdown(null), 800);
   };
-
   // Cart hover handlers with extended delay
   const handleCartMouseEnter = () => {
     if (cartCloseTimerRef.current) clearTimeout(cartCloseTimerRef.current);
     setCartHover(true);
     setCartDropdownHover(true);
   };
-
   const handleCartMouseLeave = () => {
     // Don't close immediately, give user time to move to dropdown
     cartCloseTimerRef.current = setTimeout(() => {
@@ -325,12 +284,10 @@ export default function Header() {
       setCartDropdownHover(false);
     }, 500); // 500ms delay instead of immediate
   };
-
   const handleCartDropdownMouseEnter = () => {
     if (cartCloseTimerRef.current) clearTimeout(cartCloseTimerRef.current);
     setCartDropdownHover(true);
   };
-
   const handleCartDropdownMouseLeave = () => {
     // Only close if not hovering over button or dropdown
     cartCloseTimerRef.current = setTimeout(() => {
@@ -338,7 +295,6 @@ export default function Header() {
       setCartDropdownHover(false);
     }, 300);
   };
-
   const toggleMobileItem = (href: string) => {
     setMobileOpenItems((prev) => {
       const next = new Set(prev);
@@ -347,16 +303,12 @@ export default function Header() {
       return next;
     });
   };
-
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
-
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
-
-
   return (
     <header
       className={`sticky top-0 z-50 transition-shadow duration-300 ${
@@ -368,7 +320,6 @@ export default function Header() {
       ══════════════════════════════════════════ */}
       <div className="border-b border-border bg-[#FAF7F2]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8 lg:py-4 h-[60px] sm:h-auto">
-
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
@@ -389,7 +340,6 @@ export default function Header() {
               </div>
             </div>
           </Link>
-
           {/* Nav desktop - masqué sur mobile/tablet */}
           <nav className="hidden lg:flex items-center gap-6">
             {topNavLinks.map((link) => (
@@ -404,7 +354,6 @@ export default function Header() {
               </Link>
             ))}
           </nav>
-
           <div className="flex items-center gap-2">
             {/* Icônes mobile/tablet - Recherche, Connexion, Panier, Menu Burger */}
             <div className="flex items-center gap-1">
@@ -420,7 +369,6 @@ export default function Header() {
                   <Search className="h-4 w-4" />
                 </button>
               </div>
-
               {/* Lien Mon Compte - version mobile ultra compacte */}
               <Link
                 href={user ? "/compte" : "/connexion"}
@@ -436,7 +384,6 @@ export default function Header() {
                   ) : 'Connexion'}
                 </span>
               </Link>
-
               {/* Panier - version mobile compacte */}
               <div
                 className="relative"
@@ -454,7 +401,6 @@ export default function Header() {
                     </span>
                   )}
                 </Link>
-
                 {/* Mini panier dropdown */}
                 {(cartHover || cartDropdownHover) && totalItems > 0 && (
                   <div 
@@ -512,7 +458,6 @@ export default function Header() {
                   </div>
                 )}
               </div>
-
               {/* Menu Burger - visible sur mobile/tablet uniquement */}
               <button
                 type="button"
@@ -527,11 +472,9 @@ export default function Header() {
                 )}
               </button>
             </div>
-
           </div>
         </div>
       </div>
-
       {/* ════════════════════════════════════════
           BARRE CATÉGORIES — desktop uniquement
       ══════════════════════════════════════════ */}
@@ -582,7 +525,6 @@ export default function Header() {
             </div>
           ))}
         </div>
-
         {/* Deuxième ligne */}
         <div className="flex justify-center gap-4 py-2">
           {bottomNavRow2.map((item) => (
@@ -627,7 +569,6 @@ export default function Header() {
           ))}
         </div>
       </nav>
-
       {/* Panneau de recherche premium sous le header */}
       <div
         className={`search-panel absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-sm z-40 transition-all duration-300 ease-out ${
@@ -655,7 +596,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-
       {/* Menu Mobile Drawer */}
       {mobileMenuOpen && (
         <>
@@ -664,7 +604,6 @@ export default function Header() {
             className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
             onClick={closeMobileMenu}
           />
-          
           {/* Drawer latéral */}
           <div className="fixed top-0 left-0 h-full w-80 max-w-full bg-white shadow-xl z-50 lg:hidden overflow-y-auto">
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
@@ -676,7 +615,6 @@ export default function Header() {
                 <X className="h-6 w-6" />
               </button>
             </div>
-            
             <nav className="p-4" aria-label="Menu mobile">
               {/* Liens principaux */}
               <div className="space-y-1 mb-6">
@@ -695,7 +633,6 @@ export default function Header() {
                   </Link>
                 ))}
               </div>
-
               {/* Catégories en accordéon */}
               <div className="space-y-1">
                 <h3 className="px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
@@ -717,7 +654,6 @@ export default function Header() {
                           }`}
                         />
                       </button>
-
                       {mobileOpenItems.has(item.href) && (
                         <div className="pl-3 pb-2 space-y-1">
                           {item.children.map((child) => (
