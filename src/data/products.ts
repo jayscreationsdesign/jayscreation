@@ -188,6 +188,7 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/67.png",
     images: [
+      "/images/products/67.png",
       "/images/products/68.png",
       "/images/products/Site internet (3).png",
       "/images/products/Site internet (1).png",
@@ -212,6 +213,9 @@ export const products: Product[] = [
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Flyers & Cartes de Visite Sur Mesure2.png",
+    images: [
+      "/images/products/Flyers & Cartes de Visite Sur Mesure2.png"
+    ],
     slug: "flyers-cartes-visite-sur-mesure",
     themes: ["Professionnel", "Entreprise", "Moderne"],
     description: "Flyers et cartes de visite sur mesure pour professionnels et événements. Design professionnel et moderne, personnalisable avec votre logo, couleurs et informations. Parfait pour communication d'entreprise et promotion événementielle.",
@@ -447,7 +451,11 @@ export const products: Product[] = [
     numericPrice: 2.5,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Sachet de Bonbons Personnalisé2.png",
+    image: "/images/products/bonbon4.png",
+    images: [
+      "/images/products/bonbon4.png",
+      "/images/products/Sachet de Bonbons Personnalisé2.png"
+    ],
     slug: "sachet-bonbons-personnalise",
     themes: ["Bonbons", "Distribution", "Festif"],
     description: "Sachet de bonbons personnalisé pour événements sucrés. Assortiment de bonbons variés, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et cadeaux gourmands.",
@@ -934,8 +942,9 @@ export const products: Product[] = [
     numericPrice: 2.50,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Pom Potes2.png",
+    image: "/images/products/77.png",
     images: [
+      "/images/products/77.png",
       "/images/products/Pom Potes2.png"
     ],
     slug: "etiquette-pompotes-personnalisee",
@@ -964,7 +973,8 @@ export const products: Product[] = [
     image: "/images/products/CAhier2.png",
     images: [
       "/images/products/CAhier2.png",
-      "/images/products/Cahier3.png"
+      "/images/products/Cahier3.png",
+      "/images/products/cahiercrayon.png"
     ],
     slug: "cahier-coloriage-personnalise",
     themes: ["Enfants", "Coloriage", "Activités", "Fête"],
