@@ -5,6 +5,7 @@ import { type Product } from "@/data/products";
 import ImageCarousel from "@/components/ui/ImageCarousel";
 import { getImageSrc, getImageArray } from "@/lib/images";
 import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
+import ImageMagnifier from "@/components/ui/ImageMagnifier";
 
 export default function ProductGallery({ product }: { product: Product }) {
   // Vérifier si le produit utilise un placeholder (utiliser l'image originale non traitée)
@@ -40,11 +41,13 @@ export default function ProductGallery({ product }: { product: Product }) {
           {isPlaceholder ? (
             <ProductImagePlaceholder productName={product.name} />
           ) : (
-            <img
+            <ImageMagnifier
               src={displayImages[currentImageIndex]}
               alt={`${product.name} - vue ${currentImageIndex + 1}`}
-              className="w-full h-full object-cover"
-              style={{ backgroundColor: '#E8D5B7' }}
+              className="w-full h-full"
+              maxZoom={3}
+              minZoom={1}
+              zoomStep={0.5}
             />
           )}
           

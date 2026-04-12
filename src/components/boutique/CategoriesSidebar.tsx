@@ -76,7 +76,7 @@ function CategoryNode({
         onClick={handleClick}
         aria-current={isActive ? "page" : undefined}
         aria-expanded={hasChildren ? isOpen : undefined}
-        className={`w-full text-left py-2.5 pr-3 text-sm transition-colors duration-200 flex items-center justify-between rounded-lg cursor-pointer!
+        className={`w-full text-left py-2.5 pr-6 text-sm transition-colors duration-200 flex items-center justify-between rounded-lg cursor-pointer!
           ${
             isActive
               ? "bg-[#F0EBE3] border-l-[3px] border-[#8B4513] font-medium"
@@ -89,8 +89,8 @@ function CategoryNode({
       >
         <span className={
           isActive 
-            ? "text-[#8B4513]"
-            : "text-[#2C1A0E] hover:text-[#D4A574] transition-colors duration-200"
+            ? "text-[#8B4513] flex-1"
+            : "text-[#2C1A0E] hover:text-[#D4A574] transition-colors duration-200 flex-1"
         }>
           {category.name}
         </span>

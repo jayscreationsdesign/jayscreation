@@ -8,6 +8,7 @@ import { formatPriceEUR } from "@/lib/formatPrice";
 import { getImageSrc, getImageArray } from "@/lib/images";
 import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
+import ImageMagnifier from "@/components/ui/ImageMagnifier";
 
 interface ProductCardProps {
   product: Product & {
@@ -90,10 +91,13 @@ export default function ProductCard({
         {isPlaceholder ? (
           <ProductImagePlaceholder productName={product.name} />
         ) : (
-          <img
+          <ImageMagnifier
             src={currentImage}
             alt={product.name}
-            className="max-w-[95%] max-h-[95%] w-auto h-auto object-contain pointer-events-none"
+            className="max-w-[95%] max-h-[95%] w-auto h-auto"
+            maxZoom={2.5}
+            minZoom={1}
+            zoomStep={0.3}
           />
         )}
         
