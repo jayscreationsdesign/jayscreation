@@ -442,7 +442,14 @@ function BoutiquePageContentInner() {
         {/* Grille principale : Sidebar + Contenu */}
         <div className="grid grid-cols-5 gap-6">
           {/* SIDEBAR GAUCHE - Catégories */}
-          <aside className="col-span-1">
+          <aside 
+            className="col-span-1"
+            style={{
+              width: 'fit-content',
+              minWidth: 'max-content',
+              flexShrink: 0
+            }}
+          >
             <div className="space-y-3 sticky top-4">
               {/* Titre */}
               <div>

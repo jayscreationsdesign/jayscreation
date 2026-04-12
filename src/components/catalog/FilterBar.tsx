@@ -3,14 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import type { Product } from "@/data/products";
-
-interface ExtendedProduct extends Product {
-  in_stock: boolean;
-  unit_price: number;
-  created_at: string;
-  sales_count: number | null;
-  featured: boolean | null;
-}
+import type { ExtendedProduct } from "@/types/extended-product";
 
 interface FilterBarProps {
   products: ExtendedProduct[];

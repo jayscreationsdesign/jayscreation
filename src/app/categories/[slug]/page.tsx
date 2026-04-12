@@ -5,15 +5,7 @@ import { useParams } from "next/navigation";
 import FilterBar from "@/components/catalog/FilterBar";
 import ProductCard from "@/components/ui/ProductCard";
 import type { Product } from "@/data/products";
-
-interface ExtendedProduct extends Product {
-  in_stock: boolean;
-  unit_price: number;
-  created_at: string;
-  sales_count: number | null;
-  featured: boolean | null;
-  subcategory_slug: string | null;
-}
+import type { ExtendedProduct } from "@/types/extended-product";
 
 export default function CategoryPage() {
   const params = useParams();
