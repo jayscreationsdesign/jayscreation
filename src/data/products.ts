@@ -515,7 +515,7 @@ export const products: Product[] = [
     numericPrice: 1,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Étiquette Bouteille d'Eau.png",
+    image: "/images/products/Étiquette Bouteille d'Eau1.png",
     images: [
       "/images/products/Étiquette Bouteille d'Eau1.png",
       "/images/products/Étiquette Bouteille d'Eau2.png",
@@ -717,7 +717,7 @@ export const products: Product[] = [
     numericPrice: 1.50,
     category: "Sweet Tables & Décoration",
     categorySlug: "sweet-tables-decoration",
-    image: "/images/products/etiquette-bouteille-eau.png",
+    image: "/images/products/placeholder.png",
     slug: "etiquette-bouteille-eau",
     themes: ["Mariage", "Anniversaire", "Événement"],
     description: "Étiquette personnalisée pour bouteilles d'eau. Design personnalisable pour vos événements.",
@@ -1058,12 +1058,8 @@ export const products: Product[] = [
     numericPrice: 1.00,
     category: "Étiquettes Personnalisées",
     categorySlug: "etiquettes-personnalisees",
-    image: "/images/products/Étiquette Bouteille d'Eau.png",
-    images: [
-      "/images/products/Étiquette Bouteille d'Eau1.png",
-      "/images/products/Étiquette Bouteille d'Eau2.png",
-      "/images/products/Étiquette Bouteille d'Eau3.png"
-    ],
+    image: "/images/products/placeholder.png",
+    images: [],
     slug: "etiquette-bouteille-eau",
     themes: ["Anniversaire", "Mariage", "Baptême", "Personnalisé", "Événement"],
     description: "Étiquette personnalisée pour bouteille d'eau. Design élégant avec prénom, date et thème. Parfait pour tous types d'événements.",
