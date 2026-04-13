@@ -102,8 +102,8 @@ export async function POST(request: NextRequest) {
 
     // Calcul du total pour déterminer si la commande est gratuite
     const totalAmount = items.reduce((sum: number, item: any) => {
-      const unitPrice = Number(item.prix) || 0;
-      const quantity = Number(item.quantite) || 0;
+      const unitPrice = Number(item.unitPrice) || 0;
+      const quantity = Number(item.quantity) || 0;
       return sum + unitPrice * quantity;
     }, 0);
 
