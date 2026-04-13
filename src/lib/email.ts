@@ -12,7 +12,7 @@ export const emailSenders = {
   },
   admin: {
     name: "Admin Jay's Creations",
-    email: process.env.IONOS_EMAIL_USER || 'contact@jayscreationsdesign.fr'
+    email: process.env.ADMIN_EMAIL || 'contact@jayscreationsdesign.fr'
   },
   support: {
     name: "Support Jay's Creations",
@@ -330,7 +330,7 @@ export async function sendWelcomeEmail(email: string, firstName: string) {
   });
 
   // 2. Envoyer une notification admin pour la création de compte
-  const adminEmail = process.env.IONOS_EMAIL_USER || 'contact@jayscreationsdesign.fr';
+  const adminEmail = process.env.ADMIN_EMAIL || 'contact@jayscreationsdesign.fr';
   const adminResult = await sendEmail({
     to: adminEmail,
     subject: '👕 Nouveau compte créé - Jay\'s Creations Design',
@@ -576,7 +576,7 @@ export async function sendOrderConfirmationEmail(email: string, orderData: any) 
 
 export async function sendQuoteRequestEmail(quoteData: any) {
   // Envoyer à l'administrateur du site
-  const adminEmail = process.env.IONOS_EMAIL_USER || 'contact@jayscreationsdesign.fr';  
+  const adminEmail = process.env.ADMIN_EMAIL || 'contact@jayscreationsdesign.fr';  
   return await sendEmail({
     to: adminEmail,
     subject: emailTemplates.quoteRequest.subject,
