@@ -334,12 +334,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    console.error('CHECKOUT ERROR DETAILS:', {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      type: typeof error
+    })
+
     return NextResponse.json(
       { 
-        error: errorMessage,
-        details: error instanceof Error ? error.message : String(error),
-        stack: error instanceof Error ? error.stack : undefined,
-        debug: errorDetails
+        error: 'Erreur serveur lors de la validation du panier',
+        details: error instanceof Error ? error.message : String(error)
       },
       { status: 500 }
     );
