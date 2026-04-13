@@ -107,8 +107,8 @@ async function sendEmailNotification(visitorName: string | undefined, visitorEma
     })
 
     console.log('Email notification sent successfully')
-  } catch (error) {
-    console.error('Error sending email notification:', error)
+  } catch (error: unknown) {
+    console.error('Error sending email notification:', error instanceof Error ? error.message : String(error))
   }
 }
 
@@ -129,9 +129,9 @@ async function sendWhatsAppNotification(visitorName: string | undefined, message
     })
 
     console.log('WhatsApp notification sent successfully')
-  } catch (error) {
+  } catch (error: unknown) {
     // Silently fail if Twilio is not configured
-    console.log('WhatsApp notification not sent (Twilio not configured):', error.message)
+    console.log('WhatsApp notification not sent (Twilio not configured):', error instanceof Error ? error.message : String(error))
   }
 }
 
@@ -166,8 +166,8 @@ export async function POST(request: NextRequest) {
         try {
           const autoResponse = getAutoResponse(content)
           await chatService.sendMessage(session.id, autoResponse, 'admin')
-        } catch (error) {
-          console.error('Error sending auto-response:', error)
+        } catch (error: unknown) {
+          console.error('Error sending auto-response:', error instanceof Error ? error.message : String(error))
         }
       }, 1000)
     }
@@ -178,8 +178,8 @@ export async function POST(request: NextRequest) {
       messageId: message.id
     })
 
-  } catch (error) {
-    console.error('Error in chat message API:', error)
+  } catch (error: unknown) {
+    console.error('Error in chat message API:', error instanceof Error ? error.message : String(error))
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
