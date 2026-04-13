@@ -143,6 +143,8 @@ async function validateLotPricing(item: CartItem, product: any, supabase: any, e
 // Middleware pour valider le panier avant la création de session Stripe
 export async function validateCartMiddleware(body: any): Promise<NextResponse | null> {
   try {
+    console.log('VALIDATION INPUT:', JSON.stringify(body, null, 2));
+    
     const { items } = body;
 
     if (!items || !Array.isArray(items)) {
@@ -153,6 +155,7 @@ export async function validateCartMiddleware(body: any): Promise<NextResponse | 
     }
 
     const validation = await validateCartItems(items);
+    console.log('VALIDATION RESULT:', JSON.stringify(validation, null, 2));
 
     if (!validation.valid) {
       return NextResponse.json(

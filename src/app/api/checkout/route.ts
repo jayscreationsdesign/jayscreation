@@ -43,7 +43,15 @@ export async function POST(request: NextRequest) {
     // Validation du panier avec le middleware de pricing hybride
     const validationResult = await validateCartMiddleware(body);
     if (validationResult) {
-      return validationResult; // Retourne l'erreur si validation échoue
+      // Exposer les détails de l'erreur de validation
+      const errorData = await validationResult.json();
+      return NextResponse.json(
+        { 
+          error: 'Validation du panier échouée',
+          details: errorData.details || errorData.error || 'Erreur de validation inconnue'
+        },
+        { status: 400 }
+      );
     }
 
     // Validation des données client
