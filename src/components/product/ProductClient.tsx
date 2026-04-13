@@ -16,6 +16,10 @@ export default function ProductClient({ slug }: ProductClientProps) {
   const [qty, setQty] = useState(1)
   const { addItem } = useCartStore()
 
+  const handleThemeChange = (theme: string) => {
+    setSelectedTheme(theme)
+  }
+
   if (!product) {
     return <div>Produit non trouvé</div>
   }
@@ -52,6 +56,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
             <ProductInfo 
               product={product} 
               selectedTheme={selectedTheme}
+              onThemeChange={handleThemeChange}
               qty={qty}
               onQtyChange={setQty}
               onAddToCart={handleAddToCart}
@@ -61,14 +66,31 @@ export default function ProductClient({ slug }: ProductClientProps) {
       </div>
       
       {/* Bouton sticky "Ajouter au panier" pour mobile */}
-      <div className="fixed bottom-0 left-0 right-0 bg-[#6B3A2A] text-white p-4 z-50 lg:hidden">
-        <button
-          onClick={handleAddToCart}
-          className="w-full bg-white text-[#6B3A2A] py-4 px-6 rounded-lg font-semibold text-base hover:bg-gray-100 transition-colors"
-        >
-          Ajouter au panier
-        </button>
-      </div>
+      {product.themes && product.themes.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 bg-[#6B3A2A] text-white p-4 z-50 lg:hidden">
+          <button
+            onClick={handleAddToCart}
+            disabled={!selectedTheme}
+            className={`w-full py-4 px-6 rounded-lg font-semibold text-base transition-colors ${
+              selectedTheme 
+                ? "bg-white text-[#6B3A2A] hover:bg-gray-100" 
+                : "bg-gray-400 text-gray-600 cursor-not-allowed"
+            }`}
+          >
+            {selectedTheme ? "Ajouter au panier" : "Sélectionnez un thème"}
+          </button>
+        </div>
+      )}
+      {(!product.themes || product.themes.length === 0) && (
+        <div className="fixed bottom-0 left-0 right-0 bg-[#6B3A2A] text-white p-4 z-50 lg:hidden">
+          <button
+            onClick={handleAddToCart}
+            className="w-full bg-white text-[#6B3A2A] py-4 px-6 rounded-lg font-semibold text-base hover:bg-gray-100 transition-colors"
+          >
+            Ajouter au panier
+          </button>
+        </div>
+      )}
     </div>
   )
 }
