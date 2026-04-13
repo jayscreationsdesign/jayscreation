@@ -19,7 +19,6 @@ if (stripeSecretKey) {
 }
 
 export async function POST(request: NextRequest) {
-  // LECTURE UNIQUE DU BODY - TOUTE PREMIÈRE OPÉRATION
   const body = await request.json();
   
   console.log('ENV CHECK:', {
