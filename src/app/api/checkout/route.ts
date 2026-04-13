@@ -67,12 +67,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Construction des URLs obligatoires avec new URL() (ASCII uniquement)
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
-                   request.headers.get('origin') || 
-                   'https://jayscreationsdesign.fr';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jayscreationsdesign.fr';
     
     console.log('DEBUG - Variables d\'environnement:', {
       STRIPE_SECRET_KEY: stripeSecretKey ? 'CONFIGURED' : 'NOT_CONFIGURED',
+      STRIPE_KEY_PREFIX: process.env.STRIPE_SECRET_KEY?.substring(0, 8) || 'NOT_SET',
       NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'NOT_SET',
       baseUrl: baseUrl
     });

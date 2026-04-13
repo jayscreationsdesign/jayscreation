@@ -59,7 +59,15 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
           setUnreadCount(existingSession.unread_count)
           loadMessages(existingSession.id)
         }
-      } catch (error) {
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error)
+        // Ignorer silencieusement si les tables n'existent pas encore
+        if (errorMessage.includes('relation does not exist') || 
+            errorMessage.includes('table not found') ||
+            errorMessage.includes('does not exist')) {
+          console.log('Chat tables not yet created - initializing empty session')
+          return
+        }
         console.error('Error loading session:', error)
       }
     }
@@ -73,7 +81,15 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
       const messages = await chatService.getMessages(sessionId)
       setMessages(messages)
       scrollToBottom()
-    } catch (error) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      // Ignorer silencieusement si les tables n'existent pas encore
+      if (errorMessage.includes('relation does not exist') || 
+          errorMessage.includes('table not found') ||
+          errorMessage.includes('does not exist')) {
+        console.log('Chat tables not yet created - skipping messages load')
+        return
+      }
       console.error('Error loading messages:', error)
     }
   }
