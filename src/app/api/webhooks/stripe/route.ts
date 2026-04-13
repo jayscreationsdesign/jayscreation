@@ -1,0 +1,235 @@
+import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
+import { headers } from 'next/headers';
+import { sendEmail, emailTemplates } from '@/lib/email';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2026-03-25.dahlia',
+});
+
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.text();
+    const headersList = await headers();
+    const signature = headersList.get('stripe-signature');
+
+    if (!signature) {
+      return NextResponse.json({ error: 'Signature Stripe manquante' }, { status: 400 });
+    }
+
+    let event: Stripe.Event;
+
+    try {
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret!);
+    } catch (err) {
+      console.error('Erreur webhook Stripe:', err);
+      return NextResponse.json({ error: 'Signature webhook invalide' }, { status: 400 });
+    }
+
+    console.log('Événement Stripe reçu:', event.type);
+
+    // Gérer les événements de paiement complété
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object as Stripe.Checkout.Session;
+      
+      console.log('Session complétée:', session.id);
+      console.log('Client email:', session.customer_details?.email);
+      console.log('Montant:', session.amount_total);
+
+      try {
+        // Récupérer les détails de la session avec les line_items
+        const sessionWithItems = await stripe.checkout.sessions.retrieve(session.id, {
+          expand: ['line_items']
+        });
+
+        const items = sessionWithItems.line_items?.data.map((item) => ({
+          name: item.description,
+          quantity: item.quantity,
+          price: item.amount_total / 100
+        })) || [];
+
+        const orderData: any = {
+          id: session.id,
+          customer_name: session.customer_details?.name || 'Client',
+          customer_email: session.customer_details?.email || '',
+          customer_phone: session.metadata?.client_telephone || '',
+          total: session.amount_total ? session.amount_total / 100 : 0,
+          items: items,
+          created_at: new Date(session.created * 1000).toISOString(),
+          metadata: session.metadata
+        };
+
+        console.log('Données commande préparées:', orderData);
+
+        // 1. Email de confirmation au client
+        try {
+          await sendEmail({
+            to: orderData.customer_email,
+            subject: emailTemplates.orderConfirmation.subject,
+            html: emailTemplates.orderConfirmation.html(orderData)
+          });
+          console.log('Email confirmation client envoyé à:', orderData.customer_email);
+        } catch (emailError) {
+          console.error('Erreur envoi email client:', emailError);
+        }
+
+        // 2. Email notification admin
+        try {
+          const adminEmail = process.env.ADMIN_EMAIL || 'contact@jayscreationsdesign.fr';
+          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://jayscreationsdesign.fr';
+          
+          await sendEmail({
+            to: adminEmail,
+            subject: 'Nouvelle commande - Jay\'s Creations Design',
+            html: `
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <meta charset="utf-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                  <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #2C2C2C; margin: 0; padding: 0; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { text-align: center; padding: 30px 0; background: #8B4513; color: white; border-radius: 10px 10px 0 0; }
+                    .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+                    .content { background: #FAF7F2; padding: 40px 30px; border-radius: 0 0 10px 10px; border: 2px solid #8B4513; border-top: none; }
+                    .order-details { background: white; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #8B4513; }
+                    .item { border-bottom: 1px solid #E8E4DF; padding: 15px 0; }
+                    .item:last-child { border-bottom: none; }
+                    .total { font-size: 20px; font-weight: bold; color: #8B4513; text-align: right; margin-top: 20px; padding-top: 15px; border-top: 2px solid #8B4513; }
+                    .actions { text-align: center; margin: 30px 0; }
+                    .btn { display: inline-block; padding: 14px 28px; margin: 0 8px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; transition: all 0.3s; }
+                    .btn-validate { background: #1a3526; color: white; }
+                    .btn-validate:hover { background: #2d4a3d; transform: translateY(-2px); }
+                    .btn-cancel { background: #c0392b; color: white; }
+                    .btn-cancel:hover { background: #e74c3c; transform: translateY(-2px); }
+                    .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #6B6B6B; border-top: 1px solid #E8E4DF; }
+                  </style>
+                </head>
+                <body>
+                  <div class="container">
+                    <div class="header">
+                      <div class="logo">Jay's Creations Design</div>
+                      <p>Nouvelle commande à valider</p>
+                    </div>
+                    
+                    <div class="content">
+                      <h2 style="color: #8B4513; text-align: center; margin-bottom: 25px;">Nouvelle commande reçue</h2>
+                      
+                      <div class="order-details">
+                        <h3 style="color: #8B4513; margin-bottom: 20px;">Informations commande</h3>
+                        <p><strong>Commande n°:</strong> ${orderData.id}</p>
+                        <p><strong>Client:</strong> ${orderData.customer_name}</p>
+                        <p><strong>Email:</strong> ${orderData.customer_email}</p>
+                        <p><strong>Téléphone:</strong> ${orderData.customer_phone}</p>
+                        <p><strong>Date:</strong> ${new Date(orderData.created_at).toLocaleDateString('fr-FR')}</p>
+                        <p><strong>Total:</strong> ${orderData.total.toFixed(2)} EUR</p>
+                      </div>
+                      
+                      <div class="order-details">
+                        <h3 style="color: #8B4513; margin-bottom: 20px;">Articles commandés</h3>
+                        ${orderData.items.map((item: any) => `
+                          <div class="item">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                              <div>
+                                <strong style="color: #8B4513;">${item.name}</strong><br>
+                                <small style="color: #6B6B6B;">Quantité: ${item.quantity}</small>
+                              </div>
+                              <div style="text-align: right;">
+                                <strong style="color: #8B4513;">${item.price.toFixed(2)} EUR</strong>
+                              </div>
+                            </div>
+                          </div>
+                        `).join('')}
+                        
+                        <div class="total">
+                          Total: ${orderData.total.toFixed(2)} EUR
+                        </div>
+                      </div>
+                      
+                      <div class="actions">
+                        <h3 style="color: #8B4513; margin-bottom: 20px;">Actions requises</h3>
+                        <div style="text-align: center; margin: 30px 0; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                          <a href="${siteUrl}/api/admin/validate-order?token=${orderData.adminToken}"
+                             class="btn btn-validate">
+                            â VALIDER LA COMMANDE
+                          </a>
+                          <a href="${siteUrl}/api/admin/cancel-order?token=${orderData.adminToken}"
+                             class="btn btn-cancel">
+                            â ARTICLE INDISPONIBLE
+                          </a>
+                        </div>
+                        <p style="text-align: center; color: #666; font-size: 14px; margin-top: 20px;">
+                          Cliquez sur VALIDER pour confirmer la commande et envoyer un email au client.<br>
+                          Cliquez sur ARTICLE INDISPONIBLE pour annuler et rembourser.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div class="footer">
+                      <p><strong>Jay's Creations Design</strong></p>
+                      <p>Email automatique - ${new Date().toLocaleString('fr-FR')}</p>
+                    </div>
+                  </div>
+                </body>
+              </html>
+            `
+          });
+          console.log('Email notification admin envoyé avec boutons de validation');
+        } catch (adminEmailError) {
+          console.error('Erreur envoi email admin:', adminEmailError);
+        }
+
+        // 3. Mettre à jour le statut dans Supabase si disponible
+        try {
+          const { createClient } = await import('@supabase/supabase-js');
+          const supabase = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SERVICE_ROLE_KEY!
+          );
+
+          // Générer un token unique pour la validation admin
+          const adminToken = crypto.randomUUID();
+
+          // Mettre à jour la commande avec le token et le payment_intent_id
+          const { data: orderUpdate, error: updateError } = await supabase
+            .from('commandes')
+            .update({ 
+              statut: 'pending',
+              admin_token: adminToken,
+              payment_intent_id: session.payment_intent as string,
+              updated_at: new Date().toISOString()
+            })
+            .eq('stripe_session_id', session.id)
+            .select()
+            .single();
+
+          if (updateError) {
+            console.error('Erreur mise à jour commande:', updateError);
+          } else {
+            console.log('Commande mise à jour avec token de validation:', adminToken);
+            
+            // Ajouter le token aux données pour l'email admin
+            orderData.adminToken = adminToken;
+          }
+        } catch (dbError) {
+          console.error('Erreur mise à jour Supabase:', dbError);
+        }
+
+      } catch (processingError) {
+        console.error('Erreur traitement session complétée:', processingError);
+      }
+    }
+
+    return NextResponse.json({ received: true });
+
+  } catch (error) {
+    console.error('Erreur webhook Stripe:', error);
+    return NextResponse.json(
+      { error: 'Erreur traitement webhook' },
+      { status: 500 }
+    );
+  }
+}

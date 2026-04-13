@@ -15,30 +15,81 @@ export default function CheckoutSuccessContent() {
   const isFreeOrder = searchParams.get('free_order') === 'true';
 
   useEffect(() => {
-    // Simuler la récupération des détails de commande
-    // En production, vous appelleriez votre API pour récupérer les vraies informations
-    const mockOrderDetails = {
-      id: sessionId || `CMD-${Date.now()}`,
-      total: isFreeOrder ? 0 : 29.90,
-      status: isFreeOrder ? 'Confirmée (Gratuite)' : 'Confirmée',
-      date: new Date().toLocaleDateString('fr-FR'),
-      items: [
-        {
-          name: 'Cadre Personnalisé',
-          quantity: 1,
-          price: isFreeOrder ? 0 : 29.90
+    const fetchOrderDetails = async () => {
+      if (!sessionId && !isFreeOrder) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        if (isFreeOrder) {
+          // Pour les commandes gratuites, utiliser des données de base
+          const freeOrderDetails = {
+            id: `FREE-${Date.now()}`,
+            total: 0,
+            status: 'Confirmée (Gratuite)',
+            date: new Date().toLocaleDateString('fr-FR'),
+            items: [
+              {
+                name: 'Cadre Personnalisé',
+                quantity: 1,
+                price: 0
+              }
+            ],
+            customer: {
+              email: 'client@example.com',
+              name: 'Client'
+            }
+          };
+          setOrderDetails(freeOrderDetails);
+        } else {
+          // Récupérer les vraies données depuis Stripe
+          const response = await fetch(`/api/checkout/session?session_id=${sessionId}`);
+          const data = await response.json();
+
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          const session = data.session;
+          const orderDetails = {
+            id: session.id,
+            total: session.amount_total ? session.amount_total / 100 : 0,
+            status: session.payment_status === 'paid' ? 'Confirmée' : 'En attente',
+            date: new Date(session.created * 1000).toLocaleDateString('fr-FR'),
+            items: session.line_items?.data.map((item: any) => ({
+              name: item.description,
+              quantity: item.quantity,
+              price: item.amount_total / 100
+            })) || [],
+            customer: {
+              email: session.customer_details?.email || 'client@example.com',
+              name: session.customer_details?.name || 'Client'
+            }
+          };
+          setOrderDetails(orderDetails);
         }
-      ],
-      customer: {
-        email: 'client@example.com',
-        name: 'Client Test'
+      } catch (error) {
+        console.error('Erreur lors de la récupération des détails de commande:', error);
+        // En cas d'erreur, afficher des données de base
+        const fallbackDetails = {
+          id: sessionId || `CMD-${Date.now()}`,
+          total: 0,
+          status: 'Erreur',
+          date: new Date().toLocaleDateString('fr-FR'),
+          items: [],
+          customer: {
+            email: 'client@example.com',
+            name: 'Client'
+          }
+        };
+        setOrderDetails(fallbackDetails);
+      } finally {
+        setLoading(false);
       }
     };
 
-    setTimeout(() => {
-      setOrderDetails(mockOrderDetails);
-      setLoading(false);
-    }, 1000);
+    fetchOrderDetails();
   }, [sessionId, isFreeOrder]);
 
   if (loading) {

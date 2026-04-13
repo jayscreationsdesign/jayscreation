@@ -26,8 +26,8 @@ export const emailSenders = {
 
 // Configuration pour Ionos Email Marketing
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.ionos.fr',
-  port: parseInt(process.env.SMTP_PORT || '587'),
+  host: process.env.IONOS_SMTP_HOST || 'smtp.ionos.fr',
+  port: parseInt(process.env.IONOS_SMTP_PORT || '587'),
   secure: false, // true pour 465, false pour 587
   auth: {
     user: process.env.IONOS_EMAIL_USER, // votre-email@jayscreationsdesign.fr
@@ -44,249 +44,766 @@ export const emailTemplates = {
     subject: 'Bienvenue chez Jay\'s Creations Design !',
     html: (firstName: string) => `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Bienvenue chez Jay's Creations Design</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #2C2C2C; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { text-align: center; padding: 30px 0; background: #8B4513; color: white; border-radius: 10px 10px 0 0; }
-            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-            .content { background: #FAF7F2; padding: 40px 30px; border-radius: 0 0 10px 10px; border: 2px solid #8B4513; border-top: none; }
-            .cta { display: inline-block; background: #8B4513; color: white; padding: 15px 30px; text-decoration: none; border-radius: 25px; margin: 25px 0; font-weight: bold; transition: all 0.3s; }
-            .cta:hover { background: #6b3410; transform: scale(1.05); }
-            .features { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #8B4513; }
-            .discount { background: linear-gradient(135deg, #8B4513, #D4A574); color: white; padding: 20px; text-align: center; font-size: 20px; font-weight: bold; border-radius: 8px; margin: 20px 0; }
-            .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #6B6B6B; border-top: 1px solid #E8E4DF; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">🎨 Jay's Creations Design</div>
-              <p>Votre partenaire pour des créations uniques</p>
-            </div>
-            
-            <div class="content">
-              <h1 style="color: #8B4513; margin-bottom: 20px;">Bienvenue ${firstName} ! 👋</h1>
-              <p style="font-size: 16px; margin-bottom: 20px;">Nous sommes absolument ravis de vous accueillir dans la famille Jay's Creations Design ! Merci de votre confiance et de votre intérêt pour nos créations artisanales.</p>
-              
-              <div class="features">
-                <h3 style="color: #8B4513; margin-bottom: 15px;">🎁 Ce qui vous attend :</h3>
-                <ul style="line-height: 1.8;">
-                  <li>🖼️ <strong>Des cadres personnalisés</strong> uniques comme vous</li>
-                  <li>🎨 <strong>Des thèmes originaux</strong> pour chaque occasion</li>
-                  <li>✨ <strong>Une qualité artisanale</strong> made in France</li>
-                  <li>🚀 <strong>Un service client</strong> à votre écoute</li>
-                </ul>
-              </div>
-              
-              <div class="discount">
-                🎉 CODE DE BIENVENUE 🎉<br>
-                <span style="font-size: 24px;">BIENVENUE10</span><br>
-                <small>10% de réduction sur votre première commande</small>
-              </div>
-              
-              <p style="text-align: center; margin: 25px 0;">
-                <a href="https://jayscreation.vercel.app/boutique" class="cta">
-                  🛍️ Découvrir la boutique
-                </a>
-              </p>
-              
-              <p style="text-align: center; font-style: italic; color: #6B6B6B;">
-                "L'art de capturer vos plus beaux moments"
-              </p>
-            </div>
-            
-            <div class="footer">
-              <p><strong>Jay's Creations Design</strong></p>
-              <p>Créations uniques pour moments précieux</p>
-              <p style="margin-top: 10px; font-size: 11px;">Si vous n'êtes pas à l'origine de cette inscription, veuillez ignorer cet email.</p>
-            </div>
-          </div>
-        </body>
+      <html lang="fr">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+      </head>
+      <body style="margin:0; padding:0; background:#FFF8F0; font-family:'Inter',Arial,sans-serif;">
+      
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" 
+             style="background:#FFF8F0; padding:32px 16px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                   style="background:#ffffff; border-radius:16px; overflow:hidden; 
+                          box-shadow:0 8px 32px rgba(44,26,14,0.12); max-width:600px;">
+      
+              <!-- ═══ HEADER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; text-align:center; padding:40px 24px 28px; 
+                           border-bottom:3px solid #8B4513;">
+                  
+                  <!-- Anneau logo -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" 
+                         style="margin:0 auto 18px;">
+                    <tr>
+                      <td style="width:148px; height:148px; border-radius:50%; 
+                                 background:#8B4513; text-align:center; 
+                                 vertical-align:middle;
+                                 box-shadow:0 4px 20px rgba(139,69,19,0.35);">
+                        <img src="https://www.jayscreationsdesign.fr/images/logo/logo.png"
+                             width="138" height="138"
+                             style="border-radius:50%; display:block; 
+                                    margin:5px auto 0;
+                                    object-fit:cover;"
+                             alt="Jay's Creations Design" />
+                      </td>
+                    </tr>
+                  </table>
+      
+                  <!-- Nom marque Great Vibes -->
+                  <div style="font-family:'Great Vibes',cursive; font-size:42px; 
+                              font-weight:400; color:#2C1A0E; letter-spacing:2px; 
+                              margin-bottom:6px; line-height:1.2;">
+                    Jay's Creations Design
+                  </div>
+      
+                  <!-- Tagline -->
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:11px; 
+                              color:#D4A574; letter-spacing:3px; text-transform:uppercase; 
+                              font-weight:500;">
+                    Créations uniques pour moments précieux
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ BANDE TITRE ═══ -->
+              <tr>
+                <td style="background:#8B4513; text-align:center; padding:22px 24px;">
+                  <div style="font-size:28px; color:#D4A574; margin-bottom:8px;">✓</div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:22px; 
+                              font-weight:600; color:#D4A574; margin-bottom:6px;">
+                    Bienvenue ${firstName} !
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                              color:#D4A574;">
+                    Nous sommes ravis de vous accueillir dans la famille Jay's Creations Design
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ CONTENU PRINCIPAL ═══ -->
+              <tr>
+                <td style="padding:28px 28px 8px; background:#ffffff;">
+                  
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                 color:#2C1A0E; line-height:1.6; padding-bottom:20px;">
+                        Merci de votre confiance et de votre intérêt pour nos créations artisanales.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-bottom:20px;">
+                        
+                        <!-- FEATURES RÉCAP BOX -->
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                               style="background:#FFF8F0; border-radius:10px; 
+                                      border:1px solid #E8E4DF; margin-bottom:0;">
+                          <tr>
+                            <td style="padding:20px;">
+                              <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                          font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                          display:flex; align-items:center;">
+                                <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                      margin-right:12px; display:inline-block;"></span>
+                                Ce qui vous attend :
+                              </div>
+                              <table role="presentation" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="font-family:'Inter',Arial,sans-serif; font-size:14px; 
+                                             color:#2C1A0E; line-height:1.8; padding-left:20px;">
+                                    • <strong>Des cadres personnalisés</strong> uniques comme vous<br>
+                                    • <strong>Des thèmes originaux</strong> pour chaque occasion<br>
+                                    • <strong>Une qualité artisanale</strong> made in France<br>
+                                    • <strong>Un service client</strong> à votre écoute
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding-bottom:20px;">
+                        
+                        <!-- DISCOUNT RÉCAP BOX -->
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                               style="background:#2C1A0E; border-radius:10px; margin-bottom:0;">
+                          <tr>
+                            <td style="text-align:center; padding:24px;">
+                              <div style="font-family:'Playfair Display',Georgia,serif; 
+                                          font-size:20px; font-weight:600; 
+                                          color:#FFF8F0; margin-bottom:8px;">
+                                CODE DE BIENVENUE
+                              </div>
+                              <div style="font-family:'Inter',Arial,sans-serif; 
+                                          font-size:28px; font-weight:600; color:#D4A574; margin-bottom:8px;">
+                                BIENVENUE10
+                              </div>
+                              <div style="font-family:'Inter',Arial,sans-serif; 
+                                          font-size:13px; color:#8B4513;">
+                                10% de réduction sur votre première commande
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="text-align:center; padding-top:10px;">
+                        <a href="https://jayscreation.vercel.app/boutique" 
+                           style="display:inline-block; background:#8B4513; color:white; 
+                                  padding:14px 38px; border-radius:30px; font-size:14px; 
+                                  font-weight:600; text-decoration:none; letter-spacing:0.5px; 
+                                  font-family:'Inter',Arial,sans-serif; border:2px solid #8B4513;">
+                          Découvrir la boutique
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                  
+                </td>
+              </tr>
+      
+              <!-- ═══ BLOC MERCI ═══ -->
+              <tr>
+                <td style="padding:0 28px 26px; background:#ffffff;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="background:#2C1A0E; border-radius:12px; 
+                                 text-align:center; padding:24px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; 
+                                    font-size:17px; font-weight:600; 
+                                    color:#FFF8F0; margin-bottom:7px;">
+                          Merci pour votre confiance !
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; 
+                                    font-size:13px; color:#8B4513;">
+                          Vous recevrez des mises à jour par email à chaque étape.
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+      
+              <!-- ═══ FOOTER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; padding:22px 28px; text-align:center; 
+                           border-top:1px solid #E8E4DF;">
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:15px; 
+                              font-weight:600; color:#2C1A0E; margin-bottom:5px;">
+                    Jay's Creations Design
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:12px; 
+                              color:#aaa; margin-bottom:8px;">
+                    contact@jayscreationsdesign.fr &nbsp;·&nbsp; 
+                    commande@jayscreationsdesign.fr &nbsp;·&nbsp; 07 63 92 08 23
+                  </div>
+                  <div style="font-size:11px; margin-top:4px;">
+                    <a href="https://www.instagram.com/jays_creations_design/" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Instagram</a> ·
+                    <a href="https://www.tiktok.com/@jayscreationsdesign" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">TikTok</a> ·
+                    <a href="https://www.jayscreationsdesign.fr/boutique" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Boutique</a>
+                  </div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:11px; 
+                              color:#2C1A0E; font-style:italic; margin-top:10px;">
+                    "L'art de capturer vos plus beaux moments"
+                  </div>
+                </td>
+              </tr>
+      
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      </body>
       </html>
     `
   },
 
   orderConfirmation: {
-    subject: '📦 Confirmation de commande - Jay\'s Creations Design',
+    subject: 'Confirmation de commande - Jay\'s Creations Design',
     html: (orderData: any) => `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Confirmation de commande</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #2C2C2C; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { text-align: center; padding: 30px 0; background: #8B4513; color: white; border-radius: 10px 10px 0 0; }
-            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-            .content { background: #FAF7F2; padding: 40px 30px; border-radius: 0 0 10px 10px; border: 2px solid #8B4513; border-top: none; }
-            .order-summary { background: white; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #8B4513; }
-            .item { border-bottom: 1px solid #E8E4DF; padding: 15px 0; }
-            .item:last-child { border-bottom: none; }
-            .total { font-size: 20px; font-weight: bold; color: #8B4513; text-align: right; margin-top: 20px; padding-top: 15px; border-top: 2px solid #8B4513; }
-            .discount { color: #28a745; font-size: 14px; }
-            .address { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #8B4513; }
-            .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #6B6B6B; border-top: 1px solid #E8E4DF; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">🎨 Jay's Creations Design</div>
-              <p>Votre partenaire pour des créations uniques</p>
-            </div>
-            
-            <div class="content">
-              <h1 style="color: #8B4513; text-align: center; margin-bottom: 25px;">✅ Commande Confirmée !</h1>
-              <p style="text-align: center; font-size: 18px; margin-bottom: 30px;">
-                Merci <strong>${orderData.client.prenom} ${orderData.client.nom}</strong> !<br>
-                Votre commande n°${orderData.orderId || 'CMD-' + Date.now()} est confirmée
-              </p>
-              
-              <div class="order-summary">
-                <h3 style="color: #8B4513; margin-bottom: 20px;">📋 Récapitulatif de votre commande</h3>
-                ${orderData.items.map((item: any, index: number) => `
-                  <div class="item">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <div>
-                        <strong style="color: #8B4513; font-size: 16px;">${item.nom}</strong><br>
-                        ${item.theme ? `<small style="color: #6B6B6B;">Thème: ${item.theme}</small><br>` : ''}
-                        <small style="color: #6B6B6B;">Quantité: ${item.quantite}</small>
-                      </div>
-                      <div style="text-align: right;">
-                        <strong style="color: #8B4513; font-size: 18px;">${(item.prix * item.quantite).toFixed(2)}€</strong>
-                      </div>
-                    </div>
+      <html lang="fr">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+      </head>
+      <body style="margin:0; padding:0; background:#FFF8F0; font-family:'Inter',Arial,sans-serif;">
+      
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" 
+             style="background:#FFF8F0; padding:32px 16px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                   style="background:#ffffff; border-radius:16px; overflow:hidden; 
+                          box-shadow:0 8px 32px rgba(44,26,14,0.12); max-width:600px;">
+      
+              <!-- ═══ HEADER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; text-align:center; padding:40px 24px 28px; 
+                           border-bottom:3px solid #8B4513;">
+                  
+                  <!-- Anneau logo -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" 
+                         style="margin:0 auto 18px;">
+                    <tr>
+                      <td style="width:148px; height:148px; border-radius:50%; 
+                                 background:#8B4513; text-align:center; 
+                                 vertical-align:middle;
+                                 box-shadow:0 4px 20px rgba(139,69,19,0.35);">
+                        <img src="https://www.jayscreationsdesign.fr/images/logo/logo.png"
+                             width="138" height="138"
+                             style="border-radius:50%; display:block; 
+                                    margin:5px auto 0;
+                                    object-fit:cover;"
+                             alt="Jay's Creations Design" />
+                      </td>
+                    </tr>
+                  </table>
+      
+                  <!-- Nom marque Great Vibes -->
+                  <div style="font-family:'Great Vibes',cursive; font-size:42px; 
+                              font-weight:400; color:#2C1A0E; letter-spacing:2px; 
+                              margin-bottom:6px; line-height:1.2;">
+                    Jay's Creations Design
                   </div>
-                `).join('')}
-                
-                <div class="total">
-                  Total: ${orderData.total.toFixed(2)}€
-                  ${orderData.discount > 0 ? `<br><span class="discount">Remise coupon: -${orderData.discount.toFixed(2)}€</span>` : ''}
-                </div>
-              </div>
-              
-              <div class="address">
-                <h4 style="color: #8B4513; margin-bottom: 15px;">📍 Adresse de livraison</h4>
-                <p style="line-height: 1.8;">
-                  <strong>${orderData.client.prenom} ${orderData.client.nom}</strong><br>
-                  ${orderData.client.adresse}<br>
-                  ${orderData.client.codePostal} ${orderData.client.ville}<br>
-                  ${orderData.client.pays}
-                </p>
-              </div>
-              
-              <div style="text-align: center; margin: 30px 0; padding: 20px; background: white; border-radius: 8px;">
-                <p style="margin-bottom: 15px;">📧 Vous recevrez des mises à jour par email</p>
-                <p style="color: #8B4513; font-weight: bold;">Merci pour votre confiance !</p>
-              </div>
-            </div>
-            
-            <div class="footer">
-              <p><strong>Jay's Creations Design</strong></p>
-              <p>Créations uniques pour moments précieux</p>
-            </div>
-          </div>
-        </body>
+      
+                  <!-- Tagline -->
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:11px; 
+                              color:#D4A574; letter-spacing:3px; text-transform:uppercase; 
+                              font-weight:500;">
+                    Créations uniques pour moments précieux
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ BANDE TITRE ═══ -->
+              <tr>
+                <td style="background:#8B4513; text-align:center; padding:22px 24px;">
+                  <div style="font-size:28px; color:#D4A574; margin-bottom:8px;">✓</div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:22px; 
+                              font-weight:600; color:#D4A574; margin-bottom:6px;">
+                    Commande Confirmée !
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                              color:#D4A574;">
+                    Merci <strong style="color:#FFF8F0;">${orderData.client ? `${orderData.client.prenom} ${orderData.client.nom}` : orderData.customer_name || 'Client'}</strong> !<br>
+                    Votre commande n°${orderData.id || orderData.orderId || 'CMD-' + Date.now()} est confirmée
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ CONTENU PRINCIPAL ═══ -->
+              <tr>
+                <td style="padding:28px 28px 8px; background:#ffffff;">
+                  
+                  <!-- RÉCAPITULATIF COMMANDE RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Récapitulatif de votre commande
+                        </div>
+                        
+                        ${orderData.items.map((item: any, index: number) => `
+                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                 style="margin-bottom:16px;">
+                            <tr>
+                              <td style="padding:16px 0; border-bottom:1px solid #E8E4DF;">
+                                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                  <tr>
+                                    <td style="width:60%; padding-right:20px; vertical-align:top;">
+                                      <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                  font-weight:600; color:#2C1A0E; margin-bottom:8px;">
+                                        ${item.name || item.nom}
+                                      </div>
+                                      ${item.theme ? `<div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                          color:#aaa; margin-bottom:4px;">Thème: ${item.theme}</div>` : ''}
+                                      <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; color:#aaa;">
+                                        Quantité: ${item.quantity || item.quantite}
+                                      </div>
+                                    </td>
+                                    <td style="width:40%; text-align:right; vertical-align:top;">
+                                      <div style="font-family:'Inter',Arial,sans-serif; font-size:18px; 
+                                                  font-weight:600; color:#8B4513;">
+                                        ${item.price ? (item.price * (item.quantity || 1)).toFixed(2) : ((item.prix || 0) * (item.quantite || 1)).toFixed(2)}€
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        `).join('')}
+                        
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                               style="margin-top:20px; padding-top:16px; border-top:2px solid #8B4513;">
+                          <tr>
+                            <td style="width:50%;">
+                              <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                          font-weight:600; color:#2C1A0E;">
+                                Total
+                              </div>
+                            </td>
+                            <td style="width:50%; text-align:right;">
+                              <div style="font-family:'Inter',Arial,sans-serif; font-size:22px; 
+                                          font-weight:700; color:#8B4513;">
+                                ${orderData.total.toFixed(2)}€
+                                ${orderData.discount > 0 ? `<br><span style="font-size:13px; color:#aaa; font-weight:400;">Remise: -${orderData.discount.toFixed(2)}€</span>` : ''}
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  ${orderData.client ? `
+                  <!-- ADRESSE LIVRAISON RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Adresse de livraison
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; font-size:14px; color:#2C1A0E; line-height:1.8;">
+                          <strong>${orderData.client.prenom} ${orderData.client.nom}</strong><br>
+                          ${orderData.client.adresse}<br>
+                          ${orderData.client.codePostal} ${orderData.client.ville}<br>
+                          ${orderData.client.pays}
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                ` : ''}
+                  
+                </td>
+              </tr>
+      
+              <!-- ═══ BLOC MERCI ═══ -->
+              <tr>
+                <td style="padding:0 28px 26px; background:#ffffff;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="background:#2C1A0E; border-radius:12px; 
+                                 text-align:center; padding:24px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; 
+                                    font-size:17px; font-weight:600; 
+                                    color:#FFF8F0; margin-bottom:7px;">
+                          Merci pour votre confiance !
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; 
+                                    font-size:13px; color:#8B4513;">
+                          Vous recevrez des mises à jour par email à chaque étape.
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+      
+              <!-- ═══ FOOTER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; padding:22px 28px; text-align:center; 
+                           border-top:1px solid #E8E4DF;">
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:15px; 
+                              font-weight:600; color:#2C1A0E; margin-bottom:5px;">
+                    Jay's Creations Design
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:12px; 
+                              color:#aaa; margin-bottom:8px;">
+                    contact@jayscreationsdesign.fr &nbsp;·&nbsp; 
+                    commande@jayscreationsdesign.fr &nbsp;·&nbsp; 07 63 92 08 23
+                  </div>
+                  <div style="font-size:11px; margin-top:4px;">
+                    <a href="https://www.instagram.com/jays_creations_design/" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Instagram</a> ·
+                    <a href="https://www.tiktok.com/@jayscreationsdesign" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">TikTok</a> ·
+                    <a href="https://www.jayscreationsdesign.fr/boutique" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Boutique</a>
+                  </div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:11px; 
+                              color:#2C1A0E; font-style:italic; margin-top:10px;">
+                    "L'art de capturer vos plus beaux moments"
+                  </div>
+                </td>
+              </tr>
+      
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      </body>
       </html>
     `
   },
 
   quoteRequest: {
-    subject: '📋 Nouvelle demande de devis - Jay\'s Creations Design',
+    subject: 'Nouvelle demande de devis - Jay\'s Creations Design',
     html: (quoteData: any) => `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Nouvelle demande de devis</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #2C2C2C; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { text-align: center; padding: 30px 0; background: #8B4513; color: white; border-radius: 10px 10px 0 0; }
-            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-            .content { background: #FAF7F2; padding: 40px 30px; border-radius: 0 0 10px 10px; border: 2px solid #8B4513; border-top: none; }
-            .urgent { background: #dc3545; color: white; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0; font-weight: bold; }
-            .quote-details { background: white; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #8B4513; }
-            .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-            .info-item { background: #f8f9fa; padding: 15px; border-radius: 5px; }
-            .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #6B6B6B; border-top: 1px solid #E8E4DF; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">🎨 Jay's Creations Design</div>
-              <p>Nouvelle demande de devis reçue</p>
-            </div>
-            
-            <div class="content">
-              <div class="urgent">
-                ⚠️ NOUVELLE DEMANDE DE DEVIS À TRAITER
-              </div>
-              
-              <h1 style="color: #8B4513; text-align: center; margin-bottom: 25px;">📋 Détails de la demande</h1>
-              
-              <div class="quote-details">
-                <div class="info-grid">
-                  <div class="info-item">
-                    <strong>👤 Client:</strong><br>
-                    ${quoteData.prenom} ${quoteData.nom}
+      <html lang="fr">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+      </head>
+      <body style="margin:0; padding:0; background:#FFF8F0; font-family:'Inter',Arial,sans-serif;">
+      
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" 
+             style="background:#FFF8F0; padding:32px 16px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                   style="background:#ffffff; border-radius:16px; overflow:hidden; 
+                          box-shadow:0 8px 32px rgba(44,26,14,0.12); max-width:600px;">
+      
+              <!-- ═══ HEADER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; text-align:center; padding:40px 24px 28px; 
+                           border-bottom:3px solid #8B4513;">
+                  
+                  <!-- Anneau logo -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" 
+                         style="margin:0 auto 18px;">
+                    <tr>
+                      <td style="width:148px; height:148px; border-radius:50%; 
+                                 background:#8B4513; text-align:center; 
+                                 vertical-align:middle;
+                                 box-shadow:0 4px 20px rgba(139,69,19,0.35);">
+                        <img src="https://www.jayscreationsdesign.fr/images/logo/logo.png"
+                             width="138" height="138"
+                             style="border-radius:50%; display:block; 
+                                    margin:5px auto 0;
+                                    object-fit:cover;"
+                             alt="Jay's Creations Design" />
+                      </td>
+                    </tr>
+                  </table>
+      
+                  <!-- Nom marque Great Vibes -->
+                  <div style="font-family:'Great Vibes',cursive; font-size:42px; 
+                              font-weight:400; color:#2C1A0E; letter-spacing:2px; 
+                              margin-bottom:6px; line-height:1.2;">
+                    Jay's Creations Design
                   </div>
-                  <div class="info-item">
-                    <strong>📧 Email:</strong><br>
-                    ${quoteData.email}
+      
+                  <!-- Tagline -->
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:11px; 
+                              color:#D4A574; letter-spacing:3px; text-transform:uppercase; 
+                              font-weight:500;">
+                    Créations uniques pour moments précieux
                   </div>
-                  <div class="info-item">
-                    <strong>📱 Téléphone:</strong><br>
-                    ${quoteData.telephone}
+                </td>
+              </tr>
+      
+              <!-- ═══ BANDE TITRE ═══ -->
+              <tr>
+                <td style="background:#8B4513; text-align:center; padding:22px 24px;">
+                  <div style="font-size:28px; color:#D4A574; margin-bottom:8px;">!</div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:22px; 
+                              font-weight:600; color:#D4A574; margin-bottom:6px;">
+                    Nouvelle demande de devis
                   </div>
-                  <div class="info-item">
-                    <strong>📅 Date:</strong><br>
-                    ${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                              color:#D4A574;">
+                    Une demande de devis a été reçue et nécessite votre attention
                   </div>
-                </div>
-                
-                <div style="margin: 25px 0;">
-                  <h4 style="color: #8B4513; margin-bottom: 15px;">🎨 Détails de la demande</h4>
-                  <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #8B4513;">
-                    <p><strong>Type de produit:</strong> ${quoteData.typeProduit}</p>
-                    <p><strong>Dimensions souhaitées:</strong> ${quoteData.dimensions}</p>
-                    <p><strong>Thème:</strong> ${quoteData.theme}</p>
-                    <p><strong>Budget approximatif:</strong> ${quoteData.budget}</p>
-                    <p><strong>Délai souhaité:</strong> ${quoteData.delai}</p>
-                  </div>
-                </div>
-                
-                ${quoteData.message ? `
-                  <div style="margin: 25px 0;">
-                    <h4 style="color: #8B4513; margin-bottom: 15px;">💬 Message personnalisé</h4>
-                    <div style="background: white; padding: 20px; border-radius: 8px; font-style: italic;">
-                      ${quoteData.message}
-                    </div>
-                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ CONTENU PRINCIPAL ═══ -->
+              <tr>
+                <td style="padding:28px 28px 8px; background:#ffffff;">
+                  
+                  <!-- INFOS CLIENT RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Informations client
+                        </div>
+                        
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                               style="margin-bottom:16px;">
+                          <tr>
+                            <td style="width:50%; padding-right:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Client</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${quoteData.prenom} ${quoteData.nom}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Email</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${quoteData.email}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td style="width:50%; padding-left:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Téléphone</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${quoteData.telephone}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Date</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  <!-- DÉTAILS DEMANDE RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Détails de la demande
+                        </div>
+                        
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                               style="margin-bottom:16px;">
+                          <tr>
+                            <td style="width:50%; padding-right:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Type de produit</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${quoteData.typeProduit}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Dimensions souhaitées</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${quoteData.dimensions}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td style="width:50%; padding-left:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Thème</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${quoteData.theme}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Budget approximatif</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${quoteData.budget}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                               style="margin-top:16px; padding-top:12px; border-top:1px solid #E8E4DF;">
+                          <tr>
+                            <td>
+                              <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                          color:#aaa; margin-bottom:4px; font-weight:500;">Délai souhaité</div>
+                              <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                          color:#2C1A0E; font-weight:600;">${quoteData.delai}</div>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  ${quoteData.message ? `
+                  <!-- MESSAGE PERSONNALISÉ RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Message personnalisé
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; font-size:14px; color:#2C1A0E; line-height:1.6; font-style:italic;">
+                          ${quoteData.message}
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
                 ` : ''}
-              </div>
-              
-              <div style="text-align: center; margin: 30px 0;">
-                <p><strong>Action recommandée:</strong></p>
-                <p>Contacter le client dans les plus brefs délais pour discuter de sa demande</p>
-              </div>
-            </div>
-            
-            <div class="footer">
-              <p><strong>Jay's Creations Design</strong></p>
-              <p>Email automatique - ${new Date().toLocaleString('fr-FR')}</p>
-            </div>
-          </div>
-        </body>
+                  
+                </td>
+              </tr>
+      
+              <!-- ═══ BLOC MERCI ═══ -->
+              <tr>
+                <td style="padding:0 28px 26px; background:#ffffff;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="background:#2C1A0E; border-radius:12px; 
+                                 text-align:center; padding:24px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; 
+                                    font-size:17px; font-weight:600; 
+                                    color:#FFF8F0; margin-bottom:7px;">
+                          Action recommandée
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; 
+                                    font-size:13px; color:#8B4513;">
+                          Contacter le client dans les plus brefs délais pour discuter de sa demande
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+      
+              <!-- ═══ FOOTER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; padding:22px 28px; text-align:center; 
+                           border-top:1px solid #E8E4DF;">
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:15px; 
+                              font-weight:600; color:#2C1A0E; margin-bottom:5px;">
+                    Jay's Creations Design
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:12px; 
+                              color:#aaa; margin-bottom:8px;">
+                    contact@jayscreationsdesign.fr &nbsp;·&nbsp; 
+                    commande@jayscreationsdesign.fr &nbsp;·&nbsp; 07 63 92 08 23
+                  </div>
+                  <div style="font-size:11px; margin-top:4px;">
+                    <a href="https://www.instagram.com/jays_creations_design/" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Instagram</a> ·
+                    <a href="https://www.tiktok.com/@jayscreationsdesign" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">TikTok</a> ·
+                    <a href="https://www.jayscreationsdesign.fr/boutique" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Boutique</a>
+                  </div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:11px; 
+                              color:#2C1A0E; font-style:italic; margin-top:10px;">
+                    "L'art de capturer vos plus beaux moments"
+                  </div>
+                </td>
+              </tr>
+      
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      </body>
       </html>
     `
   }
@@ -333,60 +850,210 @@ export async function sendWelcomeEmail(email: string, firstName: string) {
   const adminEmail = process.env.ADMIN_EMAIL || 'contact@jayscreationsdesign.fr';
   const adminResult = await sendEmail({
     to: adminEmail,
-    subject: '👕 Nouveau compte créé - Jay\'s Creations Design',
+    subject: 'Nouveau compte créé - Jay\'s Creations Design',
     html: `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Nouveau compte créé</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #2C2C2C; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { text-align: center; padding: 30px 0; background: #8B4513; color: white; border-radius: 10px 10px 0 0; }
-            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-            .content { background: #FAF7F2; padding: 40px 30px; border-radius: 0 0 10px 10px; border: 2px solid #8B4513; border-top: none; }
-            .alert { background: #28a745; color: white; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0; font-weight: bold; }
-            .info-box { background: white; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #8B4513; }
-            .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #6B6B6B; border-top: 1px solid #E8E4DF; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">🎨 Jay's Creations Design</div>
-              <p>Nouveau compte client créé</p>
-            </div>
-            
-            <div class="content">
-              <div class="alert">
-                ✅ NOUVEAU COMPTE CLIENT CRÉÉ
-              </div>
-              
-              <h1 style="color: #8B4513; text-align: center; margin-bottom: 25px;">👋 Informations du nouveau client</h1>
-              
-              <div class="info-box">
-                <p><strong>👤 Prénom:</strong> ${firstName}</p>
-                <p><strong>📧 Email:</strong> ${email}</p>
-                <p><strong>📅 Date d'inscription:</strong> ${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p><strong>⏰ Heure:</strong> ${new Date().toLocaleTimeString('fr-FR')}</p>
-              </div>
-              
-              <div style="text-align: center; margin: 30px 0;">
-                <p><strong>Actions recommandées:</strong></p>
-                <p>✨ Envoyer un email de bienvenue personnalisé</p>
-                <p>🎁 Proposer une offre de bienvenue</p>
-                <p>📞 Contacter le client si nécessaire</p>
-              </div>
-            </div>
-            
-            <div class="footer">
-              <p><strong>Jay's Creations Design</strong></p>
-              <p>Email automatique - ${new Date().toLocaleString('fr-FR')}</p>
-            </div>
-          </div>
-        </body>
+      <html lang="fr">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+      </head>
+      <body style="margin:0; padding:0; background:#FFF8F0; font-family:'Inter',Arial,sans-serif;">
+      
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" 
+             style="background:#FFF8F0; padding:32px 16px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                   style="background:#ffffff; border-radius:16px; overflow:hidden; 
+                          box-shadow:0 8px 32px rgba(44,26,14,0.12); max-width:600px;">
+      
+              <!-- ═══ HEADER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; text-align:center; padding:40px 24px 28px; 
+                           border-bottom:3px solid #8B4513;">
+                  
+                  <!-- Anneau logo -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" 
+                         style="margin:0 auto 18px;">
+                    <tr>
+                      <td style="width:148px; height:148px; border-radius:50%; 
+                                 background:#8B4513; text-align:center; 
+                                 vertical-align:middle;
+                                 box-shadow:0 4px 20px rgba(139,69,19,0.35);">
+                        <img src="https://www.jayscreationsdesign.fr/images/logo/logo.png"
+                             width="138" height="138"
+                             style="border-radius:50%; display:block; 
+                                    margin:5px auto 0;
+                                    object-fit:cover;"
+                             alt="Jay's Creations Design" />
+                      </td>
+                    </tr>
+                  </table>
+      
+                  <!-- Nom marque Great Vibes -->
+                  <div style="font-family:'Great Vibes',cursive; font-size:42px; 
+                              font-weight:400; color:#2C1A0E; letter-spacing:2px; 
+                              margin-bottom:6px; line-height:1.2;">
+                    Jay's Creations Design
+                  </div>
+      
+                  <!-- Tagline -->
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:11px; 
+                              color:#D4A574; letter-spacing:3px; text-transform:uppercase; 
+                              font-weight:500;">
+                    Créations uniques pour moments précieux
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ BANDE TITRE ═══ -->
+              <tr>
+                <td style="background:#8B4513; text-align:center; padding:22px 24px;">
+                  <div style="font-size:28px; color:#D4A574; margin-bottom:8px;">+</div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:22px; 
+                              font-weight:600; color:#D4A574; margin-bottom:6px;">
+                    Nouveau compte client créé
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                              color:#D4A574;">
+                    Un nouveau client s'est inscrit sur la plateforme
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ CONTENU PRINCIPAL ═══ -->
+              <tr>
+                <td style="padding:28px 28px 8px; background:#ffffff;">
+                  
+                  <!-- INFOS CLIENT RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Informations du nouveau client
+                        </div>
+                        
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td style="width:50%; padding-right:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Prénom</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${firstName}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Email</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${email}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td style="width:50%; padding-left:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Date d'inscription</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Heure</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleTimeString('fr-FR')}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                </td>
+              </tr>
+      
+              <!-- ═══ BLOC MERCI ═══ -->
+              <tr>
+                <td style="padding:0 28px 26px; background:#ffffff;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="background:#2C1A0E; border-radius:12px; 
+                                 text-align:center; padding:24px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; 
+                                    font-size:17px; font-weight:600; 
+                                    color:#FFF8F0; margin-bottom:7px;">
+                          Actions recommandées
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; 
+                                    font-size:13px; color:#8B4513; line-height:1.6;">
+                          ✨ Envoyer un email de bienvenue personnalisé<br>
+                          🎁 Proposer une offre de bienvenue<br>
+                          📞 Contacter le client si nécessaire
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+      
+              <!-- ═══ FOOTER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; padding:22px 28px; text-align:center; 
+                           border-top:1px solid #E8E4DF;">
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:15px; 
+                              font-weight:600; color:#2C1A0E; margin-bottom:5px;">
+                    Jay's Creations Design
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:12px; 
+                              color:#aaa; margin-bottom:8px;">
+                    contact@jayscreationsdesign.fr &nbsp;·&nbsp; 
+                    commande@jayscreationsdesign.fr &nbsp;·&nbsp; 07 63 92 08 23
+                  </div>
+                  <div style="font-size:11px; margin-top:4px;">
+                    <a href="https://www.instagram.com/jays_creations_design/" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Instagram</a> ·
+                    <a href="https://www.tiktok.com/@jayscreationsdesign" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">TikTok</a> ·
+                    <a href="https://www.jayscreationsdesign.fr/boutique" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Boutique</a>
+                  </div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:11px; 
+                              color:#2C1A0E; font-style:italic; margin-top:10px;">
+                    "L'art de capturer vos plus beaux moments"
+                  </div>
+                </td>
+              </tr>
+      
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      </body>
       </html>
     `
   });
@@ -410,83 +1077,286 @@ export async function sendOrderConfirmationEmail(email: string, orderData: any) 
   // 2. Envoyer une copie à commande@jayscreationsdesign.fr pour suivi (doublon volontaire)
   const copyResult = await sendEmail({
     to: emailSenders.orders.email, // commande@jayscreationsdesign.fr
-    subject: `📋 COPIE - ${emailTemplates.orderConfirmation.subject}`,
+    subject: `COPIE - ${emailTemplates.orderConfirmation.subject}`,
     html: `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Copie confirmation commande</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #2C2C2C; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { text-align: center; padding: 30px 0; background: #8B4513; color: white; border-radius: 10px 10px 0 0; }
-            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-            .content { background: #FAF7F2; padding: 40px 30px; border-radius: 0 0 10px 10px; border: 2px solid #8B4513; border-top: none; }
-            .copy-notice { background: #17a2b8; color: white; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0; font-weight: bold; }
-            .info-box { background: white; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #8B4513; }
-            .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #6B6B6B; border-top: 1px solid #E8E4DF; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">🛒 Jay's Creations Design</div>
-              <p>Copie Confirmation Commande</p>
-            </div>
-            
-            <div class="content">
-              <div class="copy-notice">
-                📋 COPIE DE CONFIRMATION DE COMMANDE
-              </div>
-              
-              <h1 style="color: #8B4513; text-align: center; margin-bottom: 25px;">📦 Détails de la commande</h1>
-              
-              <div class="info-box">
-                <p><strong>👤 Client:</strong> ${orderData.client.prenom} ${orderData.client.nom}</p>
-                <p><strong>📧 Email du client:</strong> ${email}</p>
-                <p><strong>📱 Téléphone:</strong> ${orderData.client.telephone || 'Non renseigné'}</p>
-                <p><strong>📅 Date:</strong> ${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p><strong>⏰ Heure:</strong> ${new Date().toLocaleTimeString('fr-FR')}</p>
-                <p><strong>💰 Total:</strong> ${orderData.total.toFixed(2)}€</p>
-              </div>
-              
-              <div style="margin: 25px 0;">
-                <h4 style="color: #8B4513; margin-bottom: 15px;">📋 Articles commandés</h4>
-                ${orderData.items.map((item: any, index: number) => `
-                  <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #8B4513;">
-                    <strong>${item.nom}</strong><br>
-                    ${item.theme ? `<small>Thème: ${item.theme}</small><br>` : ''}
-                    <small>Quantité: ${item.quantite} × ${item.prix.toFixed(2)}€ = ${(item.prix * item.quantite).toFixed(2)}€</small>
+      <html lang="fr">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+      </head>
+      <body style="margin:0; padding:0; background:#FFF8F0; font-family:'Inter',Arial,sans-serif;">
+      
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" 
+             style="background:#FFF8F0; padding:32px 16px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                   style="background:#ffffff; border-radius:16px; overflow:hidden; 
+                          box-shadow:0 8px 32px rgba(44,26,14,0.12); max-width:600px;">
+      
+              <!-- ═══ HEADER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; text-align:center; padding:40px 24px 28px; 
+                           border-bottom:3px solid #8B4513;">
+                  
+                  <!-- Anneau logo -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" 
+                         style="margin:0 auto 18px;">
+                    <tr>
+                      <td style="width:148px; height:148px; border-radius:50%; 
+                                 background:#8B4513; text-align:center; 
+                                 vertical-align:middle;
+                                 box-shadow:0 4px 20px rgba(139,69,19,0.35);">
+                        <img src="https://www.jayscreationsdesign.fr/images/logo/logo.png"
+                             width="138" height="138"
+                             style="border-radius:50%; display:block; 
+                                    margin:5px auto 0;
+                                    object-fit:cover;"
+                             alt="Jay's Creations Design" />
+                      </td>
+                    </tr>
+                  </table>
+      
+                  <!-- Nom marque Great Vibes -->
+                  <div style="font-family:'Great Vibes',cursive; font-size:42px; 
+                              font-weight:400; color:#2C1A0E; letter-spacing:2px; 
+                              margin-bottom:6px; line-height:1.2;">
+                    Jay's Creations Design
                   </div>
-                `).join('')}
-              </div>
-              
-              <div style="margin: 25px 0;">
-                <h4 style="color: #8B4513; margin-bottom: 15px;">📍 Adresse de livraison</h4>
-                <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid #8B4513;">
-                  <p><strong>${orderData.client.prenom} ${orderData.client.nom}</strong></p>
-                  <p>${orderData.client.adresse}</p>
-                  <p>${orderData.client.codePostal} ${orderData.client.ville}</p>
-                  <p>${orderData.client.pays}</p>
-                </div>
-              </div>
-              
-              <div style="text-align: center; margin: 30px 0;">
-                <p><strong>Actions recommandées:</strong></p>
-                <p>📦 Préparer la commande</p>
-                <p>📞 Contacter le client si nécessaire</p>
-                <p>🚀 Organiser la livraison</p>
-              </div>
-            </div>
-            
-            <div class="footer">
-              <p><strong>Jay's Creations Design</strong></p>
-              <p>Email automatique - ${new Date().toLocaleString('fr-FR')}</p>
-            </div>
-          </div>
-        </body>
+      
+                  <!-- Tagline -->
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:11px; 
+                              color:#D4A574; letter-spacing:3px; text-transform:uppercase; 
+                              font-weight:500;">
+                    Créations uniques pour moments précieux
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ BANDE TITRE ═══ -->
+              <tr>
+                <td style="background:#8B4513; text-align:center; padding:22px 24px;">
+                  <div style="font-size:28px; color:#D4A574; margin-bottom:8px;">📋</div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:22px; 
+                              font-weight:600; color:#D4A574; margin-bottom:6px;">
+                    COPIE DE CONFIRMATION DE COMMANDE
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                              color:#D4A574;">
+                    Copie interne pour suivi administratif
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ CONTENU PRINCIPAL ═══ -->
+              <tr>
+                <td style="padding:28px 28px 8px; background:#ffffff;">
+                  
+                  <!-- INFOS CLIENT RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Informations client et commande
+                        </div>
+                        
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td style="width:50%; padding-right:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Client</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${orderData.client.prenom} ${orderData.client.nom}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Email client</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${email}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Téléphone</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${orderData.client.telephone || 'Non renseigné'}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td style="width:50%; padding-left:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Date</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Heure</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleTimeString('fr-FR')}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Total</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#8B4513; font-weight:600; font-size:18px;">${orderData.total.toFixed(2)}€</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  <!-- ARTICLES RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Articles commandés
+                        </div>
+                        
+                        ${orderData.items.map((item: any, index: number) => `
+                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                 style="margin-bottom:12px;">
+                            <tr>
+                              <td style="padding:12px; background:#ffffff; border-left:4px solid #8B4513; border-radius:0 8px 8px 0;">
+                                <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                            font-weight:600; color:#2C1A0E; margin-bottom:4px;">
+                                  ${item.nom}
+                                </div>
+                                ${item.theme ? `<div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                    color:#aaa; margin-bottom:2px;">Thème: ${item.theme}</div>` : ''}
+                                <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; color:#aaa;">
+                                  Quantité: ${item.quantite} × ${item.prix.toFixed(2)}€ = ${(item.prix * item.quantite).toFixed(2)}€
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        `).join('')}
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  <!-- ADRESSE LIVRAISON RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Adresse de livraison
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; font-size:14px; color:#2C1A0E; line-height:1.8;">
+                          <strong>${orderData.client.prenom} ${orderData.client.nom}</strong><br>
+                          ${orderData.client.adresse}<br>
+                          ${orderData.client.codePostal} ${orderData.client.ville}<br>
+                          ${orderData.client.pays}
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                  
+                </td>
+              </tr>
+      
+              <!-- ═══ BLOC MERCI ═══ -->
+              <tr>
+                <td style="padding:0 28px 26px; background:#ffffff;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="background:#2C1A0E; border-radius:12px; 
+                                 text-align:center; padding:24px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; 
+                                    font-size:17px; font-weight:600; 
+                                    color:#FFF8F0; margin-bottom:7px;">
+                          Actions recommandées
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; 
+                                    font-size:13px; color:#8B4513; line-height:1.6;">
+                          📦 Préparer la commande<br>
+                          📞 Contacter le client si nécessaire<br>
+                          🚀 Organiser la livraison
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+      
+              <!-- ═══ FOOTER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; padding:22px 28px; text-align:center; 
+                           border-top:1px solid #E8E4DF;">
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:15px; 
+                              font-weight:600; color:#2C1A0E; margin-bottom:5px;">
+                    Jay's Creations Design
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:12px; 
+                              color:#aaa; margin-bottom:8px;">
+                    contact@jayscreationsdesign.fr &nbsp;·&nbsp; 
+                    commande@jayscreationsdesign.fr &nbsp;·&nbsp; 07 63 92 08 23
+                  </div>
+                  <div style="font-size:11px; margin-top:4px;">
+                    <a href="https://www.instagram.com/jays_creations_design/" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Instagram</a> ·
+                    <a href="https://www.tiktok.com/@jayscreationsdesign" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">TikTok</a> ·
+                    <a href="https://www.jayscreationsdesign.fr/boutique" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Boutique</a>
+                  </div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:11px; 
+                              color:#2C1A0E; font-style:italic; margin-top:10px;">
+                    "L'art de capturer vos plus beaux moments"
+                  </div>
+                </td>
+              </tr>
+      
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      </body>
       </html>
     `
   });
@@ -494,74 +1364,264 @@ export async function sendOrderConfirmationEmail(email: string, orderData: any) 
   // 3. Envoyer une notification à commande@jayscreationsdesign.fr pour validation
   const adminResult = await sendEmail({
     to: emailSenders.orders.email, // commande@jayscreationsdesign.fr
-    subject: '🛒 NOUVELLE COMMANDE À VALIDER - Jay\'s Creations Design',
+    subject: 'NOUVELLE COMMANDE À VALIDER - Jay\'s Creations Design',
     html: `
       <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Nouvelle commande à valider</title>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #2C2C2C; margin: 0; padding: 0; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { text-align: center; padding: 30px 0; background: #dc3545; color: white; border-radius: 10px 10px 0 0; }
-            .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-            .content { background: #FAF7F2; padding: 40px 30px; border-radius: 0 0 10px 10px; border: 2px solid #dc3545; border-top: none; }
-            .urgent { background: #dc3545; color: white; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0; font-weight: bold; }
-            .info-box { background: white; padding: 25px; border-radius: 8px; margin: 25px 0; border: 2px solid #8B4513; }
-            .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #6B6B6B; border-top: 1px solid #E8E4DF; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <div class="logo">🛒 Jay's Creations Design</div>
-              <p>NOUVELLE COMMANDE</p>
-            </div>
-            
-            <div class="content">
-              <div class="urgent">
-                🚨 NOUVELLE COMMANDE À VALIDER
-              </div>
-              
-              <h1 style="color: #dc3545; text-align: center; margin-bottom: 25px;">📦 Détails de la commande</h1>
-              
-              <div class="info-box">
-                <p><strong>👤 Client:</strong> ${orderData.client.prenom} ${orderData.client.nom}</p>
-                <p><strong>📧 Email du client:</strong> ${email}</p>
-                <p><strong>📱 Téléphone:</strong> ${orderData.client.telephone || 'Non renseigné'}</p>
-                <p><strong>📅 Date de commande:</strong> ${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                <p><strong>⏰ Heure:</strong> ${new Date().toLocaleTimeString('fr-FR')}</p>
-                <p><strong>💰 Montant total:</strong> <span style="color: #dc3545; font-size: 18px;">${orderData.total.toFixed(2)}€</span></p>
-              </div>
-              
-              <div style="margin: 25px 0;">
-                <h4 style="color: #8B4513; margin-bottom: 15px;">📋 Résumé des articles</h4>
-                ${orderData.items.map((item: any, index: number) => `
-                  <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid #dc3545;">
-                    <strong>${item.nom}</strong><br>
-                    ${item.theme ? `<small>Thème: ${item.theme}</small><br>` : ''}
-                    <small>Quantité: ${item.quantite} × ${item.prix.toFixed(2)}€ = ${(item.prix * item.quantite).toFixed(2)}€</small>
+      <html lang="fr">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+      </head>
+      <body style="margin:0; padding:0; background:#FFF8F0; font-family:'Inter',Arial,sans-serif;">
+      
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" 
+             style="background:#FFF8F0; padding:32px 16px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0"
+                   style="background:#ffffff; border-radius:16px; overflow:hidden; 
+                          box-shadow:0 8px 32px rgba(44,26,14,0.12); max-width:600px;">
+      
+              <!-- ═══ HEADER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; text-align:center; padding:40px 24px 28px; 
+                           border-bottom:3px solid #8B4513;">
+                  
+                  <!-- Anneau logo -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" 
+                         style="margin:0 auto 18px;">
+                    <tr>
+                      <td style="width:148px; height:148px; border-radius:50%; 
+                                 background:#8B4513; text-align:center; 
+                                 vertical-align:middle;
+                                 box-shadow:0 4px 20px rgba(139,69,19,0.35);">
+                        <img src="https://www.jayscreationsdesign.fr/images/logo/logo.png"
+                             width="138" height="138"
+                             style="border-radius:50%; display:block; 
+                                    margin:5px auto 0;
+                                    object-fit:cover;"
+                             alt="Jay's Creations Design" />
+                      </td>
+                    </tr>
+                  </table>
+      
+                  <!-- Nom marque Great Vibes -->
+                  <div style="font-family:'Great Vibes',cursive; font-size:42px; 
+                              font-weight:400; color:#2C1A0E; letter-spacing:2px; 
+                              margin-bottom:6px; line-height:1.2;">
+                    Jay's Creations Design
                   </div>
-                `).join('')}
-              </div>
-              
-              <div style="text-align: center; margin: 30px 0;">
-                <p><strong>⚠️ ACTIONS REQUISES:</strong></p>
-                <p>✅ Vérifier la disponibilité des articles</p>
-                <p>✅ Contacter le client pour confirmation</p>
-                <p>✅ Préparer la commande</p>
-                <p>✅ Organiser la livraison</p>
-              </div>
-            </div>
-            
-            <div class="footer">
-              <p><strong>Jay's Creations Design</strong></p>
-              <p>Email automatique - ${new Date().toLocaleString('fr-FR')}</p>
-            </div>
-          </div>
-        </body>
+      
+                  <!-- Tagline -->
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:11px; 
+                              color:#D4A574; letter-spacing:3px; text-transform:uppercase; 
+                              font-weight:500;">
+                    Créations uniques pour moments précieux
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ BANDE TITRE ═══ -->
+              <tr>
+                <td style="background:#8B4513; text-align:center; padding:22px 24px;">
+                  <div style="font-size:28px; color:#D4A574; margin-bottom:8px;">!</div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:22px; 
+                              font-weight:600; color:#D4A574; margin-bottom:6px;">
+                    NOUVELLE COMMANDE À VALIDER
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                              color:#D4A574;">
+                    Une commande nécessite votre validation
+                  </div>
+                </td>
+              </tr>
+      
+              <!-- ═══ CONTENU PRINCIPAL ═══ -->
+              <tr>
+                <td style="padding:28px 28px 8px; background:#ffffff;">
+                  
+                  <!-- INFOS CLIENT RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Informations client et commande
+                        </div>
+                        
+                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td style="width:50%; padding-right:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Client</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${orderData.client.prenom} ${orderData.client.nom}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Email client</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${email}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Téléphone</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${orderData.client.telephone || 'Non renseigné'}</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td style="width:50%; padding-left:20px; vertical-align:top;">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Date commande</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Heure</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleTimeString('fr-FR')}</div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td style="padding-bottom:12px;">
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                color:#aaa; margin-bottom:4px; font-weight:500;">Montant total</div>
+                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                                color:#8B4513; font-weight:600; font-size:18px;">${orderData.total.toFixed(2)}€</div>
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  <!-- ARTICLES RÉCAP BOX -->
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                         style="background:#FFF8F0; border-radius:10px; 
+                                border:1px solid #E8E4DF; margin-bottom:22px;">
+                    <tr>
+                      <td style="padding:20px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; font-size:18px; 
+                                    font-weight:600; color:#2C1A0E; margin-bottom:16px; 
+                                    display:flex; align-items:center;">
+                          <span style="width:8px; height:8px; background:#8B4513; border-radius:50%; 
+                                margin-right:12px; display:inline-block;"></span>
+                          Résumé des articles
+                        </div>
+                        
+                        ${orderData.items.map((item: any, index: number) => `
+                          <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                                 style="margin-bottom:12px;">
+                            <tr>
+                              <td style="padding:12px; background:#ffffff; border-left:4px solid #8B4513; border-radius:0 8px 8px 0;">
+                                <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
+                                            font-weight:600; color:#2C1A0E; margin-bottom:4px;">
+                                  ${item.nom}
+                                </div>
+                                ${item.theme ? `<div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
+                                                    color:#aaa; margin-bottom:2px;">Thème: ${item.theme}</div>` : ''}
+                                <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; color:#aaa;">
+                                  Quantité: ${item.quantite} × ${item.prix.toFixed(2)}€ = ${(item.prix * item.quantite).toFixed(2)}€
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        `).join('')}
+                        
+                      </td>
+                    </tr>
+                  </table>
+                  
+                </td>
+              </tr>
+      
+              <!-- ═══ BLOC MERCI ═══ -->
+              <tr>
+                <td style="padding:0 28px 26px; background:#ffffff;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="background:#2C1A0E; border-radius:12px; 
+                                 text-align:center; padding:24px;">
+                        <div style="font-family:'Playfair Display',Georgia,serif; 
+                                    font-size:17px; font-weight:600; 
+                                    color:#FFF8F0; margin-bottom:7px;">
+                          ACTIONS REQUISES
+                        </div>
+                        <div style="font-family:'Inter',Arial,sans-serif; 
+                                    font-size:13px; color:#8B4513; line-height:1.6;">
+                          ✅ Vérifier la disponibilité des articles<br>
+                          ✅ Contacter le client pour confirmation<br>
+                          ✅ Préparer la commande<br>
+                          ✅ Organiser la livraison
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+      
+              <!-- ═══ FOOTER ═══ -->
+              <tr>
+                <td style="background:#FFF8F0; padding:22px 28px; text-align:center; 
+                           border-top:1px solid #E8E4DF;">
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:15px; 
+                              font-weight:600; color:#2C1A0E; margin-bottom:5px;">
+                    Jay's Creations Design
+                  </div>
+                  <div style="font-family:'Inter',Arial,sans-serif; font-size:12px; 
+                              color:#aaa; margin-bottom:8px;">
+                    contact@jayscreationsdesign.fr &nbsp;·&nbsp; 
+                    commande@jayscreationsdesign.fr &nbsp;·&nbsp; 07 63 92 08 23
+                  </div>
+                  <div style="font-size:11px; margin-top:4px;">
+                    <a href="https://www.instagram.com/jays_creations_design/" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Instagram</a> ·
+                    <a href="https://www.tiktok.com/@jayscreationsdesign" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">TikTok</a> ·
+                    <a href="https://www.jayscreationsdesign.fr/boutique" 
+                       style="color:#8B4513; text-decoration:none; 
+                              margin:0 6px; font-weight:500;">Boutique</a>
+                  </div>
+                  <div style="font-family:'Playfair Display',Georgia,serif; font-size:11px; 
+                              color:#2C1A0E; font-style:italic; margin-top:10px;">
+                    "L'art de capturer vos plus beaux moments"
+                  </div>
+                </td>
+              </tr>
+      
+            </table>
+          </td>
+        </tr>
+      </table>
+      
+      </body>
       </html>
     `
   });

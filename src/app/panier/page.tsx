@@ -211,7 +211,7 @@ export default function PanierPage() {
                       </div>
                       <div>
                         <h3 className="text-white font-bold text-lg">Coupon de réduction</h3>
-                        <p className="text-white/90 text-sm">Profitez de nos offres exclusives !</p>
+                        <p className="text-white/90 text-sm whitespace-nowrap">Profitez de nos offres exclusives !</p>
                       </div>
                     </div>
                     
@@ -236,7 +236,10 @@ export default function PanierPage() {
                           </div>
                         )}
                         <div className="bg-white/20 backdrop-blur p-3 rounded-lg">
-                          <p className="text-white text-xs font-medium mb-2">?? Codes disponibles :</p>
+                          <div className="flex items-center gap-2 mb-2">
+                      <Tag size={14} className="text-white" />
+                      <p className="text-white text-xs font-medium">Codes disponibles :</p>
+                    </div>
                           <div className="space-y-2">
                             {OFFICIAL_COUPONS.filter(c => c.statut === 'actif').slice(0, 2).map(coupon => (
                               <div key={coupon.id} className="flex items-center justify-between">
@@ -288,7 +291,7 @@ export default function PanierPage() {
                 
                 <div className="flex justify-between text-sm">
                   <span className="text-[#6B6B6B]">Livraison</span>
-                  <span className="text-green-600 font-medium">Gratuite</span>
+                  <span className="text-[#8B4513] font-medium">Gratuite</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-[#6B6B6B]">TVA</span>

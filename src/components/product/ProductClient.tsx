@@ -24,7 +24,20 @@ export default function ProductClient({ slug }: ProductClientProps) {
     return <div>Produit non trouvé</div>
   }
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (itemOrQuantity?: any) => {
+    // Gérer les deux cas : nombre (depuis ProductInfo) ou objet (depuis ProductPricing)
+    let quantityToAdd = qty;
+    let itemData: any = {};
+
+    if (typeof itemOrQuantity === 'number') {
+      // Cas depuis ProductInfo : on reçoit juste la quantité
+      quantityToAdd = itemOrQuantity;
+    } else if (typeof itemOrQuantity === 'object' && itemOrQuantity) {
+      // Cas depuis ProductPricing : on reçoit un objet complet
+      itemData = itemOrQuantity;
+      quantityToAdd = itemOrQuantity.quantity || qty;
+    }
+
     const prixString = typeof product.price === "string"
       ? product.price : String(product.price)
     const prix = parseFloat(
@@ -35,7 +48,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
       id: `${product.slug}-${selectedTheme || "default"}`,
       nom: product.name,
       prix: prix,
-      quantite: qty,
+      quantite: quantityToAdd,
       image: product.image || "/images/products/placeholder.png",
       theme: selectedTheme || undefined,
       slug: product.slug,

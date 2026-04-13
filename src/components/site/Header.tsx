@@ -524,7 +524,7 @@ export default function Header() {
                 >
                   <ShoppingBag className="h-4 w-4 text-[#8B4513]" />
                   {items.reduce((acc, item) => acc + item.quantite, 0) > 0 && (
-                    <span className="absolute -right-1 -top-1 inline-flex h-3 w-3 items-center justify-center rounded-full bg-[#8B4513] text-xs font-semibold text-white">
+                    <span className="absolute -right-2 -top-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-[#8B4513] text-sm font-bold text-white border-2 border-white shadow-lg">
                       {items.reduce((acc, item) => acc + item.quantite, 0)}
                     </span>
                   )}
