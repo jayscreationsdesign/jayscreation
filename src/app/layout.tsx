@@ -5,6 +5,7 @@ import "../styles/mobile-only-fixes.css";
 
 import Footer from "@/components/site/Footer";
 import Header from "@/components/site/Header";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -46,6 +47,8 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
         </div>
         <Footer />
+        {/* ChatWidget - only show on non-admin pages */}
+        <ChatWidget />
       </body>
     </html>
   );
