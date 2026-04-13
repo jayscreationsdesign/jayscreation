@@ -19,6 +19,9 @@ if (stripeSecretKey) {
 }
 
 export async function POST(request: NextRequest) {
+  // LECTURE UNIQUE DU BODY - TOUTE PREMIÈRE OPÉRATION
+  const body = await request.json();
+  
   console.log('ENV CHECK:', {
     stripeKey: process.env.STRIPE_SECRET_KEY?.substring(0, 12),
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
@@ -32,16 +35,6 @@ export async function POST(request: NextRequest) {
         message: 'Service de paiement non configuré - Mode démo',
         url: '/commande/succes'
       });
-    }
-    // Parsing du body avec validation
-    let body;
-    try {
-      body = await request.json();
-    } catch (parseError) {
-      return NextResponse.json(
-        { error: 'Invalid JSON payload' },
-        { status: 400 }
-      );
     }
 
     const { items, client } = body;
