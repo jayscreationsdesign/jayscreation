@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { chatService } from '@/lib/supabase/chat'
-import nodemailer from 'nodemailer'
+import * as nodemailer from 'nodemailer'
 
 // Auto-responses logic
 function getAutoResponse(message: string): string {
@@ -28,7 +28,7 @@ function getAutoResponse(message: string): string {
 // Email notification
 async function sendEmailNotification(visitorName: string | undefined, visitorEmail: string | undefined, message: string) {
   try {
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: parseInt(process.env.SMTP_PORT || '587'),
       secure: false,
