@@ -410,8 +410,15 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
           }}
           selectedTheme={selectedTheme}
           onAddToCart={(item: any) => {
+            // Validation du thème avant d'ajouter au panier
+            if (!selectedTheme && product.themes && product.themes.length > 0) {
+              alert('Veuillez sélectionner un thème pour continuer');
+              return;
+            }
+            
             // Logique d'ajout au panier
             console.log('Ajout au panier:', item)
+            onAddToCart?.(item.quantity || quantity);
           }}
         />
         )}
