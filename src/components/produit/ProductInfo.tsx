@@ -394,6 +394,7 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
             minQuantity: minQuantity,
             maxQuantity: product.maxQuantity || 999,
             quantityStep: 1,
+            themes: product.themes, // Ajouter les thèmes du produit
             lots: product.pricing?.tiers && product.pricing.tiers.length > 0 ? product.pricing.tiers.map((tier: any, index: number) => {
               const savingsPercent = Math.round(((productUnitPrice - tier.pricePerUnit) / productUnitPrice) * 100);
               

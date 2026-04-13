@@ -21,14 +21,15 @@ interface ProductPricingProps {
       savingsPercent: number
       isPopular: boolean
     }>
+    themes?: string[] // Ajouter les thèmes du produit
   }
   selectedTheme?: string | null
   onAddToCart: (item: any) => void
 }
 
 export default function ProductPricing({ product, selectedTheme, onAddToCart }: ProductPricingProps) {
-  // Vérifier qu'un thème est sélectionné si requis
-  const themeRequired = product.pricingType !== 'quote' // Les devis n'ont pas besoin de thème pré-sélectionné
+  // Vérifier qu'un thème est sélectionné si le produit a des thèmes
+  const themeRequired = product.themes && product.themes.length > 0 && product.pricingType !== 'quote'
 
   switch (product.pricingType) {
     case 'unit_with_minimum':
