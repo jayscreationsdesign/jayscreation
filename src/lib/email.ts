@@ -4,15 +4,15 @@ import nodemailer from 'nodemailer';
 export const emailSenders = {
   transactional: {
     name: "Jay's Creations Design",
-    email: process.env.IONOS_TRANSACTIONAL_EMAIL || 'contact@jayscreationsdesign.fr'
+    email: process.env.IONOS_EMAIL_USER || 'contact@jayscreationsdesign.fr'
   },
   orders: {
     name: "Jay's Creations Design - Commandes",
-    email: process.env.IONOS_ORDER_EMAIL || 'commande@jayscreationsdesign.fr'
+    email: process.env.COMMANDE_UTILISATEUR_SMTP || 'commande@jayscreationsdesign.fr'
   },
   admin: {
     name: "Admin Jay's Creations",
-    email: process.env.IONOS_ADMIN_EMAIL || 'contact@jayscreationsdesign.fr'
+    email: process.env.IONOS_EMAIL_USER || 'contact@jayscreationsdesign.fr'
   },
   support: {
     name: "Support Jay's Creations",
@@ -26,8 +26,8 @@ export const emailSenders = {
 
 // Configuration pour Ionos Email Marketing
 const transporter = nodemailer.createTransport({
-  host: process.env.IONOS_SMTP_HOST || 'smtp.ionos.fr',
-  port: parseInt(process.env.IONOS_SMTP_PORT || '587'),
+  host: process.env.SMTP_HOST || 'smtp.ionos.fr',
+  port: parseInt(process.env.SMTP_PORT || '587'),
   secure: false, // true pour 465, false pour 587
   auth: {
     user: process.env.IONOS_EMAIL_USER, // votre-email@jayscreationsdesign.fr
@@ -330,7 +330,7 @@ export async function sendWelcomeEmail(email: string, firstName: string) {
   });
 
   // 2. Envoyer une notification admin pour la création de compte
-  const adminEmail = process.env.IONOS_ADMIN_EMAIL || 'contact@jayscreationsdesign.fr';
+  const adminEmail = process.env.IONOS_EMAIL_USER || 'contact@jayscreationsdesign.fr';
   const adminResult = await sendEmail({
     to: adminEmail,
     subject: '👕 Nouveau compte créé - Jay\'s Creations Design',

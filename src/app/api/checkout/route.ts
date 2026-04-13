@@ -19,6 +19,12 @@ if (stripeSecretKey) {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('ENV CHECK:', {
+    stripeKey: process.env.STRIPE_SECRET_KEY?.substring(0, 12),
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
+    smtpHost: process.env.SMTP_HOST
+  });
+
   try {
     // Mode démo si Stripe n'est pas configuré
     if (!stripe) {

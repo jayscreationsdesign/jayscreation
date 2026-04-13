@@ -230,7 +230,7 @@ export async function POST(request: NextRequest) {
 
     // Envoi de l'email à l'admin
     const result = await sendEmail({
-      to: process.env.IONOS_ADMIN_EMAIL || 'contact@jayscreationsdesign.fr',
+      to: process.env.IONOS_EMAIL_USER || 'contact@jayscreationsdesign.fr',
       subject,
       html: htmlContent
     });
