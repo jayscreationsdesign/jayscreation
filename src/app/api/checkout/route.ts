@@ -69,7 +69,13 @@ export async function POST(request: NextRequest) {
     // Construction des URLs obligatoires avec new URL() (ASCII uniquement)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
                    request.headers.get('origin') || 
-                   'http://localhost:3000';
+                   'https://jayscreationsdesign.fr';
+    
+    console.log('DEBUG - Variables d\'environnement:', {
+      STRIPE_SECRET_KEY: stripeSecretKey ? 'CONFIGURED' : 'NOT_CONFIGURED',
+      NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'NOT_SET',
+      baseUrl: baseUrl
+    });
     
     if (!baseUrl) {
       throw new Error("Missing baseUrl for Stripe callbacks");
@@ -285,46 +291,57 @@ export async function POST(request: NextRequest) {
       });
 
       if (adminResponse.ok) {
-        console.log('✅ Notification admin commande envoyée');
+        console.log('  Notification admin commande envoyée');
       } else {
-        console.error('❌ Erreur notification admin');
+        console.error(' Erreur notification admin');
       }
+
     } catch (adminError) {
-      console.error('⚠️ Erreur notification admin:', adminError);
+      console.error(' Erreur notification admin:', adminError);
     }
 
     return NextResponse.json({ url: session.url });
-  } catch (error: any) {
-    // Logging détaillé de l'erreur Stripe
-    console.error('❌ Erreur création session Stripe:', {
-      message: error.message,
-      type: error.type,
-      code: error.code,
-      param: error.param,
-      stack: error.stack
-    });
+  } catch (error: unknown) {
+    // Logging détaillé de l'erreur complète
+    const errorDetails = {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      type: (error as any)?.type,
+      code: (error as any)?.code,
+      param: (error as any)?.param,
+      rawError: error
+    };
+    
+    console.error('DEBUG - Erreur complète checkout:', errorDetails);
 
     // Message d'erreur spécifique selon le type d'erreur
-    let errorMessage = 'Erreur serveur lors de la création de la session de paiement';
+    let errorMessage = 'Erreur serveur lors de la validation du panier';
     
-    if (error.type === 'StripeCardError') {
-      errorMessage = 'Erreur de carte bancaire';
-    } else if (error.type === 'StripeRateLimitError') {
-      errorMessage = 'Trop de requêtes, veuillez réessayer plus tard';
-    } else if (error.type === 'StripeInvalidRequestError') {
-      errorMessage = 'Requête invalide: ' + error.message;
-    } else if (error.type === 'StripeAPIError') {
-      errorMessage = 'Erreur API Stripe: ' + error.message;
-    } else if (error.type === 'StripeConnectionError') {
-      errorMessage = 'Erreur de connexion avec Stripe';
-    } else if (error.type === 'StripeAuthenticationError') {
-      errorMessage = 'Erreur d\'authentification Stripe (clé API invalide)';
-    } else if (error.message) {
-      errorMessage = error.message;
+    if (error instanceof Error) {
+      if ((error as any).type === 'StripeCardError') {
+        errorMessage = 'Erreur de carte bancaire';
+      } else if ((error as any).type === 'StripeRateLimitError') {
+        errorMessage = 'Trop de requêtes, veuillez réessayer plus tard';
+      } else if ((error as any).type === 'StripeInvalidRequestError') {
+        errorMessage = 'Requête invalide: ' + error.message;
+      } else if ((error as any).type === 'StripeAPIError') {
+        errorMessage = 'Erreur API Stripe: ' + error.message;
+      } else if ((error as any).type === 'StripeConnectionError') {
+        errorMessage = 'Erreur de connexion avec Stripe';
+      } else if ((error as any).type === 'StripeAuthenticationError') {
+        errorMessage = 'Erreur d\'authentification Stripe (clé API invalide)';
+      } else {
+        errorMessage = error.message;
+      }
     }
 
     return NextResponse.json(
-      { error: errorMessage },
+      { 
+        error: errorMessage,
+        details: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined,
+        debug: errorDetails
+      },
       { status: 500 }
     );
   }
