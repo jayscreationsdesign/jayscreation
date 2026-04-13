@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     const { items, client } = body;
 
     // Validation du panier avec le middleware de pricing hybride
-    const validationResult = await validateCartMiddleware(request);
+    const validationResult = await validateCartMiddleware(body);
     if (validationResult) {
       return validationResult; // Retourne l'erreur si validation échoue
     }

@@ -141,9 +141,8 @@ async function validateLotPricing(item: CartItem, product: any, supabase: any, e
 }
 
 // Middleware pour valider le panier avant la création de session Stripe
-export async function validateCartMiddleware(request: NextRequest): Promise<NextResponse | null> {
+export async function validateCartMiddleware(body: any): Promise<NextResponse | null> {
   try {
-    const body = await request.json();
     const { items } = body;
 
     if (!items || !Array.isArray(items)) {
