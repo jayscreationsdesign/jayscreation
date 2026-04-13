@@ -144,6 +144,7 @@ async function validateLotPricing(item: CartItem, product: any, supabase: any, e
 export async function validateCartMiddleware(body: any): Promise<NextResponse | null> {
   try {
     console.log('VALIDATION INPUT:', JSON.stringify(body, null, 2));
+    console.log('CART ITEMS RECEIVED:', JSON.stringify(body.items, null, 2));
     
     const { items } = body;
 

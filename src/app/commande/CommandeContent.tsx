@@ -80,7 +80,15 @@ export default function CommandeContent() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items,
+          items: items.map(item => ({
+            productId: item.slug,
+            productName: item.nom,
+            theme: item.theme || null,
+            quantity: item.quantite,
+            unitPrice: item.prix,
+            totalPrice: item.prix * item.quantite,
+            type: 'unit'
+          })),
           client: formData,
           total: finalTotal,
           coupon: urlCoupon.toUpperCase(),
