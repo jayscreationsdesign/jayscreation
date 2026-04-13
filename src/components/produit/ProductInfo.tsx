@@ -34,9 +34,9 @@ const THEMES = [
 // ── Avantages (boîte mise en valeur) ─────────────────────────────────────────
 const AVANTAGES = [
   "Livraison gratuite",
-  "Garantie de 30 jours",
-  "Modifications illimitées",
-  "Maquette sous 24h",
+  "Création 100% sur-mesure",
+  "Aperçu avant impression",
+  "Maquette sous 48 à 72h",
   "Offres exclusives",
   "Remises sur volume",
 ];
