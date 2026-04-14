@@ -4,6 +4,7 @@ import { Hero } from "@/components/home/Hero"
 import { SectionDivider } from "@/components/ui/SectionDivider"
 import { FeaturedProducts } from "@/components/home/FeaturedProducts"
 import { Categories } from "@/components/home/Categories"
+import JayClubSection from "@/components/home/JayClubSection"
 import { About } from "@/components/home/About"
 import { Testimonials } from "@/components/home/Testimonials"
 import { Contact } from "@/components/home/Contact"
@@ -27,6 +28,7 @@ export default async function Home() {
     <main>
       <Hero />
       <Categories />
+      <JayClubSection />
       <Testimonials />
       <About />
       <FeaturedProducts />

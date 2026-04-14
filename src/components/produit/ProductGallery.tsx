@@ -6,6 +6,7 @@ import ImageCarousel from "@/components/ui/ImageCarousel";
 import { getImageSrc, getImageArray } from "@/lib/images";
 import ProductImagePlaceholder from "@/components/products/ProductImagePlaceholder";
 import ImageMagnifier from "@/components/ui/ImageMagnifier";
+import Image from "next/image";
 
 export default function ProductGallery({ product }: { product: Product }) {
   // Vérifier si le produit utilise un placeholder (utiliser l'image originale non traitée)
@@ -34,10 +35,10 @@ export default function ProductGallery({ product }: { product: Product }) {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Carrousel principal */}
-      <div className="product-gallery-uniform relative rounded-xl overflow-hidden shadow-md max-w-md mx-auto">
-        <div className="relative aspect-[3/4]">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Carrousel principal - responsive */}
+      <div className="product-gallery-uniform relative rounded-xl overflow-hidden shadow-md w-full max-w-2xl mx-auto lg:max-w-none">
+        <div className="relative aspect-[3/4] sm:aspect-[4/3] lg:aspect-square">
           {isPlaceholder ? (
             <ProductImagePlaceholder productName={product.name} />
           ) : (
@@ -51,33 +52,50 @@ export default function ProductGallery({ product }: { product: Product }) {
             />
           )}
           
-          {/* Navigation flèches */}
+          {/* Navigation flèches - optimisée mobile */}
           {displayImages.length > 1 && (
             <>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev - 1 + displayImages.length) % displayImages.length)}
-                className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:bg-white transition-all duration-200 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <button
                 onClick={() => setCurrentImageIndex((prev) => (prev + 1) % displayImages.length)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all duration-200"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/80 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg hover:bg-white transition-all duration-200 w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center"
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
             </>
           )}
+          
+          {/* Indicateurs dots pour mobile */}
+          {displayImages.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 lg:hidden">
+              {displayImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    index === currentImageIndex 
+                      ? "bg-white w-6" 
+                      : "bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       
-      {/* Carrousel de thumbnails - Style comme page d'accueil */}
+      {/* Carrousel de thumbnails - desktop uniquement */}
       {!isPlaceholder && displayImages.length > 1 && (
-        <div className="flex items-center justify-center gap-2">
+        <div className="hidden sm:flex items-center justify-center gap-2">
           {/* Flèche gauche */}
           {thumbnailStart > 0 && (
             <button
@@ -90,7 +108,7 @@ export default function ProductGallery({ product }: { product: Product }) {
             </button>
           )}
           
-          {/* Thumbnails visibles - Style comme page d'accueil */}
+          {/* Thumbnails visibles - optimisés pour tablette+ */}
           {visibleThumbnails.map((img, index) => {
             const actualIndex = thumbnailStart + index;
             const isActive = actualIndex === currentImageIndex;
@@ -99,13 +117,15 @@ export default function ProductGallery({ product }: { product: Product }) {
               <div
                 key={actualIndex}
                 onClick={() => handleThumbnailClick(actualIndex)}
-                className={`product-thumbnail-rect relative flex-shrink-0 w-20 h-24 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl bg-[#E8D5B7] ${
+                className={`product-thumbnail-rect relative flex-shrink-0 w-20 h-24 sm:w-24 sm:h-28 rounded-3xl overflow-hidden shadow-lg transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-xl bg-[#E8D5B7] ${
                   isActive ? 'scale-105 shadow-xl' : ''
                 }`}
               >
-                <img
+                <Image
                   src={img}
                   alt={`${product.name} - vue ${actualIndex + 1}`}
+                  width={400}
+                  height={400}
                   className="w-full h-full object-contain p-2"
                   style={{ backgroundColor: '#E8D5B7' }}
                 />

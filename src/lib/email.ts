@@ -418,6 +418,36 @@ export async function sendWelcomeEmail(email: string, firstName: string) {
   };
 }
 
+// Test function for email functionality
+export async function testEmailWithLogo() {
+  const testOrderData = {
+    id: 'TEST-001',
+    client: {
+      prenom: 'Test',
+      nom: 'Client',
+      telephone: '0123456789'
+    },
+    total: 99.99,
+    items: [
+      {
+        nom: 'Produit test',
+        theme: 'Test',
+        quantite: 1,
+        prix: 99.99
+      }
+    ]
+  };
+
+  try {
+    const result = await sendOrderConfirmationEmail('test@example.com', testOrderData);
+    console.log('Test email result:', result);
+    return result;
+  } catch (error) {
+    console.error('Test email error:', error);
+    return { success: false, error: error instanceof Error ? error.message : 'Erreur inconnue' };
+  }
+}
+
 export async function sendOrderConfirmationEmail(email: string, orderData: any) {
   // 1. Envoyer l'email de confirmation à commande@jayscreationsdesign.fr (au lieu du client)
   const clientResult = await sendEmail({
@@ -461,11 +491,12 @@ export async function sendOrderConfirmationEmail(email: string, orderData: any) 
                           style="width:148px; height:148px; border-radius:74px; 
                                  background-color:#8B4513; text-align:center; 
                                  vertical-align:middle; padding:0;">
-                        <img src="https://www.jayscreationsdesign.fr/images/logo/logo.png.png"
+                        <img src="https://jayscreationsdesign.fr/images/logo/logo_final.png"
                              width="138" height="138"
                              style="border-radius:69px; display:block; 
                                     margin:0 auto; border:0;"
-                             alt="Jay's Creations Design" />
+                             alt="Jay's Creations Design"
+                             onerror="this.onerror=null; this.src='https://jayscreationsdesign.fr/images/logo/logo.png';" />
                       </td>
                     </tr>
                   </table>
@@ -646,8 +677,8 @@ export async function sendOrderConfirmationEmail(email: string, orderData: any) 
                   <tr>
                     <td style="background:#FFF8F0; padding:22px 28px; text-align:center; 
                                border-top:1px solid #E8E4DF;">
-                      <div style="font-family:'Playfair Display',Georgia,serif; font-size:15px; 
-                                  font-weight:600; color:#2C1A0E; margin-bottom:5px;">
+                      <div style="font-family:'Great Vibes',cursive; font-size:22px; 
+                                  font-weight:400; color:#2C1A0E; margin-bottom:5px; letter-spacing:1px;">
                         Jay's Creations Design
                       </div>
                       <div style="font-family:'Inter',Arial,sans-serif; font-size:12px; 

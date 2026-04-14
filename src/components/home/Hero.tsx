@@ -10,30 +10,36 @@ export function Hero() {
       <div className="absolute -right-40 -top-32 -z-10 h-80 w-80 rounded-full border border-accent/30" />
       <div className="absolute -left-44 -bottom-44 -z-10 h-[28rem] w-[28rem] rounded-full border border-accent/20" />
 
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-24">
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:py-8 md:py-12 lg:px-8 lg:py-24">
         <div className="grid items-center gap-8 lg:grid-cols-2">
           <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-1 rounded-full bg-[#8B4513] px-2 py-1 text-xs text-white">
+            <div className="inline-flex items-center gap-1 rounded-full bg-[#8B4513] px-3 py-1.5 text-xs text-white">
               <Sparkles className="h-2.5 w-2.5 text-white" />
               <span className="inline">Édition premium</span>
             </div>
 
-            <h1 className="mt-3 font-heading text-2xl sm:text-3xl lg:text-5xl leading-[1.1] text-jc-text">
+            <h1 className="mt-4 font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] text-jc-text">
               Faire-parts & invitations
               <span className="block text-jc-accent">
                 personnalisées
               </span>
             </h1>
 
-            <p className="mt-3 text-base leading-6 text-jc-muted max-w-lg mx-0">
+            <p className="mt-4 text-base sm:text-lg leading-6 text-jc-muted max-w-lg mx-auto lg:mx-0">
               Créations artisanales uniques avec finitions dorées pour sublimer vos événements.
             </p>
 
-            <div className="mt-4 flex flex-col gap-2 w-full max-w-xs mx-auto lg:mx-0">
-              <PrimaryCtaButton href="/boutique" className="w-full text-sm py-2.5">
+            {/* Note globale */}
+            <div className="mt-3 flex items-center gap-2 text-sm text-jc-muted">
+              <span className="text-jc-accent">â</span>
+              <span className="font-medium">4.9/5 basé sur 127 avis clients</span>
+            </div>
+
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 w-full max-w-sm mx-auto lg:mx-0 lg:max-w-none">
+              <PrimaryCtaButton href="/boutique" className="w-full sm:flex-1 text-sm sm:text-base py-3 px-6 min-h-[44px]">
                 Découvrir la boutique
               </PrimaryCtaButton>
-              <PrimaryCtaButton href="/contact" showArrow={false} className="w-full text-sm py-2.5">
+              <PrimaryCtaButton href="/contact" showArrow={false} className="w-full sm:flex-1 text-sm sm:text-base py-3 px-6 min-h-[44px]">
                 Demander un devis
               </PrimaryCtaButton>
             </div>
@@ -61,23 +67,23 @@ export function Hero() {
                 </div>
               </div>
               
-              {/* Badges responsive - grid 2x1 sur mobile, 3x1 sur desktop */}
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-1 w-full">
-                <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center">
-                  <div className="text-sm font-heading text-jc-accent font-bold">24h</div>
-                  <div className="text-[9px] text-jc-accent/70 leading-tight">
+              {/* Badges responsive - grid optimisée pour mobile */}
+              <div className="grid grid-cols-3 sm:grid-cols-3 gap-2 w-full max-w-xs mx-auto lg:mx-0 lg:max-w-none">
+                <div className="rounded-lg border border-[#8B4513] bg-[#FAF7F2] px-2 py-2 text-center min-h-[60px] flex flex-col justify-center">
+                  <div className="text-sm sm:text-base font-heading text-[#8B4513] font-bold">24h</div>
+                  <div className="text-[10px] sm:text-[11px] text-[#8B4513]/80 leading-tight">
                     Aperçu
                   </div>
                 </div>
-                <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center">
-                  <div className="text-sm font-heading text-jc-accent font-bold">100%</div>
-                  <div className="text-[9px] text-jc-accent/70 leading-tight">
+                <div className="rounded-lg border border-[#8B4513] bg-[#FAF7F2] px-2 py-2 text-center min-h-[60px] flex flex-col justify-center">
+                  <div className="text-sm sm:text-base font-heading text-[#8B4513] font-bold">100%</div>
+                  <div className="text-[10px] sm:text-[11px] text-[#8B4513]/80 leading-tight">
                     Personnalisé
                   </div>
                 </div>
-                <div className="rounded-lg border-jc-accent bg-jc-surface px-2 py-2 text-center lg:col-span-1">
-                  <div className="text-sm font-heading text-jc-accent font-bold">Premium</div>
-                  <div className="text-[9px] text-jc-accent/70 leading-tight">
+                <div className="rounded-lg border border-[#8B4513] bg-[#FAF7F2] px-2 py-2 text-center min-h-[60px] flex flex-col justify-center">
+                  <div className="text-sm sm:text-base font-heading text-[#8B4513] font-bold">Premium</div>
+                  <div className="text-[10px] sm:text-[11px] text-[#8B4513]/80 leading-tight">
                     Qualité
                   </div>
                 </div>
@@ -85,18 +91,18 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="relative">
-            <div className="relative rounded-2xl border border-border bg-background/60 p-3 shadow-sm backdrop-blur">
-              <div className="flex items-center justify-between gap-2 border-b border-border px-2 py-2">
-                <div className="text-xs font-medium text-foreground">
+          <div className="relative order-first lg:order-last">
+            <div className="relative rounded-2xl border border-[#8B4513]/20 bg-white/80 p-4 sm:p-6 shadow-lg backdrop-blur max-w-sm mx-auto lg:mx-0">
+              <div className="flex items-center justify-between gap-2 border-b border-[#8B4513]/30 px-3 py-3">
+                <div className="text-sm font-medium text-[#2C1A0E]">
                   Collections
                 </div>
-                <div className="text-[10px] text-muted-foreground">
+                <div className="text-xs text-[#8B4513]/70">
                   Sélection
                 </div>
               </div>
 
-              <div className="mt-3 grid grid-cols-2 gap-1.5">
+              <div className="mt-4 grid grid-cols-2 gap-2">
                 {[
                   { title: "Mariage", desc: "Faire-part" },
                   { title: "Naissance", desc: "Cartes" },
@@ -105,15 +111,15 @@ export function Hero() {
                 ].map((card) => (
                   <div
                     key={card.title}
-                    className="group rounded-lg border border-border bg-[radial-gradient(circle_at_top,rgba(200,169,110,0.22),transparent_60%)] p-2 transition-transform"
+                    className="group rounded-lg border border-[#8B4513]/30 bg-[radial-gradient(circle_at_top,rgba(139,69,19,0.15),transparent_60%)] p-3 transition-all hover:scale-105 hover:shadow-md min-h-[70px] flex flex-col justify-center"
                   >
-                    <div className="text-xs font-heading text-foreground text-center">
+                    <div className="text-xs sm:text-sm font-heading text-[#2C1A0E] text-center font-semibold">
                       {card.title}
                     </div>
-                    <div className="mt-0.5 text-[9px] text-muted-foreground text-center leading-tight">
+                    <div className="mt-1 text-[10px] sm:text-xs text-[#8B4513]/70 text-center leading-tight">
                       {card.desc}
                     </div>
-                    <div className="mt-1.5 h-0.5 w-4 rounded-full bg-accent/70 mx-auto" />
+                    <div className="mt-2 h-0.5 w-4 rounded-full bg-[#8B4513]/50 mx-auto" />
                   </div>
                 ))}
               </div>

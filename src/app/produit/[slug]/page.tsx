@@ -8,10 +8,14 @@ import ProductClient from "@/components/product/ProductClient";
 import ProductBadgeMarquee from "@/components/produit/ProductBadgeMarquee";
 import ProductDarkHero from "@/components/produit/ProductDarkHero";
 import ProductEngagements from "@/components/produit/ProductEngagements";
-import ProductReviews from "@/components/produit/ProductReviews";
+import ProductReviewsNew from "@/components/produit/ProductReviewsNew";
+import RelatedProducts from "@/components/product/RelatedProducts";
+import FrequentlyBoughtTogether from "@/components/product/FrequentlyBoughtTogether";
 import ProductFAQ from "@/components/produit/ProductFAQ";
 import RelatedProductsCarousel from "@/components/product/RelatedProductsCarousel";
 import HowToOrder from "@/components/home/HowToOrder";
+import { ProductPageTracker } from "@/components/product/ProductPageTracker";
+import { ProductJsonLd } from "@/components/product/ProductJsonLd";
 
 // ─── Génération statique & SEO ────────────────────────────────────────────────
 
@@ -27,9 +31,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = products.find((p) => p.slug === slug);
   if (!product) return {};
+  
+  const description = product.description 
+    ? product.description.slice(0, 160) 
+    : `${product.name} - Création artisanale personnalisée pour vos événements`;
+  
+  const imageUrl = product.image || '/images/logo/logo.png';
+  
   return {
     title: product.name,
-    description: product.description ?? product.name,
+    description,
+    openGraph: {
+      title: product.name,
+      description,
+      images: [imageUrl],
+      locale: 'fr_FR'
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.name,
+      description,
+      images: [imageUrl]
+    }
   };
 }
 
@@ -46,6 +69,12 @@ export default async function ProductPage({
 
   return (
     <div className="bg-white">
+      {/* SEO JSON-LD */}
+      <ProductJsonLd product={product} />
+      
+      {/* Track product view */}
+      <ProductPageTracker product={product} />
+      
       {/* Fil d'Ariane */}
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <nav
@@ -80,9 +109,15 @@ export default async function ProductPage({
       <ProductEngagements />
 
       {/* Section 7 - Avis clients */}
-      <ProductReviews product={product} />
+      <ProductReviewsNew product={product} />
 
-      {/* Section 8 - FAQ produit */}
+      {/* Section 8 - Produits fréquemment achetés ensemble */}
+      <FrequentlyBoughtTogether product={product} />
+
+      {/* Section 9 - Produits similaires */}
+      <RelatedProducts product={product} />
+
+      {/* Section 10 - FAQ produit */}
       <ProductFAQ />
 
       {/* Section 9 - Comment commander */}

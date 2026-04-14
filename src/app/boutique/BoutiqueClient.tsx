@@ -443,13 +443,13 @@ function BoutiquePageContentInner() {
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
         {/* Grille principale : Sidebar + Contenu */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          {/* Bouton Filtre mobile/tablet */}
+          {/* Bouton Filtre mobile/tablet - optimisé */}
           <div className="lg:hidden col-span-1 mb-4">
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#8B4513] text-white rounded-lg w-full justify-center hover:bg-[#A0522D] transition-colors"
+              className="flex items-center gap-3 px-4 py-3 bg-[#8B4513] text-white rounded-xl w-full justify-center hover:bg-[#A0522D] transition-colors min-h-[48px]"
             >
-              <Filter className="h-4 w-4" />
+              <Filter className="h-5 w-5" />
               <span className="text-sm font-medium">Filtrer par catégorie</span>
             </button>
           </div>
@@ -536,7 +536,7 @@ function BoutiquePageContentInner() {
               )}
             </div>
 
-            {/* ZONE PRODUITS */}
+            {/* ZONE PRODUITS - grille optimisée mobile */}
             {totalResults === 0 ? (
               <div className="flex items-center justify-center py-16">
                 <div className="text-center max-w-md">
@@ -550,7 +550,7 @@ function BoutiquePageContentInner() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
                 {(filteredByBarProducts.length > 0 ? filteredByBarProducts : sortedProducts).map((product: Product, index: number) => (
                   <ProductCard
                     key={`${product.id ?? 'noid'}-${product.slug ?? 'noslug'}-${index}`}

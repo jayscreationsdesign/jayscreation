@@ -300,69 +300,69 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
         </div>
       )}
 
-      {/*  7. Badge Les plus populaires */}
-      <div className="mt-8 rounded-2xl border-2 border-[#8B4513] bg-[#FAF7F2] p-4 sm:p-5">
+      {/*  7. Badge Les plus populaires - optimisé mobile */}
+      <div className="mt-6 sm:mt-8 rounded-2xl border-2 border-[#8B4513] bg-[#FAF7F2] p-4 sm:p-5">
         {/* Badge "LES PLUS POPULAIRES" */}
-        <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <span className="inline-block rounded-full bg-[#8B4513] px-2 sm:px-3 py-1 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-white">
+        <div className="mb-4 sm:mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <span className="inline-block rounded-full bg-[#8B4513] px-3 py-1.5 text-[10px] sm:text-[10px] font-bold uppercase tracking-widest text-white">
             Les plus populaires
           </span>
-          <span className="text-xs sm:text-sm font-medium text-[#8B4513]">Sur-mesure</span>
+          <span className="text-sm font-medium text-[#8B4513]">Sur-mesure</span>
         </div>
 
         {/* Titre offre */}
-        <div className="mb-1 flex items-center gap-2 sm:gap-3">
-          <div className="flex h-3 w-3 sm:h-4 sm:w-4 items-center justify-center rounded-full border-2 border-[#8B4513]">
-            <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-[#8B4513]" />
+        <div className="mb-3 flex items-center gap-3">
+          <div className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-[#8B4513]">
+            <div className="h-2 w-2 rounded-full bg-[#8B4513]" />
           </div>
-          <p className="text-sm sm:text-base font-bold text-[#2C2C2C]">Personnalisez et économisez</p>
+          <p className="text-base sm:text-base font-bold text-[#2C2C2C]">Personnalisez et économisez</p>
         </div>
 
         {/* Prix */}
-        <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-baseline sm:gap-3 gap-1">
-          <span className="text-lg sm:text-2xl font-bold text-[#2C2C2C]">
+        <div className="mb-4 flex flex-col sm:flex-row sm:items-baseline sm:gap-3 gap-2">
+          <span className="text-xl sm:text-2xl font-bold text-[#2C2C2C]">
             {formatPriceEUR(productUnitPrice)} / unité
           </span>
-          <span className="text-xs sm:text-sm text-[#6B6B6B]">min. {minQuantity} pièces</span>
+          <span className="text-sm text-[#6B6B6B]">min. {minQuantity} pièces</span>
         </div>
 
-        {/* Avantages */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+        {/* Avantages - espacement minimum 44px sur mobile */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-2">
+          <div className="flex items-center gap-3 min-h-[44px]">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
               <Check size={8} className="text-white" strokeWidth={3} />
             </div>
-            <span className="text-xs sm:text-base text-[#6B6B6B]">Livraison gratuite</span>
+            <span className="text-sm text-[#6B6B6B]">Livraison gratuite</span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+          <div className="flex items-center gap-3 min-h-[44px]">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
               <Check size={8} className="text-white" strokeWidth={3} />
             </div>
-            <span className="text-xs sm:text-base text-[#6B6B6B]">Garantie de 30 jours</span>
+            <span className="text-sm text-[#6B6B6B]">Garantie de 30 jours</span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+          <div className="flex items-center gap-3 min-h-[44px]">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
               <Check size={8} className="text-white" strokeWidth={3} />
             </div>
-            <span className="text-xs sm:text-base text-[#6B6B6B]">Modifications illimitées</span>
+            <span className="text-sm text-[#6B6B6B]">Modifications illimitées</span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+          <div className="flex items-center gap-3 min-h-[44px]">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
               <Check size={8} className="text-white" strokeWidth={3} />
             </div>
-            <span className="text-xs sm:text-base text-[#6B6B6B]">Maquette sous 24h</span>
+            <span className="text-sm text-[#6B6B6B]">Maquette sous 24h</span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+          <div className="flex items-center gap-3 min-h-[44px]">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
               <Check size={8} className="text-white" strokeWidth={3} />
             </div>
-            <span className="text-xs sm:text-base text-[#6B6B6B]">Offres exclusives</span>
+            <span className="text-sm text-[#6B6B6B]">Offres exclusives</span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <div className="flex h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
+          <div className="flex items-center gap-3 min-h-[44px]">
+            <div className="flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-[#8B4513]">
               <Check size={8} className="text-white" strokeWidth={3} />
             </div>
-            <span className="text-xs sm:text-base text-[#6B6B6B]">Remises sur volume</span>
+            <span className="text-sm text-[#6B6B6B]">Remises sur volume</span>
           </div>
         </div>
       </div>

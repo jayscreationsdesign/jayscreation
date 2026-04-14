@@ -11,6 +11,7 @@ import { useCartStore } from "@/store/cartStore";
 import { Mail, Phone, MapPin, Edit3, User, ShoppingBag, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from 'next/image';
+import { phTrackPurchase, phIdentifyUser } from "@/lib/analytics";
 
 interface FormData {
   prenom: string;
@@ -104,6 +105,13 @@ export default function CommandeContent() {
       if (!data?.url) {
         throw new Error('Aucune URL Stripe retournée');
       }
+
+      // Identify user in PostHog before payment
+      phIdentifyUser(formData.email, formData.email, {
+        first_name: formData.prenom,
+        last_name: formData.nom,
+        phone: formData.telephone
+      });
 
       window.location.href = data.url;
     } catch (error) {
@@ -223,9 +231,9 @@ export default function CommandeContent() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Informations personnelles */}
+                {/* Informations personnelles - mobile first */}
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor="prenom" className="text-[#2C2C2C]">
                         Prénom *
@@ -235,7 +243,7 @@ export default function CommandeContent() {
                         value={formData.prenom}
                         onChange={(e) => handleInputChange('prenom', e.target.value)}
                         required
-                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                       />
                     </div>
                     <div>
@@ -247,7 +255,7 @@ export default function CommandeContent() {
                         value={formData.nom}
                         onChange={(e) => handleInputChange('nom', e.target.value)}
                         required
-                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                       />
                     </div>
                   </div>
@@ -263,7 +271,7 @@ export default function CommandeContent() {
                       value={formData.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       required
-                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                     />
                   </div>
                   
@@ -277,14 +285,14 @@ export default function CommandeContent() {
                       value={formData.telephone}
                       onChange={(e) => handleInputChange('telephone', e.target.value)}
                       required
-                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                     />
                   </div>
                 </div>
 
                 <Separator className="bg-[#8B4513]/50" />
 
-                {/* Adresse de livraison */}
+                {/* Adresse de livraison - mobile first */}
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="adresse" className="text-[#2C2C2C] flex items-center gap-2">
@@ -296,11 +304,11 @@ export default function CommandeContent() {
                       value={formData.adresse}
                       onChange={(e) => handleInputChange('adresse', e.target.value)}
                       required
-                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                      className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                     />
                   </div>
                   
-                  <div className="grid grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <Label htmlFor="codePostal" className="text-[#2C2C2C]">
                         Code postal *
@@ -310,7 +318,7 @@ export default function CommandeContent() {
                         value={formData.codePostal}
                         onChange={(e) => handleInputChange('codePostal', e.target.value)}
                         required
-                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                       />
                     </div>
                     <div>
@@ -322,7 +330,7 @@ export default function CommandeContent() {
                         value={formData.ville}
                         onChange={(e) => handleInputChange('ville', e.target.value)}
                         required
-                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                       />
                     </div>
                     <div>
@@ -334,7 +342,7 @@ export default function CommandeContent() {
                         value={formData.pays}
                         onChange={(e) => handleInputChange('pays', e.target.value)}
                         required
-                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20"
+                        className="border border-[#E8E4DF] focus:border-[#8B4513] focus:ring-2 focus:ring-[#8B4513]/20 min-h-[48px]"
                       />
                     </div>
                   </div>
@@ -356,13 +364,13 @@ export default function CommandeContent() {
                   />
                 </div>
 
-                {/* Bouton de paiement - utilise les mêmes couleurs que PrimaryCtaButton */}
+                {/* Bouton de paiement - optimisé mobile */}
                 <Button
                   type="submit"
                   disabled={isLoading || items.length === 0}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-6 py-4 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#8b4513] px-6 py-4 sm:py-4 font-medium text-white transition-all duration-300 hover:bg-[#6b3410] hover:text-[#D4A574] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#8b4513] disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg min-h-[56px] sm:min-h-[60px]"
                 >
-                  <span className="text-lg">
+                  <span className="text-base sm:text-lg">
                     {isLoading ? 'Traitement en cours...' : 
                     finalTotal === 0 ? 'Valider la commande gratuite' : 
                     `Payer avec Stripe - ${formatPrice(finalTotal)}`}

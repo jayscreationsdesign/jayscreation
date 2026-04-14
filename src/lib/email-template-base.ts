@@ -10,7 +10,11 @@ export const EMAIL_HEADER = `
             <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 18px;">
               <tr>
                 <td width="148" height="148" style="width:148px; height:148px; border-radius:74px; background-color:#8B4513; text-align:center; vertical-align:middle;">
-                  <img src="https://www.jayscreationsdesign.fr/images/logo/logo_transparent.png.png" width="138" height="138" style="border-radius:69px; display:block; margin:0 auto; border:0;" alt="Jay's Creations Design" />
+                  <img src="https://jayscreationsdesign.fr/images/logo/logo_final.png" 
+                     width="138" height="138" 
+                     style="border-radius:69px; display:block; margin:0 auto; border:0;" 
+                     alt="Jay's Creations Design"
+                     onerror="this.onerror=null; this.src='https://jayscreationsdesign.fr/images/logo/logo.png';" />
                 </td>
               </tr>
             </table>

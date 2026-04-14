@@ -5,6 +5,7 @@ import ProductGallery from "@/components/produit/ProductGallery"
 import ProductInfo from "@/components/produit/ProductInfo"
 import { useState } from "react"
 import { useCartStore } from "@/store/cartStore"
+import { phTrackAddToCart, trackAddToCart } from "@/lib/analytics"
 
 interface ProductClientProps {
   slug: string
@@ -44,7 +45,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
       prixString.replace(/[^\d,]/g, "").replace(",", ".")
     ) || 0
 
-    addItem({
+    const cartItem = {
       id: `${product.slug}-${selectedTheme || "default"}`,
       nom: product.name,
       prix: prix,
@@ -52,7 +53,25 @@ export default function ProductClient({ slug }: ProductClientProps) {
       image: product.image || "/images/products/placeholder.png",
       theme: selectedTheme || undefined,
       slug: product.slug,
+    }
+
+    addItem(cartItem)
+    
+    // PostHog event
+    phTrackAddToCart({
+      id: cartItem.id,
+      name: cartItem.nom,
+      price: cartItem.prix,
+      category: product.category,
+      theme: selectedTheme
     })
+
+    // Google Analytics 4 event
+    trackAddToCart({
+      id: cartItem.id,
+      name: cartItem.nom,
+      price: cartItem.prix
+    }, quantityToAdd)
 
     setQty(1)
     alert(`✅ ${product.name} ajouté au panier !`)
@@ -78,30 +97,34 @@ export default function ProductClient({ slug }: ProductClientProps) {
         </div>
       </div>
       
-      {/* Bouton sticky "Ajouter au panier" pour mobile */}
+      {/* Bouton sticky "Ajouter au panier" pour mobile - amélioré */}
       {product.themes && product.themes.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-[#6B3A2A] text-white p-4 z-50 lg:hidden">
-          <button
-            onClick={handleAddToCart}
-            disabled={!selectedTheme}
-            className={`w-full py-4 px-6 rounded-lg font-semibold text-base transition-colors ${
-              selectedTheme 
-                ? "bg-white text-[#6B3A2A] hover:bg-gray-100" 
-                : "bg-gray-400 text-gray-600 cursor-not-allowed"
-            }`}
-          >
-            {selectedTheme ? "Ajouter au panier" : "Sélectionnez un thème"}
-          </button>
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#8B4513]/20 shadow-lg p-4 z-50 lg:hidden">
+          <div className="max-w-7xl mx-auto">
+            <button
+              onClick={handleAddToCart}
+              disabled={!selectedTheme}
+              className={`w-full py-4 px-6 rounded-xl font-semibold text-base transition-all min-h-[52px] ${
+                selectedTheme 
+                  ? "bg-[#8B4513] text-white hover:bg-[#6B3410] shadow-md" 
+                  : "bg-gray-200 text-gray-500 cursor-not-allowed"
+              }`}
+            >
+              {selectedTheme ? "Ajouter au panier" : "Sélectionnez un thème"}
+            </button>
+          </div>
         </div>
       )}
       {(!product.themes || product.themes.length === 0) && (
-        <div className="fixed bottom-0 left-0 right-0 bg-[#6B3A2A] text-white p-4 z-50 lg:hidden">
-          <button
-            onClick={handleAddToCart}
-            className="w-full bg-white text-[#6B3A2A] py-4 px-6 rounded-lg font-semibold text-base hover:bg-gray-100 transition-colors"
-          >
-            Ajouter au panier
-          </button>
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#8B4513]/20 shadow-lg p-4 z-50 lg:hidden">
+          <div className="max-w-7xl mx-auto">
+            <button
+              onClick={handleAddToCart}
+              className="w-full bg-[#8B4513] text-white py-4 px-6 rounded-xl font-semibold text-base hover:bg-[#6B3410] transition-all shadow-md min-h-[52px]"
+            >
+              Ajouter au panier
+            </button>
+          </div>
         </div>
       )}
     </div>

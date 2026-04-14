@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
+import { type Product } from "@/data/products";
 import { products } from "@/data/products"
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton"
 import { formatPriceEUR } from "@/lib/formatPrice"
@@ -78,32 +79,38 @@ export function FeaturedProducts() {
           </p>
         </div>
 
-        {/* Carousel */}
-        <div className="relative flex items-center gap-4">
-          
-          {/* Bouton prev */}
-          <button
-            onClick={prev}
-            disabled={current === 0}
-            className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full 
-            bg-white/30 text-[#8B4513] flex items-center justify-center 
-            hover:bg-white/40 hover:text-[#D4A574] transition-colors disabled:opacity-30"
-          >
-            <ChevronLeft size={20} />
-          </button>
+        {/* Carousel - responsive */}
+        <div className="relative">
+          {/* Navigation desktop */}
+          <div className="hidden lg:flex items-center gap-4">
+            <button
+              onClick={prev}
+              disabled={current === 0}
+              className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full 
+              bg-white/30 text-[#8B4513] flex items-center justify-center 
+              hover:bg-white/40 hover:text-[#D4A574] transition-colors disabled:opacity-30"
+            >
+              <ChevronLeft size={20} />
+            </button>
 
-          {/* Cards */}
-          <div className="grid grid-cols-4 gap-4">
-            {featured.slice(current, current + visibleCount).map((product) => (
+            {/* Cards desktop */}
+            <div className="grid grid-cols-4 gap-4">
+              {featured.slice(current, current + visibleCount).map((product, index) => (
               <div key={product.id}
                 className="bg-white rounded-2xl p-4 flex flex-col gap-2 min-w-0">
                 
                 {/* Image */}
                 <div className="relative w-full aspect-square bg-[#FDFBF7] rounded-xl overflow-hidden flex items-center justify-center p-3">
                   {product.image ? (
-                    <img
+                    <Image
                       src={product.image}
                       alt={product.name}
+                      width={200}
+                      height={200}
+                      loading={current + index < 4 ? "eager" : "lazy"}
+                      priority={current + index < 4}
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwA/wA="
                       className="max-w-full max-h-full w-auto h-auto object-contain"
                       style={{ backgroundColor: '#FDFBF7' }}
                     />
@@ -153,18 +160,86 @@ export function FeaturedProducts() {
                 </div>
               </div>
             ))}
+            </div>
+
+            {/* Bouton next desktop */}
+            <button
+              onClick={next}
+              disabled={current >= featured.length - visibleCount}
+              className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full 
+              bg-white/30 text-[#8B4513] flex items-center justify-center 
+              hover:bg-white/40 hover:text-[#D4A574] transition-colors disabled:opacity-30"
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
 
-          {/* Bouton next */}
-          <button
-            onClick={next}
-            disabled={current >= featured.length - visibleCount}
-            className="cursor-pointer flex-shrink-0 w-10 h-10 rounded-full 
-            bg-white/30 text-[#8B4513] flex items-center justify-center 
-            hover:bg-white/40 hover:text-[#D4A574] transition-colors disabled:opacity-30"
-          >
-            <ChevronRight size={20} />
-          </button>
+          {/* Version mobile - carousel horizontal scrollable */}
+          <div className="lg:hidden">
+            <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4 scroll-smooth">
+              {featured.map((product) => (
+                <div key={product.id} className="flex-shrink-0 w-72">
+                  <div className="bg-white rounded-2xl p-4 flex flex-col gap-2 h-full">
+                    {/* Image */}
+                    <div className="relative w-full aspect-square bg-[#FDFBF7] rounded-xl overflow-hidden flex items-center justify-center p-3">
+                      {product.image ? (
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          width={200}
+                          height={200}
+                          className="max-w-full max-h-full w-auto h-auto object-contain"
+                          style={{ backgroundColor: '#FDFBF7' }}
+                        />
+                      ) : (
+                        <div className="w-full h-full rounded-xl bg-[#FDFBF7]" />
+                      )}
+                    </div>
+
+                    {/* Infos */}
+                    <div className="flex flex-col gap-2 flex-1 min-w-0">
+                      {/* Badge "Sélection du moment" */}
+                      {(product.id === "1" || product.name?.includes("Sélection")) && (
+                        <div className="inline-block rounded-full bg-[#E8D4B8] px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#8B4513] text-center">
+                          Sélection du moment
+                        </div>
+                      )}
+                      
+                      {/* Nom du produit */}
+                      <h3 className="text-sm font-bold text-[#333] line-clamp-2 leading-tight">
+                        {product.name}
+                      </h3>
+
+                      {/* Rating */}
+                      <div className="flex items-center gap-1">
+                        <Star size={8} className="fill-yellow-500 text-yellow-500 w-4 h-4" />
+                        <span className="text-[#8B4513] text-xs">5/5</span>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-[#6B5B45] text-xs line-clamp-2 flex-1 leading-tight">
+                        {product.description || 
+                          `${product.name} personnalisé pour vos événements spéciaux. Design unique...`}
+                      </p>
+
+                      {/* Prix + Bouton */}
+                      <div className="flex items-center justify-between gap-2 mt-auto">
+                        <span className="text-sm font-bold text-[#333] whitespace-nowrap leading-tight">
+                          {formatPrice(product)}
+                        </span>
+                        <PrimaryCtaButton 
+                          href={`/produit/${product.slug}`} 
+                          className="px-4 py-2 text-xs whitespace-nowrap w-auto flex-shrink-0 min-h-[36px]"
+                        >
+                          Voir
+                        </PrimaryCtaButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Dots */}
@@ -183,16 +258,16 @@ export function FeaturedProducts() {
         </div>
 
         {/* CTA */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 sm:mt-10">
           <Link
             href="/boutique"
             className="cursor-pointer inline-flex items-center gap-2 
-            bg-[#8B4513] text-white px-8 py-4 rounded-full font-medium 
-            hover:bg-[#6B3410] hover:text-[#D4A574] transition-colors"
+            bg-[#8B4513] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-medium 
+            hover:bg-[#6B3410] hover:text-[#D4A574] transition-colors text-sm sm:text-base min-h-[44px]"
           >
-            Explorer les tendances →
+            Explorer les tendances
           </Link>
-          <p className="text-[#6B4423]/60 text-xs mt-2">
+          <p className="text-[#6B4423]/60 text-xs sm:text-sm mt-2">
             Découvrez toutes nos créations tendance
           </p>
         </div>

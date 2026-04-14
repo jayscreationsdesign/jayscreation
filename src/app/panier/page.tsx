@@ -3,9 +3,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowLeft, Tag } from "lucide-react";
+import Image from "next/image";
 import { useCartStore } from "@/store/cartStore";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import { validateCoupon, calculateDiscount, formatDiscountValue, OFFICIAL_COUPONS } from "@/lib/discounts";
+import { phTrackCheckout, trackBeginCheckout } from "@/lib/analytics";
+import FreeShippingBar from "@/components/ui/FreeShippingBar";
 
 export default function PanierPage() {
   const { items, removeItem, updateQuantite, clearCart } = useCartStore();
@@ -13,6 +16,9 @@ export default function PanierPage() {
   const [appliedCoupon, setAppliedCoupon] = useState<any>(null);
   const [promoError, setPromoError] = useState('');
   const [hydrated, setHydrated] = useState(false);
+  
+  // Constante pour le seuil de livraison gratuite
+  const SEUIL_LIVRAISON_GRATUITE = 50;
   
   const sousTotal = items.reduce(
     (acc, item) => acc + (item.prix * item.quantite), 0
@@ -73,6 +79,23 @@ export default function PanierPage() {
 
   const totalAvecRemise = sousTotal - getRemise();
 
+  // Debug pour voir les valeurs exactes
+  useEffect(() => {
+    console.log('ð Panier Debug:');
+    console.log('- sousTotal:', sousTotal);
+    console.log('- getRemise():', getRemise());
+    console.log('- totalAvecRemise:', totalAvecRemise);
+    console.log('- items:', items.map(item => ({ nom: item.nom, prix: item.prix, quantite: item.quantite })));
+  }, [sousTotal, totalAvecRemise, items]);
+
+  const handleCheckout = () => {
+    // Track checkout initiation
+    phTrackCheckout(totalAvecRemise, items);
+    
+    // Track checkout initiation in Google Analytics 4
+    trackBeginCheckout(items);
+  };
+
   
   if (items.length === 0) {
     return (
@@ -114,72 +137,74 @@ export default function PanierPage() {
           </PrimaryCtaButton>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
+        <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 sm:gap-8">
           
-          {/* Articles */}
+          {/* Articles - full width sur mobile */}
           <div className="lg:col-span-2 space-y-3">
             {items.map((item) => (
               <div key={item.id} 
-                className="bg-white rounded-lg p-3 sm:p-4 border border-[#E8E4DF] 
-                flex flex-col sm:flex-row gap-3 sm:gap-4">
+                className="bg-white rounded-lg p-4 sm:p-4 border border-[#E8E4DF] 
+                flex flex-col sm:flex-row gap-4">
                 
                 {/* Image */}
-                <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0">
-                  <img 
+                <div className="relative w-20 h-20 sm:w-20 sm:h-20 flex-shrink-0 mx-auto sm:mx-0">
+                  <Image 
                     src={item.image || "/images/products/placeholder.png"}
                     alt={item.nom}
+                    width={80}
+                    height={80}
                     className="w-full h-full object-cover rounded-lg"
                   />
                 </div>
                 
                 {/* Détails */}
                 <div className="flex-1 min-w-0">
-                  <div className="mb-2">
+                  <div className="mb-3">
                     <Link href={`/produit/${item.slug}`}
-                      className="cursor-pointer font-semibold text-[#8B4513] text-sm sm:text-base
+                      className="cursor-pointer font-semibold text-[#8B4513] text-base sm:text-base
                       hover:text-[#6b3410] hover:underline transition-colors 
                       block truncate">
                       {item.nom}
                     </Link>
                     {item.theme && (
-                      <span className="text-xs text-[#8B4513] capitalize block mt-1">
+                      <span className="text-sm text-[#8B4513] capitalize block mt-1">
                         {item.theme}
                       </span>
                     )}
                   </div>
                   
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center gap-3 mb-4">
                     <button
                       onClick={() => updateQuantite(item.id, Math.max(1, item.quantite - 1))}
-                      className="cursor-pointer w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-[#E8E4DF] 
+                      className="cursor-pointer w-10 h-10 rounded-full border border-[#E8E4DF] 
                       flex items-center justify-center hover:border-[#8B4513] transition-colors"
                     >
-                      <Minus size={14} />
+                      <Minus size={16} />
                     </button>
-                    <span className="w-8 text-center font-medium text-[#8B4513] text-sm">
+                    <span className="w-8 text-center font-medium text-[#8B4513] text-base">
                       {item.quantite}
                     </span>
                     <button
                       onClick={() => updateQuantite(item.id, item.quantite + 1)}
-                      className="cursor-pointer w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-[#E8E4DF] 
+                      className="cursor-pointer w-10 h-10 rounded-full border border-[#E8E4DF] 
                       flex items-center justify-center hover:border-[#8B4513] transition-colors"
                     >
-                      <Plus size={14} />
+                      <Plus size={16} />
                     </button>
                   </div>
                   
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-xs text-[#6B6B6B]">Prix/u</p>
-                      <p className="font-bold text-[#8B4513] text-sm">
+                      <p className="text-sm text-[#6B6B6B]">Prix/unitaire</p>
+                      <p className="font-bold text-[#8B4513] text-base">
                         {formatPrice(item.prix)}
                       </p>
                     </div>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="cursor-pointer text-[#8B4513] hover:text-[#6b3410] transition-colors"
+                      className="cursor-pointer text-[#8B4513] hover:text-[#6b3410] transition-colors p-2"
                     >
-                      <Trash2 size={14} />
+                      <Trash2 size={18} />
                     </button>
                   </div>
                 </div>
@@ -187,12 +212,15 @@ export default function PanierPage() {
             ))}
           </div>
 
-          {/* Récapitulatif */}
+          {/* Récapitulatif - sticky sur desktop, normal sur mobile */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg p-4 sm:p-6 border border-[#E8E4DF] sticky top-4 sm:top-8">
-              <h2 className="text-base sm:text-lg font-bold text-[#8B4513] mb-4 sm:mb-6">
+            <div className="bg-white rounded-lg p-4 sm:p-6 border border-[#E8E4DF] lg:sticky lg:top-8">
+              <h2 className="text-lg sm:text-lg font-bold text-[#8B4513] mb-4 sm:mb-6">
                 Récapitulatif
               </h2>
+              
+              {/* Barre de livraison gratuite */}
+              <FreeShippingBar total={totalAvecRemise} />
               
               <div className="space-y-3 mb-4 sm:mb-6">
                 <div className="flex justify-between text-xs sm:text-sm">
@@ -291,7 +319,9 @@ export default function PanierPage() {
                 
                 <div className="flex justify-between text-sm">
                   <span className="text-[#6B6B6B]">Livraison</span>
-                  <span className="text-[#8B4513] font-medium">Gratuite</span>
+                  <span className="text-[#8B4513] font-medium">
+                    {totalAvecRemise >= SEUIL_LIVRAISON_GRATUITE ? 'Gratuite' : 'Calculée à l\'étape suivante'}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-[#6B6B6B]">TVA</span>
@@ -312,15 +342,17 @@ export default function PanierPage() {
               <div className="bg-[#FAF7F2] p-4 rounded-lg text-sm text-[#6B6B6B] mb-6">
                 <p className="mb-1">✓ Livraison offerte dès 50€ d'achat</p>
                 <p className="mb-1">✓ Modifications jusqu'à validation</p>
-                <p>✓ Satisfait ou remboursé 30 jours</p>
+                <p>✓ Service client disponible 7j/7</p>
               </div>
               
-              {/* Boutons d'action */}
+              {/* Boutons d'action - optimisés mobile */}
               <div className="space-y-3 mt-6">
-                <PrimaryCtaButton href="/commande" className="w-full">
-                  Commander
-                </PrimaryCtaButton>
-                <PrimaryCtaButton href="/boutique" className="w-full">
+                <Link href="/commande" onClick={handleCheckout}>
+                  <PrimaryCtaButton className="w-full py-4 text-base min-h-[52px]">
+                    Commander
+                  </PrimaryCtaButton>
+                </Link>
+                <PrimaryCtaButton href="/boutique" className="w-full py-3 text-sm min-h-[44px]">
                   Continuer mes achats
                 </PrimaryCtaButton>
               </div>

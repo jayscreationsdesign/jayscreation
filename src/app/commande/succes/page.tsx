@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, ShoppingBag, Package, Truck } from 'lucide-react';
 import Link from 'next/link';
 import { useCartStore } from '@/store/cartStore';
+import { phTrackPurchase, trackPurchase } from '@/lib/analytics';
 
 function SuccessPageContent() {
   const searchParams = useSearchParams();
@@ -23,10 +24,24 @@ function SuccessPageContent() {
     if (sessionId) {
       // Ici vous pourriez faire un appel API pour récupérer les détails
       // Pour l'instant, on simule un succès
+      const orderTotal = 0; // À récupérer depuis l'API Stripe webhook
+      
       setOrderDetails({
         id: sessionId,
-        total: '0.00', // À récupérer depuis l'API
+        total: orderTotal.toFixed(2),
         date: new Date().toLocaleDateString('fr-FR'),
+      });
+
+      // Track purchase event in PostHog
+      // Note: Les items du panier sont déjà vidés, donc on passe un tableau vide
+      // Dans une implémentation réelle, vous devriez récupérer les items depuis l'API
+      phTrackPurchase(sessionId, orderTotal, []);
+
+      // Track purchase event in Google Analytics 4
+      trackPurchase({
+        id: sessionId,
+        total: orderTotal,
+        items: []
       });
     }
 

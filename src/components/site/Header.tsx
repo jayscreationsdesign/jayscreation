@@ -148,8 +148,16 @@ export default function Header() {
   
   // Panier states
   const items = useCartStore((state) => state.items);
-  const totalItems = useCartStore((state) => state.count);
   const sousTotal = useCartStore((state) => state.total);
+  
+  // Fonction unifiée pour compter les articles
+  const totalItems = items.reduce((sum, item) => sum + item.quantite, 0);
+  
+  // Calcul du total correct pour le mini-panier
+  const total = items.reduce((sum, item) => 
+    sum + (Number(item.prix) * item.quantite), 0
+  );
+  
   const [hydrated, setHydrated] = useState(false);
 
   // Debug pour voir l'état du panier
@@ -531,7 +539,7 @@ export default function Header() {
                 </Link>
 
                 {/* Mini panier dropdown */}
-                {(cartHover || cartDropdownHover) && totalItems > 0 && (
+                {(cartHover || cartDropdownHover) && (
                   <div 
                     className="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 p-4"
                     onMouseEnter={handleCartDropdownMouseEnter}
@@ -540,34 +548,63 @@ export default function Header() {
                     <p className="text-sm font-semibold text-gray-900 mb-3">
                       Mon panier ({totalItems} article{totalItems > 1 ? "s" : ""})
                     </p>
-                    <div className="space-y-3 max-h-64 overflow-y-auto">
+                    <div className="max-h-64 overflow-y-auto">
                       {items.map((item) => (
-                        <div key={item.id} className="flex gap-3 items-center">
+                        <div 
+                          key={item.id} 
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            padding: '8px',
+                            borderBottom: '1px solid #E8E4DF'
+                          }}
+                        >
                           <img
                             src={item.image || "/images/products/placeholder.png"}
                             alt={item.nom}
-                            className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+                            style={{
+                              width: '60px',
+                              height: '60px',
+                              objectFit: 'cover',
+                              borderRadius: '8px',
+                              flexShrink: 0
+                            }}
                           />
-                          <div className="flex-1 min-w-0">
+                          <div style={{ flex: 1, overflow: 'hidden' }}>
                             <Link
                               href={item.slug ? `/produit/${item.slug}` : '#'}
-                              className="text-xs font-medium text-gray-900 truncate hover:text-[#6b3410] transition-colors"
+                              style={{
+                                fontSize: '13px',
+                                fontWeight: 600,
+                                color: '#2C1A0E',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                maxWidth: '200px',
+                                display: 'block',
+                                textDecoration: 'none'
+                              }}
                               onClick={() => {
-                                console.log('🛒 Clic sur article:', item.nom); // Debug
+                                console.log('ð Clic sur article:', item.nom); // Debug
                                 setCartHover(false);
                                 setCartDropdownHover(false);
                               }}
                             >
                               {item.nom}
                             </Link>
-                            {item.theme && (
-                              <p className="text-xs text-gray-600 capitalize">
-                                {item.theme}
+                            <div style={{ marginTop: '4px' }}>
+                              <p style={{
+                                fontSize: '13px',
+                                color: '#8B4513',
+                                fontWeight: 700
+                              }}>
+                                x{item.quantite} · {new Intl.NumberFormat('fr-FR', { 
+                                  style: 'currency', 
+                                  currency: 'EUR' 
+                                }).format(item.prix * item.quantite)}
                               </p>
-                            )}
-                            <p className="text-xs text-gray-600">
-                              x{item.quantite} · {(item.prix * item.quantite).toFixed(2)} €
-                            </p>
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -575,7 +612,10 @@ export default function Header() {
                     <div className="border-t border-gray-200 mt-3 pt-3">
                       <div className="flex justify-between text-sm font-bold mb-3">
                         <span>Total</span>
-                        <span className="text-gray-900">{sousTotal.toFixed(2)} €</span>
+                        <span className="text-gray-900">{new Intl.NumberFormat('fr-FR', { 
+                          style: 'currency', 
+                          currency: 'EUR' 
+                        }).format(total)}</span>
                       </div>
                       <Link
                         href="/panier"
