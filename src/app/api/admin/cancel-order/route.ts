@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
-import { sendEmail } from '@/lib/email';
+import { sendEmail } from '../../../../lib/email';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+if (!stripeSecretKey) {
+  console.warn('STRIPE_SECRET_KEY non configuré - API admin/cancel-order sera non fonctionnelle');
+}
+
+const stripe = stripeSecretKey ? new Stripe(stripeSecretKey, {
   apiVersion: '2026-03-25.dahlia',
-});
+}) : null;
 
 export async function GET(request: NextRequest) {
   try {
@@ -45,7 +50,7 @@ export async function GET(request: NextRequest) {
     let refundError = null;
 
     // Tenter le remboursement Stripe si payment_intent_id existe
-    if (order.payment_intent_id) {
+    if (order.payment_intent_id && stripe) {
       try {
         const refund = await stripe.refunds.create({
           payment_intent: order.payment_intent_id,

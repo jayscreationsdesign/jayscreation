@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       });
     } else {
       return NextResponse.json(
-        { error: "Erreur lors de l'envoi de l'email de confirmation", details: result.clientEmail.error || result.adminCopy.error },
+        { error: "Erreur lors de l'envoi de l'email de confirmation", details: result.clientEmail.error || result.copyEmail.error },
         { status: 500 }
       );
     }

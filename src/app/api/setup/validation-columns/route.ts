@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       }
       results.push({ column: 'admin_token', status: 'tenté' });
     } catch (e) {
-      results.push({ column: 'admin_token', status: 'erreur', error: e.message });
+      results.push({ column: 'admin_token', status: 'erreur', error: e instanceof Error ? e.message : 'Erreur inconnue' });
     }
 
     // 2. Ajout de payment_intent_id
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       });
       results.push({ column: 'payment_intent_id', status: 'tenté' });
     } catch (e) {
-      results.push({ column: 'payment_intent_id', status: 'erreur', error: e.message });
+      results.push({ column: 'payment_intent_id', status: 'erreur', error: e instanceof Error ? e.message : 'Erreur inconnue' });
     }
 
     // 3. Ajout de token_used
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       });
       results.push({ column: 'token_used', status: 'tenté' });
     } catch (e) {
-      results.push({ column: 'token_used', status: 'erreur', error: e.message });
+      results.push({ column: 'token_used', status: 'erreur', error: e instanceof Error ? e.message : 'Erreur inconnue' });
     }
 
     // 4. Mise à jour des contraintes de statut
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       });
       results.push({ column: 'statut_constraint', status: 'tenté' });
     } catch (e) {
-      results.push({ column: 'statut_constraint', status: 'erreur', error: e.message });
+      results.push({ column: 'statut_constraint', status: 'erreur', error: e instanceof Error ? e.message : 'Erreur inconnue' });
     }
 
     return NextResponse.json({
