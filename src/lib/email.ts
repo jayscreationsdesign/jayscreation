@@ -432,30 +432,6 @@ export async function sendWelcomeEmail(email: string, firstName: string) {
               </table>
             </td>
           </tr>
-        </table>
-      </td></tr>` +
-      EMAIL_MERCI +
-      EMAIL_FOOTER
-    )
-                                <tr>
-                                  <td style="padding-bottom:12px;">
-                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:13px; 
-                                                color:#aaa; margin-bottom:4px; font-weight:500;">Heure</div>
-                                    <div style="font-family:'Inter',Arial,sans-serif; font-size:15px; 
-                                                color:#2C1A0E; font-weight:600;">${new Date().toLocaleTimeString('fr-FR')}</div>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                        
-                      </td>
-                    </tr>
-                  </table>
-                  
-                </td>
-              </tr>
       
               <!-- ═══ BLOC MERCI ═══ -->
               <tr>
@@ -471,9 +447,9 @@ export async function sendWelcomeEmail(email: string, firstName: string) {
                         </div>
                         <div style="font-family:'Inter',Arial,sans-serif; 
                                     font-size:13px; color:#8B4513; line-height:1.6;">
-                          ✨ Envoyer un email de bienvenue personnalisé<br>
-                          🎁 Proposer une offre de bienvenue<br>
-                          📞 Contacter le client si nécessaire
+                          Envoyer un email de bienvenue personnalisé<br>
+                          Proposer une offre de bienvenue<br>
+                          Contacter le client si nécessaire
                         </div>
                       </td>
                     </tr>
