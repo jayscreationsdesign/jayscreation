@@ -612,53 +612,67 @@ export async function sendAbandonedCartEmail(cart: any) {
   }
 }
 
-// EMAIL 7 - Suivi devis
-export async function sendQuoteFollowUpEmail(quote: any) {
-  const contenu = `
-    ${emailBande('â', 'Votre projet nous tient Ã  cÅur', 'Des questions ?')}
-    <tr><td style="padding:28px 28px 8px;">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-             style="background:#FFF8F0;border-radius:10px;
-                    border:1px solid #E8E4DF;margin-bottom:20px;">
-        <tr><td style="padding:20px;">
-          <div style="font-family:'Playfair Display',serif;font-size:15px;
-                      font-weight:600;color:#2C1A0E;margin-bottom:16px;">
-            Votre projet personnalisÃ©
-          </div>
-          <table width="100%">
-            <tr><td style="padding:8px 0;">
-              <div style="font-size:10px;color:#aaa;text-transform:uppercase;">Devis nÂ°</div>
-              <div style="font-size:14px;color:#2C1A0E;font-weight:600;margin-top:3px;">${quote.number}</div>
-            </td></tr>
-            <tr><td style="padding:8px 0;">
-              <div style="font-size:10px;color:#aaa;text-transform:uppercase;">Projet</div>
-              <div style="font-size:14px;color:#2C1A0E;font-weight:600;margin-top:3px;">${quote.projectType}</div>
-            </td></tr>
-            <tr><td style="padding:8px 0;">
-              <div style="font-size:10px;color:#aaa;text-transform:uppercase;">Estimation</div>
-              <div style="font-size:16px;color:#8B4513;font-weight:700;margin-top:3px;">${quote.estimatedAmount.toFixed(2).replace('.', ',')}â¬</div>
-            </td></tr>
-          </table>
-        </td></tr>
-      </table>
-      ${emailCTA('mailto:contact@jayscreationsdesign.fr', 'â RÃ©pondre au devis')}
-      <p style="font-size:12px;color:#888;text-align:center;margin-top:8px;">
-        N'hÃ©sitez pas Ã  nous contacter au 07 63 92 08 23 pour discuter de votre projet.
-      </p>
-    </td></tr>
-    ${EMAIL_MERCI}`
-
+export async function sendQuoteFollowUpEmail(quote: {
+  customerName: string
+  customerEmail: string
+  projectDescription: string
+  estimatedPrice: number
+  quoteNumber: string
+}) {
   try {
     await transporterContact.sendMail({
       from: "Jay's Creations Design <contact@jayscreationsdesign.fr>",
       to: quote.customerEmail,
-      subject: "💌 Suite à votre demande de devis",
-      html: emailWrap(EMAIL_HEADER + contenu + EMAIL_FOOTER),
+      subject: "ð Suite à votre demande de devis",
       encoding: 'utf-8',
-      headers: {
-        'Content-Type': 'text/html; charset=UTF-8'
-      }
+      headers: { 'Content-Type': 'text/html; charset=UTF-8' },
+      html: emailWrap(
+        EMAIL_HEADER +
+        emailBande('ð', 'Votre projet nous tient &agrave; c&oelig;ur',
+          'Avez-vous des questions sur votre devis ?') +
+        `<tr><td style="padding:28px;background:#ffffff;">
+          <p style="font-size:14px;color:#2C1A0E;margin-bottom:16px;">
+            Bonjour ${quote.customerName},
+          </p>
+          <p style="font-size:14px;color:#555;margin-bottom:20px;line-height:1.6;">
+            Nous avons envoy&eacute; votre devis il y a 48h et voulions 
+            prendre de vos nouvelles.
+          </p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                 style="background:#FFF8F0;border-radius:10px;
+                        border:1px solid #E8E4DF;margin-bottom:20px;">
+            <tr><td style="padding:20px;">
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Projet</div>
+              <div style="font-size:14px;color:#2C1A0E;font-weight:600;
+                          margin-bottom:12px;">${quote.projectDescription}</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Estimation</div>
+              <div style="font-size:18px;color:#8B4513;font-weight:700;">
+                ${quote.estimatedPrice.toFixed(2).replace('.', ',')} &euro;
+              </div>
+            </td></tr>
+          </table>
+          ${emailCTA('mailto:contact@jayscreationsdesign.fr',
+            '&#128140; R&eacute;pondre au devis')}
+          <p style="font-size:12px;color:#888;text-align:center;margin-top:8px;">
+            Ou appelez-nous : <strong style="color:#8B4513;">07 63 92 08 23</strong>
+          </p>
+        </td></tr>` +
+        EMAIL_MERCI +
+        EMAIL_FOOTER
+      )
     })
+    
+    // Copie admin
+    await transporterContact.sendMail({
+      from: "Jay's Creations Design <contact@jayscreationsdesign.fr>",
+      to: 'contact@jayscreationsdesign.fr',
+      subject: `ð Relance devis envoy&eacute;e &mdash; ${quote.customerName}`,
+      encoding: 'utf-8',
+      html: `<p>Relance envoy&eacute;e &agrave; ${quote.customerEmail} pour le devis ${quote.quoteNumber}</p>` 
+    })
+    
     return { success: true }
   } catch (error) {
     console.error('Erreur email devis:', error)
