@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendOrderConfirmationEmail } from '../../../../lib/email';
+import { sendOrderConfirmationEmail } from '@/lib/email';
 
 // Cette page affiche un aperçu visuel de l'email de confirmation
 export default function EmailVisualPage() {

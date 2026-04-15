@@ -2,6 +2,8 @@ import { ModernProductCard } from "@/components/ui/ModernProductCard"
 import { products } from "@/data/products"
 import { useCartStore } from "@/store/cartStore"
 
+export const dynamic = 'force-dynamic'
+
 export default function CollectionPage() {
   const { addItem } = useCartStore()
 

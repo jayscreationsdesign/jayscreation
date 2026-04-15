@@ -1,14 +1,17 @@
-import { createClient } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js'
 import { ChatSession, ChatMessage } from '@/types/chat';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
+
+export const supabase = supabaseUrl && supabaseKey
+  ? createClient(supabaseUrl, supabaseKey)
+  : null
 
 export const chatService = {
   // Sessions
   async createSession(visitorId: string, visitorName?: string, visitorEmail?: string): Promise<ChatSession> {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('chat_sessions')
       .insert({
@@ -25,6 +28,7 @@ export const chatService = {
   },
 
   async getSession(visitorId: string): Promise<ChatSession | null> {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('chat_sessions')
       .select('*')
@@ -38,6 +42,7 @@ export const chatService = {
   },
 
   async updateSession(sessionId: string, updates: Partial<ChatSession>): Promise<ChatSession> {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('chat_sessions')
       .update({
@@ -53,6 +58,7 @@ export const chatService = {
   },
 
   async getAllSessions(): Promise<ChatSession[]> {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('chat_sessions')
       .select('*')
@@ -63,6 +69,7 @@ export const chatService = {
   },
 
   async markSessionAsRead(sessionId: string): Promise<void> {
+    if (!supabase) throw new Error('Supabase not available');
     await supabase
       .from('chat_sessions')
       .update({ unread_count: 0 })
@@ -76,6 +83,7 @@ export const chatService = {
 
   // Messages
   async sendMessage(sessionId: string, content: string, sender: 'visitor' | 'admin'): Promise<ChatMessage> {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('chat_messages')
       .insert({
@@ -112,6 +120,7 @@ export const chatService = {
   },
 
   async getMessages(sessionId: string): Promise<ChatMessage[]> {
+    if (!supabase) throw new Error('Supabase not available');
     const { data, error } = await supabase
       .from('chat_messages')
       .select('*')
@@ -124,6 +133,7 @@ export const chatService = {
 
   // Realtime
   subscribeToMessages(sessionId: string, callback: (message: ChatMessage) => void) {
+    if (!supabase) throw new Error('Supabase not available');
     return supabase
       .channel(`chat_messages_${sessionId}`)
       .on(
@@ -140,6 +150,7 @@ export const chatService = {
   },
 
   subscribeToSessions(callback: (session: ChatSession) => void) {
+    if (!supabase) throw new Error('Supabase not available');
     return supabase
       .channel('chat_sessions')
       .on(

@@ -54,14 +54,17 @@ export default function FrequentlyBoughtTogether({ product }: FrequentlyBoughtTo
 
       if (error) throw error
 
-      const products = data?.map(item => ({
-        id: item.products.id,
-        slug: item.products.slug,
-        name: item.products.name,
-        price: item.products.price,
-        image: item.products.image,
-        category: item.products.category
-      })) || []
+      const products = data?.map((item: any) => {
+        const productData = item.products || item;
+        return {
+          id: productData?.id,
+          slug: productData?.slug,
+          name: productData?.name,
+          price: productData?.price,
+          image: productData?.image,
+          category: productData?.category
+        };
+      }).filter(item => item.id) || []
 
       setRelatedProducts(products)
     } catch (error) {
