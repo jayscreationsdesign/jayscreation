@@ -612,6 +612,135 @@ export async function sendAbandonedCartEmail(cart: any) {
   }
 }
 
+// Fonctions génériques pour compatibilité
+export async function sendEmail(params: {
+  to: string
+  subject: string
+  html: string
+  from?: string
+}) {
+  try {
+    await transporterContact.sendMail({
+      from: params.from || "Jay's Creations Design <contact@jayscreationsdesign.fr>",
+      to: params.to,
+      subject: params.subject,
+      html: params.html,
+      encoding: 'utf-8',
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8'
+      }
+    })
+    return { success: true }
+  } catch (error) {
+    console.error('Erreur email générique:', error)
+    return { success: false, error }
+  }
+}
+
+export const emailTemplates = {
+  orderConfirmation: 'order-confirmation',
+  orderShipped: 'order-shipped',
+  refund: 'refund',
+  welcome: 'welcome',
+  quoteRequest: 'quote-request'
+}
+
+export async function sendQuoteRequestEmail(data: {
+  customerName: string
+  customerEmail: string
+  projectType: string
+  projectDescription: string
+  budget: string
+  urgency: string
+}) {
+  try {
+    await transporterContact.sendMail({
+      from: "Jay's Creations Design <contact@jayscreationsdesign.fr>",
+      to: 'contact@jayscreationsdesign.fr',
+      subject: `ð Nouvelle demande de devis - ${data.customerName}`,
+      encoding: 'utf-8',
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8'
+      },
+      html: emailWrap(
+        EMAIL_HEADER +
+        emailBande('ð', 'Nouvelle demande de devis', 'Client intéressé') +
+        `<tr><td style="padding:28px;background:#ffffff;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+                 style="background:#FFF8F0;border-radius:10px;
+                        border:1px solid #E8E4DF;margin-bottom:20px;">
+            <tr><td style="padding:20px;">
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Client</div>
+              <div style="font-size:14px;color:#2C1A0E;font-weight:600;
+                          margin-bottom:12px;">${data.customerName}</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Email</div>
+              <div style="font-size:14px;color:#2C1A0E;font-weight:600;
+                          margin-bottom:12px;">${data.customerEmail}</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Type de projet</div>
+              <div style="font-size:14px;color:#2C1A0E;font-weight:600;
+                          margin-bottom:12px;">${data.projectType}</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Description</div>
+              <div style="font-size:14px;color:#555;line-height:1.6;
+                          margin-bottom:12px;">${data.projectDescription}</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Budget</div>
+              <div style="font-size:14px;color:#8B4513;font-weight:600;
+                          margin-bottom:12px;">${data.budget}</div>
+              <div style="font-size:10px;color:#aaa;text-transform:uppercase;
+                          letter-spacing:1px;margin-bottom:4px;">Urgence</div>
+              <div style="font-size:14px;color:#2C1A0E;font-weight:600;">${data.urgency}</div>
+            </td></tr>
+          </table>
+          ${emailCTA('mailto:' + data.customerEmail, 'ð Contacter le client')}
+        </td></tr>` +
+        EMAIL_MERCI +
+        EMAIL_FOOTER
+      )
+    })
+    
+    // Copie client
+    await transporterContact.sendMail({
+      from: "Jay's Creations Design <contact@jayscreationsdesign.fr>",
+      to: data.customerEmail,
+      subject: "ð Votre demande de devis a été reçue !",
+      encoding: 'utf-8',
+      headers: {
+        'Content-Type': 'text/html; charset=UTF-8'
+      },
+      html: emailWrap(
+        EMAIL_HEADER +
+        emailBande('ð', 'Demande de devis reçue', 'Nous vous contacterons rapidement') +
+        `<tr><td style="padding:28px;background:#ffffff;">
+          <p style="font-size:14px;color:#2C1A0E;margin-bottom:16px;">
+            Bonjour ${data.customerName},
+          </p>
+          <p style="font-size:14px;color:#555;margin-bottom:20px;line-height:1.6;">
+            Nous avons bien reçu votre demande de devis pour votre projet 
+            <strong>${data.projectType}</strong>. 
+            Notre équipe l'étudiera et vous contactera dans les plus brefs délais.
+          </p>
+          <p style="font-size:14px;color:#555;margin-bottom:20px;line-height:1.6;">
+            En attendant, n'hésitez pas à consulter notre boutique pour découvrir 
+            nos créations déjà disponibles.
+          </p>
+          ${emailCTA(process.env.NEXT_PUBLIC_SITE_URL + '/boutique', 'ð Visiter la boutique')}
+        </td></tr>` +
+        EMAIL_MERCI +
+        EMAIL_FOOTER
+      )
+    })
+    
+    return { success: true }
+  } catch (error) {
+    console.error('Erreur email demande devis:', error)
+    return { success: false, error }
+  }
+}
+
 export async function sendQuoteFollowUpEmail(quote: {
   customerName: string
   customerEmail: string
