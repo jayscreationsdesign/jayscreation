@@ -29,6 +29,59 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   
+  // Configuration Turbopack (vide pour utiliser webpack)
+  turbopack: {},
+  
+  // Configuration webpack pour exclure les modules Node.js incompatibles
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Exclure complètement nodemailer et ses dépendances côté client
+      config.externals = {
+        ...config.externals,
+        'nodemailer': 'nodemailer',
+        'bcryptjs': 'bcryptjs',
+        'jsonwebtoken': 'jsonwebtoken',
+        'twilio': 'twilio',
+        'stripe': 'stripe',
+        'child_process': 'child_process',
+        'fs': 'fs',
+        'dns': 'dns',
+        'net': 'net',
+        'tls': 'tls',
+        'crypto': 'crypto',
+        'os': 'os',
+        'path': 'path'
+      }
+      
+      // Ignorer complètement les modules problématiques
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        "fs": false,
+        "dns": false,
+        "net": false,
+        "tls": false,
+        "crypto": false,
+        "stream": false,
+        "url": false,
+        "zlib": false,
+        "http": false,
+        "https": false,
+        "assert": false,
+        "os": false,
+        "path": false,
+        "child_process": false
+      }
+      
+      // Exclure les fichiers qui importent nodemailer côté client
+      config.module.rules.push({
+        test: /email-server\.ts$/,
+        use: 'null-loader'
+      })
+    }
+    
+    return config
+  },
+  
   // Headers pour la performance
   async headers() {
     return [

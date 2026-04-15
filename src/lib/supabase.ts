@@ -1,17 +1,7 @@
-import { createClient } from '@supabase/supabase-js'
+import { supabaseClient } from './supabase-client'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+// Utiliser le client Supabase déjà configuré avec les bonnes valeurs
+export const supabase = supabaseClient
+export const isSupabaseConfigured = true
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('[Supabase] Variables manquantes - mode dégradé')
-}
-
-export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder-key'
-)
-
-export const isSupabaseConfigured = !!supabaseUrl && !!supabaseAnonKey
-
-export { createClient }
+export { createClient } from '@supabase/supabase-js'

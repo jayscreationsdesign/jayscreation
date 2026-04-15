@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     console.log('â Erreur :', error);
     return NextResponse.json({
       success: false,
-      error: error.message,
+      error: error instanceof Error ? error.message : 'Erreur inconnue',
       message: 'Erreur serveur lors de l\'envoi de l\'email'
     }, { status: 500 });
   }

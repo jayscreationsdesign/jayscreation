@@ -1,0 +1,581 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import AddPointsModal from '@/components/admin/AddPointsModal';
+import { 
+  Search, 
+  Filter, 
+  Eye, 
+  Mail,
+  Phone,
+  Calendar,
+  DollarSign,
+  ShoppingCart,
+  Gem,
+  Plus,
+  Edit,
+  Download,
+  Award,
+  TrendingUp,
+  Users
+} from 'lucide-react';
+
+interface Customer {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone?: string;
+  created_at: string;
+  tier: 'Pétale' | 'Orchidée' | 'Diamant';
+  points: number;
+  orders_count: number;
+  total_spent: number;
+  last_order_date?: string;
+  avatar_url?: string;
+}
+
+export default function Clients() {
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [tierFilter, setTierFilter] = useState('all');
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [showAddPointsModal, setShowAddPointsModal] = useState(false);
+  const [showTierModal, setShowTierModal] = useState(false);
+  const [pointsToAdd, setPointsToAdd] = useState('');
+  const [newTier, setNewTier] = useState('');
+
+  useEffect(() => {
+    fetchCustomers();
+  }, []);
+
+  const fetchCustomers = async () => {
+    try {
+      const response = await fetch('/api/admin/customers');
+      const data = await response.json();
+      setCustomers(data);
+    } catch (error) {
+      console.error('Erreur clients:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredCustomers = customers.filter(customer => {
+    const matchesSearch = 
+      `${customer.first_name} ${customer.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      customer.email.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesTier = tierFilter === 'all' || customer.tier === tierFilter;
+    
+    return matchesSearch && matchesTier;
+  });
+
+  const getTierColor = (tier: string) => {
+    switch (tier) {
+      case 'Pétale': return 'bg-pink-100 text-pink-800';
+      case 'Orchidée': return 'bg-purple-100 text-purple-800';
+      case 'Diamant': return 'bg-blue-100 text-blue-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getTierIcon = (tier: string) => {
+    switch (tier) {
+      case 'Pétale': return '';
+      case 'Orchidée': return '';
+      case 'Diamant': return '';
+      default: return '';
+    }
+  };
+
+  const handleAddPoints = async (customerId: string, points: number) => {
+    try {
+      const response = await fetch(`/api/admin/customers/${customerId}/points`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ points })
+      });
+
+      if (response.ok) {
+        fetchCustomers();
+        setShowAddPointsModal(false);
+        setPointsToAdd('');
+      }
+    } catch (error) {
+      console.error('Error adding points:', error);
+    }
+  };
+
+  const handleChangeTier = async (customerId: string) => {
+    try {
+      const response = await fetch(`/api/admin/customers/${customerId}/tier`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tier: newTier })
+      });
+
+      if (response.ok) {
+        fetchCustomers();
+        setShowTierModal(false);
+        setNewTier('');
+      }
+    } catch (error) {
+      console.error('Error changing tier:', error);
+    }
+  };
+
+  const exportCSV = () => {
+    const csv = [
+      ['Nom', 'Email', 'Téléphone', 'Tier', 'Points', 'Commandes', 'Total dépensé', 'Date inscription'],
+      ...filteredCustomers.map(customer => [
+        `${customer.first_name} ${customer.last_name}`,
+        customer.email,
+        customer.phone || '',
+        customer.tier,
+        customer.points.toString(),
+        customer.orders_count.toString(),
+        customer.total_spent.toFixed(2),
+        new Date(customer.created_at).toLocaleDateString('fr-FR')
+      ])
+    ].map(row => row.join(',')).join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `clients_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B4513]"></div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-[#2C1A0E] font-['Playfair_Display']">Clients</h1>
+          <p className="text-[#A0785A]">
+            Gestion de vos clients et programme Jay's Club ({customers.length} clients)
+          </p>
+        </div>
+        <button 
+          onClick={exportCSV}
+          className="flex items-center px-4 py-2 bg-[#8B4513] text-white rounded-lg hover:bg-[#6b3410] transition-colors"
+        >
+          <Download className="h-4 w-4 mr-2" />
+          Exporter CSV
+        </button>
+      </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-white rounded-lg border border-[#E8D5C0] p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-[#A0785A]">Total Clients</p>
+              <p className="text-2xl font-bold text-[#2C1A0E] mt-2">{customers.length}</p>
+            </div>
+            <Users className="h-8 w-8 text-[#8B4513]" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-[#E8D5C0] p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-[#A0785A]">Jay's Club</p>
+              <p className="text-2xl font-bold text-[#2C1A0E] mt-2">
+                {customers.filter(c => c.tier !== 'Pétale').length}
+              </p>
+            </div>
+            <Gem className="h-8 w-8 text-[#D4A574]" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-[#E8D5C0] p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-[#A0785A]">CA Total</p>
+              <p className="text-2xl font-bold text-[#2C1A0E] mt-2">
+                {customers.reduce((sum, c) => sum + c.total_spent, 0).toFixed(2)} â¬
+              </p>
+            </div>
+            <DollarSign className="h-8 w-8 text-green-500" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-[#E8D5C0] p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-[#A0785A]">Panier moyen</p>
+              <p className="text-2xl font-bold text-[#2C1A0E] mt-2">
+                {customers.length > 0 ? (customers.reduce((sum, c) => sum + c.total_spent, 0) / customers.length).toFixed(2) : '0.00'} â¬
+              </p>
+            </div>
+            <ShoppingCart className="h-8 w-8 text-[#8B4513]" />
+          </div>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="bg-white rounded-lg border border-[#E8D5C0] p-6">
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Search */}
+          <div className="flex-1">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#A0785A] h-4 w-4" />
+              <input
+                type="text"
+                placeholder="Rechercher par nom ou email..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-[#E8D5C0] rounded-lg focus:ring-2 focus:ring-[#8B4513] focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          {/* Tier Filter */}
+          <div className="md:w-48">
+            <select
+              value={tierFilter}
+              onChange={(e) => setTierFilter(e.target.value)}
+              className="w-full px-4 py-2 border border-[#E8D5C0] rounded-lg focus:ring-2 focus:ring-[#8B4513] focus:border-transparent"
+            >
+              <option value="all">Tous les tiers</option>
+              <option value="Pétale">Pétale</option>
+              <option value="Orchidée">Orchidée</option>
+              <option value="Diamant">Diamant</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Customers Table */}
+      <div className="bg-white rounded-lg border border-[#E8D5C0] overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-[#FFF8F0]">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A0785A] uppercase tracking-wider">
+                  Client
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A0785A] uppercase tracking-wider">
+                  Contact
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A0785A] uppercase tracking-wider">
+                  Jay's Club
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A0785A] uppercase tracking-wider">
+                  Commandes
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A0785A] uppercase tracking-wider">
+                  CA Total
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A0785A] uppercase tracking-wider">
+                  Date inscription
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A0785A] uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-[#E8D5C0]">
+              {filteredCustomers.map((customer) => (
+                <tr key={customer.id} className="hover:bg-[#FFF8F0]">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div className="h-10 w-10 rounded-full bg-[#D4A574] flex items-center justify-center text-[#2C1A0E] font-bold mr-3">
+                        {customer.avatar_url ? (
+                          <img src={customer.avatar_url} alt="" className="w-full h-full rounded-full object-cover" />
+                        ) : (
+                          `${customer.first_name?.[0]}${customer.last_name?.[0]}`
+                        )}
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-[#2C1A0E]">
+                          {customer.first_name} {customer.last_name}
+                        </div>
+                        <div className="text-xs text-[#A0785A]">
+                          ID: {customer.id.slice(-8)}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="space-y-1">
+                      <div className="flex items-center text-sm text-[#2C1A0E]">
+                        <Mail className="h-3 w-3 mr-1 text-[#A0785A]" />
+                        {customer.email}
+                      </div>
+                      {customer.phone && (
+                        <div className="flex items-center text-sm text-[#2C1A0E]">
+                          <Phone className="h-3 w-3 mr-1 text-[#A0785A]" />
+                          {customer.phone}
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="space-y-1">
+                      <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getTierColor(customer.tier)}`}>
+                        {getTierIcon(customer.tier)} {customer.tier}
+                      </span>
+                      <div className="text-sm text-[#A0785A]">
+                        {customer.points} points
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#2C1A0E]">
+                    <div className="flex items-center">
+                      <ShoppingCart className="h-3 w-3 mr-1 text-[#A0785A]" />
+                      {customer.orders_count}
+                    </div>
+                    {customer.last_order_date && (
+                      <div className="text-xs text-[#A0785A]">
+                        Dernière: {new Date(customer.last_order_date).toLocaleDateString('fr-FR')}
+                      </div>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#2C1A0E]">
+                    <div className="flex items-center">
+                      <DollarSign className="h-3 w-3 mr-1 text-[#A0785A]" />
+                      {customer.total_spent.toFixed(2)} â¬
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#A0785A]">
+                    <div className="flex items-center">
+                      <Calendar className="h-3 w-3 mr-1" />
+                      {new Date(customer.created_at).toLocaleDateString('fr-FR')}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => setSelectedCustomer(customer)}
+                        className="text-[#8B4513] hover:text-[#6b3410]"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button className="text-blue-600 hover:text-blue-800">
+                        <Mail className="h-4 w-4" />
+                      </button>
+                      <button className="text-[#D4A574] hover:text-[#c1965f]">
+                        <Award className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {filteredCustomers.length === 0 && (
+          <div className="text-center py-8 text-[#A0785A]">
+            Aucun client trouvé
+          </div>
+        )}
+      </div>
+
+      {/* Customer Detail Modal */}
+      {selectedCustomer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-[#E8D5C0]">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-[#2C1A0E]">
+                  {selectedCustomer.first_name} {selectedCustomer.last_name}
+                </h2>
+                <button
+                  onClick={() => setSelectedCustomer(null)}
+                  className="text-[#A0785A] hover:text-[#2C1A0E]"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Customer Info */}
+                <div className="lg:col-span-1">
+                  <div className="bg-[#FFF8F0] rounded-lg p-4">
+                    <div className="flex flex-col items-center">
+                      <div className="h-20 w-20 rounded-full bg-[#D4A574] flex items-center justify-center text-[#2C1A0E] font-bold text-2xl mb-3">
+                        {selectedCustomer.avatar_url ? (
+                          <img src={selectedCustomer.avatar_url} alt="" className="w-full h-full rounded-full object-cover" />
+                        ) : (
+                          `${selectedCustomer.first_name?.[0]}${selectedCustomer.last_name?.[0]}`
+                        )}
+                      </div>
+                      <h3 className="text-lg font-semibold text-[#2C1A0E]">
+                        {selectedCustomer.first_name} {selectedCustomer.last_name}
+                      </h3>
+                      <span className={`px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full ${getTierColor(selectedCustomer.tier)}`}>
+                        {getTierIcon(selectedCustomer.tier)} {selectedCustomer.tier}
+                      </span>
+                    </div>
+
+                    <div className="mt-4 space-y-3">
+                      <div>
+                        <p className="text-sm text-[#A0785A]">Email</p>
+                        <p className="font-medium text-[#2C1A0E]">{selectedCustomer.email}</p>
+                      </div>
+                      {selectedCustomer.phone && (
+                        <div>
+                          <p className="text-sm text-[#A0785A]">Téléphone</p>
+                          <p className="font-medium text-[#2C1A0E]">{selectedCustomer.phone}</p>
+                        </div>
+                      )}
+                      <div>
+                        <p className="text-sm text-[#A0785A]">Points Jay's Club</p>
+                        <p className="font-medium text-[#2C1A0E]">{selectedCustomer.points} points</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-[#A0785A]">Date d'inscription</p>
+                        <p className="font-medium text-[#2C1A0E]">
+                          {new Date(selectedCustomer.created_at).toLocaleDateString('fr-FR')}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Quick Actions */}
+                    <div className="mt-6 space-y-2">
+                      <button
+                        onClick={() => setShowAddPointsModal(true)}
+                        className="w-full flex items-center justify-center px-4 py-2 bg-[#8B4513] text-white rounded-lg hover:bg-[#6b3410] transition-colors"
+                      >
+                        <Plus className="h-4 w-4 mr-2" />
+                        Ajouter des points
+                      </button>
+                      <button
+                        onClick={() => setShowTierModal(true)}
+                        className="w-full flex items-center justify-center px-4 py-2 bg-[#D4A574] text-white rounded-lg hover:bg-[#c1965f] transition-colors"
+                      >
+                        <Award className="h-4 w-4 mr-2" />
+                        Changer le tier
+                      </button>
+                      <button className="w-full flex items-center justify-center px-4 py-2 border border-[#E8D5C0] text-[#2C1A0E] rounded-lg hover:bg-[#FFF8F0] transition-colors">
+                        <Mail className="h-4 w-4 mr-2" />
+                        Envoyer un email
+                      </button>
+                    </div>
+                  </div>
+
+                {/* Customer Stats */}
+                <div className="lg:col-span-2">
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-white border border-[#E8D5C0] rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-[#A0785A]">Commandes</p>
+                          <p className="text-2xl font-bold text-[#2C1A0E]">{selectedCustomer.orders_count}</p>
+                        </div>
+                        <ShoppingCart className="h-8 w-8 text-[#8B4513]" />
+                      </div>
+                    </div>
+                    <div className="bg-white border border-[#E8D5C0] rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-[#A0785A]">Total dépensé</p>
+                          <p className="text-2xl font-bold text-[#2C1A0E]">{selectedCustomer.total_spent.toFixed(2)} â¬</p>
+                        </div>
+                        <DollarSign className="h-8 w-8 text-green-500" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Order History */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#2C1A0E] mb-4">Historique des commandes</h3>
+                    <div className="bg-white border border-[#E8D5C0] rounded-lg overflow-hidden">
+                      <div className="p-4 text-center text-[#A0785A]">
+                        Les commandes du client seront affichées ici
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Points History */}
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-[#2C1A0E] mb-4">Historique des points</h3>
+                    <div className="bg-white border border-[#E8D5C0] rounded-lg overflow-hidden">
+                      <div className="p-4 text-center text-[#A0785A]">
+                        L'historique des points Jay's Club sera affiché ici
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      </div>
+
+      {/* Add Points Modal */}
+      {showAddPointsModal && selectedCustomer && (
+        <AddPointsModal
+          customer={selectedCustomer}
+          onClose={() => setShowAddPointsModal(false)}
+          onSave={handleAddPoints}
+        />
+      )}
+
+      {/* Change Tier Modal */}
+      {showTierModal && selectedCustomer && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold text-[#2C1A0E] mb-4">
+              Changer le tier de {selectedCustomer.first_name} {selectedCustomer.last_name}
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-[#A0785A] mb-1">
+                  Nouveau tier
+                </label>
+                <select
+                  value={newTier}
+                  onChange={(e) => setNewTier(e.target.value)}
+                  className="w-full px-3 py-2 border border-[#E8D5C0] rounded-lg focus:ring-2 focus:ring-[#8B4513] focus:border-transparent"
+                >
+                  <option value="">Sélectionner un tier</option>
+                  <option value="Pétale">Pétale</option>
+                  <option value="Orchidée">Orchidée</option>
+                  <option value="Diamant">Diamant</option>
+                </select>
+              </div>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => handleChangeTier(selectedCustomer.id)}
+                  className="flex-1 bg-[#D4A574] text-white py-2 px-4 rounded-lg hover:bg-[#c1965f] transition-colors"
+                >
+                  Changer
+                </button>
+                <button
+                  onClick={() => {
+                    setShowTierModal(false);
+                    setNewTier('');
+                  }}
+                  className="flex-1 border border-[#E8D5C0] text-[#2C1A0E] py-2 px-4 rounded-lg hover:bg-[#FFF8F0] transition-colors"
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

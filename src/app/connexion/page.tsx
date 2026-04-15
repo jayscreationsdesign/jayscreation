@@ -8,7 +8,7 @@ import { translateError } from '@/lib/error-messages'
 import { Eye, EyeOff, Mail, Lock, User, Phone } from 'lucide-react'
 
 export default function ConnexionPage() {
-  const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin')
+  const [activeTab, setActiveTab] = useState<'signin' | 'signup' | 'admin'>('signin')
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -19,6 +19,10 @@ export default function ConnexionPage() {
   // États pour le formulaire de connexion
   const [signinEmail, setSigninEmail] = useState('')
   const [signinPassword, setSigninPassword] = useState('')
+
+  // États pour le formulaire admin
+  const [adminEmail, setAdminEmail] = useState('admin@jayscreationsdesign.fr')
+  const [adminPassword, setAdminPassword] = useState('')
 
   // États pour le formulaire d'inscription
   const [prenom, setPrenom] = useState('')
@@ -36,10 +40,62 @@ export default function ConnexionPage() {
     const result = await signIn(signinEmail, signinPassword)
     
     if (result.error) {
-      setError(translateError(result.error.message))
-    } else {
-      router.push('/compte')
+      console.error('Login error:', result.error)
+      setError('Impossible de se connecter, réessayez plus tard.')
+      setLoading(false)
+      return
     }
+    
+    // si pas d'erreur, continuer le flux de connexion
+    setSuccess('Connexion réussie ! Redirection...')
+    
+    // Redirection vers le compte client
+    window.location.replace('/compte')
+    
+    setLoading(false)
+  }
+
+  const handleAdminSignIn = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    setSuccess('')
+
+    console.log('Tentative connexion admin:', adminEmail)
+    const result = await signIn(adminEmail, adminPassword)
+    
+    if (result.error) {
+      console.error('Admin login error:', result.error)
+      setError('Identifiants admin incorrects')
+      setLoading(false)
+      return
+    }
+    
+    console.log('Connexion admin réussie, user:', result.data?.user?.email)
+    // si pas d'erreur, continuer le flux de connexion
+    setSuccess('Connexion admin réussie ! Redirection...')
+    
+    // SOLUTION DÉFINITIVE : Redirection immédiate et forcée
+    console.log('DÉMARRAGE REDIRECTION ADMIN IMMÉDIATE')
+    
+    // Méthode 1 : Redirection immédiate
+    window.location.href = '/admin'
+    
+    // Méthode 2 : Backup après 100ms (au cas où)
+    setTimeout(() => {
+      if (window.location.pathname !== '/admin') {
+        console.log('Backup: Redirection forcée vers /admin')
+        window.location.replace('/admin')
+      }
+    }, 100)
+    
+    // Méthode 3 : Dernier recours après 500ms
+    setTimeout(() => {
+      if (window.location.pathname !== '/admin') {
+        console.log('Dernier recours: Redirection absolue')
+        window.open('/admin', '_self')
+      }
+    }, 500)
     
     setLoading(false)
   }
@@ -131,6 +187,16 @@ export default function ConnexionPage() {
               }`}
             >
               Créer un compte
+            </button>
+            <button
+              onClick={() => setActiveTab('admin')}
+              className={`flex-1 pb-3 font-medium transition-colors ${
+                activeTab === 'admin'
+                  ? 'text-[#8B4513] border-b-2 border-[#8B4513]'
+                  : 'text-gray-500 hover:text-[#6b3410]'
+              }`}
+            >
+              Administration
             </button>
           </div>
 
@@ -320,6 +386,60 @@ export default function ConnexionPage() {
               </button>
 
                           </form>
+          )}
+
+          {/* Formulaire admin */}
+          {activeTab === 'admin' && (
+            <form onSubmit={handleAdminSignIn} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Admin
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type="email"
+                    value={adminEmail}
+                    onChange={(e) => setAdminEmail(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B4513] focus:border-[#8B4513]"
+                    placeholder="admin@jayscreationsdesign.fr"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Mot de passe Admin
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
+                    className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8B4513] focus:border-[#8B4513]"
+                    placeholder="Mot de passe admin"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#8B4513] text-white py-3 rounded-lg font-medium hover:bg-[#6b3410] hover:text-[#D4A574] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Connexion...' : 'Se connecter à l\'admin'}
+              </button>
+            </form>
           )}
 
           {/* Séparateur */}

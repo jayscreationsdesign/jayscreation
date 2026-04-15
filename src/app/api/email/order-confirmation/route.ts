@@ -41,21 +41,27 @@ export async function POST(request: NextRequest) {
     const orderId = `CMD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
     // Envoi de l'email de confirmation
-    const result = await sendOrderConfirmationEmail(client.email, {
+    const orderEmailData = {
       ...orderData,
-      orderId
-    });
+      orderId,
+      customerEmail: client.email,
+      customerName: client.prenom + ' ' + client.nom,
+      number: `CMD-${Date.now()}`,
+      total: orderData.total || 0,
+      createdAt: new Date().toISOString(),
+      items: orderData.items || []
+    };
+    const result = await sendOrderConfirmationEmail(orderEmailData);
 
     if (result.success) {
       return NextResponse.json({
         success: true,
         message: 'Email de confirmation envoyé avec succès',
-        orderId,
-        messageId: result.clientEmail.messageId
+        orderId
       });
     } else {
       return NextResponse.json(
-        { error: "Erreur lors de l'envoi de l'email de confirmation", details: result.clientEmail.error || result.copyEmail.error },
+        { error: "Erreur lors de l'envoi de l'email de confirmation", details: result.error },
         { status: 500 }
       );
     }

@@ -23,17 +23,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Envoi de l'email de bienvenue
-    const result = await sendWelcomeEmail(email, firstName);
+    const result = await sendWelcomeEmail({ email, first_name: firstName });
 
     if (result.success) {
       return NextResponse.json({
         success: true,
-        message: 'Email de bienvenue envoyé avec succès',
-        messageId: result.clientEmail.messageId
+        message: 'Email de bienvenue envoyé avec succès'
       });
     } else {
       return NextResponse.json(
-        { error: "Erreur lors de l'envoi de l'email", details: result.clientEmail.error || result.adminNotification.error },
+        { error: "Erreur lors de l'envoi de l'email" },
         { status: 500 }
       );
     }

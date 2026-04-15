@@ -2,9 +2,28 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { MessageCircle, X, Send } from 'lucide-react'
-import { chatService } from '@/lib/supabase/chat'
-import { ChatMessage, ChatSession } from '@/types/chat'
+import { MessageCircle, X, Send, ArrowLeft } from 'lucide-react'
+import { createClient } from '@supabase/supabase-js'
+
+interface Message {
+  id: string
+  session_id: string
+  content: string
+  sender: 'visitor' | 'admin'
+  created_at: string
+  read: boolean
+}
+
+const QUICK_REPLIES = [
+  { label: 'Suivi de commande', key: 'suivi' },
+  { label: 'Délais de livraison', key: 'delais' },
+  { label: 'Personnalisation', key: 'perso' },
+  { label: 'Tarifs & Devis', key: 'devis' },
+  { label: 'Mariage', key: 'mariage' },
+  { label: 'Baptême', key: 'bapteme' },
+  { label: 'Anniversaire', key: 'anniversaire' },
+  { label: 'Ramadan / Eid', key: 'ramadan' },
+]
 
 interface ChatWidgetProps {
   className?: string
@@ -18,129 +37,181 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
     return null
   }
 
+  // États
   const [isOpen, setIsOpen] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [inputValue, setInputValue] = useState('')
+  const [isTyping, setIsTyping] = useState(false)
+  const [sessionId, setSessionId] = useState<string | null>(null)
   const [visitorId, setVisitorId] = useState<string>('')
-  const [session, setSession] = useState<ChatSession | null>(null)
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [inputMessage, setInputMessage] = useState('')
+  const [visitorName, setVisitorName] = useState<string | null>(null)
+  const [visitorEmail, setVisitorEmail] = useState<string | null>(null)
+  const [isCollectingInfo, setIsCollectingInfo] = useState(false)
+  const [infoStep, setInfoStep] = useState<'name' | 'email' | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [unreadCount, setUnreadCount] = useState(0)
-  const [isTyping, setIsTyping] = useState(false)
+
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const subscriptionRef = useRef<any>(null)
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ''
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? ''
+  const supabase = supabaseUrl && supabaseKey
+    ? createClient(supabaseUrl, supabaseKey)
+    : null
 
-  // Quick replies
-  const quickReplies = [
-    "Suivi de commande",
-    "Délais de livraison",
-    "Personnalisation",
-    "Tarifs & Devis"
-  ]
-
-  // Initialize visitor ID
+  // Initialisation au montage
   useEffect(() => {
-    let storedId = localStorage.getItem('jcd_visitor_id')
-    if (!storedId) {
-      storedId = `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-      localStorage.setItem('jcd_visitor_id', storedId)
+    // 1. Générer/récupérer visitorId depuis localStorage
+    let storedVisitorId = localStorage.getItem('jcd_visitor_id')
+    if (!storedVisitorId) {
+      storedVisitorId = `visitor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+      localStorage.setItem('jcd_visitor_id', storedVisitorId)
     }
-    setVisitorId(storedId)
+    setVisitorId(storedVisitorId)
+
+    // 2. Récupérer sessionId existant depuis localStorage
+    const storedSessionId = localStorage.getItem('jcd_session_id')
+    if (storedSessionId) {
+      setSessionId(storedSessionId)
+      // 3. Charger les messages depuis Supabase
+      loadMessages(storedSessionId)
+    } else {
+      // Afficher message de bienvenue si aucun historique
+      const welcomeMessage: Message = {
+        id: 'welcome-' + Date.now(),
+        session_id: 'temp',
+        content: `Bonjour ! Je suis ravie de vous accueillir chez 
+Jay's Creations Design. 
+Comment puis-je vous aider aujourd'hui ?`,
+        sender: 'admin',
+        created_at: new Date().toISOString(),
+        read: false
+      }
+      setMessages([welcomeMessage])
+    }
   }, [])
 
-  // Load session when visitor ID is ready
+  // Realtime Supabase
   useEffect(() => {
-    if (!visitorId) return
+    if (!sessionId || !supabase) return
 
-    const loadSession = async () => {
-      try {
-        const existingSession = await chatService.getSession(visitorId)
-        if (existingSession) {
-          setSession(existingSession)
-          setUnreadCount(existingSession.unread_count)
-          loadMessages(existingSession.id)
+    const channel = supabase
+      .channel('chat-messages-' + sessionId)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'chat_messages',
+        filter: 'session_id=eq.' + sessionId
+      }, (payload) => {
+        const newMsg = payload.new as Message
+        // Ne pas dupliquer
+        setMessages(prev => {
+          if (prev.some(m => m.id === newMsg.id)) return prev
+          return [...prev, newMsg]
+        })
+        scrollToBottom()
+        if (newMsg.sender === 'admin') {
+          setIsTyping(false)
         }
-      } catch (error: unknown) {
-        const errorMessage = error instanceof Error ? error.message : String(error)
-        // Ignorer silencieusement si les tables n'existent pas encore
-        if (errorMessage.includes('relation does not exist') || 
-            errorMessage.includes('table not found') ||
-            errorMessage.includes('does not exist')) {
-          console.log('Chat tables not yet created - initializing empty session')
-          return
-        }
-        console.error('Error loading session:', error)
+      })
+      .subscribe()
+
+    subscriptionRef.current = channel
+
+    return () => {
+      if (subscriptionRef.current && supabase) {
+        supabase.removeChannel(subscriptionRef.current)
       }
     }
+  }, [sessionId, supabase])
 
-    loadSession()
-  }, [visitorId])
-
-  // Load messages for session
-  const loadMessages = async (sessionId: string) => {
+  // Charger les messages
+  const loadMessages = async (sid: string) => {
+    if (!supabase) return
     try {
-      const messages = await chatService.getMessages(sessionId)
-      setMessages(messages)
+      const { data, error } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('session_id', sid)
+        .order('created_at', { ascending: true })
+
+      if (error) throw error
+      setMessages(data || [])
       scrollToBottom()
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : String(error)
-      // Ignorer silencieusement si les tables n'existent pas encore
-      if (errorMessage.includes('relation does not exist') || 
-          errorMessage.includes('table not found') ||
-          errorMessage.includes('does not exist')) {
-        console.log('Chat tables not yet created - skipping messages load')
-        return
-      }
+    } catch (error) {
       console.error('Error loading messages:', error)
     }
   }
 
-  // Subscribe to new messages
-  useEffect(() => {
-    if (!session) return
-
-    const subscription = chatService.subscribeToMessages(session.id, (newMessage) => {
-      setMessages(prev => [...prev, newMessage])
-      scrollToBottom()
-      
-      if (newMessage.sender === 'admin') {
-        setIsTyping(false)
-      }
-    })
-
-    subscriptionRef.current = subscription
-
-    return () => {
-      if (subscriptionRef.current) {
-        subscriptionRef.current.unsubscribe()
-      }
-    }
-  }, [session])
-
-  // Scroll to bottom
+  // Scroll vers le bas
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  // Send message
-  const sendMessage = async (content: string) => {
+  // Envoyer un message
+  const handleSendMessage = async (content: string, hideMessage = false) => {
     if (!content.trim() || !visitorId) return
+
+    const trimmedContent = content.trim()
+    setInputValue('')
+
+    // Si c'est une commande système (retour), ne pas afficher le message
+    if (!hideMessage) {
+      // 1. Ajouter message visiteur immédiatement en local
+      const tempMessage: Message = {
+        id: 'temp-' + Date.now(),
+        session_id: sessionId || 'temp',
+        content: trimmedContent,
+        sender: 'visitor',
+        created_at: new Date().toISOString(),
+        read: false
+      }
+      setMessages(prev => [...prev, tempMessage])
+      scrollToBottom()
+    }
 
     setIsLoading(true)
     try {
-      let currentSession = session
+      // 3. POST /api/chat/message
+      const response = await fetch('/api/chat/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId,
+          visitorId,
+          content: trimmedContent,
+          visitorName,
+          visitorEmail,
+          hideMessage // Indiquer que le message ne doit pas être sauvegardé
+        })
+      })
 
-      // Create session if doesn't exist
-      if (!currentSession) {
-        currentSession = await chatService.createSession(visitorId)
-        setSession(currentSession)
+      const data = await response.json()
+
+      if (data.success) {
+        // 4. Remplacer le message temp par le vrai (uniquement si pas caché)
+        if (!hideMessage && data.message) {
+          setMessages(prev => prev.map(msg => 
+            msg.id === 'temp-' + Date.now() ? data.message : msg
+          ))
+        }
+
+        // 5. Sauvegarder sessionId retourné dans localStorage
+        if (data.sessionId) {
+          setSessionId(data.sessionId)
+          localStorage.setItem('jcd_session_id', data.sessionId)
+        }
+
+        // 6. Si data.autoReply -> afficher isTyping 1.5s puis ajouter le message auto
+        if (data.autoReply) {
+          setIsTyping(true)
+          setTimeout(() => {
+            setIsTyping(false)
+            setMessages(prev => [...prev, data.autoReply])
+            scrollToBottom()
+          }, 1500)
+        }
       }
-
-      // Send message
-      await chatService.sendMessage(currentSession.id, content, 'visitor')
-      setInputMessage('')
-      
-      // Reload messages
-      await loadMessages(currentSession.id)
     } catch (error) {
       console.error('Error sending message:', error)
     } finally {
@@ -148,9 +219,11 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
     }
   }
 
-  // Handle quick reply
-  const handleQuickReply = (reply: string) => {
-    sendMessage(reply)
+  // Réponse rapide
+  const handleQuickReply = (key: string, label: string) => {
+    // 1. Envoyer le label comme message visiteur
+    // 2. Appeler handleSendMessage(label)
+    handleSendMessage(label)
   }
 
   // Toggle chat
@@ -158,9 +231,6 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
     setIsOpen(!isOpen)
     if (!isOpen) {
       setUnreadCount(0)
-      if (session) {
-        chatService.markSessionAsRead(session.id)
-      }
     }
   }
 
@@ -170,6 +240,43 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
       hour: '2-digit', 
       minute: '2-digit' 
     })
+  }
+
+  // Styles pour conserver l'apparence actuelle
+  const avatarStyle = {
+    width: '32px',
+    height: '32px',
+    borderRadius: '50%',
+    backgroundColor: '#6B3A2A',
+    color: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '12px',
+    fontWeight: 'bold'
+  }
+
+  const bubbleStyle = {
+    maxWidth: '80%',
+    padding: '12px 16px',
+    borderRadius: '18px',
+    fontSize: '14px',
+    lineHeight: '1.4'
+  }
+
+  const visitorBubbleStyle = {
+    ...bubbleStyle,
+    backgroundColor: '#6B3A2A',
+    color: 'white',
+    borderBottomRightRadius: '4px'
+  }
+
+  const adminBubbleStyle = {
+    ...bubbleStyle,
+    backgroundColor: 'white',
+    color: '#333',
+    border: '1px solid #e8e0d0',
+    borderBottomLeftRadius: '4px'
   }
 
   if (!visitorId) return null
@@ -200,9 +307,7 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
           {/* Header */}
           <div className="bg-[#6B3A2A] text-white p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <span className="text-[#6B3A2A] font-bold">JC</span>
-              </div>
+              <div style={avatarStyle}>JC</div>
               <div>
                 <h3 className="font-semibold">Jay's Creations Design</h3>
                 <p className="text-xs text-green-300">En ligne · Répond en moins d'1h</p>
@@ -218,29 +323,16 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
 
           {/* Messages */}
           <div className="flex-1 bg-[#FAF7F2] p-4 overflow-y-auto">
-            {messages.length === 0 && (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-[#6B3A2A] text-2xl">JC</span>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  Bonjour ! Je suis ravie de vous accueillir chez Jay's Creations Design. Comment puis-je vous aider ? 
-                </p>
-                <p className="text-sm text-gray-500">Lun-Ven 7h-19h · Week-end 10h-17h</p>
-              </div>
-            )}
-
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={`mb-4 flex ${message.sender === 'visitor' ? 'justify-end' : 'justify-start'}`}
               >
+                {message.sender === 'admin' && (
+                  <div style={avatarStyle} className="mr-2">JC</div>
+                )}
                 <div
-                  className={`max-w-[80%] px-4 py-2 rounded-2xl ${
-                    message.sender === 'visitor'
-                      ? 'bg-[#6B3A2A] text-white rounded-br-2px'
-                      : 'bg-white border border-[#e8e0d0] rounded-bl-2px'
-                  }`}
+                  style={message.sender === 'visitor' ? visitorBubbleStyle : adminBubbleStyle}
                 >
                   <p className="text-sm">{message.content}</p>
                   <p className={`text-xs mt-1 ${message.sender === 'visitor' ? 'text-white/70' : 'text-gray-500'}`}>
@@ -250,14 +342,31 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
               </div>
             ))}
 
+            {/* Boutons réponses rapides (uniquement après message de bienvenue) */}
+            {messages.length === 1 && messages[0].sender === 'admin' && (
+              <div className="mt-4">
+                <div className="grid grid-cols-2 gap-2">
+                  {QUICK_REPLIES.map((reply) => (
+                    <button
+                      key={reply.key}
+                      onClick={() => handleQuickReply(reply.key, reply.label)}
+                      className="text-xs bg-white border border-[#e8e0d0] rounded-full px-3 py-2 hover:bg-[#FAF7F2] transition-colors text-left"
+                    >
+                      {reply.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Indicateur de frappe */}
             {isTyping && (
-              <div className="flex justify-start mb-4">
-                <div className="bg-white border border-[#e8e0d0] px-4 py-2 rounded-2xl rounded-bl-2px">
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
+              <div style={{display:'flex', alignItems:'center', gap:8}} className="mb-4">
+                <div style={avatarStyle}>JC</div>
+                <div style={adminBubbleStyle}>
+                  <span className="typing-dot">.</span>
+                  <span className="typing-dot">.</span>
+                  <span className="typing-dot">.</span>
                 </div>
               </div>
             )}
@@ -265,42 +374,40 @@ export default function ChatWidget({ className = '' }: ChatWidgetProps) {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Replies */}
-          {messages.length === 0 && (
-            <div className="px-4 pb-2">
-              <div className="grid grid-cols-2 gap-2">
-                {quickReplies.map((reply) => (
-                  <button
-                    key={reply}
-                    onClick={() => handleQuickReply(reply)}
-                    className="text-xs bg-white border border-[#e8e0d0] rounded-full px-3 py-1 hover:bg-[#FAF7F2] transition-colors"
-                  >
-                    {reply}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Input */}
           <div className="p-4 bg-white border-t border-[#e8e0d0]">
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
+              {/* Bouton retour en arrière */}
+              <button
+                onClick={() => handleSendMessage('retour', true)}
+                disabled={isLoading}
+                className="w-10 h-10 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Retour en arrière"
+              >
+                <ArrowLeft size={16} />
+              </button>
+              
               <input
                 type="text"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage(inputMessage)}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(inputValue)}
                 placeholder="Tapez votre message..."
                 className="flex-1 px-4 py-2 bg-[#FAF7F2] rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#6B3A2A]/20"
                 disabled={isLoading}
               />
               <button
-                onClick={() => sendMessage(inputMessage)}
-                disabled={isLoading || !inputMessage.trim()}
+                onClick={() => handleSendMessage(inputValue)}
+                disabled={isLoading || !inputValue.trim()}
                 className="w-10 h-10 bg-[#6B3A2A] text-white rounded-full flex items-center justify-center hover:bg-[#8B4513] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send size={16} />
               </button>
+            </div>
+            
+            {/* Texte d'aide pour le retour */}
+            <div className="mt-2 text-xs text-gray-500 text-center">
+              Tapez "retour", "annuler" ou "changer" pour revenir en arrière
             </div>
           </div>
         </div>

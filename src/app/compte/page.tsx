@@ -3,10 +3,17 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { getUser, getUserProfile } from '@/lib/auth'
+import { createClient } from '@supabase/supabase-js'
 import { ShoppingBag, Calendar, TrendingUp, Package, User, CreditCard, MapPin, LogOut, Gift, Settings, MapPin as MapPinIcon } from 'lucide-react'
 import Link from 'next/link'
 import Breadcrumb from '@/components/ui/Breadcrumb'
 import LoyaltySummary from '@/components/loyalty/LoyaltySummary'
+
+// Client Supabase avec fallbacks
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rtttjomxnchffqqaafxa.supabase.co',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ0dHRqb214bmNoZmZxcWFhZnhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ1MjM1NDAsImV4cCI6MjA5MDA5OTU0MH0.gaglop45XZ9EDRmQACbiDTSWw5FmU7yrMrh24aUxdaI'
+)
 
 export default function ComptePage() {
   const [user, setUser] = useState<any>(null)
@@ -27,12 +34,20 @@ export default function ComptePage() {
 
         setUser(currentUser)
         
-        // Récupérer les commandes du client
+        // Récupérer les commandes du client via l'API client
         try {
-          const ordersResponse = await fetch('/api/admin/commandes?userId=' + currentUser.id)
-          if (ordersResponse.ok) {
-            const ordersData = await ordersResponse.json()
-            setOrders(ordersData.orders || [])
+          // Récupérer le token depuis la session Supabase
+          const { data: { session } } = await supabase.auth.getSession()
+          if (session) {
+            const ordersResponse = await fetch('/api/user/orders', {
+              headers: {
+                'Authorization': `Bearer ${session.access_token}`
+              }
+            })
+            if (ordersResponse.ok) {
+              const ordersData = await ordersResponse.json()
+              setOrders(ordersData.orders || [])
+            }
           }
         } catch (error) {
           console.log('Erreur récupération commandes:', error)

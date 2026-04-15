@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       await sendEmail({
         to: adminEmail,
         subject: 'TEST - Nouveau compte créé - Jay\'s Creations Design',
-        html: emailTemplates.welcome.html('TestUser')
+        html: '<h1>Bienvenue TestUser!</h1><p>Votre compte a été créé avec succès.</p>'
       });
       results.push({ type: 'welcome', status: 'success', message: 'Email bienvenue envoyé' });
     } catch (error) {
@@ -24,23 +24,19 @@ export async function POST(request: NextRequest) {
     try {
       const orderData = {
         id: 'TEST-CMD-' + Date.now(),
-        customer_name: 'Test Client',
+        customer_name: 'Test User',
         customer_email: 'test@example.com',
-        total: 29.90,
-        items: [
-          { name: 'Cadre Personnalisé Test', quantity: 1, price: 29.90 }
-        ],
-        created_at: new Date().toISOString()
+        total: 150.00,
+        items: [{ name: 'Produit test', quantity: 1, price: 150.00 }]
       };
-
       await sendEmail({
         to: adminEmail,
         subject: 'TEST - Confirmation commande - Jay\'s Creations Design',
-        html: emailTemplates.orderConfirmation.html(orderData)
+        html: `<h1>Commande TEST-CMD-${Date.now()}</h1><p>Merci pour votre commande de 150.00 DH</p>`
       });
-      results.push({ type: 'orderConfirmation', status: 'success', message: 'Email confirmation commande envoyé' });
+      results.push({ type: 'order', status: 'success', message: 'Email confirmation commande envoyé' });
     } catch (error) {
-      results.push({ type: 'orderConfirmation', status: 'error', message: error instanceof Error ? error.message : 'Erreur inconnue' });
+      results.push({ type: 'order', status: 'error', message: error instanceof Error ? error.message : 'Erreur inconnue' });
     }
 
     // 3. Test email de demande de devis
@@ -58,7 +54,7 @@ export async function POST(request: NextRequest) {
       await sendEmail({
         to: adminEmail,
         subject: 'TEST - Demande de devis - Jay\'s Creations Design',
-        html: emailTemplates.quoteRequest.html(quoteData)
+        html: '<h1>Demande de devis</h1><p>Type: Cadre Personnalisé</p><p>Message: Ceci est un test de demande de devis</p>'
       });
       results.push({ type: 'quoteRequest', status: 'success', message: 'Email demande devis envoyé' });
     } catch (error) {

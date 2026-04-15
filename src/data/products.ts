@@ -929,7 +929,7 @@ export const products: Product[] = [
     numericPrice: 1.80,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/tube bulle1.png",
     slug: "tube-bulles-savon-personnalise",
     themes: ["Mariage", "Anniversaire", "Enfant", "Fête"],
     description: "Tube bulles de savon personnalisé pour vos événements. Design amusant et original, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et fêtes d'enfants.",
@@ -1102,6 +1102,75 @@ export const products: Product[] = [
       ]
     },
     pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  // KITKAT PERSONNALISÉ
+  {
+    id: "49",
+    name: "Kitkat Personnalisé",
+    price: "2,60\u20AC",
+    numericPrice: 2.60,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/kitkat1.png",
+    slug: "kitkat-personnalise",
+    themes: ["Chocolat", "Casse-croûte", "Pause", "Festif"],
+    description: "Kitkat personnalisé pour vos événements. Barres chocolatées croustillantes, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et pauses gourmandes.",
+    longDescription: "Faites une pause gourmande avec nos Kitkat personnalisés ! Ces barres chocolatées iconiques avec leur croustillant unique sont entièrement personnalisables avec vos noms, dates de l'événement et thème choisi. Parfaites pour mariage, anniversaire, baby-shower ou toute célébration, les Kitkat séduisent tous les amateurs de chocolat. Packaging personnalisé avec design moderne et couleurs assorties à votre événement. Qualité Kitkat garantie avec chocolat de qualité et texture croustillante incomparable. Idéal pour sweet table, cadeaux d'invités ou distribution pendant les pauses. Personnalisation sur-mesure et livraison rapide pour des moments de pause inoubliables et gourmands.",
+    pricing: {
+      unitPrice: 2.60,
+      minQuantity: 6,
+      tiers: [
+        { min: 10, pricePerUnit: 2.29 }, // 10 pour 22,90\u20AC
+        { min: 20, pricePerUnit: 2.09 }  // 20 pour 41,80\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  // AFFICHE A3
+  {
+    id: "50",
+    name: "Affiche A3",
+    price: "14,00\u20AC",
+    numericPrice: 14.00,
+    category: "Affiche",
+    categorySlug: "affiche",
+    sous_categorie: "Affiche",
+    image: "/images/products/placeholder.png",
+    slug: "affiche-a3",
+    themes: ["Événement", "Promotion", "Décoration", "Personnalisé"],
+    description: "Affiche A3 personnalisée pour vos événements et promotions. Format grand idéal pour communication visible, personnalisable avec vos couleurs, texte et logo. Parfait pour affichage commercial et événementiel.",
+    longDescription: "Communiquez avec impact grâce à notre affiche A3 personnalisée ! Format généreux 29,7 x 42 cm pour une visibilité maximale dans vos espaces commerciaux, événements ou manifestations. Papier de qualité supérieure avec impression haute définition pour des couleurs vives et durables. Personnalisation complète avec votre logo, messages, images promotionnelles et identité visuelle. Idéal pour promotions, lancements de produits, annonces d'événements, décoration de magasins ou communication d'entreprise. Finitions professionnelles disponibles : brillant, mat ou satiné selon vos besoins. Résistance à la lumière et à l'humidité pour une durée de vie prolongée. Création française avec matériaux écologiques et encres respectueuses de l'environnement. Livraison rapide et personnalisation sur-mesure pour une communication efficace et professionnelle.",
+    pricing: {
+      unitPrice: 14.00,
+      minQuantity: 1
+    },
+    pricing_type: "unit_pricing",
+    rating: 5,
+  },
+
+  // AFFICHE A4
+  {
+    id: "51",
+    name: "Affiche A4",
+    price: "7,00\u20AC",
+    numericPrice: 7.00,
+    category: "Affiche",
+    categorySlug: "affiche",
+    sous_categorie: "Affiche",
+    image: "/images/products/placeholder.png",
+    slug: "affiche-a4",
+    themes: ["Événement", "Promotion", "Information", "Personnalisé"],
+    description: "Affiche A4 personnalisée pour vos communications. Format standard polyvalent, personnalisable avec vos couleurs, texte et images. Parfait pour informations, promotions et décoration.",
+    longDescription: "Optez pour notre affiche A4 personnalisée pour une communication efficace et professionnelle ! Format standard 21 x 29,7 cm idéal pour tous types de messages : informations, promotions, annonces, décoration ou signalétique. Papier premium avec qualité d'impression exceptionnelle pour des résultats nets et durables. Personnalisation totale avec vos visuels, textes, logo et charte graphique. Parfaite pour bureaux, commerces, salles d'attente, écoles ou événements. Format pratique facile à installer et à remplacer régulièrement. Plusieurs finitions disponibles : brillante pour les couleurs éclatantes ou mate pour un look élégant et anti-reflet. Imprimé avec des encres écologiques pour un rendu respectueux de l'environnement. Création française avec matériaux recyclés et livraison soignée. Personnalisation rapide et flexible pour une communication adaptée à vos besoins.",
+    pricing: {
+      unitPrice: 7.00,
+      minQuantity: 1
+    },
+    pricing_type: "unit_pricing",
     rating: 5,
   },
 ];

@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 import Footer from "@/components/site/Footer";
 import Header from "@/components/site/Header";
-import ChatWidget from "@/components/chat/ChatWidget";
+import ChatWrapper from "@/components/chat/ChatWrapper";
 import TopBanner from "@/components/site/TopBanner";
 import WelcomePopup from "@/components/site/WelcomePopup";
 import { PostHogProvider } from "@/providers/PostHogProvider";
@@ -71,7 +71,7 @@ export default function RootLayout({
           </div>
           <Footer />
           {/* ChatWidget - only show on non-admin pages */}
-          <ChatWidget />
+          <ChatWrapper />
           <WelcomePopup />
         </PostHogProvider>
         <Analytics />

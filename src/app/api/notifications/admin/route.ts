@@ -238,8 +238,7 @@ export async function POST(request: NextRequest) {
     if (result.success) {
       return NextResponse.json({
         success: true,
-        message: 'Notification admin envoyée avec succès',
-        messageId: result.messageId
+        message: 'Notification admin envoyée avec succès'
       });
     } else {
       return NextResponse.json(

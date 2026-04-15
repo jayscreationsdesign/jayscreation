@@ -13,16 +13,27 @@ export interface UserProfile {
 }
 
 export async function signIn(email: string, password: string) {
+  if (!supabase) {
+    console.error('Supabase client not initialized')
+    return { data: null, error: { message: 'Supabase non configuré' } }
+  }
+
+  // debug
+  // @ts-ignore
+  console.log('DEBUG SUPABASE CLIENT', supabase)
+
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
-    
-    if (error) throw error
-    return { data, error: null }
-  } catch (error) {
-    return { data: null, error: error as AuthError }
+    if (error) {
+      console.error('SIGNIN ERROR details:', error)
+    }
+    return { data, error }
+  } catch (err: any) {
+    console.error('SIGNIN FETCH ERROR', err)
+    return { data: null, error: err }
   }
 }
 

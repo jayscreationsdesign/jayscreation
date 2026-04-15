@@ -50,14 +50,21 @@ export async function POST(request: NextRequest) {
     };
 
     // Envoi de l'email de demande de devis
-    const result = await sendQuoteRequestEmail(cleanData);
+    const emailData = {
+      customerName: `${cleanData.prenom} ${cleanData.nom}`,
+      customerEmail: cleanData.email,
+      projectType: cleanData.typeProduit,
+      projectDescription: `Dimensions: ${cleanData.dimensions}\nThème: ${cleanData.theme}\nMessage: ${cleanData.message}`,
+      budget: cleanData.budget,
+      urgency: cleanData.delai
+    };
+    const result = await sendQuoteRequestEmail(emailData);
 
     if (result.success) {
       return NextResponse.json({
         success: true,
         message: 'Demande de devis envoyée avec succès',
-        quoteId: `DEVIS-${Date.now()}`,
-        messageId: result.messageId
+        quoteId: `DEVIS-${Date.now()}`
       });
     } else {
       return NextResponse.json(

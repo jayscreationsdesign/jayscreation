@@ -76,8 +76,8 @@ export async function POST(request: NextRequest) {
         try {
           await sendEmail({
             to: orderData.customer_email,
-            subject: emailTemplates.orderConfirmation.subject,
-            html: emailTemplates.orderConfirmation.html(orderData)
+            subject: `Confirmation de votre commande ${orderData.id}`,
+            html: `<h1>Merci pour votre commande!</h1><p>Votre commande ${orderData.id} a été confirmée.</p><p>Total: ${orderData.total} DH</p>`
           });
           console.log('Email confirmation client envoyé à:', orderData.customer_email);
         } catch (emailError) {
