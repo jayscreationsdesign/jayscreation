@@ -611,7 +611,7 @@ export default function Parametres() {
                   <option value="Colissimo">Colissimo</option>
                   <option value="Chronopost">Chronopost</option>
                   <option value="UPS">UPS</option>
-                  <option value="DHL">DHL</option>
+                  <option value="€L">€L</option>
                 </select>
               </div>
             </div>

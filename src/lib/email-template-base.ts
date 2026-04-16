@@ -14,7 +14,7 @@ export function encodeHtml(str: string): string {
     .replace(/Ã»/g, '&ucirc;')
     .replace(/Ã¹/g, '&ugrave;')
     .replace(/Ã§/g, '&ccedil;')
-    .replace(/â¬/g, '&euro;')
+    .replace(/€/g, '&euro;')
     .replace(/Â°/g, '&deg;')
     .replace(/Â«/g, '&laquo;')
     .replace(/Â»/g, '&raquo;');

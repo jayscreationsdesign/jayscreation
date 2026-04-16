@@ -349,11 +349,11 @@ export default function Coupons() {
                       <td className="px-4 py-4">
                         <div>
                           <p className="font-semibold text-[#2C1A0E]">
-                            {coupon.type === 'percentage' ? `${coupon.value}%` : `${coupon.value} DH`}
+                            {coupon.type === 'percentage' ? `${coupon.value}%` : `${coupon.value} €`}
                           </p>
                           {(coupon.minimum_amount || 0) > 0 && (
                             <p className="text-xs text-gray-500">
-                              Min. {coupon.minimum_amount} DH
+                              Min. {coupon.minimum_amount} €
                             </p>
                           )}
                         </div>
@@ -486,7 +486,7 @@ export default function Coupons() {
                     value={formData.value}
                     onChange={(e) => setFormData({...formData, value: parseFloat(e.target.value) || 0})}
                     className="w-full px-3 py-2 border border-[#E8D5C0] rounded-lg focus:ring-2 focus:ring-[#8B4513] focus:border-transparent"
-                    placeholder={formData.type === 'percentage' ? '%' : 'DH'}
+                    placeholder={formData.type === 'percentage' ? '%' : '€'}
                   />
                 </div>
               </div>

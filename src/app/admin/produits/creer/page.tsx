@@ -175,7 +175,7 @@ export default function CreerProduit() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-[#2C1A0E] mb-2">
-                      Prix (â¬) *
+                      Prix (€) *
                     </label>
                     <div className="relative">
                       <Euro className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-[#A0785A]" />

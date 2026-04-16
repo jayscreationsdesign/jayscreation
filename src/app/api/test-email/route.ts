@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     console.log(`   - N°: ${testOrder.number}`);
     console.log(`   - Client: ${testOrder.customerName}`);
     console.log(`   - Email: ${testOrder.customerEmail}`);
-    console.log(`   - Total: ${testOrder.total}â¬`);
+    console.log(`   - Total: ${testOrder.total}€`);
     console.log(`   - Articles: ${testOrder.items.length}`);
 
     const result = await sendOrderConfirmationEmail(testOrder);

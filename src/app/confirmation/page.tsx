@@ -76,7 +76,7 @@ function ConfirmationContent() {
               </div>
               <div className="flex justify-between">
                 <span className="text-[#6B6B6B]">Total payé:</span>
-                <span className="font-bold text-[#8B4513]">{orderDetails.total.toFixed(2)} â¬</span>
+                <span className="font-bold text-[#8B4513]">{orderDetails.total.toFixed(2)} €</span>
               </div>
             </div>
           </div>

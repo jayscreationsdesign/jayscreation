@@ -314,7 +314,7 @@ export default function Devis() {
             <div>
               <p className="text-sm font-medium text-[#A0785A]">Valeur totale</p>
               <p className="text-2xl font-bold text-[#2C1A0E] mt-2">
-                {quotes.reduce((sum, q) => sum + q.estimated_price, 0).toFixed(2)} â¬
+                {quotes.reduce((sum, q) => sum + q.estimated_price, 0).toFixed(2)} €
               </p>
             </div>
             <ShoppingBag className="h-8 w-8 text-[#D4A574]" />
@@ -410,7 +410,7 @@ export default function Devis() {
                       {quote.project_type}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#2C1A0E]">
-                      {quote.estimated_price.toFixed(2)} â¬
+                      {quote.estimated_price.toFixed(2)} €
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(quote.status)}`}>
@@ -602,7 +602,7 @@ export default function Devis() {
                         />
                       </div>
                       <div className="w-24 text-sm font-medium text-[#2C1A0E]">
-                        {item.total_price.toFixed(2)} â¬
+                        {item.total_price.toFixed(2)} €
                       </div>
                       {newQuote.items.length > 1 && (
                         <button
@@ -622,7 +622,7 @@ export default function Devis() {
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-semibold text-[#2C1A0E]">Total estimé</span>
                   <span className="text-xl font-bold text-[#8B4513]">
-                    {newQuote.estimated_price.toFixed(2)} â¬
+                    {newQuote.estimated_price.toFixed(2)} €
                   </span>
                 </div>
               </div>
@@ -731,7 +731,7 @@ export default function Devis() {
                 <div className="flex items-center justify-between">
                   <span className="text-lg font-semibold text-[#2C1A0E]">Montant estimé</span>
                   <span className="text-xl font-bold text-[#8B4513]">
-                    {selectedQuote.estimated_price.toFixed(2)} â¬
+                    {selectedQuote.estimated_price.toFixed(2)} €
                   </span>
                 </div>
               </div>

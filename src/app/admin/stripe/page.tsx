@@ -123,7 +123,7 @@ export default function Stripe() {
             <div>
               <p className="text-sm font-medium text-[#A0785A]">Revenu total</p>
               <p className="text-2xl font-bold text-[#2C1A0E] mt-2">
-                {stats.totalRevenue.toFixed(2)} â¬
+                {stats.totalRevenue.toFixed(2)} €
               </p>
               <p className="text-xs text-green-600 mt-1 flex items-center">
                 <ArrowUpRight className="h-3 w-3 mr-1" />
@@ -139,7 +139,7 @@ export default function Stripe() {
             <div>
               <p className="text-sm font-medium text-[#A0785A]">Revenu mensuel</p>
               <p className="text-2xl font-bold text-[#2C1A0E] mt-2">
-                {stats.monthlyRevenue.toFixed(2)} â¬
+                {stats.monthlyRevenue.toFixed(2)} €
               </p>
               <p className="text-xs text-green-600 mt-1 flex items-center">
                 <ArrowUpRight className="h-3 w-3 mr-1" />
@@ -219,7 +219,7 @@ export default function Stripe() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-[#2C1A0E] font-medium">
-                      {transaction.amount.toFixed(2)} â¬
+                      {transaction.amount.toFixed(2)} €
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -256,7 +256,7 @@ export default function Stripe() {
             <Activity className="h-5 w-5 text-yellow-600" />
           </div>
           <div className="text-3xl font-bold text-[#2C1A0E] mb-2">3</div>
-          <p className="text-sm text-[#A0785A]">Total: 245.50 â¬</p>
+          <p className="text-sm text-[#A0785A]">Total: 245.50 €</p>
         </div>
 
         <div className="bg-white rounded-lg border border-[#E8D5C0] p-6">
@@ -265,7 +265,7 @@ export default function Stripe() {
             <ArrowDownRight className="h-5 w-5 text-red-600" />
           </div>
           <div className="text-3xl font-bold text-[#2C1A0E] mb-2">2</div>
-          <p className="text-sm text-[#A0785A]">Total: 178.00 â¬</p>
+          <p className="text-sm text-[#A0785A]">Total: 178.00 €</p>
         </div>
 
         <div className="bg-white rounded-lg border border-[#E8D5C0] p-6">

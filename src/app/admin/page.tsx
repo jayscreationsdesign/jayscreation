@@ -269,7 +269,7 @@ export default function AdminDashboard() {
               <div>
                 <p className="text-sm text-[#D4A574] mb-1">Revenus du mois</p>
                 <p className="text-2xl font-bold">
-                  {stats.monthlyRevenue.toFixed(2)} DH
+                  {stats.monthlyRevenue.toFixed(2)} €
                 </p>
                 <p className="text-xs text-[#D4A574] mt-1">
                   {stats.orders.length} commandes
@@ -314,7 +314,7 @@ export default function AdminDashboard() {
               <div>
                 <p className="text-sm text-[#D4A574] mb-1">Panier moyen</p>
                 <p className="text-2xl font-bold">
-                  {stats.averageCart.toFixed(2)} DH
+                  {stats.averageCart.toFixed(2)} €
                 </p>
                 <p className="text-xs text-[#D4A574] mt-1">
                   Par commande

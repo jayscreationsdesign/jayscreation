@@ -148,7 +148,7 @@ export async function GET(request: NextRequest) {
               </p>
               <div class="order-info">
                 <p><strong>Client:</strong> ${order.client_nom}</p>
-                <p><strong>Total:</strong> ${order.total.toFixed(2)}â¬</p>
+                <p><strong>Total:</strong> ${order.total.toFixed(2)}€</p>
                 <p><strong>Date:</strong> ${new Date().toLocaleString('fr-FR')}</p>
               </div>
             </div>
