@@ -13,7 +13,8 @@ import {
   User,
   Mail,
   Phone,
-  MapPin
+  MapPin,
+  Lock
 } from 'lucide-react'
 import { formatPriceEUR } from '@/lib/formatPrice'
 
@@ -259,7 +260,7 @@ export default function OrderDetail() {
                 'bg-gray-100 text-gray-800'
               }`}>
                 {order.statut === 'payee' && <CheckCircle className="w-4 h-4 mr-1" />}
-                {order.statut === 'en_attente' && <Clock className="w-4 h-4 mr-1" />}
+                {order.statut === 'en_attente' && <Lock className="w-4 h-4 mr-1" />}
                 {order.statut}
               </div>
             </div>
