@@ -1064,7 +1064,8 @@ export default function Header() {
 
                   e.currentTarget.style.backgroundColor = '#6b3410';
 
-                  e.currentTarget.querySelector('svg').style.color = '#D4A574';
+                  const svgEl = e.currentTarget.querySelector('svg');
+if (svgEl) (svgEl as HTMLElement).style.color = '#D4A574';
 
                 }}
 
