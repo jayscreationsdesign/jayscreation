@@ -147,10 +147,15 @@ export const THEME_CATEGORIES: ThemeCategory[] = [
       { id: "doux", label: "Doux" },
       { id: "noisette", label: "Noisette" },
       { id: "bonbons", label: "Bonbons" },
-      { id: "gateau", label: "Gâteau" },
-      { id: "fruits", label: "Fruits" },
-      { id: "gourmand", label: "Gourmand" },
-      { id: "sucre", label: "Sucre" },
+    ],
+  },
+  {
+    id: "papeterie-telechargeable",
+    label: "Papeterie Téléchargeable",
+    themes: [
+      { id: "minnie", label: "Minnie" },
+      { id: "rose", label: "Rose" },
+      { id: "classique", label: "Classique" },
     ],
   },
   {

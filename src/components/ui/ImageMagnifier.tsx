@@ -10,6 +10,7 @@ interface ImageMagnifierProps {
   maxZoom?: number
   minZoom?: number
   zoomStep?: number
+  estNumerique?: boolean
 }
 
 export default function ImageMagnifier({ 
@@ -18,7 +19,8 @@ export default function ImageMagnifier({
   className = "",
   maxZoom = 3,
   minZoom = 1,
-  zoomStep = 0.5
+  zoomStep = 0.5,
+  estNumerique = false
 }: ImageMagnifierProps) {
   const [isHovering, setIsHovering] = useState(false)
   const [zoom, setZoom] = useState(1)
@@ -92,14 +94,29 @@ export default function ImageMagnifier({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      style={{ cursor: isHovering ? 'none' : 'zoom-in' }}
+      style={{ 
+        cursor: isHovering ? 'none' : 'zoom-in',
+        background: estNumerique ? '#FFF0F3' : '#FAF7F2',
+        width: '100%',
+        aspectRatio: '1 / 1',
+        borderRadius: '12px',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
     >
       <img
         ref={imageRef}
         src={src}
         alt={alt}
-        className="w-full h-full object-cover transition-transform duration-100"
-        style={getZoomedImageStyle()}
+        className="w-full h-full transition-transform duration-100"
+        style={{
+          objectFit: 'contain',
+          width: '140%',
+          height: '100%',
+          ...getZoomedImageStyle()
+        }}
         draggable={false}
       />
       

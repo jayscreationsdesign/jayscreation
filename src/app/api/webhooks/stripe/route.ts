@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { headers } from 'next/headers';
 import { sendEmail, emailTemplates } from '../../../../lib/email';
+import { sendOrderConfirmationEmail, sendNewOrderAdminEmail } from '../../../../lib/email-server';
+import * as nodemailer from 'nodemailer';
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 if (!stripeSecretKey) {
@@ -59,6 +61,13 @@ export async function POST(request: NextRequest) {
           price: item.amount_total / 100
         })) || [];
 
+        // Vérifier si la commande contient des produits numériques
+        const articlesJson = session.metadata?.articles_json || '[]';
+        const articles = JSON.parse(articlesJson);
+        const hasDigitalProducts = articles.some((item: any) => item.estNumerique === true);
+
+        console.log('🔍 Produits numériques détectés:', hasDigitalProducts);
+
         const orderData: any = {
           id: session.id,
           customer_name: session.customer_details?.name || 'Client',
@@ -71,6 +80,12 @@ export async function POST(request: NextRequest) {
         };
 
         console.log('Données commande préparées:', orderData);
+
+        // Si commande numérique, envoyer les emails spécifiques
+        if (hasDigitalProducts) {
+          console.log('🎯 Envoi des emails pour commande numérique');
+          await sendDigitalOrderEmails(session.metadata, articles);
+        }
 
         // 1. Email de confirmation au client
         try {
@@ -240,5 +255,141 @@ export async function POST(request: NextRequest) {
       { error: 'Erreur traitement webhook' },
       { status: 500 }
     );
+  }
+}
+
+// Fonction pour envoyer les emails spécifiques aux commandes numériques
+async function sendDigitalOrderEmails(metadata: any, articles: any[]) {
+  const transporter = nodemailer.createTransport({
+    host: 'smtp.ionos.fr', 
+    port: 587, 
+    secure: false,
+    auth: { 
+      user: 'commande@jayscreationsdesign.fr',
+      pass: 'Kenays971238.' 
+    }
+  })
+
+  // Email au client
+  const clientEmailHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Votre fichier personnalisé Jay's Creations</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #FAF7F2; }
+        .container { max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .logo { max-width: 150px; }
+        .title { color: #6B3A2A; font-size: 24px; margin-bottom: 20px; }
+        .content { color: #2C2C2C; line-height: 1.6; }
+        .order-details { background-color: #F9FAFB; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #6B6B6B; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <img src="https://jayscreationsdesign.fr/images/logo/logo.png" alt="Jay's Creations Design" class="logo">
+        </div>
+        
+        <h1 class="title">Merci pour votre commande !</h1>
+        
+        <div class="content">
+          <p>Jay's Creations prépare votre fichier personnalisé sous 72h.</p>
+          <p>Vous recevrez un nouvel email avec votre lien de téléchargement dès que votre fichier sera prêt.</p>
+          
+          <div class="order-details">
+            <h3 style="color: #6B3A2A; margin-top: 0;">Détails de votre commande :</h3>
+            <p><strong>Client :</strong> ${metadata.client_nom}</p>
+            <p><strong>Email :</strong> ${metadata.client_email}</p>
+            <p><strong>Personnalisation :</strong> ${metadata.personnalisation || 'Standard'}</p>
+            
+            <h4 style="color: #6B3A2A; margin-top: 15px;">Articles commandés :</h4>
+            ${articles.map((item: any) => `
+              <p>• ${item.productName || item.nom} ${item.theme ? `(Thème: ${item.theme})` : ''}</p>
+            `).join('')}
+          </div>
+          
+          <p style="text-align: center; margin-top: 30px;">
+            <strong>À très bientôt pour votre fichier personnalisé !</strong><br>
+            L'équipe Jay's Creations
+          </p>
+        </div>
+        
+        <div class="footer">
+          <p>Jay's Creations Design - Créations personnalisées pour vos événements</p>
+          <p>contact@jayscreationsdesign.fr</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `
+
+  // Email d'alerte à Anais
+  const alertEmailHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Nouvelle commande numérique à traiter</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #FAF7F2; }
+        .container { max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .alert { background-color: #FFE4E8; border-left: 4px solid #993556; padding: 15px; margin: 20px 0; }
+        .order-details { background-color: #F9FAFB; padding: 20px; border-radius: 8px; margin: 20px 0; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="alert">
+          <h2 style="color: #993556; margin-top: 0;">🚨 NOUVELLE COMMANDE NUMÉRIQUE</h2>
+        </div>
+        
+        <h3 style="color: #6B3A2A;">Détails du client :</h3>
+        <p><strong>Nom :</strong> ${metadata.client_nom}</p>
+        <p><strong>Email :</strong> ${metadata.client_email}</p>
+        <p><strong>Téléphone :</strong> ${metadata.client_telephone}</p>
+        <p><strong>Adresse :</strong> ${metadata.adresse_complete}</p>
+        <p><strong>Personnalisation :</strong> ${metadata.personnalisation || 'Standard'}</p>
+        
+        <div class="order-details">
+          <h4 style="color: #6B3A2A; margin-top: 0;">Articles à préparer :</h4>
+          ${articles.map((item: any) => `
+            <p>• ${item.productName || item.nom} ${item.theme ? `(Thème: ${item.theme})` : ''} ${item.estNumerique ? '📁 NUMÉRIQUE' : ''}</p>
+          `).join('')}
+        </div>
+        
+        <p style="text-align: center; margin-top: 30px;">
+          <strong>Action requise :</strong> Préparer les fichiers et envoyer les liens de téléchargement
+        </p>
+      </div>
+    </body>
+    </html>
+  `
+
+  try {
+    // Envoyer l'email au client
+    await transporter.sendMail({
+      from: 'commande@jayscreationsdesign.fr',
+      to: metadata.client_email,
+      subject: 'Votre fichier personnalisé Jay\'s Creations est en préparation',
+      html: clientEmailHtml,
+    })
+    console.log('✅ Email client envoyé pour commande numérique')
+
+    // Envoyer l'alerte à Anais
+    await transporter.sendMail({
+      from: 'commande@jayscreationsdesign.fr',
+      to: 'commande@jayscreationsdesign.fr',
+      subject: 'Nouvelle commande numérique à traiter',
+      html: alertEmailHtml,
+    })
+    console.log('✅ Alerte email envoyée à Anais pour commande numérique')
+  } catch (error) {
+    console.error('❌ Erreur envoi emails commande numérique:', error)
   }
 }

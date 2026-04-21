@@ -7,9 +7,7 @@ export function Contact() {
   const router = useRouter();
 
   return (
-    <section className="py-8 sm:py-12 lg:py-16" style={{
-      background: "linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 50%, #F5E6D3 100%)"
-    }}>
+    <section className="py-8 sm:py-12 lg:py-16 bg-[#FAF7F2]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-jc-text mb-6 sm:mb-8">
           Contactez-nous

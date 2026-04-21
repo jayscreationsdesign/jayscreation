@@ -54,26 +54,38 @@ export default function ProductAccordions({ product }: { product: Product }) {
 
   const items: AccordionItem[] = [
     {
-      id: "avantages",
-      title: "AVANTAGES",
-      icon: Star,
+      id: "description",
+      title: "DESCRIPTION",
+      icon: MessageCircle,
       content:
-        product.longDescription ||
-        `â Création artisanale 100% faite à la main\nâ Matériaux premium et finitions dorées soignées\nâ Personnalisation complète : couleurs, texte, police, thème\nâ Aperçu maquette envoyé sous 24h après commande\nâ Modifications illimitées jusqu'à votre validation finale\nâ Livraison suivie en France métropolitaine\nâ Service client réactif, disponible par email et téléphone`,
+        product.estNumerique 
+          ? "Etiquette au format PDF pour une impression sur feuille A4\nFichier haute résolution\nAucun produit physique n'est vendu, le contenu est entièrement digital\nNous n'apportons pas de modifications à nos conceptions ou aux mesures de nos produits\nVous serez responsable de l'impression et de l'assemblage\nPour une qualité optimale, privilégiez du papier brillant\nAprès l'envoi du lien de téléchargement, nous ne procédons à aucun retour, modification ou remboursement\nVeuillez lire la description avant achat"
+          : (
+            product.longDescription ||
+            `Création artisanale 100% faite à la main\nMatériaux premium et finitions dorées soignées\nPersonnalisation complète : couleurs, texte, police, thème\nAperçu maquette envoyé sous 24h après commande\nModifications illimitées jusqu'à votre validation finale\nLivraison suivie en France métropolitaine\nService client réactif, disponible par email et téléphone`
+          ),
+    },
+    {
+      id: "informations",
+      title: "INFORMATIONS COMPLÉMENTAIRES",
+      icon: HelpCircle,
+      content:
+        product.estNumerique 
+          ? "Format : PDF haute résolution\nRéception : sous 72h par email\nImpression : illimitée\nProduit physique : non inclus"
+          : "Nos créations sont réalisées avec des matériaux soigneusement sélectionnés : papier premium 300g, impressions haute définition, finitions brillantes ou mates selon le produit, et dorures à chaud pour les collections premium. Nous privilégions des matériaux durables et résistants pour que vos souvenirs traversent le temps.",
+    },
+    {
+      id: "avis",
+      title: "AVIS",
+      icon: Star,
+      content: "Les avis clients seront bientôt disponibles pour ce produit."
     },
     {
       id: "personnalisation",
       title: "PERSONNALISATION",
       icon: Ruler,
       content:
-        "Chaque produit est entièrement personnalisable :\n\nâ Choix du thème (mariage, baptême, anniversaire...)\nâ Choix des couleurs\nâ Texte personnalisé (prénoms, date, message)\nâ Choix de la police d'écriture\n\nAprès commande, vous recevrez un aperçu maquette sous 24h pour validation avant réalisation.",
-    },
-    {
-      id: "materiaux",
-      title: "MATÉRIAUX",
-      icon: HelpCircle,
-      content:
-        "Nos créations sont réalisées avec des matériaux soigneusement sélectionnés : papier premium 300g, impressions haute définition, finitions brillantes ou mates selon le produit, et dorures à chaud pour les collections premium. Nous privilégions des matériaux durables et résistants pour que vos souvenirs traversent le temps.",
+        "Chaque produit est entièrement personnalisable :\n\nChoix du thème (mariage, baptême, anniversaire...)\nChoix des couleurs\nTexte personnalisé (prénoms, date, message)\nChoix de la police d'écriture\n\nAprès commande, vous recevrez un aperçu maquette sous 24h pour validation avant réalisation.",
     },
     {
       id: "creation",

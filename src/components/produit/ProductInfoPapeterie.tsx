@@ -63,7 +63,7 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
   };
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5" style={{ backgroundColor: '#FAF7F2' }}>
 
       {/* Onglet AVIS vertical */}
       <AvisTab showOnMobile={false} />
@@ -107,7 +107,7 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
       </div>
 
       {/* D) Section CHOISIR VOTRE FORMAT */}
-      <div style={{ background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px' }}>
+      <div style={{ background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px', width: '100%', maxWidth: '420px' }}>
         <div style={{ display: 'inline-block', minWidth: '0' }}>
           <p style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8B4513', marginBottom: '10px', whiteSpace: 'nowrap' }}>
             Choisir votre format
@@ -153,10 +153,10 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
             value={selectedProduct}
             onChange={(e) => handleProductChange(e.target.value)}
             style={{
-              width: 'auto',
-              minWidth: '0',
+              width: 'fit-content',
+              minWidth: '200px',
               maxWidth: '100%',
-              background: '#FAF7F2',
+              background: 'white',
               border: '1px solid #D4A574',
               borderRadius: '6px',
               padding: '7px 32px 7px 10px',
@@ -199,7 +199,7 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
       </div>
 
       {/* E) Personnalisation */}
-      <div style={{ background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px' }}>
+      <div style={{ background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px', width: '100%', maxWidth: '420px' }}>
         <div style={{ display: 'inline-block', minWidth: '0' }}>
           <p style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8B4513', marginBottom: '10px', whiteSpace: 'nowrap' }}>
             Personnalisation
@@ -211,7 +211,7 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
           placeholder="Ex : Emma"
           value={childName}
           onChange={(e) => setChildName(e.target.value)}
-          style={{ width: '100%', background: '#FAF7F2', border: '1px solid #D4A574', borderRadius: '6px', padding: '6px 10px', fontSize: '11px', color: '#3C2415', marginBottom: '8px' }}
+          style={{ width: '100%', background: 'white', border: '1px solid #D4A574', borderRadius: '6px', padding: '6px 10px', fontSize: '11px', color: '#3C2415', marginBottom: '8px' }}
         />
         <p style={{ fontSize: '10px', color: '#8B4513', marginBottom: '4px' }}>Date de l'événement</p>
         <input
@@ -219,12 +219,12 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
           placeholder="Ex : 15 juin 2025"
           value={eventDate}
           onChange={(e) => setEventDate(e.target.value)}
-          style={{ width: '100%', background: '#FAF7F2', border: '1px solid #D4A574', borderRadius: '6px', padding: '6px 10px', fontSize: '11px', color: '#3C2415' }}
+          style={{ width: '100%', background: 'white', border: '1px solid #D4A574', borderRadius: '6px', padding: '6px 10px', fontSize: '11px', color: '#3C2415' }}
         />
       </div>
 
       {/* F) Information Visuel */}
-      <div style={{ display: 'inline-block', minWidth: '0', background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px' }}>
+      <div style={{ background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px', width: '100%', maxWidth: '420px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
           <p style={{ fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8B4513', whiteSpace: 'nowrap', margin: 0 }}>
             Information Visuel <span style={{ color: '#E24B4A' }}>*</span>
@@ -237,9 +237,8 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
           onChange={(e) => setVisualInfo(e.target.value)}
           rows={3}
           style={{
-            width: 'auto',
-            minWidth: '200px',
-            background: '#FAF7F2',
+            width: '100%',
+            background: 'white',
             border: '1px solid #D4A574',
             borderRadius: '6px',
             padding: '8px 10px',
@@ -255,7 +254,7 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
       </div>
 
       {/* G) Quantité */}
-      <div style={{ background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px' }}>
+      <div style={{ background: 'white', border: '1px solid #D4A574', borderRadius: '10px', padding: '12px', width: '100%', maxWidth: '420px' }}>
         <div style={{ display: 'inline-block', minWidth: '0' }}>
           <p style={{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1.5px', color: '#8B4513', marginBottom: '10px', whiteSpace: 'nowrap' }}>
             Quantité
@@ -268,7 +267,7 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
           >
             −
           </button>
-          <span style={{ width: '36px', height: '28px', border: '1px solid #D4A574', borderRadius: '6px', background: '#FAF7F2', fontSize: '13px', fontWeight: 500, color: '#3C2415', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span style={{ width: '36px', height: '28px', border: '1px solid #D4A574', borderRadius: '6px', background: 'white', fontSize: '13px', fontWeight: 500, color: '#3C2415', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {quantity}
           </span>
           <button
@@ -281,31 +280,9 @@ export default function ProductInfoPapeterie({ product, onAddToCart }: ProductIn
         </div>
       </div>
 
-      {/* H) Badges rassurants */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-        {["Livraison sous 72h", "Aperçu avant impression", "Paiement sécurisé", "Modifs illimitées"].map((badge) => (
-          <span
-            key={badge}
-            style={{ 
-              background: '#FAF7F2', 
-              border: '1px solid #D4A574', 
-              borderRadius: '20px', 
-              fontSize: '10px', 
-              color: '#8B4513',
-              display: 'inline-block',
-              padding: '0.25rem 0.6rem',
-              width: 'auto',
-              maxWidth: '100%',
-              boxSizing: 'border-box'
-            }}
-          >
-            {badge}
-          </span>
-        ))}
-      </div>
-
+      
       {/* I) CTAs */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', maxWidth: '420px' }}>
         <div style={{ background: '#EAF5E9', border: '1px solid #D4A574', borderRadius: '6px', padding: '6px', fontSize: '10px', color: '#8B4513', textAlign: 'center' }}>
           Téléchargement immédiat après paiement
         </div>

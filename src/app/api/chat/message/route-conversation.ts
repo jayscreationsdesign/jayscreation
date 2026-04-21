@@ -388,25 +388,33 @@ const processConversation = async (
     // Message générique
     return {
       reply: "Merci pour votre message ! Je reviens vers vous rapidement. En attendant, puis-je vous aider avec autre chose ? (devis, suivi commande, délais, personnalisation...)",
-      newState: { ...currentState, step: 'welcome' }
+      newState: { ...currentState, step: 'welcome', topic: currentState.topic }
     }
   }
 
   // PROGRESSION DANS L'ARBRE COURANT
   const handler = ARBRES[step as keyof typeof ARBRES]
   if (typeof handler === 'function') {
-    return handler(content, data)
+    const result = handler(content, data)
+    return {
+      ...result,
+      newState: {
+        step: result.newState.step,
+        topic: (result.newState as any).topic || currentState.topic,
+        data: result.newState.data
+      }
+    }
   } else if (typeof handler === 'string') {
     return {
       reply: handler,
-      newState: { ...currentState }
+      newState: { ...currentState, topic: currentState.topic }
     }
   }
 
   // Message par défaut
   return {
     reply: "Je n'ai pas bien compris. Pouvez-vous reformuler ?",
-    newState: currentState
+    newState: { ...currentState, topic: currentState.topic }
   }
 }
 

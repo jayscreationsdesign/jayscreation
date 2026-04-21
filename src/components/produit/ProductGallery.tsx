@@ -38,18 +38,31 @@ export default function ProductGallery({ product }: { product: Product }) {
     <div className="space-y-4 sm:space-y-6">
       {/* Carrousel principal - responsive */}
       <div className="product-gallery-uniform relative rounded-xl overflow-hidden shadow-md w-full max-w-2xl mx-auto lg:max-w-none">
-        <div className="relative aspect-[3/4] sm:aspect-[4/3] lg:aspect-square">
+        <div 
+          className="relative aspect-square bg-[#E8D5B7]"
+        >
           {isPlaceholder ? (
             <ProductImagePlaceholder productName={product.name} />
           ) : (
-            <ImageMagnifier
-              src={displayImages[currentImageIndex]}
-              alt={`${product.name} - vue ${currentImageIndex + 1}`}
-              className="w-full h-full"
-              maxZoom={3}
-              minZoom={1}
-              zoomStep={0.5}
-            />
+            <>
+              {/* Texte catégories pour produits numériques */}
+              {product?.estNumerique && (
+                <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg">
+                  <p className="text-sm font-semibold text-[#2C2C2C]">
+                    Catégories : Papeterie Téléchargeable, Univers Super Héros
+                  </p>
+                </div>
+              )}
+              <ImageMagnifier
+                src={displayImages[currentImageIndex]}
+                alt={`${product.name} - vue ${currentImageIndex + 1}`}
+                className="w-full h-full object-contain"
+                maxZoom={3}
+                minZoom={1}
+                zoomStep={0.5}
+                estNumerique={product?.estNumerique || false}
+              />
+            </>
           )}
           
           {/* Navigation flèches - optimisée mobile */}
@@ -127,7 +140,7 @@ export default function ProductGallery({ product }: { product: Product }) {
                   width={400}
                   height={400}
                   className="w-full h-full object-contain p-2"
-                  style={{ backgroundColor: '#E8D5B7' }}
+                  style={{ backgroundColor: '#E8D5B7', maxWidth: '100%', maxHeight: '100%' }}
                 />
                 {/* Indicateur actif - bordure dorée */}
                 {isActive && (
