@@ -1073,7 +1073,8 @@ if (svgEl) (svgEl as unknown as HTMLElement).style.color = '#D4A574';
 
                   e.currentTarget.style.backgroundColor = '#8b4513';
 
-                  e.currentTarget.querySelector('svg').style.color = 'white';
+                  const svg = e.currentTarget.querySelector('svg');
+if (svg) (svg as unknown as HTMLElement).style.color = 'white';
 
                 }}
 
