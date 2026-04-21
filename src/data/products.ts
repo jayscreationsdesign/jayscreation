@@ -19,6 +19,9 @@ export interface Product {
   themes?: string[]; // Thèmes disponibles pour ce produit
   pricing?: ProductPricing; // Système de prix par quantité
   pricing_type?: string; // Type de pricing : 'unit_pricing', 'lot_pricing', 'quote'
+  estNumerique?: boolean; // Indique si le produit est numérique
+  fichierUrl?: string; // URL du fichier numérique
+  formatsInclus?: string[]; // Formats inclus pour les produits numériques
   sizes?: Array<{
     id: string;
     label: string;
@@ -53,6 +56,108 @@ export const products: Product[] = [
       minQuantity: 10,
       tiers: [
         { min: 10, pricePerUnit: 5.49 } // 10 pour 54,90\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
+  },
+  {
+    id: "minnie",
+    name: "Minnie",
+    price: "2,99\u20AC - 16,99\u20AC",
+    numericPrice: 2.99,
+    category: "Papeterie",
+    categorySlug: "papeterie-telechargeable",
+    parentCategorySlug: "univers-mickey-minnie",
+    sous_categorie: "Univers Mickey & Minnie",
+    image: "/images/products/Minnie telechargeable.png",
+    images: [
+      "/images/products/Minnie telechargeable.png"
+    ],
+    slug: "minnie",
+    themes: ["Minnie", "Rose", "Classique"],
+    estNumerique: true,
+    fichierUrl: "/images/products/Minnie telechargeable.png",
+    formatsInclus: ["PDF haute résolution", "PNG transparent", "Guide d'impression"],
+    description: "Minnie personnalisée pour événements. Design adorable avec la célèbre souris Disney, couleurs roses et thème classique. Parfait pour anniversaire, baby-shower et fêtes féminines. Fichier numérique instantané à télécharger et imprimer autant de fois que vous voulez.",
+    longDescription: "Personnalisez votre événement avec notre thème Minnie adorable ! Ce design numérique exclusif met en vedette la célèbre souris Disney avec ses couleurs caractéristiques : rose poudré, noir et blanc. Idéal pour anniversaire, baby-shower, baptême ou toute célébration féminine. Fichier numérique prêt à imprimer en haute résolution 300 DPI, avec fond transparent inclus pour vos créations. Téléchargement immédiat après paiement et impression illimitée.",
+    pricing: {
+      unitPrice: 2.99,
+      minQuantity: 1,
+      tiers: [
+        { min: 1, pricePerUnit: 2.99 },
+        { min: 5, pricePerUnit: 2.49 }, // 5 pour 12,45\u20AC
+        { min: 10, pricePerUnit: 1.99 }, // 10 pour 19,90\u20AC
+        { min: 25, pricePerUnit: 1.69 }, // 25 pour 42,25\u20AC
+        { min: 50, pricePerUnit: 1.49 }, // 50 pour 74,50\u20AC
+        { min: 100, pricePerUnit: 0.99 } // 100 pour 99,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
+  },
+  {
+    id: "baby-mickey",
+    name: "Baby Mickey",
+    price: "2,99\u20AC - 16,99\u20AC",
+    numericPrice: 2.99,
+    category: "Papeterie",
+    categorySlug: "papeterie-telechargeable",
+    parentCategorySlug: "univers-mickey-minnie",
+    sous_categorie: "Univers Mickey & Minnie",
+    image: "/images/products/Baby Mickey telechargeable1.png",
+    images: [
+      "/images/products/Baby Mickey telechargeable1.png"
+    ],
+    slug: "baby-mickey",
+    themes: ["Mickey", "Baby", "Bleu", "Jaune", "Classique"],
+    estNumerique: true,
+    fichierUrl: "/images/products/Baby Mickey telechargeable1.png",
+    formatsInclus: ["PDF haute résolution", "PNG transparent", "Guide d'impression"],
+    description: "Baby Mickey personnalisé pour baby-shower et naissance. Design adorable avec Mickey bébé dans ses couleurs caractéristiques bleu et jaune. Parfait pour célébrer l'arrivée d'un bébé, baby-shower et cadeaux de naissance. Fichier numérique instantané à télécharger et imprimer.",
+    longDescription: "Célébrez l'arrivée du petit trésor avec notre thème Baby Mickey adorable ! Ce design numérique exclusif met en vedette Mickey bébé avec ses douceurs et ses couleurs caractéristiques : bleu ciel, jaune pastel et touches de rouge. Idéal pour baby-shower, naissance, baptême ou cadeau de naissance. Fichier numérique prêt à imprimer en haute résolution 300 DPI, avec fond transparent inclus pour vos créations. Téléchargement immédiat après paiement et impression illimitée pour sublimer tous vos événements bébé.",
+    pricing: {
+      unitPrice: 2.99,
+      minQuantity: 1,
+      tiers: [
+        { min: 1, pricePerUnit: 2.99 },
+        { min: 5, pricePerUnit: 2.49 }, // 5 pour 12,45\u20AC
+        { min: 10, pricePerUnit: 1.99 }, // 10 pour 19,90\u20AC
+        { min: 25, pricePerUnit: 1.69 }, // 25 pour 42,25\u20AC
+        { min: 50, pricePerUnit: 1.49 }, // 50 pour 74,50\u20AC
+        { min: 100, pricePerUnit: 0.99 } // 100 pour 99,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing"
+  },
+  {
+    id: "barbie",
+    name: "Barbie",
+    price: "2,99\u20AC - 16,99\u20AC",
+    numericPrice: 2.99,
+    category: "Papeterie",
+    categorySlug: "papeterie-telechargeable",
+    parentCategorySlug: "univers-princesse",
+    sous_categorie: "Univers Princesse",
+    image: "/images/products/Barbie telechargeable1.png",
+    images: [
+      "/images/products/Barbie telechargeable1.png"
+    ],
+    slug: "barbie",
+    themes: ["Barbie", "Rose", "Princesse", "Glamour", "Mode"],
+    estNumerique: true,
+    fichierUrl: "/images/products/Barbie telechargeable1.png",
+    formatsInclus: ["PDF haute résolution", "PNG transparent", "Guide d'impression"],
+    description: "Barbie personnalisée pour événements. Design glamour et moderne avec la célèbre poupée Barbie, couleurs roses et thème princesse. Parfait pour anniversaire, baby-shower et célébrations féminines. Fichier numérique instantané à télécharger et imprimer.",
+    longDescription: "Célébrez avec style grâce à notre thème Barbie glamour ! Ce design numérique exclusif met en vedette la célèbre poupée Barbie avec ses couleurs iconiques : rose vif, argenté et touches de doré. Idéal pour anniversaire, baby-shower, baptême ou toute célébration féminine. Fichier numérique prêt à imprimer en haute résolution 300 DPI, avec fond transparent inclus pour vos créations. Téléchargement immédiat après paiement et impression illimitée pour des événements glamour et inoubliables.",
+    pricing: {
+      unitPrice: 2.99,
+      minQuantity: 1,
+      tiers: [
+        { min: 1, pricePerUnit: 2.99 },
+        { min: 5, pricePerUnit: 2.49 }, // 5 pour 12,45\u20AC
+        { min: 10, pricePerUnit: 1.99 }, // 10 pour 19,90\u20AC
+        { min: 25, pricePerUnit: 1.69 }, // 25 pour 42,25\u20AC
+        { min: 50, pricePerUnit: 1.49 }, // 50 pour 74,50\u20AC
+        { min: 100, pricePerUnit: 0.99 } // 100 pour 99,00\u20AC
       ]
     },
     pricing_type: "lot_pricing"
@@ -343,7 +448,10 @@ export const products: Product[] = [
     numericPrice: 3.2,
     category: "Papeterie",
     categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/placeholder.png",
+    image: "/images/products/Kinder bueno1.png",
+    images: [
+      "/images/products/Kinder bueno1.png"
+    ],
     rating: 4,
     slug: "kinder-bueno",
     themes: ["Chocolat", "Noisettes", "Gourmand"],
