@@ -1188,7 +1188,7 @@ export default function Header() {
 
                       borderRadius: '50%',
 
-                      backgroundColor: '#C8A96E',
+                      backgroundColor: '#8b4513',
 
                       color: 'white',
 
@@ -1200,7 +1200,25 @@ export default function Header() {
 
                       alignItems: 'center',
 
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+
+                      transition: 'all 0.3s ease'
+
+                    }}
+
+                    onMouseEnter={(e) => {
+
+                      e.currentTarget.style.backgroundColor = '#6b3410';
+
+                      e.currentTarget.style.color = '#D4A574';
+
+                    }}
+
+                    onMouseLeave={(e) => {
+
+                      e.currentTarget.style.backgroundColor = '#8b4513';
+
+                      e.currentTarget.style.color = 'white';
 
                     }}>
 
