@@ -64,6 +64,8 @@ const SHORT_LABELS: Record<string, string> = {
 
   "sweet-tables-decoration": "SWEET TABLES & DÉCORATION",
 
+  "papeterie-sweet-tables": "PAPETERIE PERSONNALISÉE",
+
   "etiquettes-personnalisees": "ÉTIQUETTES PERSONNALISÉES",
 
 };
@@ -82,7 +84,7 @@ function buildBottomNav(): BottomNavItem[] {
 
   // Première ligne - catégories principales
 
-  const firstLineCategories = ["sweet-tables-decoration", "anniversaires", "cadeaux-invites", "toniebox", "chocolat", "papeterie-telechargeable", "etiquettes-personnalisees", "ramadan-eid-2027", "services"];
+  const firstLineCategories = ["sweet-tables-decoration", "papeterie-sweet-tables", "cadeaux-invites", "toniebox", "chocolat", "papeterie-telechargeable", "etiquettes-personnalisees", "ramadan-eid-2027", "services"];
 
   
 

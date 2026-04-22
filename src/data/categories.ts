@@ -10,13 +10,6 @@ export const categories: Category[] = [
     slug: "sweet-tables-decoration",
     children: [
       { name: "Guirlandes + Ballons", slug: "guirlandes-ballons" },
-    ],
-  },
-  {
-    name: "Anniversaires",
-    slug: "anniversaires",
-    children: [
-      { name: "Papeterie Personnalisée", slug: "papeterie-sweet-tables" },
       {
         name: "Posters / Affiches",
         slug: "posters-affiches",
@@ -25,6 +18,10 @@ export const categories: Category[] = [
         ],
       },
     ],
+  },
+  {
+    name: "Papeterie Personnalisée",
+    slug: "papeterie-sweet-tables",
   },
   {
     name: "Cadeaux Invités",

@@ -31,7 +31,127 @@ export interface Product {
 }
 
 export const products: Product[] = [
-  // PAPETERIE
+  {
+    id: "50",
+    name: "Affiche A3",
+    price: "14,00\u20AC",
+    numericPrice: 14.00,
+    category: "Affiche",
+    categorySlug: "affiche",
+    sous_categorie: "Affiche",
+    image: "/images/products/placeholder.png",
+    slug: "affiche-a3",
+    themes: ["Événement", "Promotion", "Décoration", "Personnalisé"],
+    description: "Affiche A3 personnalisée pour vos événements et promotions. Format grand idéal pour communication visible, personnalisable avec vos couleurs, texte et logo. Parfait pour affichage commercial et événementiel.",
+    longDescription: "Communiquez avec impact grâce à notre affiche A3 personnalisée ! Format généreux 29,7 x 42 cm pour une visibilité maximale dans vos espaces commerciaux, événements ou manifestations. Papier de qualité supérieure avec impression haute définition pour des couleurs vives et durables. Personnalisation complète avec votre logo, messages, images promotionnelles et identité visuelle. Idéal pour promotions, lancements de produits, annonces d'événements, décoration de magasins ou communication d'entreprise. Finitions professionnelles disponibles : brillant, mat ou satiné selon vos besoins. Résistance à la lumière et à l'humidité pour une durée de vie prolongée. Création française avec matériaux écologiques et encres respectueuses de l'environnement. Livraison rapide et personnalisation sur-mesure pour une communication efficace et professionnelle.",
+    pricing: {
+      unitPrice: 14.00,
+      minQuantity: 1
+    },
+    pricing_type: "unit_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "51",
+    name: "Affiche A4",
+    price: "7,00\u20AC",
+    numericPrice: 7.00,
+    category: "Affiche",
+    categorySlug: "affiche",
+    sous_categorie: "Affiche",
+    image: "/images/products/placeholder.png",
+    slug: "affiche-a4",
+    themes: ["Événement", "Promotion", "Information", "Personnalisé"],
+    description: "Affiche A4 personnalisée pour vos communications. Format standard polyvalent, personnalisable avec vos couleurs, texte et images. Parfait pour informations, promotions et décoration.",
+    longDescription: "Optez pour notre affiche A4 personnalisée pour une communication efficace et professionnelle ! Format standard 21 x 29,7 cm idéal pour tous types de messages : informations, promotions, annonces, décoration ou signalétique. Papier premium avec qualité d'impression exceptionnelle pour des résultats nets et durables. Personnalisation totale avec vos visuels, textes, logo et charte graphique. Parfaite pour bureaux, commerces, salles d'attente, écoles ou événements. Format pratique facile à installer et à remplacer régulièrement. Plusieurs finitions disponibles : brillante pour les couleurs éclatantes ou mate pour un look élégant et anti-reflet. Imprimé avec des encres écologiques pour un rendu respectueux de l'environnement. Création française avec matériaux recyclés et livraison soignée. Personnalisation rapide et flexible pour une communication adaptée à vos besoins.",
+    pricing: {
+      unitPrice: 7.00,
+      minQuantity: 1
+    },
+    pricing_type: "unit_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "53",
+    name: "Affiche pour cadre Naissance",
+    price: "7,00\u20AC",
+    numericPrice: 7.00,
+    category: "Posters / Affiches",
+    categorySlug: "posters-affiches",
+    image: "/images/products/placeholder.png",
+    images: [],
+    slug: "affiche-cadre-naissance",
+    themes: ["Naissance", "Bébé", "Décoration", "Personnalisé"],
+    description: "Affiche personnalisée pour cadre de naissance. Design doux et élégant, personnalisable avec nom, date de naissance, poids et taille. Parfait pour la chambre de bébé et cadeaux de naissance.",
+    longDescription: "Célébrez l'arrivée de bébé avec notre affiche personnalisée pour cadre de naissance ! Cette affiche douce et élégante est entièrement personnalisable avec le nom de bébé, date de naissance, poids, taille et autres détails précieux. Parfaite pour la chambre de bébé, comme cadeau de naissance ou pour annoncer l'arrivée du nouveau-né. Papier premium avec qualité d'impression exceptionnelle pour des couleurs douces et durables. Design minimaliste et moderne qui s'intègre parfaitement à toutes les décorations de chambre d'enfant. Format standard adapté à la plupart des cadres du commerce. Idéal pour cadeaux de baby-shower, souvenirs de naissance ou décoration de la chambre. Plusieurs designs disponibles : animaux, étoiles, nuages, fleurs et motifs adaptés. Création française avec matériaux écologiques et encres non toxiques. Livraison rapide et personnalisation sur-mesure pour accueillir bébé dans un monde doux et personnalisé !",
+    pricing: {
+      unitPrice: 7.00,
+      minQuantity: 1,
+      tiers: [
+        { min: 2, pricePerUnit: 6.50 }, // 2 pour 13,00\u20AC
+        { min: 5, pricePerUnit: 6.00 }  // 5 pour 30,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "55",
+    name: "Agenda Personnalisé",
+    price: "15,00\u20AC",
+    numericPrice: 15.00,
+    category: "Papeterie Personnalisée",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/Cahiertexte1.png",
+    images: [
+      "/images/products/Cahiertexte1.png",
+      "/images/products/Cahiertexte2.png"
+    ],
+    slug: "agenda-personnalise",
+    themes: ["Bureau", "Personnalisé", "Organisation", "Pratique"],
+    description: "Agenda personnalisé pour organisation et planification. Design élégant et fonctionnel, personnalisable avec vos noms, dates et thème. Parfait pour bureau, études et usage quotidien.",
+    longDescription: "Organisez votre temps avec style grâce à notre agenda personnalisé premium ! Cet agenda élégant et fonctionnel est entièrement personnalisable avec vos noms, dates importantes, citations et thème choisi. Parfait pour bureau, études, planification personnelle ou usage quotidien, il allie esthétique et praticité. Couverture rigide avec finition mate et impression haute définition. Papier de qualité supérieure avec écriture fluide et résistance à l'encre. Format pratique avec spirale métallique durable et poche intérieure. Idéal comme cadeau promotionnel, souvenir d'événement ou pour votre organisation personnelle. Personnalisation sur-mesure avec calendriers, notes et sections adaptées. Création française avec matériaux écologiques et livraison soignée pour une année bien organisée et stylisée !",
+    pricing: {
+      unitPrice: 15.00,
+      minQuantity: 1,
+      tiers: [
+        { min: 2, pricePerUnit: 14.00 }, // 2 pour 28,00\u20AC
+        { min: 5, pricePerUnit: 13.00 }  // 5 pour 65,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "35",
+    name: "Boîte à Oeuf de Pâques Personnalisée",
+    slug: "boite-oeuf-paques-personnalisee",
+    themes: ["Pâques", "Stitch", "Printemps"],
+    price: "6,90\u20AC",
+    category: "Papeterie Saisonnière",
+    categorySlug: "paques",
+    sous_categorie: "Pâques",
+    image: "/images/products/36.png",
+    images: [
+      "/images/products/36.png",
+      "/images/products/38.png"
+    ],
+    description: "Boîte à œuf de Pâques personnalisée pour vos célébrations printanières. Design unique et coloré avec motifs de Pâques, personnalisable avec vos noms, messages et couleurs. Parfaite pour chasse aux œufs et cadeaux de Pâques.",
+    longDescription: "Rendez votre chasse aux œufs inoubliable avec notre boîte à œuf de Pâques personnalisée ! Design unique et coloré avec motifs traditionnels de Pâques, cette boîte est entièrement personnalisable avec vos noms, messages de Pâques, couleurs choisies et thématiques printanières. Parfaite pour organiser une chasse aux œufs mémorable, distribuer des œufs en chocolat ou offrir des cadeaux de Pâques personnalisés. Création française artisanale avec matériaux résistants et finitions soignées. Format adapté pour contenir plusieurs œufs et facile à manipuler par les enfants. Personnalisation complète et livraison rapide pour des célébrations de Pâques joyeuses et mémorables.",
+    rating: 5,
+    pricing: {
+      unitPrice: 6.38,
+      minQuantity: 5,
+      tiers: [
+        { min: 5, pricePerUnit: 6.38 } // 5 pour 31,90\u20AC
+      ]
+    },
+  },
+
   {
     id: "7",
     name: "Boîte Cadeau Personnalisée",
@@ -237,7 +357,8 @@ export const products: Product[] = [
     rating: 5,
     sizes: [
       { id: "S", label: "Petit", dimension: "10 cm", price: 2.50 },
-      { id: "M", label: "Moyen", dimension: "15 cm", price: 3.90 },
+
+  { id: "M", label: "Moyen", dimension: "15 cm", price: 3.90 },
       { id: "L", label: "Grand", dimension: "20 cm", price: 5.50 }
     ],
   },
@@ -313,6 +434,253 @@ export const products: Product[] = [
       ]
     }
   },
+
+  {
+    id: "48",
+    name: "Cahier de coloriage personnalisé",
+    price: "2,90\u20AC",
+    numericPrice: 2.90,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/CAhier2.png",
+    images: [
+      "/images/products/CAhier2.png",
+      "/images/products/Cahier3.png",
+      "/images/products/cahiercrayon.png"
+    ],
+    slug: "cahier-coloriage-personnalise",
+    themes: ["Enfants", "Coloriage", "Activités", "Fête"],
+    description: "Cahier de coloriage personnalisé pour anniversaire, activités et loisirs. Design adapté avec prénom, thème et illustrations personnalisées. Parfait pour occuper les enfants lors d'événements.",
+    longDescription: "Offrez aux enfants un moment de créativité avec nos cahiers de coloriage personnalisés ! Idéaux pour les anniversaires, activités d'animation, colonies de vacances et loisirs créatifs. Chaque cahier est entièrement personnalisé avec le prénom de l'enfant, thème choisi et illustrations adaptées à l'âge et aux préférences. Format pratique avec pages de qualité supérieure, papier épais adapté aux feutres et crayons de couleur. Couverture personnalisée avec design unique et photo si souhaité. Création française avec matériaux écologiques et encres non toxiques. Option crayons de couleurs disponibles pour un kit complet. Parfait pour cadeaux d'invités, activités d'animation et occupation créative. Livraison rapide et personnalisation sur-mesure pour des moments inoubliables !",
+    pricing: {
+      unitPrice: 2.90,
+      minQuantity: 6,
+      tiers: [
+        { min: 12, pricePerUnit: 2.69 }, // 12 pour 32,28\u20AC
+        { min: 24, pricePerUnit: 2.49 }  // 24 pour 59,76\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    sizes: [
+      { id: "Cahier", label: "Cahier seul", dimension: "A5", price: 2.90 },
+      { id: "Cahier+Crayons", label: "Avec crayons", dimension: "A5 + 12 crayons", price: 5.00 }
+    ],
+    rating: 5,
+  },
+
+  {
+    id: "33",
+    name: "Carte de Remerciement",
+    price: "1,80\u20AC",
+    numericPrice: 1.80,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "",
+    slug: "carte-remerciement",
+    themes: ["Mariage", "Anniversaire", "Remerciement"],
+    description: "Carte de remerciement personnalisée pour vos événements. Design élégant et message personnalisé.",
+    pricing: {
+      unitPrice: 1.80,
+      minQuantity: 20
+    }
+  },
+
+  // TUBE BULLES DE SAVON PERSONNALISÉ
+  {
+    id: "45",
+    name: "Tube bulles de savon personnalisé",
+    price: "1,80\u20AC",
+    numericPrice: 1.80,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/tube bulle1.png",
+    slug: "tube-bulles-savon-personnalise",
+    themes: ["Mariage", "Anniversaire", "Enfant", "Fête"],
+    description: "Tube bulles de savon personnalisé pour vos événements. Design amusant et original, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et fêtes d'enfants.",
+    longDescription: "Créez des souvenirs magiques avec notre tube bulles de savon personnalisé ! Ce produit ludique et original est parfait pour animer vos événements et faire plaisir à vos invités. Tube de bulles de savon de qualité supérieure avec liquide non toxique et sûr pour les enfants. Personnalisation complète avec vos noms, dates, messages et thème choisi. Design élégant et moderne adapté à tous types d'événements : mariage, anniversaire, baptême, baby-shower, fêtes d'enfants. Emballage individuel parfait pour cadeaux d'invités ou souvenirs à emporter. Fabriqué en France avec matériaux de qualité. Livraison rapide et personnalisation illimitée jusqu'à validation.",
+    pricing: {
+      unitPrice: 1.80,
+      minQuantity: 6
+    },
+    rating: 5,
+  },
+
+  {
+    id: "34",
+    name: "Décoration Halloween",
+    slug: "decoration-halloween",
+    themes: ["Halloween", "Effrayant", "Citrouilles"],
+    price: "Sur devis",
+    category: "Papeterie Saisonnière",
+    categorySlug: "papeterie-saisonniere",
+    image: "/images/products/placeholder.png",
+    description: "Décoration Halloween avec citrouilles et motifs effrayants. Pour une soirée mémorable et terrifiante, personnalisable avec vos messages, noms et thème gothique. Parfaite pour effrayer vos invités et célébrer Halloween.",
+    longDescription: "Transformez votre soirée en un Halloween mémorable avec notre décoration effrayante et personnalisée ! Créez une ambiance terrifiante avec des citrouilles sculptées, fantômes, chauves-souris et motifs horribles entièrement personnalisables avec vos messages d'Halloween, noms et thème gothique. Parfaite pour effrayer vos invités, organiser une soirée d'horreur ou célébrer la nuit la plus effrayante de l'année. Design authentique avec couleurs sombres et détails effrayants pour une immersion totale. Création française artisanale avec matériaux résistants et finitions soignées. Personnalisation complète et livraison rapide pour une célébration d'Halloween inoubliable et terrifiante.",
+    rating: 5,
+  },
+
+  {
+    id: "32",
+    name: "Décoration Saint-Valentin",
+    slug: "decoration-saint-valentin",
+    themes: ["Amour", "Cœurs", "Romantique"],
+    price: "Sur devis",
+    category: "Papeterie Saisonnière",
+    categorySlug: "papeterie-saisonniere",
+    image: "/images/products/placeholder.png",
+    description: "Décoration Saint-Valentin pour célébrer l'amour. Design romantique avec cœurs et motifs d'amour, personnalisable avec vos noms, date et messages. Parfaite pour déclarer votre flamme et surprendre votre bien-aimé.",
+    longDescription: "Déclarez votre amour avec notre décoration Saint-Valentin romantique et personnalisée ! Célébrez la fête des amoureux avec des créations uniques entièrement personnalisables avec vos noms, date spéciale, messages d'amour et motifs romantiques. Design élégant avec cœurs, fleurs et symboles d'amour qui expriment vos sentiments les plus doux. Parfaite pour surprendre votre partenaire, organiser une déclaration romantique ou décorer votre soirée Saint-Valentin. Création française artisanale avec matériaux premium et finitions soignées. Personnalisation complète et livraison rapide pour une célébration d'amour inoubliable et mémorable.",
+    rating: 5,
+  },
+
+  {
+    id: "51",
+    name: "Étiquette Bouteille d'Eau",
+    price: "1,00\u20AC",
+    numericPrice: 1.00,
+    category: "Étiquettes Personnalisées",
+    categorySlug: "etiquettes-personnalisees",
+    image: "/images/products/Étiquette Bouteille d'Eau1.png",
+    images: [
+      "/images/products/Étiquette Bouteille d'Eau1.png",
+      "/images/products/Étiquette Bouteille d'Eau2.png",
+      "/images/products/Étiquette Bouteille d'Eau3.png"
+    ],
+    slug: "etiquette-bouteille-eau",
+    themes: ["Anniversaire", "Mariage", "Baptême", "Personnalisé", "Événement"],
+    description: "Étiquette personnalisée pour bouteille d'eau. Design élégant avec prénom, date et thème. Parfait pour tous types d'événements.",
+    longDescription: "Ajoutez une touche personnalisée à vos bouteilles d'eau avec nos étiquettes élégantes ! Convient parfaitement pour tous types d'événements : mariages, baptêmes, anniversaires, entreprises et fêtes. Personnalisation complète avec noms, dates, messages et thème choisi. Qualité d'impression supérieure avec papier adhésif waterproof et résistant. Facile à appliquer sur toutes les bouteilles standards. Design minimaliste et chic qui s'intègre parfaitement à votre décoration. Idéal pour cadeaux d'invités, tables de réception et bureaux. Création française avec matériaux écologiques et encres alimentaires. Livraison rapide et personnalisation sur-mesure pour des événements mémorables !",
+    pricing: {
+      unitPrice: 1.00,
+      minQuantity: 15,
+      tiers: [
+        { min: 30, pricePerUnit: 0.90 }, // 30 pour 27,00\u20AC
+        { min: 75, pricePerUnit: 0.80 }  // 75 pour 60,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "49",
+    name: "Étiquette Champomy",
+    price: "1,50\u20AC",
+    numericPrice: 1.50,
+    category: "Étiquettes Personnalisées",
+    categorySlug: "etiquettes-personnalisees",
+    image: "/images/products/champomy1.png",
+    images: [
+      "/images/products/champomy1.png",
+      "/images/products/champomy2.png",
+      "/images/products/champomy3.png",
+      "/images/products/champomy4.png"
+    ],
+    slug: "etiquette-champomy",
+    themes: ["Anniversaire", "Enfants", "Fête", "Personnalisé"],
+    description: "Étiquette personnalisée pour bouteille Champomy. Design adapté avec prénom, âge et thème. Parfait pour anniversaires et célébrations d'enfants.",
+    longDescription: "Personnalisez vos bouteilles Champomy avec nos étiquettes uniques ! Idéales pour les anniversaires, baby-showers et fêtes d'enfants. Chaque étiquette est entièrement personnalisée avec le prénom de l'enfant, âge, date et thème choisi. Qualité d'impression supérieure avec papier adhésif résistant à l'humidité. Facile à appliquer et à retirer sans laisser de traces. Design élégant qui sublimera votre table de fête. Parfait pour cadeaux d'invités et souvenirs personnalisés. Création française avec matériaux écologiques. Livraison rapide et personnalisation sur-mesure pour des moments inoubliables !",
+    pricing: {
+      unitPrice: 1.50,
+      minQuantity: 10,
+      tiers: [
+        { min: 20, pricePerUnit: 1.35 }, // 20 pour 27,00\u20AC
+        { min: 50, pricePerUnit: 1.25 }  // 50 pour 62,50\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "50",
+    name: "Étiquette Mini Canette Coca-Cola",
+    price: "1,20\u20AC",
+    numericPrice: 1.20,
+    category: "Étiquettes Personnalisées",
+    categorySlug: "etiquettes-personnalisees",
+    image: "/images/products/etiquette coca1.png",
+    images: [
+      "/images/products/etiquette coca1.png",
+      "/images/products/etiquette coca2.png"
+    ],
+    slug: "etiquette-mini-canette-coca-cola",
+    themes: ["Anniversaire", "Enfants", "Fête", "Coca-Cola", "Personnalisé"],
+    description: "Étiquette personnalisée pour mini canette Coca-Cola. Design adapté avec prénom, âge et thème. Parfait pour anniversaires et fêtes d'enfants.",
+    longDescription: "Transformez vos mini canettes Coca-Cola en objets de décoration personnalisés ! Nos étiquettes sont spécialement conçues pour s'adapter parfaitement aux mini canettes. Personnalisez avec prénom, âge, date et thème pour une touche unique à votre événement. Qualité d'impression professionnelle avec papier adhésif résistant. Facile à appliquer et résistant à l'humidité. Design moderne qui plaira aux enfants et adultes. Idéal pour anniversaires, baby-showers et fêtes thématiques. Parfait pour cadeaux d'invités et décoration de table. Création française avec matériaux de qualité. Livraison rapide et personnalisation sur-mesure !",
+    pricing: {
+      unitPrice: 1.20,
+      minQuantity: 12,
+      tiers: [
+        { min: 24, pricePerUnit: 1.10 }, // 24 pour 26,40\u20AC
+        { min: 60, pricePerUnit: 1.00 }  // 60 pour 60,00\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "47",
+    name: "Étiquette Pom'Potes Personnalisée",
+    price: "2,50\u20AC",
+    numericPrice: 2.50,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/77.png",
+    images: [
+      "/images/products/77.png",
+      "/images/products/Pom Potes2.png"
+    ],
+    slug: "etiquette-pompotes-personnalisee",
+    themes: ["Enfants", "Coloré", "Ludique", "École"],
+    description: "Étiquette Pom'Potes personnalisée pour anniversaire, goûter d'école et fêtes. Design ludique et coloré, personnalisable avec prénom, âge et thème. Parfaite pour identifier les gourdes des enfants.",
+    longDescription: "Personnalisez les gourdes de vos enfants avec nos étiquettes Pom'Potes personnalisées ! Idéales pour l'école, les goûters d'anniversaire, les colonies de vacances et les activités sportives. Design attrayant et résistant avec couleurs vives qui plaisent aux enfants. Personnalisation complète avec le prénom de l'enfant, classe, numéro de téléphone et motif choisi. Étiquettes auto-adhésives de qualité supérieure, résistantes à l'eau et aux frottements. Faciles à appliquer et à retirer sans laisser de traces. Dimensions optimales pour tous les types de gourdes et bouteilles. Création française avec matériaux non toxiques et encres alimentaires. Livraison rapide et personnalisation sur-mesure pour des objets uniques et pratiques !",
+    pricing: {
+      unitPrice: 2.50,
+      minQuantity: 6,
+      tiers: [
+        { min: 10, pricePerUnit: 2.19 } // 10 pour 21,90\u20AC
+      ]
+    },
+    pricing_type: "lot_pricing",
+    rating: 5,
+  },
+
+  {
+    id: "29",
+    name: "Éventail Programme de Mariage",
+    slug: "eventail-programme-mariage",
+    themes: ["Mariage", "Élégant", "Programme"],
+    price: "Sur devis",
+    category: "Marque-places",
+    categorySlug: "marque-places",
+    parentCategorySlug: "mariage",
+    image: "/images/products/Eventail programme mariage4.png",
+    images: [
+      "/images/products/Eventail programme mariage2.png",
+      "/images/products/Eventail programme mariage5.png"
+    ],
+    description: "Éventail programme de mariage élégant et pratique pour vos invités. Design personnalisable avec programme détaillé, noms, date et thème de mariage. Accessoire utile et décoratif pour votre cérémonie.",
+    longDescription: "Guidez vos invités avec style grâce à notre éventail programme de mariage élégant et fonctionnel ! Cet accessoire pratique présente le déroulement complet de votre cérémonie avec horaires, lieux et informations importantes. Entièrement personnalisable avec vos noms, date de mariage, programme détaillé et thème choisi. Design raffiné avec matériaux de qualité et finitions soignées. Format compact et facile à manipuler pour vos invités. Double fonction : programme informatif et éventail rafraîchissant. Création artisanale française avec impression de qualité. Personnalisation complète et livraison soignée pour un mariage parfaitement orchestré.",
+    rating: 5,
+  },
+
+  {
+    id: "28",
+    name: "Faire-Part Mariage Élégant",
+    slug: "faire-part-mariage-elegant",
+    themes: ["Mariage", "Élégant", "Doré"],
+    price: "Sur devis",
+    category: "Faire-parts",
+    categorySlug: "faire-parts",
+    parentCategorySlug: "mariage",
+    image: "/images/products/Faire-Part Mariage Élégant.png",
+    description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable avec vos noms, date et informations de cérémonie. Création artisanale française pour un mariage inoubliable.",
+    longDescription: "Annoncez votre mariage avec notre faire-part élégant et sophistiqué ! Ce faire-part premium présente un cadre géométrique délicat avec feuillage artistique et finitions dorées luxueuses. Entièrement personnalisable avec vos noms de mariés, date de mariage, lieu de cérémonie et informations de réception. Création artisanale française avec papier de qualité et impression haute définition. Design intemporel qui allie modernité et tradition pour un impact mémorable. Idéal pour annoncer votre union avec classe et élégance. Personnalisation complète, maquette sous 24h et livraison soignée pour des faire-parts dignes de ce jour spécial.",
+    rating: 5,
+  },
+
   {
     id: "6",
     name: "Flyers & Cartes de Visite Sur Mesure",
@@ -362,19 +730,7 @@ export const products: Product[] = [
     longDescription: "Envoyez vos vœux de Noël avec notre carte personnalisée festive et élégante ! Parfaite pour célébrer la magie de Noël, cette carte est entièrement personnalisable avec vos noms, messages personnalisés, photos de famille et motifs de Noël traditionnels ou modernes. Design de qualité avec finitions soignées et couleurs festives qui illuminent vos vœux. Idéale pour famille, amis, collègues ou clients. Création française artisanale avec papier premium et impression de qualité. Personnalisation complète et livraison rapide pour des vœux de Noël inoubliables et chaleureux.",
     rating: 5,
   },
-  {
-    id: "32",
-    name: "Décoration Saint-Valentin",
-    slug: "decoration-saint-valentin",
-    themes: ["Amour", "Cœurs", "Romantique"],
-    price: "Sur devis",
-    category: "Papeterie Saisonnière",
-    categorySlug: "papeterie-saisonniere",
-    image: "/images/products/placeholder.png",
-    description: "Décoration Saint-Valentin pour célébrer l'amour. Design romantique avec cœurs et motifs d'amour, personnalisable avec vos noms, date et messages. Parfaite pour déclarer votre flamme et surprendre votre bien-aimé.",
-    longDescription: "Déclarez votre amour avec notre décoration Saint-Valentin romantique et personnalisée ! Célébrez la fête des amoureux avec des créations uniques entièrement personnalisables avec vos noms, date spéciale, messages d'amour et motifs romantiques. Design élégant avec cœurs, fleurs et symboles d'amour qui expriment vos sentiments les plus doux. Parfaite pour surprendre votre partenaire, organiser une déclaration romantique ou décorer votre soirée Saint-Valentin. Création française artisanale avec matériaux premium et finitions soignées. Personnalisation complète et livraison rapide pour une célébration d'amour inoubliable et mémorable.",
-    rating: 5,
-  },
+
   {
     id: "33",
     name: "Garniture Pâques",
@@ -389,45 +745,7 @@ export const products: Product[] = [
     longDescription: "Célébrez Pâques avec notre garniture festive et printanière ! Créez une ambiance joyeuse et colorée avec des décorations entièrement personnalisables featuring œufs décoratifs, lapins symboliques et motifs printaniers. Parfaitement adaptée pour célébrer la résurrection et le renouveau, cette garniture est personnalisable avec vos noms, messages de Pâques et couleurs choisies. Idéale pour décorer votre maison, organiser une chasse aux œufs ou célébrer en famille. Création française artisanale avec matériaux de qualité et finitions soignées. Personnalisation complète et livraison rapide pour des fêtes de Pâques inoubliables et pleines de joie.",
     rating: 5,
   },
-  {
-    id: "34",
-    name: "Décoration Halloween",
-    slug: "decoration-halloween",
-    themes: ["Halloween", "Effrayant", "Citrouilles"],
-    price: "Sur devis",
-    category: "Papeterie Saisonnière",
-    categorySlug: "papeterie-saisonniere",
-    image: "/images/products/placeholder.png",
-    description: "Décoration Halloween avec citrouilles et motifs effrayants. Pour une soirée mémorable et terrifiante, personnalisable avec vos messages, noms et thème gothique. Parfaite pour effrayer vos invités et célébrer Halloween.",
-    longDescription: "Transformez votre soirée en un Halloween mémorable avec notre décoration effrayante et personnalisée ! Créez une ambiance terrifiante avec des citrouilles sculptées, fantômes, chauves-souris et motifs horribles entièrement personnalisables avec vos messages d'Halloween, noms et thème gothique. Parfaite pour effrayer vos invités, organiser une soirée d'horreur ou célébrer la nuit la plus effrayante de l'année. Design authentique avec couleurs sombres et détails effrayants pour une immersion totale. Création française artisanale avec matériaux résistants et finitions soignées. Personnalisation complète et livraison rapide pour une célébration d'Halloween inoubliable et terrifiante.",
-    rating: 5,
-  },
-  {
-    id: "35",
-    name: "Boîte à Oeuf de Pâques Personnalisée",
-    slug: "boite-oeuf-paques-personnalisee",
-    themes: ["Pâques", "Stitch", "Printemps"],
-    price: "6,90\u20AC",
-    category: "Papeterie Saisonnière",
-    categorySlug: "paques",
-    sous_categorie: "Pâques",
-    image: "/images/products/36.png",
-    images: [
-      "/images/products/36.png",
-      "/images/products/38.png"
-    ],
-    description: "Boîte à œuf de Pâques personnalisée pour vos célébrations printanières. Design unique et coloré avec motifs de Pâques, personnalisable avec vos noms, messages et couleurs. Parfaite pour chasse aux œufs et cadeaux de Pâques.",
-    longDescription: "Rendez votre chasse aux œufs inoubliable avec notre boîte à œuf de Pâques personnalisée ! Design unique et coloré avec motifs traditionnels de Pâques, cette boîte est entièrement personnalisable avec vos noms, messages de Pâques, couleurs choisies et thématiques printanières. Parfaite pour organiser une chasse aux œufs mémorable, distribuer des œufs en chocolat ou offrir des cadeaux de Pâques personnalisés. Création française artisanale avec matériaux résistants et finitions soignées. Format adapté pour contenir plusieurs œufs et facile à manipuler par les enfants. Personnalisation complète et livraison rapide pour des célébrations de Pâques joyeuses et mémorables.",
-    rating: 5,
-    pricing: {
-      unitPrice: 6.38,
-      minQuantity: 5,
-      tiers: [
-        { min: 5, pricePerUnit: 6.38 } // 5 pour 31,90\u20AC
-      ]
-    },
-    pricing_type: "lot_pricing"
-  },
+
   {
     id: "14",
     name: "Haribo Dragibus",
@@ -458,6 +776,7 @@ export const products: Product[] = [
     description: "Kinder Bueno personnalisé pour événements gourmands. Chocolat croquant et noisettes, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et fêtes sucrées.",
     longDescription: "Faites fondre vos invités avec nos Kinder Bueno personnalisés ! Ces barres chocolatées croquantes avec noisettes sont entièrement personnalisables avec vos noms, dates de l'événement et thème choisi. Parfaites pour mariage, anniversaire, baby-shower ou toute célébration gourmande, les Kinder Bueno séduisent les amateurs de chocolat. Packaging élégant personnalisé avec design moderne et couleurs assorties. Qualité Kinder garantie avec chocolat de qualité et noisettes croustillantes. Idéal pour sweet table, cadeaux gourmands ou distribution pendant la fête. Personnalisation sur-mesure et livraison soignée pour des moments chocolatés inoubliables."
   },
+
   {
     id: "16",
     name: "Kinder Country",
@@ -618,8 +937,8 @@ export const products: Product[] = [
     name: "Tasse Personnalisée",
     price: "20,00\u20AC",
     numericPrice: 20,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
+    category: "Sublimations",
+    categorySlug: "sublimations",
     image: "/images/products/Tasse personnalisée1.png",
     images: [
       "/images/products/Tasse personnalisée1.png",
@@ -719,501 +1038,32 @@ export const products: Product[] = [
     description: "Planche d'étiquette thermocollante pour textile et personnalisations. Design professionnel et durable, personnalisable avec vos logos, textes et images. Parfait pour vêtements, accessoires et branding.",
     longDescription: "Personnalisez vos textiles avec notre planche d'étiquette thermocollante professionnelle ! Cette solution de marquage textile est entièrement personnalisable avec vos logos, textes, images et designs. Parfaite pour vêtements, accessoires, uniformes d'équipe ou branding d'entreprise, elle offre une application facile et un résultat durable. Matériaux thermocollants de qualité supérieure avec excellente adhérence et résistance au lavage. Design moderne avec finitions professionnelles et couleurs vives. Idéal pour flocage personnalisé, marquage textile ou création de ligne de vêtements. Personnalisation complète et livraison rapide pour un branding textile impactant."
   },
-  {
-    id: "27",
-    name: "T-Shirt Personnalisé",
-    price: "25,00\u20AC - 30,00\u20AC",
-    category: "Flocages",
-    categorySlug: "flocage",
-    image: "/images/products/T-Shirt Personnalisé.png",
-    images: [
-      "/images/products/T-Shirt Personnalisé1.png",
-      "/images/products/T-Shirt Personnalisé2.png",
-      "/images/products/T-Shirt Personnalisé3.png",
-      "/images/products/T-Shirt Personnalisé4.png",
-      "/images/products/T-Shirt Personnalisé5.png",
-      "/images/products/T-Shirt Personnalisé6.png",
-      "/images/products/T-Shirt Personnalisé8.png"
-    ],
-    rating: 4,
-    slug: "tshirt-personnalise",
-    themes: ["Personnages", "Super-héros", "Original"],
-    description: "T-shirt personnalisé pour événements et branding. Design moderne et confortable, personnalisable avec vos logos, textes et images. Parfait pour mariage, entreprise et groupes.",
-    longDescription: "Exprimez votre style avec notre t-shirt personnalisé premium ! Ce t-shirt moderne et confortable est entièrement personnalisable avec vos logos, textes, images et designs. Parfait pour mariage, événements d'entreprise, groupes d'amis ou promotion de marque, il allie confort et style. Matériaux de qualité supérieure avec coton respirant et finitions soignées. Impression haute définition durable et résistante au lavage. Coupe ajustée et disponible en plusieurs tailles. Idéal pour uniformes d'équipe, cadeaux personnalisés ou création de ligne de vêtements. Personnalisation complète et livraison soignée pour un style unique inoubliable."
-  },
 
-  // MARIAGE - FAIRE-PARTS
   {
-    id: "28",
-    name: "Faire-Part Mariage Élégant",
-    slug: "faire-part-mariage-elegant",
-    themes: ["Mariage", "Élégant", "Doré"],
-    price: "Sur devis",
-    category: "Faire-parts",
-    categorySlug: "faire-parts",
-    parentCategorySlug: "mariage",
-    image: "/images/products/Faire-Part Mariage Élégant.png",
-    description: "Faire-part de mariage élégant avec cadre géométrique, feuillage et finitions dorées. Entièrement personnalisable avec vos noms, date et informations de cérémonie. Création artisanale française pour un mariage inoubliable.",
-    longDescription: "Annoncez votre mariage avec notre faire-part élégant et sophistiqué ! Ce faire-part premium présente un cadre géométrique délicat avec feuillage artistique et finitions dorées luxueuses. Entièrement personnalisable avec vos noms de mariés, date de mariage, lieu de cérémonie et informations de réception. Création artisanale française avec papier de qualité et impression haute définition. Design intemporel qui allie modernité et tradition pour un impact mémorable. Idéal pour annoncer votre union avec classe et élégance. Personnalisation complète, maquette sous 24h et livraison soignée pour des faire-parts dignes de ce jour spécial.",
-    rating: 5,
-  },
-
-  // MARIAGE - MARQUE-PLACES
-  {
-    id: "29",
-    name: "Éventail Programme de Mariage",
-    slug: "eventail-programme-mariage",
-    themes: ["Mariage", "Élégant", "Programme"],
-    price: "Sur devis",
-    category: "Marque-places",
-    categorySlug: "marque-places",
-    parentCategorySlug: "mariage",
-    image: "/images/products/Eventail programme mariage4.png",
-    images: [
-      "/images/products/Eventail programme mariage2.png",
-      "/images/products/Eventail programme mariage5.png"
-    ],
-    description: "Éventail programme de mariage élégant et pratique pour vos invités. Design personnalisable avec programme détaillé, noms, date et thème de mariage. Accessoire utile et décoratif pour votre cérémonie.",
-    longDescription: "Guidez vos invités avec style grâce à notre éventail programme de mariage élégant et fonctionnel ! Cet accessoire pratique présente le déroulement complet de votre cérémonie avec horaires, lieux et informations importantes. Entièrement personnalisable avec vos noms, date de mariage, programme détaillé et thème choisi. Design raffiné avec matériaux de qualité et finitions soignées. Format compact et facile à manipuler pour vos invités. Double fonction : programme informatif et éventail rafraîchissant. Création artisanale française avec impression de qualité. Personnalisation complète et livraison soignée pour un mariage parfaitement orchestré.",
-    rating: 5,
-  },
-
-  // PRODUITS PERSONNALISÉS - SYSTÈME DE PRIX PAR QUANTITÉ
-  {
-    id: "30",
-    name: "Boîte à Pop Corn Personnalisée",
-    price: "Sur devis",
-    numericPrice: 2.50,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/boite-pop-corn.png",
-    slug: "boite-pop-corn-personnalisee",
-    themes: ["Anniversaire", "Cinéma", "Fête"],
-    description: "Boîte à pop corn personnalisée pour vos événements. Design original et personnalisable avec vos couleurs, thème et texte.",
-    pricing: {
-      unitPrice: 2.50,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "31",
-    name: "Kinder Maxi Personnalisé",
-    price: "Sur devis",
-    numericPrice: 3.50,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/placeholder.png",
-    slug: "kinder-maxi-personnalise",
-    themes: ["Anniversaire", "Enfant", "Chocolat"],
-    description: "Kinder Maxi personnalisé avec votre design. Idéal pour anniversaires et fêtes d'enfants.",
-    pricing: {
-      unitPrice: 3.50,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "32",
-    name: "Capri-Sun Personnalisé",
-    price: "Sur devis",
-    numericPrice: 2.00,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/capri-sun.png",
-    slug: "capri-sun-personnalise",
-    themes: ["Anniversaire", "Été", "Enfant"],
-    description: "Capri-Sun personnalisé avec étiquette sur mesure. Rafraîchissement personnalisé pour vos événements.",
-    pricing: {
-      unitPrice: 2.00,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "33",
-    name: "Carte de Remerciement",
-    price: "1,80\u20AC",
-    numericPrice: 1.80,
-    category: "Papeterie",
+    id: "54",
+    name: "Kit 100% personnalisé",
+    price: "55,00\u20AC",
+    numericPrice: 55.00,
+    category: "Papeterie Personnalisée",
     categorySlug: "papeterie-sweet-tables",
-    image: "",
-    slug: "carte-remerciement",
-    themes: ["Mariage", "Anniversaire", "Remerciement"],
-    description: "Carte de remerciement personnalisée pour vos événements. Design élégant et message personnalisé.",
-    pricing: {
-      unitPrice: 1.80,
-      minQuantity: 20
-    }
-  },
-  {
-    id: "34",
-    name: "Étiquette Bouteille d'Eau",
-    price: "Sur devis",
-    numericPrice: 1.50,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/placeholder.png",
-    slug: "etiquette-bouteille-eau",
-    themes: ["Mariage", "Anniversaire", "Événement"],
-    description: "Étiquette personnalisée pour bouteilles d'eau. Design personnalisable pour vos événements.",
-    pricing: {
-      unitPrice: 1.50,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "35",
-    name: "Flacon Bulle de Savon",
-    price: "Sur devis",
-    numericPrice: 2.80,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/flacon-bulle-savon.png",
-    slug: "flacon-bulle-savon",
-    themes: ["Mariage", "Anniversaire", "Enfant"],
-    description: "Flacon bulle de savon personnalisé. Idéal pour mariages et fêtes d'enfants.",
-    pricing: {
-      unitPrice: 2.80,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "36",
-    name: "Paquet de Chips Personnalisé",
-    price: "Sur devis",
-    numericPrice: 2.20,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/paquet-chips.png",
-    slug: "paquet-chips-personnalise",
-    themes: ["Anniversaire", "Fête", "Snack"],
-    description: "Paquet de chips personnalisé avec votre design. Snack original pour vos événements.",
-    pricing: {
-      unitPrice: 2.20,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "37",
-    name: "Pringles Personnalisé",
-    price: "Sur devis",
-    numericPrice: 3.00,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/Pringles2.png",
-    images: [
-      "/images/products/Pringles2.png"
-    ],
-    slug: "pringles-personnalise",
-    themes: ["Anniversaire", "Fête", "Snack"],
-    description: "Pringles personnalisé avec étiquette sur mesure. Snack iconique personnalisé pour vos événements.",
-    pricing: {
-      unitPrice: 3.00,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "38",
-    name: "Sac Cadeau Personnalisé",
-    price: "Sur devis",
-    numericPrice: 4.50,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/sac-cadeau.png",
-    slug: "sac-cadeau-personnalise",
-    themes: ["Mariage", "Anniversaire", "Cadeau"],
-    description: "Sac cadeau personnalisé avec délai de fabrication. Design élégant et personnalisé.",
-    pricing: {
-      unitPrice: 4.50,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "39",
-    name: "Sachet de Bonbon Personnalisé",
-    price: "4,00\u20AC",
-    numericPrice: 4.00,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/sachet-bonbon.png",
-    slug: "sachet-bonbon-personnalise",
-    themes: ["Anniversaire", "Fête", "Bonbon"],
-    description: "Sachet de bonbon personnalisé avec vos couleurs et thème. Friandise personnalisée pour vos événements.",
-    pricing: {
-      unitPrice: 4.00,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "40",
-    name: "Haribo Dragibus",
-    price: "Sur devis",
-    numericPrice: 3.50,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/haribo-dragibus.png",
-    slug: "haribo-dragibus",
-    themes: ["Anniversaire", "Enfant", "Bonbon"],
-    description: "Haribo Dragibus personnalisé. Bonbons iconiques personnalisés pour vos événements.",
-    pricing: {
-      unitPrice: 3.50,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "41",
-    name: "M&M's Personnalisé",
-    price: "Sur devis",
-    numericPrice: 4.00,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/mms.png",
-    slug: "mms-personnalise",
-    themes: ["Anniversaire", "Fête", "Chocolat"],
-    description: "M&M's personnalisé avec votre design. Chocolats iconiques personnalisés pour vos événements.",
-    pricing: {
-      unitPrice: 4.00,
-      minQuantity: 6
-    }
-  },
-  {
-    id: "42",
-    name: "Cône Pyramide",
-    price: "1,90\u20AC",
-    numericPrice: 1.90,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/cone-pyramide.png",
-    slug: "cone-pyramide",
-    themes: ["Mariage", "Anniversaire", "Décoration"],
-    description: "Cône pyramide personnalisé pour vos événements. Décoration élégante et pratique.",
-    pricing: {
-      unitPrice: 1.90,
-      minQuantity: 10
-    }
-  },
-  {
-    id: "43",
-    name: "Cône Friandise Personnalisée",
-    price: "3,90\u20AC",
-    numericPrice: 3.90,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/cone-friandise.png",
-    slug: "cone-friandise-personnalisee",
-    themes: ["Mariage", "Anniversaire", "Friandise"],
-    description: "Cône friandise personnalisée avec votre design. Présentation élégante pour vos bonbons.",
-    pricing: {
-      unitPrice: 3.90,
-      minQuantity: 6,
-      tiers: [
-        { min: 6, pricePerUnit: 3.49 } // 6 pour 20,94\u20AC
-      ]
-    }
-  },
-  {
-    id: "44",
-    name: "Boîte à Oeufs Personnalisée",
-    price: "6,90\u20AC",
-    numericPrice: 6.90,
-    category: "Sweet Tables & Décoration",
-    categorySlug: "sweet-tables-decoration",
-    image: "/images/products/boite-oeufs.png",
-    slug: "boite-oeufs-personnalisee",
-    themes: ["Pâques", "Anniversaire", "Cadeau"],
-    description: "Boîte à oeufs personnalisée pour vos événements. Design original et personnalisable.",
-    pricing: {
-      unitPrice: 6.90,
-      minQuantity: 1,
-      tiers: [
-        { min: 5, pricePerUnit: 6.38 } // 5 pour 31,90\u20AC
-      ]
-    }
-  },
-
-  // TUBE BULLES DE SAVON PERSONNALISÉ
-  {
-    id: "45",
-    name: "Tube bulles de savon personnalisé",
-    price: "1,80\u20AC",
-    numericPrice: 1.80,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/tube bulle1.png",
-    slug: "tube-bulles-savon-personnalise",
-    themes: ["Mariage", "Anniversaire", "Enfant", "Fête"],
-    description: "Tube bulles de savon personnalisé pour vos événements. Design amusant et original, personnalisable avec vos noms, dates et thème. Parfait pour mariage, anniversaire et fêtes d'enfants.",
-    longDescription: "Créez des souvenirs magiques avec notre tube bulles de savon personnalisé ! Ce produit ludique et original est parfait pour animer vos événements et faire plaisir à vos invités. Tube de bulles de savon de qualité supérieure avec liquide non toxique et sûr pour les enfants. Personnalisation complète avec vos noms, dates, messages et thème choisi. Design élégant et moderne adapté à tous types d'événements : mariage, anniversaire, baptême, baby-shower, fêtes d'enfants. Emballage individuel parfait pour cadeaux d'invités ou souvenirs à emporter. Fabriqué en France avec matériaux de qualité. Livraison rapide et personnalisation illimitée jusqu'à validation.",
-    pricing: {
-      unitPrice: 1.80,
-      minQuantity: 6
-    },
-    rating: 5,
-  },
-
-  // PRINGLES PERSONNALISÉ
-  {
-    id: "46",
-    name: "Pringles Personnalisé",
-    price: "2,99\u20AC",
-    numericPrice: 2.99,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/Pringles2.png",
-    images: [
-      "/images/products/Pringles2.png"
-    ],
-    slug: "pringles-personnalise",
-    themes: ["Mariage", "Anniversaire", "Fête", "Gourmand"],
-    description: "Pringles personnalisé pour vos événements. Chips de qualité supérieure avec emballage personnalisé à vos couleurs, thème et texte. Parfait pour apéritifs, mariages et fêtes.",
-    longDescription: "Surprenez vos invités avec nos Pringles personnalisés ! Chips de qualité supérieure dans leur emballage iconique entièrement personnalisé. Design moderne et amusant adapté à tous vos événements : mariage, anniversaire, baby-shower, fêtes d'entreprise. Personnalisation complète avec vos noms, dates, messages, logo et thème choisi. Chips croustillantes et savoureuses pour ravir tous vos convives. Format individuel parfait pour cadeaux d'invités ou souvenirs à emporter. Emballage de qualité avec impression haute définition. Fabriqué en France avec matériaux alimentaires sûrs. Livraison rapide et personnalisation illimitée jusqu'à validation. L'alternative parfaite aux traditionnelles dragées de mariage !",
-    pricing: {
-      unitPrice: 2.99,
-      minQuantity: 5
-    },
-    rating: 5,
-  },
-
-  // ÉTIQUETTE POM'POTES PERSONNALISÉE
-  {
-    id: "47",
-    name: "Étiquette Pom'Potes Personnalisée",
-    price: "2,50\u20AC",
-    numericPrice: 2.50,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/77.png",
-    images: [
-      "/images/products/77.png",
-      "/images/products/Pom Potes2.png"
-    ],
-    slug: "etiquette-pompotes-personnalisee",
-    themes: ["Enfants", "Coloré", "Ludique", "École"],
-    description: "Étiquette Pom'Potes personnalisée pour anniversaire, goûter d'école et fêtes. Design ludique et coloré, personnalisable avec prénom, âge et thème. Parfaite pour identifier les gourdes des enfants.",
-    longDescription: "Personnalisez les gourdes de vos enfants avec nos étiquettes Pom'Potes personnalisées ! Idéales pour l'école, les goûters d'anniversaire, les colonies de vacances et les activités sportives. Design attrayant et résistant avec couleurs vives qui plaisent aux enfants. Personnalisation complète avec le prénom de l'enfant, classe, numéro de téléphone et motif choisi. Étiquettes auto-adhésives de qualité supérieure, résistantes à l'eau et aux frottements. Faciles à appliquer et à retirer sans laisser de traces. Dimensions optimales pour tous les types de gourdes et bouteilles. Création française avec matériaux non toxiques et encres alimentaires. Livraison rapide et personnalisation sur-mesure pour des objets uniques et pratiques !",
-    pricing: {
-      unitPrice: 2.50,
-      minQuantity: 6,
-      tiers: [
-        { min: 10, pricePerUnit: 2.19 } // 10 pour 21,90\u20AC
-      ]
-    },
-    pricing_type: "lot_pricing",
-    rating: 5,
-  },
-
-  // CAHIER DE COLORIAGE PERSONNALISÉ
-  {
-    id: "48",
-    name: "Cahier de coloriage personnalisé",
-    price: "2,90\u20AC",
-    numericPrice: 2.90,
-    category: "Papeterie",
-    categorySlug: "papeterie-sweet-tables",
-    image: "/images/products/CAhier2.png",
-    images: [
-      "/images/products/CAhier2.png",
-      "/images/products/Cahier3.png",
-      "/images/products/cahiercrayon.png"
-    ],
-    slug: "cahier-coloriage-personnalise",
-    themes: ["Enfants", "Coloriage", "Activités", "Fête"],
-    description: "Cahier de coloriage personnalisé pour anniversaire, activités et loisirs. Design adapté avec prénom, thème et illustrations personnalisées. Parfait pour occuper les enfants lors d'événements.",
-    longDescription: "Offrez aux enfants un moment de créativité avec nos cahiers de coloriage personnalisés ! Idéaux pour les anniversaires, activités d'animation, colonies de vacances et loisirs créatifs. Chaque cahier est entièrement personnalisé avec le prénom de l'enfant, thème choisi et illustrations adaptées à l'âge et aux préférences. Format pratique avec pages de qualité supérieure, papier épais adapté aux feutres et crayons de couleur. Couverture personnalisée avec design unique et photo si souhaité. Création française avec matériaux écologiques et encres non toxiques. Option crayons de couleurs disponibles pour un kit complet. Parfait pour cadeaux d'invités, activités d'animation et occupation créative. Livraison rapide et personnalisation sur-mesure pour des moments inoubliables !",
-    pricing: {
-      unitPrice: 2.90,
-      minQuantity: 6,
-      tiers: [
-        { min: 12, pricePerUnit: 2.69 }, // 12 pour 32,28\u20AC
-        { min: 24, pricePerUnit: 2.49 }  // 24 pour 59,76\u20AC
-      ]
-    },
-    pricing_type: "lot_pricing",
-    sizes: [
-      { id: "Cahier", label: "Cahier seul", dimension: "A5", price: 2.90 },
-      { id: "Cahier+Crayons", label: "Avec crayons", dimension: "A5 + 12 crayons", price: 5.00 }
-    ],
-    rating: 5,
-  },
-  // ÉTIQUETTES PERSONNALISÉES
-  {
-    id: "49",
-    name: "Étiquette Champomy",
-    price: "1,50\u20AC",
-    numericPrice: 1.50,
-    category: "Étiquettes Personnalisées",
-    categorySlug: "etiquettes-personnalisees",
-    image: "/images/products/Étiquette Capri-Sun2.png",
-    images: [
-      "/images/products/Étiquette Capri-Sun2.png",
-      "/images/products/Étiquette Capri-Sun3.png"
-    ],
-    slug: "etiquette-champomy",
-    themes: ["Anniversaire", "Enfants", "Fête", "Personnalisé"],
-    description: "Étiquette personnalisée pour bouteille Champomy. Design adapté avec prénom, âge et thème. Parfait pour anniversaires et célébrations d'enfants.",
-    longDescription: "Personnalisez vos bouteilles Champomy avec nos étiquettes uniques ! Idéales pour les anniversaires, baby-showers et fêtes d'enfants. Chaque étiquette est entièrement personnalisée avec le prénom de l'enfant, âge, date et thème choisi. Qualité d'impression supérieure avec papier adhésif résistant à l'humidité. Facile à appliquer et à retirer sans laisser de traces. Design élégant qui sublimera votre table de fête. Parfait pour cadeaux d'invités et souvenirs personnalisés. Création française avec matériaux écologiques. Livraison rapide et personnalisation sur-mesure pour des moments inoubliables !",
-    pricing: {
-      unitPrice: 1.50,
-      minQuantity: 10,
-      tiers: [
-        { min: 20, pricePerUnit: 1.35 }, // 20 pour 27,00\u20AC
-        { min: 50, pricePerUnit: 1.25 }  // 50 pour 62,50\u20AC
-      ]
-    },
-    pricing_type: "lot_pricing",
-    rating: 5,
-  },
-  {
-    id: "50",
-    name: "Étiquette Mini Canette Coca-Cola",
-    price: "1,20\u20AC",
-    numericPrice: 1.20,
-    category: "Étiquettes Personnalisées",
-    categorySlug: "etiquettes-personnalisees",
-    image: "/images/products/etiquette coca1.png",
-    images: [
-      "/images/products/etiquette coca1.png",
-      "/images/products/etiquette coca2.png"
-    ],
-    slug: "etiquette-mini-canette-coca-cola",
-    themes: ["Anniversaire", "Enfants", "Fête", "Coca-Cola", "Personnalisé"],
-    description: "Étiquette personnalisée pour mini canette Coca-Cola. Design adapté avec prénom, âge et thème. Parfait pour anniversaires et fêtes d'enfants.",
-    longDescription: "Transformez vos mini canettes Coca-Cola en objets de décoration personnalisés ! Nos étiquettes sont spécialement conçues pour s'adapter parfaitement aux mini canettes. Personnalisez avec prénom, âge, date et thème pour une touche unique à votre événement. Qualité d'impression professionnelle avec papier adhésif résistant. Facile à appliquer et résistant à l'humidité. Design moderne qui plaira aux enfants et adultes. Idéal pour anniversaires, baby-showers et fêtes thématiques. Parfait pour cadeaux d'invités et décoration de table. Création française avec matériaux de qualité. Livraison rapide et personnalisation sur-mesure !",
-    pricing: {
-      unitPrice: 1.20,
-      minQuantity: 12,
-      tiers: [
-        { min: 24, pricePerUnit: 1.10 }, // 24 pour 26,40\u20AC
-        { min: 60, pricePerUnit: 1.00 }  // 60 pour 60,00\u20AC
-      ]
-    },
-    pricing_type: "lot_pricing",
-    rating: 5,
-  },
-  {
-    id: "51",
-    name: "Étiquette Bouteille d'Eau",
-    price: "1,00\u20AC",
-    numericPrice: 1.00,
-    category: "Étiquettes Personnalisées",
-    categorySlug: "etiquettes-personnalisees",
     image: "/images/products/placeholder.png",
     images: [],
-    slug: "etiquette-bouteille-eau",
-    themes: ["Anniversaire", "Mariage", "Baptême", "Personnalisé", "Événement"],
-    description: "Étiquette personnalisée pour bouteille d'eau. Design élégant avec prénom, date et thème. Parfait pour tous types d'événements.",
-    longDescription: "Ajoutez une touche personnalisée à vos bouteilles d'eau avec nos étiquettes élégantes ! Convient parfaitement pour tous types d'événements : mariages, baptêmes, anniversaires, entreprises et fêtes. Personnalisation complète avec noms, dates, messages et thème choisi. Qualité d'impression supérieure avec papier adhésif waterproof et résistant. Facile à appliquer sur toutes les bouteilles standards. Design minimaliste et chic qui s'intègre parfaitement à votre décoration. Idéal pour cadeaux d'invités, tables de réception et bureaux. Création française avec matériaux écologiques et encres alimentaires. Livraison rapide et personnalisation sur-mesure pour des événements mémorables !",
+    slug: "kit-100-personnalise",
+    themes: ["Événement", "Personnalisé", "Complet", "Gourmand"],
+    description: "Kit 100% personnalisé, qualité brillant. 1 boite de 16 chocolats personnalisés + 6 sachets de m&m's personnalisés + 6 paquets de chips personnalisés + 6 contours bouteilles personnalisés.",
+    longDescription: "Offrez un événement complet et personnalisé avec notre Kit 100% personnalisé de qualité brillant ! Ce kit exclusif contient tout ce dont vous avez besoin pour sublimer votre célébration : une magnifique boîte de 16 chocolats personnalisés avec finition brillante, 6 sachets de M&M's personnalisés pour une touche sucrée, 6 paquets de chips personnalisés pour les amateurs de salé, et 6 contours de bouteilles personnalisés pour rafraîchir vos invités. Chaque élément est entièrement personnalisable avec vos noms, dates, thème et couleurs choisis. Qualité premium avec matériaux sélectionnés pour leur brillance et durabilité. Packaging élégant et coordonné pour un effet visuel spectaculaire. Parfait pour mariages, anniversaires, baby-shower ou événements d'entreprise. Création française avec attention aux détails et livraison soignée. Le kit complet pour un événement 100% personnalisé et mémorable !",
     pricing: {
-      unitPrice: 1.00,
-      minQuantity: 15,
+      unitPrice: 55.00,
+      minQuantity: 1,
       tiers: [
-        { min: 30, pricePerUnit: 0.90 }, // 30 pour 27,00\u20AC
-        { min: 75, pricePerUnit: 0.80 }  // 75 pour 60,00\u20AC
+        { min: 2, pricePerUnit: 52.00 }, // 2 pour 104,00\u20AC
+        { min: 5, pricePerUnit: 49.00 }  // 5 pour 245,00\u20AC
       ]
     },
     pricing_type: "lot_pricing",
     rating: 5,
   },
 
-  // KITKAT PERSONNALISÉ
   {
     id: "49",
     name: "Kitkat Personnalisé",
@@ -1238,47 +1088,80 @@ export const products: Product[] = [
     rating: 5,
   },
 
-  // AFFICHE A3
   {
-    id: "50",
-    name: "Affiche A3",
-    price: "14,00\u20AC",
-    numericPrice: 14.00,
-    category: "Affiche",
-    categorySlug: "affiche",
-    sous_categorie: "Affiche",
-    image: "/images/products/placeholder.png",
-    slug: "affiche-a3",
-    themes: ["Événement", "Promotion", "Décoration", "Personnalisé"],
-    description: "Affiche A3 personnalisée pour vos événements et promotions. Format grand idéal pour communication visible, personnalisable avec vos couleurs, texte et logo. Parfait pour affichage commercial et événementiel.",
-    longDescription: "Communiquez avec impact grâce à notre affiche A3 personnalisée ! Format généreux 29,7 x 42 cm pour une visibilité maximale dans vos espaces commerciaux, événements ou manifestations. Papier de qualité supérieure avec impression haute définition pour des couleurs vives et durables. Personnalisation complète avec votre logo, messages, images promotionnelles et identité visuelle. Idéal pour promotions, lancements de produits, annonces d'événements, décoration de magasins ou communication d'entreprise. Finitions professionnelles disponibles : brillant, mat ou satiné selon vos besoins. Résistance à la lumière et à l'humidité pour une durée de vie prolongée. Création française avec matériaux écologiques et encres respectueuses de l'environnement. Livraison rapide et personnalisation sur-mesure pour une communication efficace et professionnelle.",
+    id: "46",
+    name: "Pringles Personnalisé",
+    price: "2,99\u20AC",
+    numericPrice: 2.99,
+    category: "Papeterie",
+    categorySlug: "papeterie-sweet-tables",
+    image: "/images/products/Pringles2.png",
+    images: [
+      "/images/products/Pringles2.png"
+    ],
+    slug: "pringles-personnalise",
+    themes: ["Mariage", "Anniversaire", "Fête", "Gourmand"],
+    description: "Pringles personnalisé pour vos événements. Chips de qualité supérieure avec emballage personnalisé à vos couleurs, thème et texte. Parfait pour apéritifs, mariages et fêtes.",
+    longDescription: "Surprenez vos invités avec nos Pringles personnalisés ! Chips de qualité supérieure dans leur emballage iconique entièrement personnalisé. Design moderne et amusant adapté à tous vos événements : mariage, anniversaire, baby-shower, fêtes d'entreprise. Personnalisation complète avec vos noms, dates, messages, logo et thème choisi. Chips croustillantes et savoureuses pour ravir tous vos convives. Format individuel parfait pour cadeaux d'invités ou souvenirs à emporter. Emballage de qualité avec impression haute définition. Fabriqué en France avec matériaux alimentaires sûrs. Livraison rapide et personnalisation illimitée jusqu'à validation. L'alternative parfaite aux traditionnelles dragées de mariage !",
     pricing: {
-      unitPrice: 14.00,
-      minQuantity: 1
+      unitPrice: 2.99,
+      minQuantity: 5
     },
-    pricing_type: "unit_pricing",
     rating: 5,
   },
 
-  // AFFICHE A4
   {
-    id: "51",
-    name: "Affiche A4",
+    id: "52",
+    name: "Stickers Toniebox",
     price: "7,00\u20AC",
     numericPrice: 7.00,
-    category: "Affiche",
-    categorySlug: "affiche",
-    sous_categorie: "Affiche",
-    image: "/images/products/placeholder.png",
-    slug: "affiche-a4",
-    themes: ["Événement", "Promotion", "Information", "Personnalisé"],
-    description: "Affiche A4 personnalisée pour vos communications. Format standard polyvalent, personnalisable avec vos couleurs, texte et images. Parfait pour informations, promotions et décoration.",
-    longDescription: "Optez pour notre affiche A4 personnalisée pour une communication efficace et professionnelle ! Format standard 21 x 29,7 cm idéal pour tous types de messages : informations, promotions, annonces, décoration ou signalétique. Papier premium avec qualité d'impression exceptionnelle pour des résultats nets et durables. Personnalisation totale avec vos visuels, textes, logo et charte graphique. Parfaite pour bureaux, commerces, salles d'attente, écoles ou événements. Format pratique facile à installer et à remplacer régulièrement. Plusieurs finitions disponibles : brillante pour les couleurs éclatantes ou mate pour un look élégant et anti-reflet. Imprimé avec des encres écologiques pour un rendu respectueux de l'environnement. Création française avec matériaux recyclés et livraison soignée. Personnalisation rapide et flexible pour une communication adaptée à vos besoins.",
+    category: "Personnalisations",
+    categorySlug: "personnalisations-toniebox",
+    image: "/images/products/Stickers Toniebox.png",
+    images: [
+      "/images/products/Stickers Toniebox.png",
+      "/images/products/Stickers Toniebox1.png",
+      "/images/products/Stickers Toniebox2.png",
+      "/images/products/Stickers Toniebox3.png",
+      "/images/products/Stickers Toniebox4.png"
+    ],
+    slug: "stickers-toniebox",
+    themes: ["Enfants", "Personnalisé", "Créatif", "Audio"],
+    description: "Stickers personnalisés pour Toniebox. Design créatif et amusant, personnalisable avec vos personnages, couleurs et thème. Parfait pour personnaliser votre boîte à musique.",
+    longDescription: "Personnalisez votre Toniebox avec nos stickers créatifs et amusants ! Ces autocollants de qualité sont entièrement personnalisables avec vos personnages préférés, couleurs, thèmes et illustrations. Parfaits pour enfants et adultes, ils transforment votre Toniebox en un objet unique et personnel. Matériaux premium avec adhérence durable et résistance aux frottements. Faciles à appliquer et à retirer sans abîmer la surface. Design adapté parfaitement à la forme de la Toniebox. Idéal pour cadeaux d'anniversaire, personnalisations thématiques ou juste pour ajouter une touche personnelle à votre boîte à musique. Création française avec matériaux non toxiques et encres de qualité. Livraison rapide et personnalisation sur-mesure pour des moments audio personnalisés et créatifs !",
     pricing: {
       unitPrice: 7.00,
-      minQuantity: 1
+      minQuantity: 1,
+      tiers: [
+        { min: 2, pricePerUnit: 6.50 }, // 2 pour 13,00\u20AC
+        { min: 5, pricePerUnit: 6.00 }  // 5 pour 30,00\u20AC
+      ]
     },
-    pricing_type: "unit_pricing",
+    pricing_type: "lot_pricing",
     rating: 5,
   },
+
+  {
+    id: "27",
+    name: "T-Shirt Personnalisé",
+    price: "25,00\u20AC - 30,00\u20AC",
+    category: "Flocages",
+    categorySlug: "flocage",
+    image: "/images/products/T-Shirt Personnalisé.png",
+    images: [
+      "/images/products/T-Shirt Personnalisé1.png",
+      "/images/products/T-Shirt Personnalisé2.png",
+      "/images/products/T-Shirt Personnalisé3.png",
+      "/images/products/T-Shirt Personnalisé4.png",
+      "/images/products/T-Shirt Personnalisé5.png",
+      "/images/products/T-Shirt Personnalisé6.png",
+      "/images/products/T-Shirt Personnalisé8.png"
+    ],
+    rating: 4,
+    slug: "tshirt-personnalise",
+    themes: ["Personnages", "Super-héros", "Original"],
+    description: "T-shirt personnalisé pour événements et branding. Design moderne et confortable, personnalisable avec vos logos, textes et images. Parfait pour mariage, entreprise et groupes.",
+    longDescription: "Exprimez votre style avec notre t-shirt personnalisé premium ! Ce t-shirt moderne et confortable est entièrement personnalisable avec vos logos, textes, images et designs. Parfait pour mariage, événements d'entreprise, groupes d'amis ou promotion de marque, il allie confort et style. Matériaux de qualité supérieure avec coton respirant et finitions soignées. Impression haute définition durable et résistante au lavage. Coupe ajustée et disponible en plusieurs tailles. Idéal pour uniformes d'équipe, cadeaux personnalisés ou création de ligne de vêtements. Personnalisation complète et livraison soignée pour un style unique inoubliable."
+  },
 ];
+

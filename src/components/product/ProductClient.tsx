@@ -210,7 +210,7 @@ export default function ProductClient({ slug }: ProductClientProps) {
         </div>
 
         {/* Section onglets adaptée à la largeur des 10 onglets */}
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 mt-8">
+        <div className="w-full mt-0">
           <ProductTabsComplete product={product} />
         </div>
       </div>

@@ -155,7 +155,7 @@ export default function ProductTabsComplete({ product }: ProductTabsCompleteProp
   }, []);
 
   return (
-    <div className="w-full px-4 py-12 sm:px-6 lg:px-8">
+    <div className="w-full px-4 pt-4 sm:px-6 lg:px-8">
       {/* Barre d'onglets */}
       <div className="border-b border-[#e8e0d0] overflow-x-auto">
         <div className="flex min-w-max">
@@ -185,14 +185,11 @@ export default function ProductTabsComplete({ product }: ProductTabsCompleteProp
         {/* Description */}
         {activeTab === "description" && (
           <div className="space-y-3 text-[#6B6B6B]" style={{ fontSize: "14px", lineHeight: "1.8" }}>
-            <p>Étiquette au format PDF pour une impression sur feuille A4</p>
-            <p>Fichier haute résolution</p>
-            <p>Aucun produit physique n'est vendu, le contenu est entièrement digital.</p>
-            <p>Nous n'apportons pas de modifications à nos conceptions ou aux mesures de nos produits.</p>
-            <p>Vous serez responsable de l'impression et de l'assemblage.</p>
-            <p>Pour une qualité optimale, privilégiez du papier brillant. Pour l'assemblage, optez pour du ruban adhésif double face ou un pistolet à colle.</p>
-            <p>Après l'envoi du lien de téléchargement, nous ne procédons à aucun retour, modification ou remboursement.</p>
-            <p>Veuillez lire la description avant achat.</p>
+            <p>Kit  100% personnalisé, qualité brillant</p>
+            <p>1 boite de 16 chocolats personnalisés</p>
+            <p>+ 6 sachets de m&m's personnalisés</p>
+            <p>+ 6 paquets de chips personnalisés</p>
+            <p>+ 6 contours bouteilles personnalisés</p>
           </div>
         )}
 

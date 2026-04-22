@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Minus, Plus, ShoppingBag, Check, Star } from "lucide-react";
 import { type Product } from "@/data/products";
-import ProductAccordions from "./ProductAccordions";
 import PrimaryCtaButton from "@/components/ui/PrimaryCtaButton";
 import { ThemeSelector } from '@/components/product/ThemeSelector';
 import ProductPricing from "@/components/products/pricing/ProductPricing";
@@ -472,9 +471,6 @@ export default function ProductInfo({ product, selectedTheme, canAddToCart = tru
 
       {/* ── Séparateur ─────────────────────────────────────────── */}
       <div className="my-8 border-b border-[#8B4513]" />
-
-      {/* ── 10. Accordéons ─────────────────────────────────────── */}
-      <ProductAccordions product={product} />
     </div>
   );
 }
