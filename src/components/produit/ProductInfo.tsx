@@ -42,10 +42,21 @@ const AVANTAGES = [
 
 function parsePrice(product: Product): { display: string; isSurDevis: boolean } {
   if (product.price === "Sur devis") return { display: "Sur devis", isSurDevis: true };
-  if (product.price.includes(" - ")) {
-    return { display: `À partir de ${product.price.split(" - ")[0]}`, isSurDevis: false };
+  const formatted = String(product.price)
+    .replace(/(\d)\u20AC/g, '$1 \u20AC')
+    .replace(/(\d)¥/g, '$1 ¥')
+    .replace(/(\d)\$/g, '$1 $')
+    .replace(/(\d)£/g, '$1 £')
+    .replace(/(\d)¢/g, '$1 ¢')
+    .replace(/\s+\u20AC/g, ' \u20AC') // évite les doubles espaces
+    .trim();
+  if (formatted.includes(" - ")) {
+    return { 
+      display: `À partir de ${formatted.split(" - ")[0]}`, 
+      isSurDevis: false 
+    };
   }
-  return { display: product.price, isSurDevis: false };
+  return { display: formatted, isSurDevis: false };
 }
 
 function getThemeLabel(themeId: string): string {

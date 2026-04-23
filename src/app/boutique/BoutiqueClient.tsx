@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useMemo, Suspense, useEffect, createContext, useContext, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { products, type Product } from "@/data/products";
+import { products, sortedProducts, type Product } from "@/data/products";
 import { categories } from "@/data/categories";
 import ProductCard from "@/components/ui/ProductCard";
 import FilterBarSimple from "@/components/catalog/FilterBarSimple";
@@ -382,25 +382,28 @@ function BoutiquePageContentInner() {
   console.log("searchQuery:", searchQuery);
   console.log("Total products loaded:", products.length);
 
-  const filteredProducts = useMemo(() => {
-    let resultProducts = products;
+  // Tri alphabétique de base appliqué d'abord sur TOUS les produits
+  const alphabeticallySortedProducts = useMemo(
+    () => [...products].sort((a, b) => a.name.localeCompare(b.name, 'fr')),
+    [products]
+  );
+
+  // Filtrage par catégorie et recherche
+  const filteredProducts = useMemo((): Product[] => {
+    let resultProducts: Product[] = alphabeticallySortedProducts;
     
-    // D'abord filtrer par catégorie si nécessaire
     if (categorySlug) {
       resultProducts = getFilteredProducts(resultProducts, categorySlug);
-      console.log("Products after category filter:", resultProducts.length);
     }
     
-    // Ensuite filtrer par recherche textuelle si nécessaire
     if (searchQuery) {
       resultProducts = getSearchFilteredProducts(resultProducts, searchQuery);
-      console.log("Products after search filter:", resultProducts.length);
     }
     
-    console.log("Final filtered products:", resultProducts.length);
     return resultProducts;
-  }, [categorySlug, searchQuery]);
+  }, [categorySlug, searchQuery, alphabeticallySortedProducts]);
 
+  // Tri par option (prix, popularité, etc.) appliqué après filtrage
   const sortedProducts = useMemo(
     () => getSortedProducts(filteredProducts, sortOption),
     [filteredProducts, sortOption]
@@ -442,7 +445,11 @@ function BoutiquePageContentInner() {
     <div className="min-h-screen bg-jc-bg">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-8">
         {/* Grille principale : Sidebar + Contenu */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div style={{ 
+  display: 'flex', 
+  gap: '80px',
+  alignItems: 'flex-start'
+}}>
           {/* Bouton Filtre mobile/tablet - optimisé */}
           <div className="lg:hidden col-span-1 mb-4">
             <button
@@ -456,11 +463,12 @@ function BoutiquePageContentInner() {
 
           {/* SIDEBAR GAUCHE - Catégories - masqué sur mobile/tablet */}
           <aside 
-            className="hidden lg:block col-span-1"
-            style={{
-              width: 'fit-content',
-              minWidth: 'max-content',
-              flexShrink: 0
+            className="hidden lg:block"
+            style={{ 
+              width: '260px', 
+              flexShrink: 0,
+              paddingRight: '20px',
+              borderRight: '1px solid #E8E0D4'
             }}
           >
             <div className="space-y-3 sticky top-4">
@@ -515,7 +523,7 @@ function BoutiquePageContentInner() {
           </aside>
 
           {/* CONTENU PRINCIPAL - Droite */}
-          <main className="col-span-4">
+          <main style={{ flex: 1, minWidth: 0 }}>
             {/* HEADER avec message de recherche et FilterBar */}
             <div className="mb-6 space-y-3 border-b border-gray-200 pb-4">
               {/* Message de recherche si applicable */}

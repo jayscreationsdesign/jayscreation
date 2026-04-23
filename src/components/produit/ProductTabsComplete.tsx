@@ -159,7 +159,7 @@ export default function ProductTabsComplete({ product }: ProductTabsCompleteProp
       {/* Barre d'onglets */}
       <div className="border-b border-[#e8e0d0] overflow-x-auto">
         <div className="flex min-w-max">
-          {tabs.map((tab) => {
+          {tabs.filter(tab => tab.id !== "informations" || product.categorySlug === "papeterie-telechargeable").map((tab) => {
             const Icon = tab.icon;
             return (
               <button
@@ -185,16 +185,26 @@ export default function ProductTabsComplete({ product }: ProductTabsCompleteProp
         {/* Description */}
         {activeTab === "description" && (
           <div className="space-y-3 text-[#6B6B6B]" style={{ fontSize: "14px", lineHeight: "1.8" }}>
-            <p>Kit  100% personnalisé, qualité brillant</p>
-            <p>1 boite de 16 chocolats personnalisés</p>
-            <p>+ 6 sachets de m&m's personnalisés</p>
-            <p>+ 6 paquets de chips personnalisés</p>
-            <p>+ 6 contours bouteilles personnalisés</p>
+            {product.description && product.description.split('\n').map((line, i) => {
+              if (line.startsWith('- ') || line.startsWith('* ')) {
+                return (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '4px', color: '#3C2415', fontSize: '14px', lineHeight: '1.7' }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C8A96E', flexShrink: 0, marginTop: '8px' }}/>
+                    <span>{line.slice(2)}</span>
+                  </li>
+                )
+              }
+              return line.trim() ? (
+                <p key={i} style={{ color: '#3C2415', fontSize: '14px', lineHeight: '1.7', marginBottom: '6px' }}>
+                  {line}
+                </p>
+              ) : <br key={i} />
+            })}
           </div>
         )}
 
         {/* Informations complémentaires */}
-        {activeTab === "informations" && (
+        {activeTab === "informations" && product.categorySlug === "papeterie-telechargeable" && (
           <table className="w-full text-sm text-[#6B6B6B]">
             <tbody>
               <tr className="border-b border-[#e8e0d0]">
@@ -233,23 +243,21 @@ export default function ProductTabsComplete({ product }: ProductTabsCompleteProp
         {/* Personnalisation */}
         {activeTab === "personnalisation" && (
           <div className="text-sm text-[#3C2415]" style={{ lineHeight: "1.8" }}>
-            <p>Chaque produit est entièrement personnalisable :</p>
-            <ul className="mt-3 space-y-2 list-none">
-              {[
-                "Choix du thème (mariage, baptême, anniversaire...)",
-                "Choix des couleurs",
-                "Texte personnalisé (prénoms, date, message)",
-                "Choix de la police d'écriture",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-2">
-                  <span className="text-[#C8A96E] mt-0.5">—</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4">
-              Après commande, vous recevrez un aperçu maquette sous 24h pour validation avant réalisation.
-            </p>
+            {"Chaque produit est entièrement personnalisable :\n\n- Choix du thème (mariage, baptême, anniversaire...)\n\n- Choix des couleurs\n\n- Texte personnalisé (prénoms, date, message)\n\n- Choix de la police d'écriture\n\nAprès commande, vous recevrez un aperçu maquette sous 24h pour validation avant réalisation.".split('\n').map((line, i) => {
+              if (line.startsWith('- ') || line.startsWith('* ')) {
+                return (
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '4px', color: '#3C2415', fontSize: '14px', lineHeight: '1.7' }}>
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#C8A96E', flexShrink: 0, marginTop: '8px' }}/>
+                    <span>{line.slice(2)}</span>
+                  </li>
+                )
+              }
+              return line.trim() ? (
+                <p key={i} style={{ color: '#3C2415', fontSize: '14px', lineHeight: '1.7', marginBottom: '6px' }}>
+                  {line}
+                </p>
+              ) : <br key={i} />
+            })}
           </div>
         )}
 

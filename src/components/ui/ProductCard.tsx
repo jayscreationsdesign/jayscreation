@@ -25,7 +25,23 @@ interface ProductCardProps {
   enableMagnifier?: boolean;
 }
 
-function formatPrice(product: Product & {
+const formatPrice = (price: string | number): string => {
+  if (!price) return '';
+  const priceStr = String(price);
+  // Remplace $ par EUR, puis ajoute l'espace devant les symboles
+  return priceStr
+    .replace(/\$/g, '\u20AC')
+    .replace(/(\d)¥/g, '$1 ¥')
+    .replace(/(\d)\$/g, '$1 $')
+    .replace(/(\d)£/g, '$1 £')
+    .replace(/(\d)¢/g, '$1 ¢')
+    .replace(/(\d)\u20AC/g, '$1 \u20AC')
+    .replace(/(\d)¥/g, '$1 ¥')
+    .replace(/\s+\u20AC/g, ' \u20AC') // évite les doubles espaces
+    .trim();
+};
+
+function formatProductPrice(product: Product & {
   pricing_type?: 'unit_with_minimum' | 'lot_pricing' | 'quote';
   unit_price?: number;
   min_quantity?: number;
@@ -37,12 +53,12 @@ function formatPrice(product: Product & {
 }) {
   // Cas 1 : prix min ET max -> fourchette
   if (product.price_min && product.price_max) {
-    return `${formatPriceEUR(product.price_min)} - ${formatPriceEUR(product.price_max)}`;
+    return `${formatPrice(formatPriceEUR(product.price_min))} - ${formatPrice(formatPriceEUR(product.price_max))}`;
   }
   
   // Cas 2 : prix unitaire simple
   if (product.unit_price) {
-    return formatPriceEUR(product.unit_price);
+    return formatPrice(formatPriceEUR(product.unit_price));
   }
   
   // Cas 3 : prix simple (ancien champ)
@@ -52,10 +68,10 @@ function formatPrice(product: Product & {
     
     // Si c'est une fourchette de prix, l'afficher telle quelle
     if (priceInEuros.includes(' - ')) {
-      return priceInEuros;
+      return formatPrice(priceInEuros);
     }
     
-    return priceInEuros;
+    return formatPrice(priceInEuros);
   }
   
   // Cas 4 : pas de prix
@@ -179,14 +195,30 @@ export default function ProductCard({
           {product.category || ''}
         </span>
         
-        {/* Nom du produit - Playfair italique */}
-        <Link href={`/produit/${product.slug}`} className="block text-sm font-semibold text-[#333] mb-1.5 hover:text-[#8B4513] transition-colors cursor-pointer" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
+        {/* Nom du produit - Playfair serif élégant */}
+        <Link href={`/produit/${product.slug}`} className="block mb-1.5 hover:text-[#8B4513] transition-colors cursor-pointer" style={{ 
+          fontFamily: "'Playfair Display', serif",
+          fontSize: '15px',
+          fontWeight: 400,
+          color: '#3C2415',
+          textAlign: 'center',
+          lineHeight: 1.3,
+          letterSpacing: '0.3px'
+        }}>
           {product.name}
         </Link>
         
+        {/* Trait de séparation */}
+        <div style={{ 
+          width: '30px', 
+          height: '1.5px', 
+          backgroundColor: '#8B4513', 
+          margin: '6px auto' 
+        }} />
+        
         {/* Prix */}
         <p className="text-sm font-bold text-[#333] mb-3">
-          {formatPrice(product)}
+          {formatProductPrice(product)}
         </p>
         
         {/* Bouton Voir */}

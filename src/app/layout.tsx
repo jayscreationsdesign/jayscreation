@@ -9,6 +9,7 @@ import Header from "@/components/site/Header";
 import ChatWrapper from "@/components/chat/ChatWrapper";
 import TopBanner from "@/components/site/TopBanner";
 import WelcomePopup from "@/components/site/WelcomePopup";
+import AvisTab from "@/components/ui/AvisTab";
 import { PostHogProvider } from "@/providers/PostHogProvider";
 import { PostHogPageView } from "@/components/PostHogPageView";
 import { Analytics } from '@vercel/analytics/react';
@@ -73,6 +74,8 @@ export default function RootLayout({
           {/* ChatWidget - only show on non-admin pages */}
           <ChatWrapper />
           <WelcomePopup />
+          {/* CTA Avis sur le côté gauche */}
+          <AvisTab showOnMobile={false} />
         </PostHogProvider>
         <Analytics />
         <SpeedInsights />

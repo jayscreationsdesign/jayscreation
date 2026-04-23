@@ -107,8 +107,7 @@ export const products: Product[] = [
     categorySlug: "papeterie-sweet-tables",
     image: "/images/products/Cahiertexte1.png",
     images: [
-      "/images/products/Cahiertexte1.png",
-      "/images/products/Cahiertexte2.png"
+      "/images/products/Cahiertexte1.png"
     ],
     slug: "agenda-personnalise",
     themes: ["Bureau", "Personnalisé", "Organisation", "Pratique"],
@@ -1163,5 +1162,40 @@ export const products: Product[] = [
     description: "T-shirt personnalisé pour événements et branding. Design moderne et confortable, personnalisable avec vos logos, textes et images. Parfait pour mariage, entreprise et groupes.",
     longDescription: "Exprimez votre style avec notre t-shirt personnalisé premium ! Ce t-shirt moderne et confortable est entièrement personnalisable avec vos logos, textes, images et designs. Parfait pour mariage, événements d'entreprise, groupes d'amis ou promotion de marque, il allie confort et style. Matériaux de qualité supérieure avec coton respirant et finitions soignées. Impression haute définition durable et résistante au lavage. Coupe ajustée et disponible en plusieurs tailles. Idéal pour uniformes d'équipe, cadeaux personnalisés ou création de ligne de vêtements. Personnalisation complète et livraison soignée pour un style unique inoubliable."
   },
+  {
+    id: "boite-lunch",
+    name: "Boîte Lunch",
+    price: "3,20\u20AC",
+    numericPrice: 3.20,
+    category: "Papeterie Personnalisée",
+    categorySlug: "papeterie-sweet-tables",
+    slug: "boite-lunch",
+    image: "/images/products/placeholder.png",
+    images: ["/images/products/placeholder.png"],
+    themes: ["Personnalisé", "Rangement", "Original"],
+    description: "Boîte format lunch\n\n- Dimensions : Largeur: 16 cm. Hauteur de contenance : 8,6 cm. Profondeur : 9,3 cm\n- Matière : Papier épais, finition brillante\n\nIdéal pour mettre des cadeaux pour vos invités, des patisseries, goodies etc.\n\nPrix à l'unité.",
+    longDescription: "Découvrez notre boîte personnalisée Lunch, la solution parfaite pour vos besoins de rangement et de présentation ! Cette boîte au design moderne et élégant est entièrement personnalisable avec vos textes, images et logos. Idéale pour les événements spéciaux comme mariages, anniversaires ou baptêmes, elle sert également de packaging cadeau raffiné. Fabriquée avec des matériaux de qualité, elle offre à la fois robustesse et esthétique. Parfaite pour organiser vos accessoires, documents ou objets précieux tout en ajoutant une touche personnelle à votre décoration. Personnalisation complète disponible pour créer une pièce unique qui reflète votre style. Dimensions optimales pour un usage polyvalent et pratique au quotidien.",
+    rating: 4,
+    pricing_type: "unit"
+  },
+  {
+    id: "invitation-numerique",
+    name: "Invitation Numérique",
+    price: "7,90\u20AC",
+    numericPrice: 7.90,
+    category: "Papeterie Personnalisée",
+    categorySlug: "papeterie-sweet-tables",
+    slug: "invitation-numerique",
+    image: "/images/products/placeholder.png",
+    images: ["/images/products/placeholder.png"],
+    themes: ["Numérique", "Moderne", "Personnalisé"],
+    description: "Invitation numérique personnalisée pour tous vos événements\n\n- Format : PDF numérique haute résolution\n- Format : Standard A5 (21 x 14,8 cm)\n- Personnalisation : Texte, couleurs, photos, logos\n- Livraison : Instantanée par e-mail\n\nIdéal pour mariage, baptême, anniversaire, événements d'entreprise.\nPrix à l'unité, modifications illimitées.\n\nInvitation numérique assortie à votre évènement à envoyer par texto, mail, snapchat ou autre pour épater vos convives!\n\nLe thème peut être seulement un thème déjà proposé dans la catégorie des thèmes sur le site ou si vous passez commande d'autres articles pour un nouveau thème.\n\nL'invitation vous sera envoyé par mail.\n\nSi vous souhaitez seulement acheter cet article, indiquez le code promo \"INVITATIONNUMERIQUE\" pour ne pas payer les frais de port.",
+    longDescription: "Transformez vos événements avec nos invitations numériques personnalisées ! Conçues pour les créateurs modernes qui recherchent une solution écologique et pratique, nos invitations numériques allient élégance et fonctionnalité. Chaque design est entièrement personnalisable avec vos textes, couleurs préférées, photos et logos. Format PDF haute résolution parfait pour impression ou partage par e-mail et réseaux sociaux. Créez l'ambiance parfaite pour votre mariage, baptême, anniversaire ou événement d'entreprise avec des invitations uniques qui reflètent votre style. Livraison instantanée et modifications illimitées pour s'assurer que chaque détail soit parfait. Solution économique et écologique sans compromis sur la qualité et l'élégance.",
+    rating: 5,
+    pricing_type: "unit"
+  }
 ];
+
+// Tri automatique des produits par ordre alphabétique
+export const sortedProducts = [...products].sort((a, b) => a.name.localeCompare(b.name, 'fr', { sensitivity: 'base' }));
 
