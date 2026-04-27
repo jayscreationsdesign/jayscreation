@@ -89,7 +89,7 @@ export default function AvisTab({
       <style jsx>{`
         .avis-tab {
           position: fixed;
-          left: 0;
+          left: -20px;
           top: 50%;
           transform: translateY(-50%) rotate(-90deg);
           transform-origin: center center;
@@ -280,7 +280,8 @@ export default function AvisTab({
         @media (max-width: 768px) {
           ${!showOnMobile ? `.avis-tab { display: none; }` : `
             .avis-tab {
-              left: 10px;
+              right: 10px;
+              left: auto;
               top: auto;
               bottom: 80px;
               transform: none;
@@ -290,7 +291,7 @@ export default function AvisTab({
             }
             
             .avis-tab:hover {
-              transform: translateX(3px);
+              transform: translateX(-3px);
             }
           `}
 
@@ -311,7 +312,7 @@ export default function AvisTab({
 
       {/* Onglet AVIS */}
       <button 
-        className={`avis-tab ${className}`}
+        className={`avis-tab hidden md:block ${className}`}
         onClick={handleClick}
         aria-label="Voir les avis clients"
       >

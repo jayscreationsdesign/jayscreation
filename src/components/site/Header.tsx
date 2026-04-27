@@ -238,17 +238,12 @@ const bottomNavRow2 = bottomNav.filter(item => !line1Slugs.has(item.categorySlug
 
 
 
-const topNavLinks = [
+interface NavLink {
+  href: string;
+  label: string;
+}
 
-  { href: "/", label: "Accueil" },
-
-  { href: "/boutique", label: "Boutique" },
-
-  { href: "/contact", label: "Contact" },
-
-  { href: "/a-propos", label: "À propos" },
-
-] as const;
+const topNavLinks: NavLink[] = [];
 
 
 
@@ -902,7 +897,36 @@ export default function Header() {
 
       ══════════════════════════════════════════ */}
 
-      <div style={{ 
+      {/* Version mobile - 1 ligne */}
+      <div className="lg:hidden bg-white">
+        {/* Ligne unique - Menu gauche + panier droit */}
+        <div className="flex items-center justify-between h-14 px-4 border-b border-[#E8D5B7]">
+          {/* Menu gauche */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 rounded-lg hover:bg-[#FAF7F2] transition-colors"
+            aria-label="Menu"
+          >
+            <Menu size={24} color="#3C2415" />
+          </button>
+
+          {/* Espace flexible */}
+          <div className="flex-1" />
+
+          {/* Panier droit */}
+          <Link href="/panier" className="relative">
+            <ShoppingBag size={22} color="#3C2415" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C8A96E] text-white text-xs font-bold flex items-center justify-center">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+        </div>
+      </div>
+
+      {/* Version desktop */}
+      <div className="hidden lg:block" style={{ 
 
           background: '#FAF7F2', 
 
@@ -996,7 +1020,7 @@ export default function Header() {
 
             }}>
 
-            {topNavLinks.map((link) => (
+            {topNavLinks.length > 0 && topNavLinks.map((link) => (
 
               <Link
 
@@ -1040,7 +1064,7 @@ export default function Header() {
 
               {/* Recherche */}
 
-              <button
+              <button className="hidden md:block"
 
                 onClick={handleSearchClick}
 
@@ -1092,7 +1116,7 @@ if (svg) (svg as unknown as HTMLElement).style.color = 'white';
 
               {/* Compte */}
 
-              <Link
+              <Link className="hidden md:block"
 
                 href={user ? "/compte" : "/connexion"}
 
@@ -1433,15 +1457,10 @@ if (svg) (svg as unknown as HTMLElement).style.color = 'white';
       ══════════════════════════════════════════ */}
 
       <nav
-
-className="block bg-white border-b border-[#8B4513] py-1.5"
-
+className="hidden lg:block bg-white border-b border-[#8B4513] py-1.5"
         aria-label="Menu catégories"
-
       >
-
         <div className="mx-auto max-w-7xl px-8">
-
           {/* Ligne 1 — Catégories produits */}
 
           <div className="flex items-center justify-center gap-4">
@@ -1459,7 +1478,6 @@ className="block bg-white border-b border-[#8B4513] py-1.5"
           </div>
 
         </div>
-
       </nav>
 
 
@@ -1469,53 +1487,29 @@ className="block bg-white border-b border-[#8B4513] py-1.5"
       <div
 
         className={`search-panel absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-sm z-40 transition-all duration-300 ease-out ${
-
           isSearchOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
-
         }`}
-
       >
-
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
-
           <div className="max-w-2xl mx-auto">
-
             <form onSubmit={handleSearchSubmit} className="relative">
-
               <input
-
                 ref={inputRef}
-
                 type="text"
-
                 placeholder="Rechercher un produit"
-
                 value={searchQuery}
-
                 onChange={(e) => setSearchQuery(e.target.value)}
-
                 onBlur={handleInputBlur}
-
                 onKeyDown={handleKeyDown}
-
                 className="w-full h-12 pl-5 pr-14 bg-white border border-gray-200 rounded-lg text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8B4513]/20 focus:border-[#8B4513] shadow-sm transition-all duration-200"
-
                 autoFocus
-
               />
-
               <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-
                 <Search className="h-5 w-5 text-gray-400" />
-
               </div>
-
             </form>
-
           </div>
-
         </div>
-
       </div>
 
 
@@ -1533,23 +1527,14 @@ className="block bg-white border-b border-[#8B4513] py-1.5"
             {/* Liens principaux */}
 
             <div className="space-y-0.5 pb-3 border-b border-[#8B4513]">
-
-              {topNavLinks.map((link) => (
-
+              {topNavLinks.length > 0 && topNavLinks.map((link) => (
                 <Link
-
                   key={link.href}
-
                   href={link.href}
-
                   className={`block px-4 py-2.5 text-sm font-medium rounded-lg transition-colors hover:text-[#6b3410] ${
-
                     pathname === link.href
-
                       ? "text-[#2C1A0E]"
-
                       : "text-[#2C1A0E] hover:bg-[#FAF7F2]"
-
                   }`}
 
                 >

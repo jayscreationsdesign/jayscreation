@@ -94,15 +94,12 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Colonne 2 : Navigation */}
-            <div>
+            {/* Colonne 2 : Navigation - masque sur mobile */}
+            <div className="hidden md:block">
               <h4 className="font-heading text-sm font-bold text-[#D4A574] uppercase tracking-[0.1em] mb-4">
                 Navigation
               </h4>
               <nav className="space-y-2">
-                <Link href="/" className="block text-sm text-white hover:text-[#6b3410] transition-colors">
-                  Accueil
-                </Link>
                 <Link href="/a-propos" className="block text-sm text-white hover:text-[#6b3410] transition-colors">
                   À propos
                 </Link>
@@ -118,8 +115,8 @@ export default function Footer() {
               </nav>
             </div>
 
-            {/* Colonne 3 : Services */}
-            <div>
+            {/* Colonne 3 : Services - masque sur mobile */}
+            <div className="hidden md:block">
               <h4 className="font-heading text-sm font-bold text-[#D4A574] uppercase tracking-[0.1em] mb-4">
                 Services
               </h4>
