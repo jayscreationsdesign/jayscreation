@@ -1,33 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { 
-  Users, 
-  ShoppingCart, 
-  DollarSign, 
-  TrendingUp, 
-  Package, 
-  AlertTriangle,
-  ArrowUp,
-  ArrowDown
-} from 'lucide-react';
-import { DashboardStats, CommandeStats, ProductStats } from '@/types/admin';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default function Dashboard() {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [recentOrders, setRecentOrders] = useState<CommandeStats[]>([]);
-  const [topProducts, setTopProducts] = useState<ProductStats[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function DashboardRedirect() {
+  const router = useRouter();
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    router.replace('/admin');
+  }, [router]);
 
-  const fetchDashboardData = async () => {
-    try {
-      const [statsRes, ordersRes, productsRes] = await Promise.all([
-        fetch('/api/admin/dashboard/stats'),
-        fetch('/api/admin/dashboard/recent-orders'),
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-[#FAF7F2]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C8A96E] mx-auto mb-4"></div>
+        <p className="text-[#3C2415]">Redirection vers le dashboard...</p>
+      </div>
+    </div>
+  );
+}
         fetch('/api/admin/dashboard/top-products')
       ]);
 

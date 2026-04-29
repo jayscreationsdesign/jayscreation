@@ -10,11 +10,13 @@ import ChatWrapper from "@/components/chat/ChatWrapper";
 import TopBanner from "@/components/site/TopBanner";
 import WelcomePopup from "@/components/site/WelcomePopup";
 import AvisTab from "@/components/ui/AvisTab";
+import AdminPageDetector from "@/components/ui/AdminPageDetector";
 import { PostHogProvider } from "@/providers/PostHogProvider";
 import { PostHogPageView } from "@/components/PostHogPageView";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { GoogleAnalytics } from '@next/third-parties/google';
+import Analytics from "@/components/Analytics";
+import CookieBanner from "@/components/CookieBanner";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -74,12 +76,15 @@ export default function RootLayout({
           {/* ChatWidget - only show on non-admin pages */}
           <ChatWrapper />
           <WelcomePopup />
-          {/* CTA Avis sur le côté gauche */}
-          <AvisTab showOnMobile={false} />
+          {/* CTA Avis sur le côté gauche - masqué sur les pages admin */}
+          <AdminPageDetector>
+            <AvisTab showOnMobile={false} />
+          </AdminPageDetector>
         </PostHogProvider>
-        <Analytics />
+        <VercelAnalytics />
         <SpeedInsights />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID!} />
+        <CookieBanner />
+        <Analytics />
       </body>
     </html>
   );

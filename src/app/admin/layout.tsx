@@ -1,27 +1,33 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { supabaseClient } from '@/lib/supabase-client';
 import { 
-  BarChart3, 
-  Package, 
-  FileText, 
-  MessageSquare, 
-  ShoppingBag, 
-  FolderOpen, 
-  Image, 
-  Users, 
-  Gem, 
-  Ticket, 
-  TrendingUp, 
-  Settings, 
-  Mail, 
-  CreditCard,
-  Bell,
+  LayoutDashboard,
+  ShoppingCart,
+  Calendar,
+  Package,
   Plus,
+  BarChart3,
+  Users,
+  FileText,
+  MessageSquare,
+  Settings,
   Menu,
-  X
+  X,
+  LogOut,
+  Home,
+  Bell,
+  Tag,
+  Image,
+  Star,
+  Ticket,
+  TrendingUp,
+  Mail,
+  CreditCard,
+  ThumbsUp
 } from 'lucide-react';
 
 export default function AdminLayout({
@@ -32,222 +38,218 @@ export default function AdminLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [stats, setStats] = useState({
-    ordersPending: 0,
-    quotesPending: 0,
-    messagesUnread: 0
-  });
+  const [newOrdersCount, setNewOrdersCount] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    // Temporairement désactivé pour développement - permettre l'accès admin
-    setUser({ email: 'anais.manne@gmail.com', id: 'admin' });
-    setIsLoading(false);
-    
-    // Ancienne vérification (désactivée pour test)
-    /*
     const checkAuth = async () => {
       try {
-        const response = await fetch('/api/auth/check');
-        const data = await response.json();
+        const { data: { session } } = await supabaseClient.auth.getSession();
         
-        if (!data.authenticated || data.user?.email !== 'anais.manne@gmail.com') {
-          router.push('/connexion');
+        if (!session) {
+          router.push('/admin/login');
           return;
         }
-        
-        setUser(data.user);
+
+        // Check admin role in profiles table
+        const { data: profile } = await supabaseClient
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+
+        if (!profile || profile.role !== 'admin') {
+          router.push('/admin/login');
+          return;
+        }
+
+        setUser(session.user);
         setIsLoading(false);
       } catch (error) {
-        router.push('/connexion');
+        console.error('Auth check error:', error);
+        router.push('/admin/login');
         setIsLoading(false);
       }
     };
 
     checkAuth();
-    */
   }, [router]);
+
+  useEffect(() => {
+    const fetchNewOrders = async () => {
+      try {
+        const { count } = await supabaseClient
+          .from('orders')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'Nouveau');
+        setNewOrdersCount(count || 0);
+      } catch (error) {
+        console.error('Error fetching new orders count:', error);
+      }
+    };
+    fetchNewOrders();
+  }, []);
 
   const handleLogout = async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      router.push('/connexion');
+      await supabaseClient.auth.signOut();
+      router.push('/admin/login');
     } catch (error) {
       console.error('Logout error:', error);
     }
   };
 
-  const menuItems = [
-    {
-      href: '/admin',
-      icon: BarChart3,
-      label: 'Vue d\'ensemble',
-      badge: null
-    },
-    {
-      href: '/admin/commandes',
-      icon: Package,
-      label: 'Commandes',
-      badge: stats.ordersPending
-    },
-    {
-      href: '/admin/devis',
-      icon: FileText,
-      label: 'Devis',
-      badge: stats.quotesPending
-    },
-    {
-      href: '/admin/messages',
-      icon: MessageSquare,
-      label: 'Messages',
-      badge: stats.messagesUnread
-    },
-    {
-      href: '/admin/produits',
-      icon: ShoppingBag,
-      label: 'Produits',
-      badge: null
-    },
-    {
-      href: '/admin/categories',
-      icon: FolderOpen,
-      label: 'Catégories',
-      badge: null
-    },
-    {
-      href: '/admin/medias',
-      icon: Image,
-      label: 'Médias',
-      badge: null
-    },
-    {
-      href: '/admin/clients',
-      icon: Users,
-      label: 'Clients',
-      badge: null
-    },
-    {
-      href: '/admin/jays-club',
-      icon: Gem,
-      label: 'Jay\'s Club',
-      badge: null
-    },
-    {
-      href: '/admin/coupons',
-      icon: Ticket,
-      label: 'Coupons',
-      badge: null
-    },
-    {
-      href: '/admin/revenus',
-      icon: TrendingUp,
-      label: 'Revenus',
-      badge: null
-    },
-    {
-      href: '/admin/parametres',
-      icon: Settings,
-      label: 'Paramètres',
-      badge: null
-    },
-    {
-      href: '/admin/emails',
-      icon: Mail,
-      label: 'Emails',
-      badge: null
-    },
-    {
-      href: '/admin/stripe',
-      icon: CreditCard,
-      label: 'Stripe',
-      badge: null
-    }
-  ];
+  const menuSections = [
+  {
+    title: 'Principal',
+    items: [
+      { href: '/admin', icon: LayoutDashboard, 
+        label: 'Dashboard', badge: null }
+    ]
+  },
+  {
+    title: 'Catalogue',
+    items: [
+      { href: '/admin/produits', icon: Package, 
+        label: 'Produits', badge: null },
+      { href: '/admin/produits/creer', icon: Plus, 
+        label: 'Ajouter produit', badge: null },
+      { href: '/admin/categories', icon: Tag, 
+        label: 'Catégories', badge: null },
+      { href: '/admin/medias', icon: Image, 
+        label: 'Médias', badge: null }
+    ]
+  },
+  {
+    title: 'Ventes',
+    items: [
+      { href: '/admin/commandes', icon: ShoppingCart, 
+        label: 'Commandes', badge: newOrdersCount },
+      { href: '/admin/devis', icon: FileText, 
+        label: 'Devis', badge: null },
+      { href: '/admin/clients', icon: Users, 
+        label: 'Clients', badge: null },
+      { href: '/admin/coupons', icon: Ticket, 
+        label: 'Coupons', badge: null }
+    ]
+  },
+  {
+    title: 'Fidélité',
+    items: [
+      { href: '/admin/jays-club', icon: Star, 
+        label: "Jay's Club", badge: null },
+      { href: '/admin/messages', icon: MessageSquare, 
+        label: 'Messages', badge: null },
+      { href: '/admin/avis', icon: ThumbsUp, 
+        label: 'Avis clients', badge: null }
+    ]
+  },
+  {
+    title: 'Planning',
+    items: [
+      { href: '/admin/disponibilites', icon: Calendar, 
+        label: 'Disponibilités', badge: null }
+    ]
+  },
+  {
+    title: 'Analyse',
+    items: [
+      { href: '/admin/statistiques', icon: BarChart3, 
+        label: 'Statistiques', badge: null },
+      { href: '/admin/revenus', icon: TrendingUp, 
+        label: 'Revenus', badge: null }
+    ]
+  },
+  {
+    title: 'Système',
+    items: [
+      { href: '/admin/emails', icon: Mail, 
+        label: 'Emails', badge: null },
+      { href: '/admin/stripe', icon: CreditCard, 
+        label: 'Stripe', badge: null },
+      { href: '/admin/parametres', icon: Settings, 
+        label: 'Paramètres', badge: null }
+    ]
+  }
+];
 
-  // Si on est en chargement ou non authentifié
-  if (isLoading || !user) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#FFF8F0] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#8B4513]"></div>
+      <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C8A96E]"></div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-[#FFF8F0]">
+    <div className="flex min-h-screen bg-[#FAF7F2]">
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-[220px] bg-[#2C1A0E] transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-0'} transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#3C2415] transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
         {/* Logo */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-[#8B4513]/20">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-[#8B4513] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">J</span>
-            </div>
-            <div>
-              <h1 className="text-[#D4A574] font-bold text-sm font-['Playfair_Display']">
-                Jay's Creations Design
-              </h1>
-              <span className="text-[#8B4513] text-xs bg-[#8B4513]/20 px-2 py-0.5 rounded-full">
-                Admin
-              </span>
-            </div>
+        <div className="flex items-center justify-center h-16 px-6 border-b border-[#C8A96E]/20">
+          <div className="text-center">
+            <h1 className="text-[#C8A96E] font-bold text-xl font-['Playfair_Display'] italic">
+              Jay's Creations
+            </h1>
+            <p className="text-[#C8A96E]/60 text-xs mt-1">Administration</p>
           </div>
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-[#D4A574]"
-          >
-            <X className="h-5 w-5" />
-          </button>
         </div>
 
         {/* Navigation */}
-        <nav className="mt-6">
-          <ul className="space-y-1 px-3">
-            {menuItems.map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      isActive
-                        ? 'bg-[rgba(139,69,19,0.15)] border-l-3 border-[#8B4513] text-[#D4A574]'
-                        : 'text-[#A0785A] hover:bg-[rgba(139,69,19,0.05)] hover:text-[#D4A574]'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <item.icon className="h-4 w-4" />
-                      <span>{item.label}</span>
-                    </div>
-                    {item.badge && item.badge > 0 && (
-                      <span className="bg-[#8B4513] text-white text-xs px-2 py-0.5 rounded-full">
-                        {item.badge}
-                      </span>
-                    )}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+        <nav className="flex-1 px-4 py-6 space-y-6 overflow-y-auto">
+          {menuSections.map((section) => (
+            <div key={section.title}>
+              <h3 className="text-[#C8A96E]/50 text-xs font-semibold uppercase tracking-wider mb-3">
+                {section.title}
+              </h3>
+              <ul className="space-y-1">
+                {section.items.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                          isActive
+                            ? 'bg-[#C8A96E]/20 border-l-2 border-[#C8A96E] text-[#C8A96E] font-semibold'
+                            : 'text-[#C8A96E]/70 hover:bg-[#F5EFE6] hover:text-[#C8A96E]'
+                        }`}
+                      >
+                        <item.icon className="h-5 w-5 mr-3" />
+                        <span>{item.label}</span>
+                        {item.badge && item.badge > 0 && (
+                          <span className="ml-auto bg-[#C8A96E] text-white text-xs px-2 py-0.5 rounded-full">
+                            {item.badge}
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
         </nav>
 
-        {/* Footer sidebar */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#8B4513]/20">
+        {/* Footer */}
+        <div className="p-4 border-t border-[#C8A96E]/20">
           <div className="flex items-center space-x-3 mb-3">
-            <div className="w-8 h-8 bg-[#D4A574] rounded-full flex items-center justify-center">
-              <span className="text-[#2C1A0E] font-bold text-sm">A</span>
+            <div className="w-9 h-9 bg-gradient-to-br from-[#C8A96E] to-[#3C2415] rounded-full flex items-center justify-center ring-2 ring-[#C8A96E]/30">
+              <span className="text-white font-bold text-sm">
+                {user?.email?.charAt(0).toUpperCase()}
+              </span>
             </div>
             <div>
-              <p className="text-[#D4A574] text-sm font-medium">Anaïs</p>
-              <p className="text-[#A0785A] text-xs">Administratrice</p>
+              <p className="text-[#C8A96E] text-sm font-medium">{user?.email}</p>
+              <p className="text-[#C8A96E]/50 text-xs">Administrateur</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium text-[#A0785A] hover:bg-[rgba(139,69,19,0.05)] hover:text-[#D4A574] transition-colors"
+            className="flex items-center w-full px-3 py-2 rounded-lg text-sm font-medium text-[#C8A96E]/70 hover:bg-[#F5EFE6] hover:text-[#C8A96E] transition-colors"
           >
-            <X className="mr-3 h-4 w-4" />
+            <LogOut className="mr-3 h-4 w-4" />
             Déconnexion
           </button>
         </div>
@@ -262,52 +264,60 @@ export default function AdminLayout({
       )}
 
       {/* Main content */}
-      <main className="flex-1 flex flex-col">
-        {/* Topbar */}
-        <header className="bg-white border-b border-[#E8D5C0] h-16">
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Top bar */}
+        <header className="bg-white border-b border-[#E8D5B7] h-16 relative">
+          <div className="h-0.5 bg-gradient-to-r from-transparent via-[#C8A96E] to-transparent absolute top-0 left-0 right-0" />
           <div className="flex items-center justify-between h-full px-6">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="lg:hidden text-[#2C1A0E]"
+                className="lg:hidden text-[#3C2415]"
               >
-                <Menu className="h-5 w-5" />
+                <Menu className="h-6 w-6" />
               </button>
-
               <div>
-                <h2 className="text-lg font-semibold text-[#2C1A0E] font-['Playfair_Display']">
-                  {menuItems.find(item => item.href === pathname || (item.href !== '/admin' && pathname.startsWith(item.href)))?.label || 'Admin'}
+                <h2 className="text-lg font-semibold text-[#3C2415] font-['Playfair_Display']">
+                  {menuSections
+                    .flatMap(section => section.items)
+                    .find(item => pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href)))?.label || 'Dashboard'}
                 </h2>
-                <p className="text-xs text-[#A0785A]">
-                  {new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                <p className="text-xs text-[#C8A96E]">
+                  {new Date().toLocaleDateString('fr-FR', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <Link href="/admin/produits" className="bg-[#8B4513] text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#6b3410] transition-colors flex items-center space-x-2">
-                <Plus className="h-4 w-4" />
-                <span>Nouveau produit</span>
-              </Link>
-              <button className="bg-[#D4A574] text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-[#c1965f] transition-colors flex items-center space-x-2">
-                <Package className="h-4 w-4" />
-                <span>Créer commande</span>
-              </button>
-              <button className="relative p-2 text-[#2C1A0E] hover:bg-[#FFF8F0] rounded-lg transition-colors">
+              <button className="relative p-2 text-[#C8A96E] hover:bg-[#F5EFE6] rounded-lg transition-colors">
                 <Bell className="h-5 w-5" />
-                {(stats.ordersPending + stats.quotesPending + stats.messagesUnread) > 0 && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-[#8B4513] rounded-full"></span>
+                {newOrdersCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                    {newOrdersCount}
+                  </span>
                 )}
               </button>
+              <Link 
+                href="/" 
+                className="flex items-center px-3 py-2 text-sm text-[#C8A96E] hover:bg-[#F5EFE6] rounded-lg transition-colors"
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Voir le site
+              </Link>
             </div>
           </div>
         </header>
 
         {/* Page content */}
-        <div className="flex-1 p-6">
+        <main className="flex-1 p-6 overflow-auto">
           {children}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
