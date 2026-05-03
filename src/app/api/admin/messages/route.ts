@@ -7,7 +7,18 @@ export async function GET() {
 
     // Vérifier l'authentification admin
     const { data: { session }, error: authError } = await supabase.auth.getSession()
-    if (authError || !session || session.user.email !== 'anais.manne@gmail.com') {
+    if (authError || !session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Vérifier le rôle admin dans la table profils
+    const { data: profile } = await supabase
+      .from('profils')
+      .select('role')
+      .eq('id', session.user.id)
+      .maybeSingle()
+
+    if (!profile || profile.role !== 'admin') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 

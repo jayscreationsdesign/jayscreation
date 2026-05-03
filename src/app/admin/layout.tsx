@@ -52,12 +52,12 @@ export default function AdminLayout({
           return;
         }
 
-        // Check admin role in profiles table
+        // Check admin role in profils table
         const { data: profile } = await supabaseClient
-          .from('profiles')
+          .from('profils')
           .select('role')
           .eq('id', session.user.id)
-          .single();
+          .maybeSingle();
 
         if (!profile || profile.role !== 'admin') {
           router.push('/admin/login');
